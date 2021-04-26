@@ -37,6 +37,18 @@ $Mesh_Enable 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.E
 $Mesh_State 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.State");
 $Mesh_Mode = ($Mesh_Enable == 'true' && $Mesh_State == 'Full')?'true':'false';
 $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+$OperatingChannelBandwidth="";
+$RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+if($RadioNumberOfEntries)
+{
+	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
+	{
+		$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+		if($OperatingChannelBandwidth == "6GHz")
+			break;
+	}
+}
 /*********************get WiFi parameters***************************/
 $wifi_param = {
 	"feq_band" 			: "Device.WiFi.Radio.1.OperatingFrequencyBand",
@@ -209,7 +221,7 @@ $RDG_Supported1		= $wifi_value['RDG_Supported1'];
 $IEEE80211hSupport1	= $wifi_value['IEEE80211hSupported1'];
 //$DFS_Support1 = "false" ; //Remove/disable DFS channels, DFS_Support1 1-supported 0-not supported
 $support_mode		= $wifi_value['support_mode'];
-$support_mode_5g = $wifi_value['support_mode_5g'];
+$support_mode_5g 	= $wifi_value['support_mode_5g'];
 //BandSteering
 $BS_Capability			= $wifi_value['BS_Capability'];
 $BandSteeringEnable		= $wifi_value['BandSteeringEnable'];
@@ -224,9 +236,91 @@ $radioband2                     = (typeof($feq_band1)=="undefined") ? "5" : (str
 $feq_band                       = (typeof($feq_band)=="undefined") ? "2.4 GHz" : (strstr($feq_band,"2.4G")) ? "2.4 GHz" : "5 GHz";
 $feq_band1                      = (typeof($feq_band1)=="undefined") ? "5 GHz" : (strstr($feq_band1,"5G")) ? "5 GHz" : "2.4 GHz";
 
+
+if($OperatingChannelBandwidth == "6GHz")
+{
+$wifi6_param = {
+	"feq_band3" 			: "Device.WiFi.Radio.3.OperatingFrequencyBand",
+	"wireless_mode3"		: "Device.WiFi.Radio.3.OperatingStandards",	
+	"transmit_power3"		: "Device.WiFi.Radio.3.TransmitPower",
+	"channel_automatic3"		: "Device.WiFi.Radio.3.AutoChannelEnable",
+	"channel_number3"		: "Device.WiFi.Radio.3.Channel",
+	"BG_protect_mode3"		: "Device.WiFi.Radio.3.X_CISCO_COM_CTSProtectionMode",
+	"IGMP_Snooping3"		: "Device.WiFi.Radio.3.X_COMCAST_COM_IGMPSnoopingEnable",
+	"operation_mode3"		: "Device.WiFi.Radio.3.X_CISCO_COM_11nGreenfieldEnabled",
+	"channel_bandwidth3"		: "Device.WiFi.Radio.3.OperatingChannelBandwidth",
+	"guard_interval3"		: "Device.WiFi.Radio.3.GuardInterval",
+	"reverse_enabled3"		: "Device.WiFi.Radio.3.X_CISCO_COM_ReverseDirectionGrant",
+	"ext_channel3"			: "Device.WiFi.Radio.3.ExtensionChannel",
+	"MSDU_enabled3"			: "Device.WiFi.Radio.3.X_CISCO_COM_AggregationMSDU",
+	"blockACK_enabled3"		: "Device.WiFi.Radio.3.X_CISCO_COM_AutoBlockAck",
+	"blockBA_enabled3"		: "Device.WiFi.Radio.3.X_CISCO_COM_DeclineBARequest",
+	"DCS_Supported3"		: "Device.WiFi.Radio.3.X_COMCAST-COM_DCSSupported", //1-supported 0-not supported
+	"DCS_Enable3"			: "Device.WiFi.Radio.3.X_COMCAST-COM_DCSEnable",
+	"STBC_enabled3" 		: "Device.WiFi.Radio.3.X_CISCO_COM_STBCEnable",
+	"possible_channels3"		: "Device.WiFi.Radio.3.PossibleChannels",
+	"RDG_Supported3"		: "Device.WiFi.Radio.3.X_RDKCENTRAL-COM_ReverseDirectionGrantSupported",
+	"IEEE80211hSupported3"		: "Device.WiFi.Radio.3.IEEE80211hSupported",
+	"Radio_Enable3"			: "Device.WiFi.Radio.3.Enable",
+	"WPS_Enable17"			: "Device.WiFi.AccessPoint.17.WPS.Enable",
+	"WPS_Pin17"			: "Device.WiFi.AccessPoint.17.WPS.X_CISCO_COM_Pin",
+	"support_mode3"                  : "Device.WiFi.Radio.3.SupportedStandards",
+	"WPS_Config17"			: "Device.WiFi.AccessPoint.17.WPS.ConfigMethodsEnabled",
+	"ModeEnabled17"			: "Device.WiFi.AccessPoint.17.Security.ModeEnabled",
+	"EncrypMethod17"		: "Device.WiFi.AccessPoint.17.Security.X_CISCO_COM_EncryptionMethod",
+	"SSIDAdvert17"			: "Device.WiFi.AccessPoint.17.SSIDAdvertisementEnabled",
+	"WMM_power_save17"		: "Device.WiFi.AccessPoint.17.UAPSDEnable",
+	"enableWMM17"			: "Device.WiFi.AccessPoint.17.WMMEnable",
+	"SSID_Enable17"			: "Device.WiFi.SSID.17.Enable",
+	"network_name17"		: "Device.WiFi.SSID.17.SSID",
+	"mac_address17"			: "Device.WiFi.SSID.17.BSSID"
+}
+        
+$wifi6_value = KeyExtGet("Device.WiFi.", $wifi6_param);
+
+$feq_band3 		=$wifi6_value['feq_band3'];
+$wireless_mode3		=$wifi6_value['wireless_mode3'];
+$transmit_power3	=$wifi6_value['transmit_power3'];
+$channel_automatic3	=$wifi6_value['channel_automatic3'];
+$channel_number3	=$wifi6_value['channel_number3'];
+$IGMP_Snooping3		=$wifi6_value['IGMP_Snooping3'];
+$operation_mode3	=$wifi6_value['operation_mode3'];
+$channel_bandwidth3	=$wifi6_value['channel_bandwidth3'];
+$guard_interval3	=$wifi6_value['guard_interval3'];
+$reverse_enabled3	=$wifi6_value['reverse_enabled3'];
+$ext_channel3		=$wifi6_value['ext_channel3'];
+$MSDU_enabled3		=$wifi6_value['MSDU_enabled3'];
+$blockACK_enabled3	=$wifi6_value['blockACK_enabled3'];
+$blockBA_enabled3	=$wifi6_value['blockBA_enabled3'];
+//$DCS_Supported3	=$wifi6_value['DCS_Supported3'];
+//$DCS_Enable3		=$wifi6_value['DCS_Enable3'];
+$STBC_enabled3		=$wifi6_value['STBC_enabled3'];
+$possible_channels3	=$wifi6_value['possible_channels3'];
+//$RDG_Supported3	=$wifi6_value['RDG_Supported3'];
+$support_mode_6g	=$wifi6_value['support_mode3'];
+//$IEEE80211hSupported3	=$wifi6_value['IEEE80211hSupported3'];
+//WiFi radio status	
+$radio_enable3		=$wifi6_value['Radio_Enable3'];
+//WPS status
+$WPS_Enable17		=$wifi6_value['WPS_Enable17'];
+$WPS_Pin17		=$wifi6_value['WPS_Pin17'];
+$WPS_Config17		=$wifi6_value['WPS_Config17'];
+$encrypt_mode17		=$wifi6_value['ModeEnabled17'];
+$encrypt_method17	=$wifi6_value['EncrypMethod17'];
+$SSIDAdvert17		=$wifi6_value['SSIDAdvert17'];
+$WMM_power_save17	=$wifi6_value['WMM_power_save17'];
+$enableWMM17		=$wifi6_value['enableWMM17'];
+$SSID_Enable17		=$wifi6_value['SSID_Enable17'];
+$network_name17		=$wifi6_value['network_name17'];
+$mac_address17		=$wifi6_value['mac_address17'];     
+
+$radioband3            	= (typeof($feq_band3)=="undefined") ? "6" :  (strstr($feq_band3,"6G")) ? "6" : "5"; 
+$feq_band3              = (typeof($feq_band3)=="undefined") ? "6 GHz" : (strstr($feq_band3,"6G")) ? "6 GHz" : "5 GHz";         
+}
 /**********************get WPS status, manual-disabled or auto-disabled?*******************************/
 // $ssidsWPS			= explode(",", getInstanceIds("Device.WiFi.SSID."));
-$ssidsWPS			= explode(",", "1,2");	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
+
+$ssidsWPS= explode(",", "1,2");	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
 $wps_enabled	= "false";
 $wps_pin		= "";
 $wps_method		= "PushButton";
@@ -322,10 +416,22 @@ $possible_channels = "1,2,3,4,5,6,7,8,9,10,11";
 //$ssids 		= explode(",", getInstanceIds("Device.WiFi.SSID.")); this will return all 16
 // Hardcoded for XB3-1.6
 if ("mso" != $_SESSION["loginuser"]) {
-	$ssids	= explode(",", "1,2");
+	if($OperatingChannelBandwidth == "6GHz")
+        {
+        	$ssids	= explode(",", "1,2,17");
+        }else{
+		$ssids	= explode(",", "1,2");
+        }
 }
 else {
-	$ssids	= explode(",", "1,2,3,4,5,6");
+	if($OperatingChannelBandwidth == "6GHz")
+	{
+		$ssids	= explode(",", "1,2,3,4,5,6,17");
+	}
+	else
+	{
+		$ssids  = explode(",", "1,2,3,4,5,6");
+	}
 	/*- if xfinitywifi XHS AccessPoint is not up don't show in GUI -*/
 	if(strstr(getStr("Device.DeviceInfo.X_COMCAST_COM_xfinitywifiEnable"), "false")){
 		array_remove($ssids, 5);
@@ -337,6 +443,7 @@ else {
 	if(strstr($_SESSION["lanMode"], "bridge-static")){
 		array_remove($ssids,1);
 		array_remove($ssids,0);
+		array_remove($ssids,6);
 	}
 ?>
 <style>
@@ -355,6 +462,14 @@ var G_wps_method	= "<?% echo( $wps_method); ?>";
 var isBridge		= "<?% echo( $_SESSION["lanMode"]); ?>";
 var modeEnabled		= "<?% echo( $encrypt_mode); ?>";
 var modeEnabled1	= "<?% echo( $encrypt_mode1); ?>";
+var partner_id = "<?% echo( $partnerId); ?>";
+<?%if($OperatingChannelBandwidth == "6GHz")
+{?>
+var G_radio_enable3	= <?% echo( ($radio_enable3 === "true" ? "true" : "false")); ?>;
+var modeEnabled17	= "<?% echo( $encrypt_mode17); ?>";
+<?%
+}?>
+
 function update_Wi_Fi_control_list(){
 	var ssid_number		= $("#mac_ssid").attr("value");
 	var jsConfig 	=	'{"ssid_number":"'+ssid_number+'", "target":"'+"mac_ssid"+'"}';
@@ -440,6 +555,12 @@ $(document).ready(function() {
          $("#transmit_power").addClass('disabled').prop('disabled',true);
          $("#wireless_mode1").addClass('disabled').prop('disabled',true);
          $("#transmit_power1").addClass('disabled').prop('disabled',true);
+         <?%if($OperatingChannelBandwidth == "6GHz")
+         {?>
+         $("#wireless_mode3").addClass('disabled').prop('disabled',true);
+         $("#transmit_power3").addClass('disabled').prop('disabled',true);
+         <?%
+         }?>
          $("#BG_protection_mode").addClass('disabled').prop('disabled',true);      
        };
 	$("#radio24_switch").radioswitch({
@@ -475,6 +596,22 @@ $(document).ready(function() {
 		title_off: "Disable WPS",
 		state: G_wps_enabled ? "on" : "off"
 	});
+        <?%if($OperatingChannelBandwidth == "6GHz")
+        {?>
+	$("#radio6_switch").radioswitch({
+		id: "radio6-switch",
+		radio_name: "at_a_glance3",
+		id_on: "radio_enable3",
+		id_off: "radio_disable3",
+		title_on: "Enable radio 6G",
+		title_off: "Disable radio 6G",
+		state: G_radio_enable3 ? "on" : "off"
+	}).change(function(){
+		save_enable("radio_enable3");
+	});
+	$("#radio6_switch").radioswitch("doEnable", $ForceDisable == 'true' ? false : true);
+        <?%
+        }?>
 	$("#pin_switch").radioswitch({
 		id: "pin-switch",
 		radio_name: "pin_switch",
@@ -504,6 +641,14 @@ $(document).ready(function() {
 		disable_ssid_options('other_wifi', 3);
 		disable_ssid_options('public_wifi', 3);
 	}
+        // check if the LowerLayers radio 6GHz is enabled. if disable, the user shouldn't be able to enable the SSID.
+        <?%if($OperatingChannelBandwidth == "6GHz")
+        {?>
+        if(!G_radio_enable3){		
+		disable_ssid_options('private_wifi', 4);
+	}
+        <?%
+        }?>
 	// if both the LowerLayers radios are down disable WPS options
 	if(!G_radio_enable && !G_radio_enable1){
 		$("#add_wps_client").addClass('disabled').click(function(e) {
@@ -569,6 +714,22 @@ $(document).ready(function() {
 			$("#auto_channel_number1").hide();
 		}
 	}).trigger("change");
+        <?%if($OperatingChannelBandwidth == "6GHz")
+        {?>
+        $("[name='channel3']").change(function() {
+		if($("#channel_automatic3").is(":checked")) {
+			document.getElementById('channel_number3').disabled = true;
+			$("#channel_number3").hide();
+			$("#auto_channel_number3").show();
+		}
+		else {
+			document.getElementById('channel_number3').disabled = false;
+			$("#channel_number3").show();
+			$("#auto_channel_number3").hide();
+		}
+	}).trigger("change");
+        <?%
+        }?>
     	$("#wireless_mode").change(function() {
 		/*
 		if($(this).val() == "b,g,n") {
@@ -655,6 +816,27 @@ $(document).ready(function() {
                        //$("#channel_number1").find("[value='116'],[value='140']").prop("disabled", true).prop("selected", false);
                 }
 	}).trigger("change");
+        <?%if($OperatingChannelBandwidth == "6GHz")
+        {?>
+        $("[name='channel_bandwidth3']").change(function() {
+		//enable all channel first
+		$("#channel_number3 option").prop("disabled", false);
+		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
+			//40MHz
+		if (!$("#channel_bandwidth203").prop("checked")) {
+			if ($("#channel_bandwidth4").prop("checked")){
+				$("#channel_number3").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);											
+			} 
+			else if ($("#channel_bandwidth5").prop("checked")) {
+				$("#channel_number3").find("[value='5'],[value='9'],[value='13'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);												
+			}
+			else if ($("#channel_bandwidth6").prop("checked")) {																				
+				$("#channel_number3").find("[value='5'],[value='9'],[value='13'],[value='17'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='49'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='81'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='113'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='145'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='177'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='209'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
+			}
+		}
+	}).trigger("change");
+        <?%
+        }?>
 	$("#pair_method_form").validate({
 		debug: true,
 		rules: {
@@ -750,13 +932,14 @@ $(document).ready(function() {
 	}
 	// remove sections as per loginuser, content must be hidden before doc ready
 	if ("mso" != "<?% echo( $_SESSION["loginuser"]); ?>"){
-		$(".div_enable_radio").remove();
+		if(partner_id.indexOf('sky-')===-1){
+			$(".div_enable_radio").remove();}
 		$(".div_public_wifi").remove();
 		$(".div_other_wifi").remove();
 		$(".div_radio_setting").remove();
 		$(".div_wps_setting").remove();
 		$(".band_steering").remove();
-		if(modeEnabled=="None" || modeEnabled1=="None")
+		if(modeEnabled=="None" || modeEnabled1=="None" )
 			$(".btn-group").hide();
 		else
 			$(".btn-group").show();
@@ -844,12 +1027,20 @@ $(document).ready(function() {
 	if($Mesh_Mode == 'true'  || $ForceDisable == 'true'){
 		//disable >> Channel Selection:, Channel:, Channel Bandwidth:
 		$('#channel_automatic, #channel_manual, #channel_automatic1, #channel_manual1, #channel_number, #channel_number1, #auto_channel_number, #auto_channel_number1, input[name=channel_bandwidth], input[name=channel_bandwidth1]').prop("disabled", true);
+                <?%if($OperatingChannelBandwidth == "6GHz")
+                {?>
+                $('#channel_automatic3, #channel_manual3, #channel_number3, #auto_channel_number3, input[name=channel_bandwidth3]').prop("disabled", true);
+                <?%
+                }?>
 	}
 
 	if($Mesh_Mode == 'true'  && "mso"=="<?% echo( $_SESSION["loginuser"]); ?>"){
                 //disable WiFi mode when Mesh is enabled for MSO
                 $('#wireless_mode1, #wireless_mode').prop("disabled", true);
-                
+                <?%if($OperatingChannelBandwidth == "6GHz")
+                {?>
+                	$('#wireless_mode3').prop("disabled", true);
+                <?%}?>                
         }
 
 });
@@ -1036,7 +1227,7 @@ function save_filter()
 }
 function save_config(ssid_number, sub_target)
 {
-	var suf = (("2"==ssid_number) ? "1" : "");
+	var suf = (("2"==ssid_number) ? "1" : ("17"==ssid_number) ? "3" : "");
 	var wireless_mode 	= $("#wireless_mode"+suf).attr("value");
 	var transmit_power 	= $("#transmit_power"+suf).attr("value");
 	var channel_automatic 	= $("#channel_automatic"+suf).prop("checked");
@@ -1087,6 +1278,13 @@ function save_enable(sub_target)
 		if (G_radio_enable1 == radio_enable) return;
 		G_radio_enable1 = radio_enable;
 	}
+        else if ("radio_enable3" == sub_target) {
+		ssid_number = "17";
+		radio_enable =	$("#radio6_switch").radioswitch("getState").on;
+		sub_target = "radio_enable";
+		if (G_radio_enable3 == radio_enable) return;
+		G_radio_enable3 = radio_enable;
+	}
 	else if ("wps_enabled" == sub_target) {
 		if (G_wps_enabled == wps_enabled) return;
 		G_wps_enabled = wps_enabled;
@@ -1095,9 +1293,29 @@ function save_enable(sub_target)
 		if (G_wps_method == wps_method || !wps_enabled) return;
 		G_wps_method = wps_method;
 	}
-	var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_enabled":"'+wps_enabled+'", "wps_method":"'+wps_method
+	if(partner_id.indexOf('sky-')===0){
+		if(!radio_enable){
+			var warningMsg=$.i18n("Warning: Please note that disabling the radio(s) might interrupt with your data and video services. It is recommended to keep the Wi-Fi radios ON for uninterrupted access to your subscribed services. To cancel these changes, choose cancel below.");
+			jConfirm(warningMsg,$.i18n('Are You Sure?'),function(ret){
+			if(ret){
+				var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
+						+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';
+				set_config(jsConfig);
+			}
+			else location.reload();
+			});
+		}
+		else{
+			var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
+				+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';
+			set_config(jsConfig);
+		}
+	}
+	else{
+	var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
 					+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';	
-	set_config(jsConfig);	
+	set_config(jsConfig);
+	}	
 }
 function validChecksum(PIN)
 {
@@ -1289,6 +1507,20 @@ function saveBandSteeringSettings()
 	<span id="radio5_switch"></span>
 	</div>
 </div>
+<?%
+if($OperatingChannelBandwidth == "6GHz")
+{
+?>
+<div class="module div_enable_radio">
+        <div class="select-row">
+        <span class="readonlyLabel label">Wi-Fi Radio(<?% echo( $radioband3); ?> GHz)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+        <span id="radio6_switch"></span>
+ </div>
+ </div>
+<?%
+}
+?>
+
 <div class="module data data div_private_wifi">
 	<h2>Private Wi-Fi Network</h2>
 	<table class="data" id="private_wifi" summary="Private Wi-Fi Network">
@@ -1313,6 +1545,20 @@ function saveBandSteeringSettings()
 		<td headers="private-Security"><?% echo( encrypt_map($encrypt_mode1, $encrypt_method1)); ?></td>
 		<td headers="private-Blank"><a href="wireless_network_configuration_edit.jst?id=2" class="btn">Edit</a></td>
 	</tr>
+        <?% 
+        if($OperatingChannelBandwidth == "6GHz")
+	{ 
+	?>
+	<tr class="form-row odd">
+		<td headers="private-Name"><b><font color="black" style="white-space: pre-wrap;overflow-wrap: break-word;"><?% echo( $network_name17); ?></font></b></td>
+		<td headers="private-Frequency"><?% echo( $feq_band3); ?></td>
+		<td headers="private-MAC"><?% echo( $mac_address17); ?>   </td>
+		<td headers="private-Security"><?% echo( encrypt_map($encrypt_mode17, $encrypt_method17));?></td>
+		<td headers="private-Blank"><a href="wireless_network_configuration_edit.jst?id=17" class="btn">Edit</a></td>
+	</tr>
+	<?%
+	} 
+	?>
 	</table>
 	<div class="btn-group" style="display: none;">
 		<a id="add_wps_client" href="wireless_network_configuration_wps.jst" class="btn">Add Wi-Fi Protected Setup (WPS) Client</a>
@@ -1834,7 +2080,155 @@ function saveBandSteeringSettings()
 		</div>
 	</div>
 </div>
-<div class="module band_steering">
+<?%
+if($OperatingChannelBandwidth == "6GHz")
+{	
+?>
+<div class="module data data div_radio_setting">
+	<h2>6 GHz Wireless Basic Setting</h2>
+	<div class="form-row">
+		<label for="wireless_mode3">Mode:</label>
+		<select name="wireless_mode3" id="wireless_mode3">
+		<?% if (strstr($support_mode_6g, "ax")){ ?>
+                	<option value="ax"	<?% if ("ax" == $wireless_mode3) echo( 'selected="selected"');?> >802.11 ax</option>
+		<?% }  ?>
+		</select>
+	</div>
+	<div class="form-row odd">
+		<label for="transmit_power3">Transmit Power:</label>
+		<select name="transmit_power3" id="transmit_power3">
+			<?% $int_power = intval($transmit_power3); ?>
+			<option value="100" <?% if ($int_power>75) echo( 'selected="selected"');?> >100%</option>
+			<option value="75"  <?% if ($int_power>50 && $int_power<=75) echo( 'selected="selected"');?> >75%</option>
+			<option value="50"  <?% if ($int_power>25 && $int_power<=50) echo( 'selected="selected"');?> >50%</option>
+			<option value="25"  <?% if ($int_power>12 && $int_power<=25) echo( 'selected="selected"');?> >25%</option>
+			<option value="12"  <?% if ($int_power <=12) echo( 'selected="selected"');?> >12.5%</option>
+		</select>
+	</div>
+	<div class="form-row " id="channel_switch3">
+		<label for="channel_manual3">Channel Selection:</label>
+		<input type="radio"  name="channel3" value="manual"  id="channel_manual3" <?% if ("true" != $channel_automatic3) echo( 'checked="checked"');?> /><b>Manual</b>
+		<label for="channel_automatic1" class="acs-hide"></label>
+		<input type="radio"  name="channel3" value="auto" 	id="channel_automatic3" <?% if ("true" == $channel_automatic3) echo( 'checked="checked"');?> /><b>Automatic</b>
+	</div>
+	<div id="new" class="form-row odd manual-only">
+		<label for="channel_number3">Channel:</label>
+		<select name="channel_number3" id="channel_number3">
+			<?%
+				//dynamic generate possible channels
+				$channels = explode(",", $possible_channels3);
+				for(var $keytmp in $channels) { $val=$channels[$keytmp];/*p2j-foreach*/
+					echo( '<option value="'+$val+($val==$channel_number3 ? '" selected="selected">' : '" >')+$val+'</option>');
+				}
+			?>
+		</select>
+		<label for="auto_channel_number3" class="acs-hide"></label>
+		<select id="auto_channel_number3" disabled="disabled"><option selected="selected" ><?% echo( $channel_number3); ?></option></select>
+	</div>
+	<div class="form-row ">
+		<div class="form-btn">
+		<label for="save_basic2" class="acs-hide"></label>
+			<input type="submit" id="save_basic2" value="Save Basic Setting" class="btn right" onclick="save_config('17', 'save_basic');"/>
+		</div>
+	</div>
+</div>
+<div class="module data data div_radio_setting">
+	<h2>6 GHz Wireless Advanced Setting</h2><br/>
+	<div class="form-row odd" style="display:none;">
+		<label for="BG_protection_mode3">BG Protection Mode:</label>
+		<select name="BG_protection_mode3" id="BG_protection_mode3">
+			<option value="Auto" selected="selected">Auto</option>
+			<option value="Disabled" <?% /*if ("Disabled"==$BG_protect_mode3) echo('selected="selected"');*/ ?> >Manual</option>
+		</select>
+	</div>
+	<div class="form-row">
+		<label for="IGMP_Snooping_disabled3">IGMP Snooping</label>
+		<input type="radio"  name="IGMP_Snooping3" value="false" id="IGMP_Snooping_disabled3" checked="checked" /><b>Disable</b>
+		<label for="IGMP_Snooping_enabled3" class="acs-hide"></label>
+		<input type="radio"  name="IGMP_Snooping3" value="true"  id="IGMP_Snooping_enabled3" <?% if ("true"==$IGMP_Snooping3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+<!---	<div class="form-row odd">
+		<label for="mixed_mode1">Operation Mode:</label>
+		<input type="radio"  name="operation_mode1" value="false" id="mixed_mode1" checked="checked" /><b>Mixed Mode</b>
+		<label for="operation_mode1" class="acs-hide"></label>
+		<input type="radio"  name="operation_mode1" value="true"  id="operation_mode1" <?% if ("true"==$operation_mode1) echo('checked="checked"');?> /><b>Green Field</b>
+	</div> --->
+	<div class="form-row" id="bandwidth_switch3">
+		<label for="channel_bandwidth203">Channel Bandwidth:</label>
+		<input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth203" checked="checked" /><b>20</b>
+		<label for="channel_bandwidth4" class="acs-hide"></label>
+		<input type="radio"  name="channel_bandwidth3" value="40MHz"  id="channel_bandwidth4" <?% if ("40MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40</b>
+		<label for="channel_bandwidth5" class="acs-hide"></label>
+		<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40/80</b>
+		<label for="channel_bandwidth6" class="acs-hide"></label>
+		<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40/80/160</b>
+	</div>
+	<div class="form-row odd">
+		<label for="guard_interval800ns1">Guard Interval:</label>
+		<input type="radio"  name="guard_interval3" value="400nsec"  id="guard_interval800ns1" checked="checked" /><b>400ns</b>
+		<label for="guard_interval400ns1" class="acs-hide"></label>
+		<input type="radio"  name="guard_interval3" value="800nsec"  id="guard_interval400ns1" <?% if ("800nsec"==$guard_interval3) echo('checked="checked"');?> /><b>800ns</b>
+		<label for="guard_intervalauto1" class="acs-hide"></label>
+		<input type="radio"  name="guard_interval3" value="Auto"     id="guard_intervalauto1"  <?% if ("Auto"==$guard_interval3) echo('checked="checked"');?> /><b>Auto</b>
+	</div>
+	<div class="form-row">
+		<label for="Reverse_Direction_Grant_disabled3">Reverse Direction Grant</label>
+		<input type="radio"  name="Reverse_Direction_Grant3" value="disabled" id="Reverse_Direction_Grant_disabled3" checked="checked" /><b>Disable</b>
+		<label for="reverse_enabled1" class="acs-hide"></label>
+		<input type="radio"  name="Reverse_Direction_Grant3" value="enabled"  id="reverse_enabled3" <?% if ("true"==$reverse_enabled3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+	<div class="form-row odd">
+		<label for="Aggregation_MSDU(A-MSDU)_disabled3">Aggregation MSDU(A-MSDU)</label>
+		<input type="radio"  name="Aggregation_MSDU(A-MSDU)3" value="disabled" id="Aggregation_MSDU(A-MSDU)_disabled3" checked="checked" /><b>Disable</b>
+		<label for="MSDU_enabled3" class="acs-hide"></label>
+		<input type="radio"  name="Aggregation_MSDU(A-MSDU)3" value="enabled"  id="MSDU_enabled3" <?% if ("true"==$MSDU_enabled3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+	<div class="form-row">
+		<label for="Auto_Block_Ack_disabled3">Auto Block Ack:</label>
+		<input type="radio"  name="Auto_Block_Ack3" value="disabled"  id="Auto_Block_Ack_disabled3" checked="checked" /><b>Disable</b>
+		<label for="blockACK_enabled3" class="acs-hide"></label>
+		<input type="radio"  name="Auto_Block_Ack3" value="enabled"   id="blockACK_enabled3" <?% if ("true"==$blockACK_enabled3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+	<div class="form-row odd">
+		<label for="Decline_BA_Request_disabled3">Decline BA Request:</label>
+		<input type="radio"  name="Decline_BA_Request3" value="disabled" id="Decline_BA_Request_disabled3" checked="checked" /><b>Disable</b>
+		<label for="blockBA_enabled3" class="acs-hide"></label>
+		<input type="radio"  name="Decline_BA_Request3" value="enabled"  id="blockBA_enabled3" <?% if ("true"==$blockBA_enabled3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+<!---	<div class="form-row">
+		<label for="DFS_Channel_Selection_disabled">DFS Channel Selection In Auto Mode:</label>
+		<input type="radio"  name="DFS_Channel_Selection" value="disabled" id="DFS_Channel_Selection_disabled" checked="checked" /><b>Disable</b>
+		<label for="DFS_Channel_Selection_enabled" class="acs-hide"></label>
+		<input type="radio"  name="DFS_Channel_Selection" value="enabled"  id="DFS_Channel_Selection_enabled" <?% if ("true"==$DFS_Enable1) echo('checked="checked"');?> /><b>Enable</b>
+	</div> --->
+	<div class="form-row odd">
+		<label for="WMM_power_save3">WMM Power Save:</label>
+		<input type="checkbox" id="WMM_power_save3" name="WMM_power_save3" <?% if ("true"==$WMM_power_save17) echo('checked="checked"');?> <?% if ("false"==$enableWMM17) echo('disabled="disabled"');?> />
+		<span class="footnote" >This item depends on WMM. Enable WMM in atleast one SSID to make this work.</span>
+	</div>
+	<div class="form-row ">
+		<label for="STBC_disabled3">STBC:</label>
+		<input type="radio"  name="STBC1" value="disabled" id="STBC_disabled3" checked="checked" /><b>Disable</b>
+		<label for="STBC_enabled3" class="acs-hide"></label>
+		<input type="radio"  name="STBC1" value="enabled"  id="STBC_enabled3" <?% if ("true"==$STBC_enabled3) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+<!--- 	<div class="form-row odd">
+		<label for="DCS_Channel_Selection_disabled1">Dynamic Channel Selection:</label>
+		<input type="radio"  name="DCS_Channel_Selection1" value="disabled" id="DCS_Channel_Selection_disabled1" checked="checked" /><b>Disable</b>
+		<label for="DCS_Channel_Selection_enabled1" class="acs-hide"></label>
+		<input type="radio"  name="DCS_Channel_Selection1" value="enabled"  id="DCS_Channel_Selection_enabled1" <?% if ("true"==$DCS_Enable1) echo('checked="checked"');?> /><b>Enable</b>
+	</div> --->
+	<div class="form-row"> 
+		<div class="form-btn">
+		<label for="save_advance2" class="acs-hide"></label>
+			<input type="submit" id="save_advance2" value="Save Advanced Settings" class="btn" onclick="save_config('17', 'save_advance');"/>
+		</div>
+	</div>
+</div>
+<?%
+}
+?>
+<div class="module band_steering" id="Band_steering" style="<?% if (('mso'==$_SESSION['loginuser']) && ($OperatingChannelBandwidth == "6GHz")) {echo( 'display:none'); } else {echo( 'display:block'); } ?>" >
 	<h2>Band Steering</h2>
 	<div class="form-row ">
 		<label for="BS_disabled">Enable:</label>

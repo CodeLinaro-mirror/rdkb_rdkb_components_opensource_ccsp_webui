@@ -29,6 +29,17 @@
 <?%
     $interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
     $autoWanEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_AutowanFeatureSupport");
+    $OperatingChannelBandwidth = "";
+    $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+    if($RadioNumberOfEntries)
+    {
+	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
+	{
+		$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+		if($OperatingChannelBandwidth == "6GHz")
+			break;
+	}
+    }
     // $interface = "Device.IP.Interface.2.";
 	// initial some variable to suppress some error
     $ipv6_local_addr = "";
@@ -110,6 +121,21 @@
       "OperatingFrequencyBand1" : "Device.WiFi.Radio.1.OperatingFrequencyBand",
       "OperatingFrequencyBand2" : "Device.WiFi.Radio.2.OperatingFrequencyBand"
     }/*p2j-array*/;
+if($OperatingChannelBandwidth == "6GHz")
+{	
+	$wifi6_param = {
+		"SSID17"               : "Device.WiFi.SSID.17.SSID",
+		"Enable17"             : "Device.WiFi.SSID.17.Status",
+		"ModeEnabled17"        : "Device.WiFi.AccessPoint.17.Security.ModeEnabled",
+		"NumberOfEntries17"    : "Device.WiFi.AccessPoint.17.AssociatedDeviceNumberOfEntries",
+		"EncryptionMethod17"   : "Device.WiFi.AccessPoint.17.Security.X_CISCO_COM_EncryptionMethod",
+		"OperatingStandards3"  : "Device.WiFi.Radio.3.OperatingStandards",
+		"OperatingFrequencyBand3" : "Device.WiFi.Radio.3.OperatingFrequencyBand"
+	}
+	$wifi6_value = php_KeyExtGet("Device.WiFi.", $wifi6_param);
+	$OperatingFrequencyBand3  = $wifi6_value['OperatingFrequencyBand3'];
+	$radioband3               = (strstr($OperatingFrequencyBand3,"6G")) ? "6" : "5";
+}
     $wifi_value = php_KeyExtGet("Device.WiFi.", $wifi_param);
     $OperatingFrequencyBand1  = $wifi_value['OperatingFrequencyBand1'];
     $OperatingFrequencyBand2  = $wifi_value['OperatingFrequencyBand2'];
@@ -702,6 +728,62 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
           </span>
         </div>
     </div><!-- end .module private wifi 5 --> 
+<?%
+if($OperatingChannelBandwidth == "6GHz")
+{ 
+?>
+	   <div class="module forms block private-wifi" style="position:relative;top:0px;right:0px;">
+       <h2 class="noTrimSpace"><div class="ssid-style">
+		<span id="priwifinet">Private Wi-Fi Network- </span>
+<span style="white-space: pre;overflow-wrap: break-word;"><?% echo(htmlspecialchars($wifi6_value["SSID17"], ENT_NOQUOTES, 'UTF-8')); ?></span></div></h2>
+        <p class="button"><a tabindex='0' href="wireless_network_configuration_edit.jst?id=17" class="btn" id="editloc">Edit</a></p>
+        <div class="form-row">
+          <span class="readonlyLabel"><span id="wifinet6ghz">Wireless Network (Wi-Fi 6 GHz):</span></span>
+          <?% 
+              if("up" == strtolower($wifi6_value["Enable17"])) 
+                echo("<span class='value' id='act'>Active</span>");
+              else
+                echo("<span class='value' id='inact'>Inactive</span>");
+          ?>
+        </div>
+        <div class="form-row odd">
+          <span class="readonlyLabel" id="supprot">Supported Protocols:</span> <span class="value">
+          <?% echo( strtoupper($wifi6_value["OperatingStandards3"])); ?>
+          </span>
+        </div>
+		<div class="form-row">
+			<?%
+				//echo php_getstr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
+				$encrypt_mode	= $wifi6_value["ModeEnabled17"];
+				$encrypt_method	= $wifi6_value["EncryptionMethod17"];
+                        $idSecVal = "";
+                        if(encrypt_map($encrypt_mode, $encrypt_method)=="Open (risky)"){
+                                $idSecVal="secopenmode";
+                        }else if(encrypt_map($encrypt_mode, $encrypt_method)=="WEP 64 (risky)"){
+                                $idSecVal="secwep64";
+                        }else if(encrypt_map($encrypt_mode, $encrypt_method)=="WEP 128 (risky)"){
+                                $idSecVal="secwep128";
+                        }else if(encrypt_map($encrypt_mode, $encrypt_method)=="WPA2-PSK (AES)(Recommended)"){
+                                $idSecVal="secmode3";
+                        }else if(encrypt_map($encrypt_mode, $encrypt_method)=="WPA2-SAE (AES)"){
+                                $idSecVal="secmode3";
+                        }
+                ?>
+			<span class="readonlyLabel" id="secloc">Security:</span> <span class="value" id="<?% echo($idSecVal);?>">
+			<?% 
+				echo(encrypt_map($encrypt_mode, $encrypt_method));
+			?>
+			</span>
+		</div>
+        <div class="form-row odd">
+          <span class="readonlyLabel" id="noclients">No of Clients connected:</span> <span class="value">
+          <?% echo( $wifi6_value["NumberOfEntries17"]); ?>
+          </span>
+        </div>
+    </div><!-- end .module private wifi 5 --> 
+<?% 
+} 
+?>
 <!--HomeSecurity wifi start-->    
 	<?%
 	$ssids 		= explode(",", php_getinstanceids("Device.WiFi.SSID."));

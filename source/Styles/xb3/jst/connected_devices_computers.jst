@@ -35,6 +35,20 @@
 	$encrypt_mode = getStr("Device.WiFi.AccessPoint.1.Security.ModeEnabled");
 	$encrypt_mode1 = getStr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
 	$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+        $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+        $OperatingChannelBandwidth="";
+        if($RadioNumberOfEntries)
+	{
+		for($r=1; $r <= $RadioNumberOfEntries ; $r++)
+		{
+			$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+			if($OperatingChannelBandwidth == "6GHz")
+			{
+				$encrypt_mode2 = getStr("Device.WiFi.AccessPoint.17.Security.ModeEnabled");
+				break;
+			}
+		}
+	}
 ?>
 <style>
 table a:link, table a:visited {
@@ -81,15 +95,21 @@ table a:link, table a:visited {
 	function ProcessLay1Interface($interface){
 		$host={};
 		if (stristr($interface, "WiFi")){
-			if (stristr($interface, "WiFi.SSID.1")) {
+			if (stristr($interface, "WiFi.SSID.17") && ($OperatingChannelBandwidth == "6GHz")) {
 				$host['networkType'] = "Private";
-				$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
-				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+				$frequency_band = getStr("Device.WiFi.Radio.3.OperatingFrequencyBand");
+				$frequency_band = (strstr($frequency_band,"6G")) ? "6G" : "2.4G";
 				$host['connectionType'] = "Wi-Fi " + $frequency_band;
 			}
 			else if (stristr($interface, "WiFi.SSID.2")) {
 				$host['networkType'] = "Private";
 				$frequency_band = getStr("Device.WiFi.Radio.2.OperatingFrequencyBand");
+				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+				$host['connectionType'] = "Wi-Fi " + $frequency_band;
+			}
+			else if (stristr($interface, "WiFi.SSID.1")) {
+				$host['networkType'] = "Private";
+				$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
 				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
 				$host['connectionType'] = "Wi-Fi " + $frequency_band;
 			}
@@ -156,6 +176,14 @@ table a:link, table a:visited {
 			$AssoDeviceArr2 = getParaValues($WiFi2_rootObjName, $WiFi2_paramNameArray, $WiFi2_mapping_array);
 			$AssoDeviceArr = {}/*p2j-array*/;
 			$AssoDeviceArr = $AssoDeviceArr1.concat($AssoDeviceArr2);
+			if($OperatingChannelBandwidth == "6GHz")
+			{
+				$WiFi17_rootObjName    = "Device.WiFi.AccessPoint.17.AssociatedDevice.";
+				$WiFi17_paramNameArray = ["Device.WiFi.AccessPoint.17.AssociatedDevice."]/*p2j-array*/;
+				$WiFi17_mapping_array  = ["MACAddress", "SignalStrength"]/*p2j-array*/;
+				$AssoDeviceArr17 = getParaValues($WiFi17_rootObjName, $WiFi17_paramNameArray, $WiFi17_mapping_array);
+				$AssoDeviceArr = $AssoDeviceArr.concat($AssoDeviceArr17);
+			}
 			$clients_RSSI = {}/*p2j-array*/;
 			for($key in $AssoDeviceArr) { var $value=$AssoDeviceArr[$key];/*p2j-foreach*/
 				$clients_RSSI[strtoupper($value['MACAddress'])] = $value['SignalStrength'];
@@ -668,7 +696,11 @@ function getTitle(val){
 		}
 		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5G"){
 			privconnnetid ="5_G";
-		}else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetid ="ethcon";}
+		}
+		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6G"){
+                        privconnnetid ="6_G";
+                }
+		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetid ="ethcon";}
 		if(($CloudUIEnable == "true" ) || $onlinePrivateNetworkHost[$x.toString()]['Blocked']) $style = "&nbsp;";
          	else $style = "<input type='button' id=" + "'online-X-" +$k+ "'" + " value='X' tabindex='0' title='add this device to Blocked Devices List' name=" + "'{\"dev_name\":\""+$dev_name+"\", \"mac_addr\":\""+$mac_addr+"\"}'" + " class=\"btn confirm private\"></input>";
 		if($k % 2)  $odd = "";
@@ -768,7 +800,10 @@ function getTitle(val){
 	}
 	else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5G"){
 		privconnnetOffid ="5_G";
-	}else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetOffid ="ethcon";}
+	}else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6G"){
+                privconnnetOffid ="6_G";
+        }
+else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetOffid ="ethcon";}
 
 		if(($CloudUIEnable == "true" ) || $offlinePrivateNetworkHost[$x.toString()]['Blocked']) $style = "&nbsp;";
 		else $style = "<input type='button' id=" + "'offline-X-" +$k+ "'" + " value='X' tabindex='0' onmouseover=getTitle("+$k+")  name=" + "'{\"dev_name\":\""+$dev_name+"\", \"mac_addr\":\""+$mac_addr+"\"}'" + "  class=\"btn confirm private\"></input>";
@@ -817,7 +852,12 @@ function getTitle(val){
 		</table>
 	</div> <!-- end .module -->
 	<?% 
-		if($encrypt_mode!="None" && $encrypt_mode1!="None" ){
+		if($OperatingChannelBandwidth == "6GHz")
+			$wpssetup= ($encrypt_mode!="None") && ($encrypt_mode1!="None") && ($encrypt_mode2!="None");
+		else	
+			$wpssetup= ($encrypt_mode!="None") && ($encrypt_mode1!="None") ;
+		if($wpssetup)
+		{
 	?>
 		<div  class="form-btn">
 			<a tabindex='0' href="javascript:void(0)"  class="btn add-Client wifi" id="addwifiwps" >Add Wi-Fi Protected Setup (WPS) Client</a>

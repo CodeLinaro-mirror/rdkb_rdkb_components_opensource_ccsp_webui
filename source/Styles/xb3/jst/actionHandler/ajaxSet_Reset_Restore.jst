@@ -28,6 +28,17 @@ $thisUser = $_SESSION["loginuser"];
 ob_implicit_flush(true);
 ob_end_flush();
 $ret = {};
+$OperatingChannelBandwidth ="";
+$RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+if($RadioNumberOfEntries)
+{
+	for($r=1; $r <= $RadioNumberOfEntries; $r++)
+	{
+		$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+		if($OperatingChannelBandwidth == "6GHz")
+			break;
+	}
+}
 //>>zqiu
 function delMacFilterTable( $ssid_list ) {
 	$ssids = explode(" ", $ssid_list);
@@ -74,7 +85,15 @@ switch ($infoArray[0]) {
 	case "btn4" :
 		$ret["wifi"] = true;
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
-		delMacFilterTable("1 2");
+		if($OperatingChannelBandwidth == "6GHz")
+		{
+			delMacFilterTable("1 2 17");
+			setStr("Device.WiFi.X_CISCO_COM_FactoryResetRadioAndAp", "3;17",true);
+		}
+		else
+                {
+			delMacFilterTable("1 2");
+                }
 		//setStr("Device.X_CISCO_COM_DeviceControl.FactoryReset", $infoArray[1],true);
 		//when restore, radio can be restart, but also need to force it when no change
 		//setStr("Device.WiFi.X_CISCO_COM_ResetRadios", "true", true);

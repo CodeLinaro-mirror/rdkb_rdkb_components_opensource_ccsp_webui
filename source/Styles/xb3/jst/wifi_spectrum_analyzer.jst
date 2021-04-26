@@ -81,7 +81,7 @@ function spanTable($rows, startIdx, endIdx){
 					{
 						var spec_values = wifi_spec_values[index];
 						var tr = $('<tr/>').appendTo(table);
-						var Radio_val = (spec_values['Radio'] == 'Device.WiFi.Radio.1') ? "2.4GHz": "5GHz";
+						var Radio_val = (spec_values['Radio'] == 'Device.WiFi.Radio.1') ? "2.4GHz": (spec_values['Radio'] == 'Device.WiFi.Radio.2') ? "5GHz": "6GHz";
 				        tr.append("<td headers='band_id' class='band_id'>" + Radio_val+ "</td>");
 				        tr.append("<td headers='channel_number' class='channel_number'>" + spec_values["Channel"]+ "</td>");
 				        tr.append("<td headers='mac_id' class='mac_id'>" + spec_values["BSSID"]+ "</td>");

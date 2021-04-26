@@ -26,7 +26,7 @@
 <?% include('includes/nav.jst'); ?>
 <?%
 //allow only mso to edit SSID 3,4 for Home Security
-if(!($_GET['id'] == 1 || $_GET['id'] == 2)){
+if(!($_GET['id'] == 1 || $_GET['id'] == 2 || $_GET['id'] == 17)){
 	echo( '<script type="text/javascript">location.href="wireless_network_configuration.jst";</script>');
 	exit(0);
 }
@@ -35,9 +35,30 @@ if(!($_GET['id'] == 1 || $_GET['id'] == 2)){
 */
 // SSID 1,2 for Private, 3,4 for Home Security, 5,6 for Hot Spot
 // put edit SSID which have similar layout into one page, but edit HotSpot SSID
-$id		= isset($_GET['id']) ? $_GET['id'] : "1";
-$rf		= (2 - intval($id)%2);	//1,3,5,7 == 1(2.4G); 2,4,6,8 == 2(5G)
-$valid_ids	= ['1','2','3','4']/*p2j-array*/;
+$OperatingChannelBandwidth ="";
+
+$RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+if($RadioNumberOfEntries)
+{
+	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
+	{
+		$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+		if($OperatingChannelBandwidth == "6GHz")
+			break;
+	}
+}
+$id = isset($_GET['id']) ? $_GET['id'] : "1";
+if(($id == 17) && ($OperatingChannelBandwidth == "6GHz"))
+{
+	$rf = 3;
+	$valid_ids= ['1','2','3','4','17']/*p2j-array*/;
+}
+else
+{
+	$rf	= (2 - intval($id)%2);	//1,3,5,7 == 1(2.4G); 2,4,6,8 == 2(5G)
+	$valid_ids= ['1','2','3','4']/*p2j-array*/;
+	
+}
 // check if the LowerLayers radio is enabled. if disable, no need to configure
 if ("false" == getStr("Device.WiFi.Radio."+$rf+".Enable")) {
 	/*if (!$_SESSION['_DEBUG'])*/
@@ -60,7 +81,7 @@ function KeyExtGet($root, $param)
 var Radio_Enable="Radio_"+$rf+"_Enable";
 $wifi_param = {
 	"radio_enable"		: "Device.WiFi.SSID."+$id+".Enable",
-        "freq_band"		: "Device.WiFi.Radio."+$id+".OperatingFrequencyBand",
+        "freq_band"		: "Device.WiFi.Radio."+$rf+".OperatingFrequencyBand",
 	"network_name"		: "Device.WiFi.SSID."+$id+".SSID",
 	"wireless_mode"		: "Device.WiFi.Radio."+$rf+".OperatingStandards",
 	"encrypt_mode"		: "Device.WiFi.AccessPoint."+$id+".Security.ModeEnabled",
@@ -78,7 +99,7 @@ $wifi_param = {
 	"DefaultSSID"		: "Device.WiFi.SSID."+$id+".X_COMCAST-COM_DefaultSSID",
 	"DefaultKeyPassphrase"	: "Device.WiFi.AccessPoint."+$id+".Security.X_COMCAST-COM_DefaultKeyPassphrase",
 	"AccessPoint_4_Enable"	: "Device.WiFi.AccessPoint.4.Enable",
-	"SupportedStandards"	: "Device.WiFi.Radio."+$id+".SupportedStandards",
+	"SupportedStandards"	: "Device.WiFi.Radio."+$rf+".SupportedStandards",
 	"DFS_Support1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSSupport", //1-supported 0-not supported
 	"DFS_Enable1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSEnable" 
 	}/*p2j-array*/;
@@ -86,7 +107,7 @@ $wifi_param[Radio_Enable] = 'Device.WiFi.Radio.'+$rf+'.Enable';
 $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
 $radio_enable		= $wifi_value['radio_enable'];
 $freq_band		= $wifi_value['freq_band'];
-$radio_band		= (strstr($freq_band,"5G")) ? "5" : "2.4";
+$radio_band		= (strstr($freq_band,"5G")) ? "5" : (strstr($freq_band,"6G")) ? "6" : "2.4";
 $network_name		= $wifi_value['network_name'];
 $wireless_mode		= $wifi_value['wireless_mode'];
 $encrypt_mode		= $wifi_value['encrypt_mode'];
@@ -109,11 +130,13 @@ $DFS_Enable1		= $wifi_value['DFS_Enable1'];
 $Mesh_Enable 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.Enable");
 $Mesh_State 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.State");
 $Mesh_Mode = ($Mesh_Enable == 'true' && $Mesh_State == 'Full')?'true':'false';
-if($id != 1 && $id != 2) $Mesh_Mode = 'false';
+if($id != 1 && $id != 2 && $id != 17) $Mesh_Mode = 'false';
 /*- In bridge mode don't show 'Mac filter settings ' -*/
 if(strstr($_SESSION["lanMode"], "bridge-static") ) {
 	if($_SESSION["loginuser"] != "mso")
 	{
+        	if($OperatingChannelBandwidth == "6GHz")
+        	array_remove($valid_ids,4);
 		array_remove($valid_ids,3);
 		array_remove($valid_ids,2);
 		array_remove($valid_ids,1);
@@ -121,6 +144,8 @@ if(strstr($_SESSION["lanMode"], "bridge-static") ) {
 	}
 	else
 	{
+        	if($OperatingChannelBandwidth == "6GHz")
+        	array_remove($valid_ids,4);
 		array_remove($valid_ids,1);
 		array_remove($valid_ids,0);
 	}
@@ -135,28 +160,31 @@ if (!in_array($id, $valid_ids)) {
 if ("false" == $wifi_value['Radio_'+$rf+'_Enable']){
 	$radio_enable = "false";
 }
+$supported_mode         = $wifi_value['SupportedStandards'];
 //check if support 802.11ac
-$supported_mode		= $wifi_value['SupportedStandards'];
-/*if ($_SESSION['_DEBUG']){
+/*if(($id == 15) && ($OperatingChannelBandwidth == "5GHz"))
+{
+	$radio_band		="6";
+	$supported_mode		= "ax";
 	$radio_enable		= "true";
-	$network_name		= "string";
+	$network_name		= "TCHXB8";
 	$wireless_mode		= "n";
-	$encrypt_mode		= "WPA2-Personal";
-	$encrypt_mode		= "WEP-128";
-	// $encrypt_mode		= "None";
+	$encrypt_mode		= "WPA3-Personal";
+	$encrypt_mode		= "AES";
+	// $encrypt_mode	= "None";
 	$encrypt_method		= "AES";
 	$channel_automatic	= "false";
-	$channel_number		= "36";
-	$broadcastSSID		= "false";
+	$channel_number		= "53";
+	$broadcastSSID		= "true";
 	$network_password	= "abc123456";
-	$enableWMM			= "true";
-	$channel_bandwidth	= "40MHz";
-	$ext_channel			= "BelowControlChannel";
-	$network_pass_64		= "wep64";
+	$enableWMM		= "true";
+	$channel_bandwidth	= "160MHz";
+	$ext_channel		= "BelowControlChannel";
+	$network_pass_64	= "wep64";
 	$network_pass_128	= "wep128";
-	$possible_channels	= "36,40,44,48,149,153,157,161,165";
+	$possible_channels	= "1,5,9,13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,73,77,81,85,89,93,97,101,105,109,113,117,121,125,129,133,137,141,145,149,153,157,161,165,169,173,177,181,185,189,193,197,201,205,209,213,217,221,225,229,233";
 	// $possible_channels	= "1-11";
-	$supported_mode 	= "a,n,ac";
+	$supported_mode 	= "ax";
 }*/
 if ("1-11"==$possible_channels)
 $possible_channels = "1,2,3,4,5,6,7,8,9,10,11";
@@ -165,26 +193,28 @@ if ("WPA2-Personal" == $encrypt_mode){
 	if ("TKIP" == $encrypt_method){
 		$security = "WPA2_PSK_TKIP";
 	}
-	else{
+	else if ("AES" == $encrypt_method){
 		$security = "WPA2_PSK_AES";
 	}
 }else if ("WPA3-Personal" == $encrypt_mode){
     if ("AES" == $encrypt_method)
-        	$security = "WPA3_SAE_AES";
+        	$security = "WPA3-Personal Only";
 }else if ("WPA3-Personal-Transition" == $encrypt_mode){
     if ("AES" == $encrypt_method)
-        $security = "WPA3_WPA2_SAE_AES";
+        $security = "WPA3-Personal Transition";
 }
 else{
-		$security = "None";
+                $security = "None";
 }
+
 //for SSID 1 and 2 don't show password for mso user
-$password_mso_user = !(($id == 1 || $id == 2) && ($_SESSION["loginuser"] == "mso"));
+$password_mso_user = !(($id == 1 || $id == 2 || $id == 17) && ($_SESSION["loginuser"] == "mso"));
 $brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
 $productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 $WPA3_enable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WPA3_Personal_Transition.Enable");
 $modelName= getStr("Device.DeviceInfo.ModelName");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 ?>
 <style>
 #tip_security_mode {
@@ -222,7 +252,7 @@ function showDialog() {
 	}
 	//init status of this pop-up
 	if($wpa3_enabled == "true")
-		$("#pop_dialog").find("[value='WPA3_WPA2_SAE_AES']").prop("checked", true);
+		$("#pop_dialog").find("[value='WPA3-Personal Transition']").prop("checked", true);
 	else
 		$("#pop_dialog").find("[value='WPA2_PSK_AES']").prop("checked", true);
 	$("#pop_ok").off("click").on("click", function(){
@@ -270,6 +300,9 @@ $(document).ready(function() {
     gateway.page.init("Gateway > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
+	var radio_check = '<?% echo( $radio_band); ?>';
+	var partner_ID = '<?% echo ($partnerId);?>';
+	var modelName = '<?% echo($modelName); ?>';
 	$("#wireless_network_switch").radioswitch({
 		id: "wireless-network-switch",
 		radio_name: "wireless_network",
@@ -296,7 +329,7 @@ $(document).ready(function() {
 	}).trigger("change");
 	$("#broadcastSSID").change(function() {
 		var ssid_number			= "<?% echo( $id); ?>";
-		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number))
+		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number || "17"==ssid_number))
 		{
 			jConfirm(
 				"WARNING:<br/> Disabling Broadcast Network Name (SSID) will disable Wi-Fi Protected Setup (WPS) functionality. Are you sure you want to change?"
@@ -317,7 +350,7 @@ $(document).ready(function() {
 			showDialog();
 		}
 		else {
-			if (fromOther && ($("#security").val()=="WEP_64" || $("#security").val()=="WEP_128" || $("#security").val()=="None" || $("#security").val()=="WPA3_SAE_AES"  || $("#security").val()=="WPA3_WPA2_SAE_AES"))
+			if (fromOther && ($("#security").val()=="WEP_64" || $("#security").val()=="WEP_128" || $("#security").val()=="None" || $("#security").val()=="WPA3-Personal Only"  || $("#security").val()=="WPA3-Personal Transition"))
 			{
 				var security_val = $("#security").val();
 				//ARRISXB6-2329
@@ -358,10 +391,10 @@ $(document).ready(function() {
 						}
 					});
 				}
-				 else if($("#security").val()=="WPA3_SAE_AES" || $("#security").val()=="WPA3_WPA2_SAE_AES"){
+				 else if($("#security").val()=="WPA3-Personal Only" || $("#security").val()=="WPA3-Personal Transition"){
                                         var jConfirmMess ="";
                                         if($("#wireless_mode").val().includes("ax")){
-                                                if($("#security").val()=="WPA3_SAE_AES"){
+                                                if($("#security").val()=="WPA3-Personal Only"){
                                                          jConfirmMess = "WARNING:<br/> Selection of WPA3-Personal Only mode will not permit devices that are only capable of WPA2-Personal to connect to the wireless network";
 							jConfirm(
                                                 jConfirmMess , "Are You Sure?"
@@ -409,9 +442,9 @@ $(document).ready(function() {
 					});	
 				}
 			}else{
-				if(($security_val!=$("#security").val()) && ($("#security").val()=="WPA3_SAE_AES" )){
+				if(($security_val!=$("#security").val()) && ($("#security").val()=="WPA3-Personal Only" )){
                                         var jConfirmMess ="";
-                                                if($("#security").val()=="WPA3_SAE_AES"){
+                                                if($("#security").val()=="WPA3-Personal Only"){
                                                          jConfirmMess = "WARNING:<br/> Selection of WPA3-Personal Only mode will not permit devices that are only capable of WPA2-Personal to connect to the wireless network";
                                                         jConfirm(
                                                 jConfirmMess , "Are You Sure?"
@@ -460,7 +493,7 @@ $(document).ready(function() {
 			});
 		}
 		//cacheye user option before going to "more"
-		if ("more" != $("#security").val() && "WEP_64" != $("#security").val() && "WEP_128" != $("#security").val() && "None" != $("#security").val() && "WPA3_WPA2_SAE_AES" != $("#security").val() && "WPA3_SAE_AES" != $("#security").val()) {
+		if ("more" != $("#security").val() && "WEP_64" != $("#security").val() && "WEP_128" != $("#security").val() && "None" != $("#security").val() && "WPA3-Personal Transition" != $("#security").val() && "WPA3-Personal Only" != $("#security").val()) {
 			$security_val = $("#security").val();
 		}
 		$("#security").find("[value^='WEP'],[value='None']").prop('disabled',true);
@@ -468,6 +501,9 @@ $(document).ready(function() {
     	});
         if("None" == $("#security").val()) {
           $("#network_password").val("");
+        }
+        if("WPA3-Personal Only" == $("#security").val()) {
+        	$("#tip_security_mode").remove();
         }
 	var pwd_mso=JSON.parse(password_mso_user);
         if(!pwd_mso && "None" == $("#security").val()){
@@ -505,7 +541,7 @@ $(document).ready(function() {
 			$("#security option").prop("disabled", false);
 		}
 		$("#security").change();
-    });
+    	});
 	$("[name='channel_bandwidth1']").change(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
@@ -551,6 +587,30 @@ $(document).ready(function() {
 
 		}
 	});
+        $("[name='channel_bandwidth3']").change(function() {
+		//enable all channel first
+		$("#channel_number option").prop("disabled", false);
+		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
+		if (!$("#channel_bandwidth203").prop("checked")) {
+			//40MHz
+			if ($("#channel_bandwidth4").is(":checked")) {
+				if ("BelowControlChannel" == "<?% echo( $ext_channel); ?>"){
+					$("#channel_number").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
+				}	
+				else{	//AboveControlChannel or Auto  
+				$("#channel_number").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
+				}
+			} 
+			//80MHz
+			else if ($("#channel_bandwidth5").is(":checked")) {
+				$("#channel_number").find("[value='5'],[value='9'],[value='13'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
+			}
+			//160MHz
+			else if ($("#channel_bandwidth6").is(":checked")) {
+				$("#channel_number").find("[value='5'],[value='9'],[value='13'],[value='17'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='49'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='81'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='113'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='145'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='177'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='209'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
+			}
+		}
+	}).trigger("change");
 	$("#channel_number").change(function() {
 		if ("165" == $(this).val()){
 			$('[name="channel_bandwidth1"]:not([value="20MHz"])').prop("disabled", true);
@@ -731,14 +791,20 @@ $(document).ready(function() {
 		return str.indexOf("cablewifi") == -1 && str.indexOf("twcwifi") == -1 && str.indexOf("optimumwifi") == -1 && str.indexOf("xfinity") == -1 && str.indexOf("xfinitywifi") == -1 ;
 		//return value.toLowerCase().indexOf("optimumwifi")==-1 && value.toLowerCase().indexOf("twcwifi")==-1 && value.toLowerCase().indexOf("cablewifi")==-1;
 	}, 'SSID containing "optimumwifi", "TWCWiFi", "cablewifi", "xfinity" and "xfinitywifi" are reserved !');
-    $.validator.addMethod("not_defaulSSID", function(value, element, param) {
+	<?%
+	if(strpos($partnerId, "sky-") !== false) {
+		echo(" $.validator.addMethod('not_defaulSSID', function(value, element, param) { return true;}, '');");
+		echo(" $.validator.addMethod('not_defaulPassword', function(value, element, param) { return true;}, '');");
+	} else { ?>
+		$.validator.addMethod("not_defaulSSID", function(value, element, param) {
 		//prevent users to set defaul-SSID as ssid
 		return value.toLowerCase() != "<?% echo( $defaultSSID); ?>".toLowerCase();
-	}, 'Choose a different Network Name (SSID) than the one provided on your gateway.');
-    $.validator.addMethod("not_defaulPassword", function(value, element, param) {
+		}, 'Choose a different Network Name (SSID) than the one provided on your gateway.');
+		$.validator.addMethod("not_defaulPassword", function(value, element, param) {
 		//prevent users to set defaul-Password as Password
 		return value != "<?% echo( $defaultKeyPassphrase); ?>";
-	}, 'Choose a different Network Password than the one provided on your gateway.');
+		}, 'Choose a different Network Password than the one provided on your gateway.');
+	<?% } ?>
     // XFSETUP HOME xfinitywifi cablewifi
     // a term starting with the following combination of text in uppercase or lowercase should not be allowed
 	/* $.validator.addMethod("not_XFSETUP", function(value, element, param) {
@@ -863,8 +929,8 @@ function init_form()
 		$("#restore-default-settings").hide();
 	}
 	//for UI-4.0, remove some security options
-    if ("2.4"==radio_band){
-        $("#security").find("[value='None'],[value='WPA2_PSK_TKIP']").remove();
+    if ("6"==radio_band){
+        $("#security").find("[value='None'],[value='WPA2_PSK_TKIP'],[value='WPA2_PSK_AES']").remove();
     }
     else{
         $("#security").find("[value='None'],[value='WPA2_PSK_TKIP']").remove();
@@ -900,7 +966,7 @@ function click_save()
         network_name_1= addslashes(network_name_1);
 	var password_mso_user = '<?% echo( $password_mso_user); ?>';
 	var network_password = "";
-	var rf = "<?% echo( $radio_band == "2.4"? "": 1); ?>";
+	var rf = "<?% echo( $radio_band == "2.4"? "": $radio_band == "5"? 1 : 3 ); ?>";
 	var radio_enable		= $("#wireless_network_switch").radioswitch("getState").on;
 	var network_name		= addslashes($("#network_name").val());
 	var wireless_mode		= $("#wireless_mode").attr("value");
@@ -985,13 +1051,13 @@ function setResetInfo(info) {
 		{
 		?>
 		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in ax modes.</p>
-		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default  WPA3-Personal Only setting is compatible with most devices and provides the best security and performance.</p>
 		<?%
 		 }else
                 {?>
-<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in <?% echo($supported_mode); ?> mod
+		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in <?% echo($supported_mode); ?> modes.</p>
                 <?% if($WPA3_enable == "true"){ ?>
-                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2WPA3-SAE (AES) setting is compatible with most devices and provides the best security and performance.</p>
+                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-Personal Transition setting is compatible with most devices and provides the best security and performance.</p>
                 <?% }else{ ?>
                 <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
                 <?%} }?>
@@ -1001,7 +1067,7 @@ function setResetInfo(info) {
 	</div>
 	<div class="module forms">
 		<form action="#TBD" method="post" id="pageForm">
-		<h2><?% if ($id>2) echo( "Public"); else echo( "Private"); ?> Wi-Fi Network Configuration (<?% echo( $radio_band); ?> GHz)</h2>
+		<h2><?% if (($id == 1) || ($id == 2) || ($id == 17)) echo( "Private"); else echo( "Public"); ?> Wi-Fi Network Configuration (<?% echo( $radio_band); ?> GHz)</h2>
 		<?%
 			if($Mesh_Mode=="true"){
 		?>
@@ -1032,7 +1098,7 @@ function setResetInfo(info) {
 			//zqiu: add "selected"
 				if ("5"==$radio_band){
 					if (strstr($supported_mode, "ax")){
-						echo( '<option value="a,n,ac" '); echo( ("a,n,ac"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac</option>');
+                                        	echo( '<option value="a,n,ac" '); echo( ("a,n,ac"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac</option>');
 						echo( '<option value="a,n,ac,ax" '); echo( ("a,n,ac,ax"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac/ax</option>');
 					}
 					else if (strstr($supported_mode, "ac")){
@@ -1044,6 +1110,11 @@ function setResetInfo(info) {
 					else {
 						echo( '<option value="n" ');     echo( (    "n"==$wireless_mode)? 'selected':''); echo('>802.11 n</option>');
 						echo( '<option value="a,n" ');   echo( (  "a,n"==$wireless_mode)? 'selected':''); echo('>802.11 a/n</option>');
+					}
+				}else if("6"==$radio_band)
+				{
+					if (strstr($supported_mode, "ax")){
+                                        	echo( '<option value="ax" '); echo( ("ax"==$wireless_mode)? 'selected':''); echo('>802.11 ax</option>');
 					}
 				}
 				else {
@@ -1067,42 +1138,51 @@ function setResetInfo(info) {
 				 <?%
                                 if($id == 17)
                                 {?>                              
-                        		<option value="WPA3_SAE_AES" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA3_SAE_AES"==$security)  echo( "selected");?> >WPA3-SAE (AES) </option>
+					<option value="WPA3-Personal Only" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA3-Personal Only"==$security)  echo( "selected");?> >WPA3-Personal Only</option>
 				<?%
                                  }else{?>                                 
 				<option value="None" title="Open networks do not have a password." <?% if ("None"==$security) echo( "selected");?> >Open (risky)</option>
 				<?%
-					if($WPA3_enable == "true"){
+				if($WPA3_enable == "true"){
 				?>
-				<option value="WPA3_WPA2_SAE_AES"  <?% if ("WPA3_WPA2_SAE_AES"==$security) echo( "selected");?> >WPA2WPA3-SAE (AES) (Recommended)</option>
-				<option value="WPA3_SAE_AES"  <?% if ("WPA3_SAE_AES"==$security) echo( "selected");?> >WPA3-SAE (AES)</option>
-				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES)</option>
+				<option value="WPA3-Personal Transition"  <?% if ("WPA3-Personal Transition"==$security) echo( "selected");?> >WPA3-Personal Transition (Recommended)</option>
+				<option value="WPA3-Personal Only"  <?% if ("WPA3-Personal Only"==$security) echo( "selected");?> >WPA3-Personal Only</option>
+				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES)</option>				
 				<?%
 				}else{
 				?>
 				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES) (Recommended)</option>
 				<?% } ?>
 				<option value="WPA2_PSK_TKIP" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIP"==$security)       echo( "selected");?> >WPA2-PSK (TKIP)</option>
-				<option value="WPA2_PSK_TKIPAES" id="secmode6" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA2-PSK (TKIP/AES)</option>
-				<option value="WPAWPA2_PSK_TKIPAES" id="secmode4" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPAWPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA WPA2-PSK (TKIP/AES)</option>
                                <?%
                                  }?>
 			</select>
 			<p id="tip_security_mode" class="footnote">
 			<?%
-				if ("5"==$radio_band && strstr($supported_mode, "ac")){
-
-					echo( 'Please note 802.11 n/ac mode only compatible with AES and None encryption!!');
+				if ("5"==$radio_band){
+					if(strstr($supported_mode, "ax")){
+						echo('Please note 802.11 a/n/ac/ax mode only compatible with AES and None encryption!!');
+					}
+					else if(strstr($supported_mode, "ac")){
+						echo('Please note 802.11 n/ac mode only compatible with AES and None encryption!!');
+					}
 				}
-				else{
-					echo( 'Please note 802.11 n mode only compatible with AES and None encryption!!');
+				else if("2.4"==$radio_band){
+					if(strstr($supported_mode, "ax")){
+						echo('Please note 802.11 g/n/ax mode only compatible with AES and None encryption!!');
+					}
+					else{
+						echo('Please note 802.11 n mode only compatible with AES and None encryption!!');
+					}
 				}
 			?>
 			</p>
 		</div>
 		<div class="form-row odd" id="div_channel_switch">
 			<label for="channel_automatic">Channel Selection:</label>
+			<?% if('5'!=$radio_band || (strpos($partnerId, "sky-")===false)) { ?>
 			<input type="radio"  name="channel" value="auto" 	id="channel_automatic" checked="checked" /><b>Automatic</b>
+			<?% } ?>
 			<label for="channel_manual" class="acs-hide"></label>
 			<input type="radio"  name="channel" value="manual"  id="channel_manual"    <?% if ("false"==$channel_automatic) echo( 'checked="checked"');?> /><b>Manual</b>
 		</div>
@@ -1127,6 +1207,16 @@ function setResetInfo(info) {
 			<input type="radio"  name="channel_bandwidth" value="20MHz" id="channel_bandwidth20" checked="checked" /><b>20</b>
 			<label for="channel_bandwidth" class="acs-hide"></label>
 			<input type="radio"  name="channel_bandwidth" value="40MHz" id="channel_bandwidth" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
+                <?% } else if($radio_band == "6" )
+		{ ?>
+				<label for="channel_bandwidth203">Channel Bandwidth:</label>
+				<input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth203" checked="checked" /><b>20</b>
+				<label for="channel_bandwidth4" class="acs-hide"></label>
+				<input type="radio"  name="channel_bandwidth3" value="40MHz"  id="channel_bandwidth4" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
+				<label for="channel_bandwidth5" class="acs-hide"></label>
+				<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
+				<label for="channel_bandwidth6" class="acs-hide"></label>
+				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
 		<?% } else { ?>
 			<label for="channel_bandwidth201">Channel Bandwidth:</label>
 			<input type="radio"  name="channel_bandwidth1" value="20MHz" id="channel_bandwidth201" checked="checked" /><b>20</b>
@@ -1176,7 +1266,7 @@ function setResetInfo(info) {
 		 <?%
                 if($WPA3_enable == "true"){
                 ?>
-			<p style="color: green;"><b>The recommended security mode is "WPA2WPA3-SAE (AES)" as this mode gives best WiFi performance and optimum security.</b></p>              
+			<p style="color: green;"><b>The recommended security mode is "WPA3-Personal Transition" as this mode gives best WiFi performance and optimum security.</b></p>              
 		<?%
 		}else{ ?>
 			<p style="color: green;"><b>The recommended security mode is "WPA2-PSK (AES)" as this mode gives best WiFi performance and optimum security.</b></p>              
@@ -1188,7 +1278,7 @@ function setResetInfo(info) {
                 <?%
 		if($WPA3_enable == "true"){
 		?>
-		<input name="path" id="path7" type="radio" value="WPA3_WPA2_SAE_AES"><b>WPA2WPA3-SAE (AES) (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. </span><br> 
+		<input name="path" id="path7" type="radio" value="WPA3-Personal Transition"><b>WPA3-Personal Transition (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. </span><br> 
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" ><b>WPA2-PSK (AES) </b><br>
 		 <?%
                 }else{
