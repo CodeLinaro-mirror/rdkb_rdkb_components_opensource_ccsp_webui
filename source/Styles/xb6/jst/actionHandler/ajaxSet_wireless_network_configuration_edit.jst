@@ -115,6 +115,22 @@ if ($i == 1 || $i == 2) {
 					  $encrypt_mode   = "WPA2-Personal";
 					  $encrypt_method = "AES";
 					  break;
+					case "WPA3_SAE_AES":
+					  $encrypt_mode   = "WPA3-Personal";
+					  $encrypt_method = "AES";
+					  break;
+					case "WPA2_PSK_TKIPAES":
+					   $encrypt_mode   = "WPA2-Personal";
+					   $encrypt_method = "AES+TKIP";
+					   break;
+					case "WPAWPA2_PSK_TKIPAES":
+					   $encrypt_mode   = "WPA-WPA2-Personal";
+					   $encrypt_method = "AES+TKIP";
+					   break;
+					case "WPA3_WPA2_SAE_AES":
+                                          $encrypt_mode   = "WPA3-Personal-Transition";
+                                          $encrypt_method = "AES";
+                                          break;
 					case "None":
 					  $encrypt_mode   = "None";
 					  $encrypt_method = "None";

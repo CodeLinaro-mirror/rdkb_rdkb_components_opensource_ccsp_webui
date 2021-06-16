@@ -168,6 +168,12 @@ if ("WPA2-Personal" == $encrypt_mode){
 	else{
 		$security = "WPA2_PSK_AES";
 	}
+}else if ("WPA3-Personal" == $encrypt_mode){
+    if ("AES" == $encrypt_method)
+        	$security = "WPA3_SAE_AES";
+}else if ("WPA3-Personal-Transition" == $encrypt_mode){
+    if ("AES" == $encrypt_method)
+        $security = "WPA3_WPA2_SAE_AES";
 }
 else{
 		$security = "None";
@@ -177,6 +183,8 @@ $password_mso_user = !(($id == 1 || $id == 2) && ($_SESSION["loginuser"] == "mso
 $brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
 $productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+$WPA3_enable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WPA3_Personal_Transition.Enable");
+$modelName= getStr("Device.DeviceInfo.ModelName");
 ?>
 <style>
 #tip_security_mode {
@@ -192,6 +200,7 @@ label[for="network_name"], label[for="security"], label[for="network_password"] 
 <script type="text/javascript">
 function showDialog() {
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
+	$wpa3_enabled = '<?% echo($WPA3_enable); ?>';
 	if($Mesh_Mode == 'true'){
 		$("#pop_dialog").find("input[value='None']").prop("disabled", true);
 		$("#pop_dialog").find("input[value='None']").next().css('color', 'grey');
@@ -212,7 +221,10 @@ function showDialog() {
 		$("#pop_dialog *").prop("disabled", false);
 	}
 	//init status of this pop-up
-	$("#pop_dialog").find("[value='WPA2_PSK_AES']").prop("checked", true);
+	if($wpa3_enabled == "true")
+		$("#pop_dialog").find("[value='WPA3_WPA2_SAE_AES']").prop("checked", true);
+	else
+		$("#pop_dialog").find("[value='WPA2_PSK_AES']").prop("checked", true);
 	$("#pop_ok").off("click").on("click", function(){
 		var popSec = $("#pop_dialog [name='path']:checked").val();
 		$("#security").find("[value^='WEP'],[value='None']").remove();
@@ -224,7 +236,7 @@ function showDialog() {
 		}
 		else if ("WEP_128" == popSec) {
 			$("#security").prepend('<option value="WEP_128" title="WEP 128 requires a 13 ASCII character or  26 hex character password. Hex means only the following characters can be used: ABCDEF0123456789.">WEP 128 (risky)</option>');
-		}
+                }
 		$("#security").val(popSec);
 		$.virtualDialog("hide");
 		// check settings
@@ -305,7 +317,7 @@ $(document).ready(function() {
 			showDialog();
 		}
 		else {
-			if (fromOther && ($("#security").val()=="WEP_64" || $("#security").val()=="WEP_128" || $("#security").val()=="None"))
+			if (fromOther && ($("#security").val()=="WEP_64" || $("#security").val()=="WEP_128" || $("#security").val()=="None" || $("#security").val()=="WPA3_SAE_AES"  || $("#security").val()=="WPA3_WPA2_SAE_AES"))
 			{
 				var security_val = $("#security").val();
 				//ARRISXB6-2329
@@ -346,6 +358,42 @@ $(document).ready(function() {
 						}
 					});
 				}
+				 else if($("#security").val()=="WPA3_SAE_AES" || $("#security").val()=="WPA3_WPA2_SAE_AES"){
+                                        var jConfirmMess ="";
+                                        if($("#wireless_mode").val().includes("ax")){
+                                                if($("#security").val()=="WPA3_SAE_AES"){
+                                                         jConfirmMess = "WARNING:<br/> Selection of WPA3-Personal Only mode will not permit devices that are only capable of WPA2-Personal to connect to the wireless network";
+							jConfirm(
+                                                jConfirmMess , "Are You Sure?"
+                                        ,function(ret) {
+                                                if(!ret) {
+                                                        $("#security").find("[value='"+ security_val +"']").remove();
+                                                        $('#security option[value="' + $security_val + '"]').prop('selected', true);
+                                                        $("#network_password").prop("disabled", false);
+                                                        $("#netPassword-footnote").text($("option:selected", $("#security")).attr("title"));
+                                                } else {
+                                                        $security_val = security_val;
+                                                }
+                                        });
+					}
+                                        }else{
+                                                jConfirmMess = "WARNING:<br/>Selection of WPA3-Personal Only mode will not permit devices that are only capable of WPA2-Personal to connect to the wireless network";
+                                        
+
+                                        jConfirm(
+                                                jConfirmMess , "Are You Sure?"
+                                        ,function(ret) {
+                                                if(!ret) {
+							$("#security").find("[value='"+ security_val +"']").remove();
+                                                        $('#security option[value="' + $security_val + '"]').prop('selected', true);
+                                                        $("#network_password").prop("disabled", false);
+                                                        $("#netPassword-footnote").text($("option:selected", $("#security")).attr("title"));
+                                                } else {
+                                                        $security_val = security_val;
+                                                }
+                                        });
+				}
+                                }
 				else {
 					jConfirm(
 					"WARNING:<br/>Changing the Security Mode to WEP, and WPA will disable Wi-Fi Protected Setup(WPS) functionality. Are you sure you want to change?"
@@ -360,6 +408,26 @@ $(document).ready(function() {
 						}
 					});	
 				}
+			}else{
+				if(($security_val!=$("#security").val()) && ($("#security").val()=="WPA3_SAE_AES" )){
+                                        var jConfirmMess ="";
+                                                if($("#security").val()=="WPA3_SAE_AES"){
+                                                         jConfirmMess = "WARNING:<br/> Selection of WPA3-Personal Only mode will not permit devices that are only capable of WPA2-Personal to connect to the wireless network";
+                                                        jConfirm(
+                                                jConfirmMess , "Are You Sure?"
+                                        ,function(ret) {
+                                                if(!ret) {
+                                                        $("#security").find("[value='"+ security_val +"']").remove();
+                                                        $('#security option[value="' + $security_val + '"]').prop('selected', true);
+                                                        $("#network_password").prop("disabled", false);
+                                                        $("#netPassword-footnote").text($("option:selected", $("#security")).attr("title"));
+                                                } else {
+                                                        $security_val = security_val;
+                                                }
+                                        });
+                                        }
+							}
+
 			}
 			if ("None" == $("#security").val()) {
 				$("#network_password").prop("disabled", true);
@@ -392,7 +460,7 @@ $(document).ready(function() {
 			});
 		}
 		//cacheye user option before going to "more"
-		if ("more" != $("#security").val() && "WEP_64" != $("#security").val() && "WEP_128" != $("#security").val() && "None" != $("#security").val()) {
+		if ("more" != $("#security").val() && "WEP_64" != $("#security").val() && "WEP_128" != $("#security").val() && "None" != $("#security").val() && "WPA3_WPA2_SAE_AES" != $("#security").val() && "WPA3_SAE_AES" != $("#security").val()) {
 			$security_val = $("#security").val();
 		}
 		$("#security").find("[value^='WEP'],[value='None']").prop('disabled',true);
@@ -802,7 +870,7 @@ function init_form()
         $("#security").find("[value='None'],[value='WPA2_PSK_TKIP']").remove();
     }
 	// for UI-4.0, add show-more
-	if ("1"==ssid_number || "2"==ssid_number) {
+	if ("1"==ssid_number || "2"==ssid_number ) {
 		$("#security").find("[value^='WEP'],[value='None']").not(":selected").remove();
 		$("#security").append('<option title="More Security Mode Options." value="more">Show More Security Mode Options</option>');
 	}
@@ -827,6 +895,7 @@ function addslashes( str ) {
 }
 function click_save()
 {
+	$modelName = '<?% echo( $modelName); ?>';
 	var network_name_1= "<?% echo( htmlspecialchars($network_name)); ?>";
         network_name_1= addslashes(network_name_1);
 	var password_mso_user = '<?% echo( $password_mso_user); ?>';
@@ -911,8 +980,21 @@ function setResetInfo(info) {
 	<div id="educational-tip">
 		<p class="tip">Manage your <?% echo( $radio_band); ?> GHz network settings.</p>
 		<p class="hidden"><strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Gateway, but can be changed for easier identification.</p>
-		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in a/n/ac modes.</p>
-		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+		<?%
+		if($id == 17)
+		{
+		?>
+		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in ax modes.</p>
+		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+		<?%
+		 }else
+                {?>
+<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in <?% echo($supported_mode); ?> mod
+                <?% if($WPA3_enable == "true"){ ?>
+                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2WPA3-SAE (AES) setting is compatible with most devices and provides the best security and performance.</p>
+                <?% }else{ ?>
+                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+                <?%} }?>
 		<p class="hidden"><strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Gateway will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used.</p>
 		<p class="hidden"><strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Gateway. </p>
 		<p class="hidden"><strong>Broadcast Network Name (SSID):</strong>  If enabled, the Network Name (SSID) will be shown in the list of available networks. (If unchecked, you'll need to enter the exact Network Name (SSID) to connect.)</p>
@@ -982,10 +1064,30 @@ function setResetInfo(info) {
 		<div class="form-row">
 			<label for="security">Security Mode:</label>
 			<select name="encryption_method" id="security">
-				<option value="None" 				title="Open networks do not have a password." 			<?% if ("None"==$security) echo( "selected");?> >Open (risky)</option>
-				<option value="WPA2_PSK_TKIP" 		title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIP"==$security)       echo( "selected");?> >WPA2-PSK (TKIP)</option>
-				<option value="WPA2_PSK_AES" 		title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES) (Recommended)</option>
-				</select>
+				 <?%
+                                if($id == 17)
+                                {?>                              
+                        		<option value="WPA3_SAE_AES" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA3_SAE_AES"==$security)  echo( "selected");?> >WPA3-SAE (AES) </option>
+				<?%
+                                 }else{?>                                 
+				<option value="None" title="Open networks do not have a password." <?% if ("None"==$security) echo( "selected");?> >Open (risky)</option>
+				<?%
+					if($WPA3_enable == "true"){
+				?>
+				<option value="WPA3_WPA2_SAE_AES"  <?% if ("WPA3_WPA2_SAE_AES"==$security) echo( "selected");?> >WPA2WPA3-SAE (AES) (Recommended)</option>
+				<option value="WPA3_SAE_AES"  <?% if ("WPA3_SAE_AES"==$security) echo( "selected");?> >WPA3-SAE (AES)</option>
+				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES)</option>
+				<?%
+				}else{
+				?>
+				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES) (Recommended)</option>
+				<?% } ?>
+				<option value="WPA2_PSK_TKIP" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIP"==$security)       echo( "selected");?> >WPA2-PSK (TKIP)</option>
+				<option value="WPA2_PSK_TKIPAES" id="secmode6" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA2-PSK (TKIP/AES)</option>
+				<option value="WPAWPA2_PSK_TKIPAES" id="secmode4" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPAWPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA WPA2-PSK (TKIP/AES)</option>
+                               <?%
+                                 }?>
+			</select>
 			<p id="tip_security_mode" class="footnote">
 			<?%
 				if ("5"==$radio_band && strstr($supported_mode, "ac")){
@@ -1071,10 +1173,30 @@ function setResetInfo(info) {
 </div><!-- end #content -->
 <div id="pop_dialog" class="content_message" style="display: none;">
 	<div class="form-row odd">
-		<p style="color: green;"><b>The recommended security mode is "WPA2-PSK (AES)" as this mode gives best WiFi performance and optimum security.</b></p>
+		 <?%
+                if($WPA3_enable == "true"){
+                ?>
+			<p style="color: green;"><b>The recommended security mode is "WPA2WPA3-SAE (AES)" as this mode gives best WiFi performance and optimum security.</b></p>              
+		<?%
+		}else{ ?>
+			<p style="color: green;"><b>The recommended security mode is "WPA2-PSK (AES)" as this mode gives best WiFi performance and optimum security.</b></p>              
+		<?%
+		}
+		?>	
 	</div>
 	<div class="form-row">
+                <?%
+		if($WPA3_enable == "true"){
+		?>
+		<input name="path" id="path7" type="radio" value="WPA3_WPA2_SAE_AES"><b>WPA2WPA3-SAE (AES) (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. </span><br> 
+		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" ><b>WPA2-PSK (AES) </b><br>
+		 <?%
+                }else{
+		?>
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" checked="checked"><b>WPA2-PSK (AES) (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. Older Wi-Fi devices which doesn't support WPA2 and AES encryption will be unable to connect to your Wi-Fi network in this mode.</span><br>
+		<?%
+		}
+		?>
 		<!--input name="path" id="path3" type="radio" value="WEP_64"><b>WEP (64)</b><br><span style="color: red;">This is only applicable for legacy Wi-Fi devices. Using this option will impact your Wi-Fi performance and less secure. Select this option only if you have very old Wi-Fi device and if it does not support WPA or WPA2 option.</span><br>
 		<input name="path" id="path4" type="radio" value="WEP_128"><b>WEP (128)</b><br><span style="color: red;">This is only applicable for legacy Wi-Fi devices. Using this option will impact your Wi-Fi performance and less secure.Select this option only if you have very old Wi-Fi device and if it does not support WPA or WPA2 option.</span><br-->
 		<input name="path" id="path5" type="radio" value="None"><b>Open (Risky)</b><br><span style="color: red;">This is not recommended as it doesn't have any security and anybody can connect to your Wi-Fi network.</span><br>
