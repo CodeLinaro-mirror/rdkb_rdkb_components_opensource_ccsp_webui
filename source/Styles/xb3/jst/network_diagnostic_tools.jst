@@ -303,7 +303,7 @@ $(document).ready(function() {
 				success:function(results){
 					var trace_ipv4_status = results.trace_ipv4_status;
 					var trace_ipv4_result = results.trace_ipv4_result;
-					$("#pop_trace").text($.i18n("Status:") +trace_ipv4_status+" !\n");
+					$("#pop_trace").text($.i18n("Status:") +" "+trace_ipv4_status+" !\n");
 					jHide();				
 					checkTraceError(trace_ipv4_status);
 					if ("Complete" == trace_ipv4_status){
@@ -319,7 +319,7 @@ $(document).ready(function() {
 				error:function(error){
 					if(error.statusText=="abort"){
 						var trace_ipv4_status = "Error! Traceroute Failed";
-						 $("#pop_trace").text($.i18n("Status:") +$.i18n(trace_ipv4_status)+" !\n");
+						 $("#pop_trace").text($.i18n("Status:") +" "+$.i18n(trace_ipv4_status)+" !\n");
 					         jHide();
                 	                        checkTraceError(trace_ipv4_status);
 					}else{
@@ -350,7 +350,7 @@ $(document).ready(function() {
 				success:function(results){
 					var trace_ipv6_status = results.trace_ipv6_status;
 					var trace_ipv6_result = results.trace_ipv6_result;
-					$("#pop_trace").text($.i18n("Status:") +trace_ipv6_status+" !\n");
+					$("#pop_trace").text($.i18n("Status:") +" "+trace_ipv6_status+" !\n");
 					jHide();				
 					checkTraceError(trace_ipv6_status);
 					if ("Complete" == trace_ipv6_status){
@@ -363,9 +363,17 @@ $(document).ready(function() {
 						}, 500);					
 					}
 				},
-				error:function(){
+				error:function(error){
+					 if(error.statusText=="abort"){
+                                                var trace_ipv6_status = "Error! Traceroute Failed";
+                                                 $("#pop_trace").text($.i18n("Status:") +" "+$.i18n(trace_ipv6_status)+" !\n");
+                                                 jHide();
+                                                checkTraceError(trace_ipv6_status);
+                                        }else{
+
 					jHide();
 					alertLocale("Sorry, please try again.");
+					}	
 				}
 			});
 		}
