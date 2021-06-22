@@ -57,6 +57,12 @@ $http_port	= $DeviceControl_value['http_port'];
 $https_port	= $DeviceControl_value['https_port'];
 $ipv4_gw	= $DeviceControl_value['ipv4_gw'];
 $ipv4_smask	= $DeviceControl_value['ipv4_smask'];
+$mapT = "";
+$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+$jsMapEnable="false";
+if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+        $jsMapEnable = "true";
+}
 ?>
 <style type="text/css">
 .ipv6-input{
@@ -73,6 +79,7 @@ $(document).ready(function() {
 	var HTTPPORT = "<?% echo( $http_port);?>";
 	var HTTPS = <?% echo( ($https_mode === 'true' ? "true" : "false")); ?>;
 	var HTTPSPORT = "<?% echo( $https_port);?>";
+	var jsMaptEnable = "<?% echo($jsMapEnable); ?>";
 	$("#http_switch").radioswitch({
 		id: "http-switch",
 		radio_name: "http",
@@ -138,6 +145,12 @@ $(document).ready(function() {
 			);
 		}
 	});
+	if(!HTTP && (jsMaptEnable == "true")){
+                $("#http_switch").radioswitch("doEnable", false);
+	}
+	if(!HTTPS && (jsMaptEnable == "true")){
+                $("#https_switch").radioswitch("doEnable", false);
+	}
 	$("#https").val(HTTPSPORT).prop("disabled", !HTTPS);
 var ALLOWTYPE=$('input[name="single"]:radio:checked').val();
 switch (ALLOWTYPE) {
@@ -707,6 +720,7 @@ function remote_access_block(){
 	$("#message_note").show();
 }
 	$("#message_note").hide();
+	if(!HTTP && !HTTPS && (jsMaptEnable == "true")){$("#btn-save").prop("disabled",true);}
 	if(!HTTP && !HTTPS){remote_access_block();}
 	function remote_access_allowe(){
 		var http_enabled  = $("#http_switch").radioswitch("getState").on;
@@ -770,7 +784,10 @@ function remote_access_block(){
 				else{*/
 					echo('<span id="remmess1">Remote Management Address (IPv4):</span> ');
 					$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-					echo( getStr($fistUSif+"IPv4Address.1.IPAddress"));
+					if($jsMapEnable == "true")
+						echo(getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address"));
+					else
+						echo( getStr($fistUSif+"IPv4Address.1.IPAddress"));
 				//}
 			?>
 			<br/>

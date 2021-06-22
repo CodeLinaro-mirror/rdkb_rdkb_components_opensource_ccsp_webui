@@ -30,6 +30,15 @@ $enableUPnP = getStr("Device.UPnP.Device.UPnPIGD");
 $adPeriod = getStr("Device.UPnP.Device.X_CISCO_COM_IGD_AdvertisementPeriod");
 $timeToLive = getStr("Device.UPnP.Device.X_CISCO_COM_IGD_TTL");
 $enableZero = getStr("Device.X_CISCO_COM_DeviceControl.EnableZeroConfig");
+$mapT ="";
+$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+//$mapT = "MAPT";
+$jsMapEnable="false";
+if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+        $jsMapEnable = "true";
+}
+
 //$qosUPnP = getStr("Device.X_CISCO_COM_DDNS.Enable"); //? R3
 //end by licha
 //add by shunjie
@@ -52,6 +61,7 @@ var jsEnableUPnP = <?% echo( $enableUPnP );?>;
 var jsAdPeriod = <?% echo( $adPeriod );?>;
 var jsTimeToLive = <?% echo( $timeToLive );?>;
 var jsEnableZero = <?% echo( $enableZero );?>;
+var jsMaptEnable = "<?% echo($jsMapEnable); ?>";
 jsAdPeriod = jsAdPeriod/60; /*unit is seconds in backend implementation.*/
 	$("#upnp_switch").radioswitch({
 		id: "upnp-switch",
@@ -80,6 +90,11 @@ jsAdPeriod = jsAdPeriod/60; /*unit is seconds in backend implementation.*/
 		title_off: $.i18n('Disable')+" Zero Config",
 		state: jsEnableZero ? "on" : "off"
 	});
+if(!jsEnableUPnP && (jsMaptEnable == "true")){
+        $("#deviceItems").find("input").attr("disabled",true).end().find("label").addClass("disabled");
+        $("#upnp_switch").radioswitch("doEnable", false);
+        $("#zeroconfig_switch").radioswitch("doEnable", false);
+}
 function enableHandle() {
 	var isUPNPDisabled = $("#upnp_switch").radioswitch("getState").on === false;
 	if(isUPNPDisabled) {
@@ -144,6 +159,7 @@ function saveQoS(information) {
 		data: { upnpInfo: information },
 		success: function(){            
 			jHide();
+			 window.location.href = "device_discovery.jst";
 			//               alert("successful submit");
 		},
 		error: function(){            
@@ -165,7 +181,7 @@ function saveQoS(information) {
 				<p class="hidden" id="devdistip5"><strong>Zero Config:</strong> Discovery protocol which allows devices, such as printers and computers, to connect to a network automatically.'));?> </p>
     </div>
 	<form action="#TBD" method="post" id="pageForm">
-    <div class="module forms">
+    <div class="module forms" id="deviceItems">
     	<h2 id="devdishead">Device Discovery</h2>
 		<div class="form-row odd">
 			<label for="upnp_enabled">UPnP:</label>

@@ -51,6 +51,14 @@ $LanGwIP 		= getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIP
 $IPv6Prefix     = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
 $beginAddr      = getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
 $endAddr        = getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$mapT ="";
+$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+$jsMapEnable="false";
+if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+        $jsMapEnable = "true";
+}
+
 ("" == $enableDMZ) && ($enableDMZ = "false");
 /*if ($_SESSION['_DEBUG']){
 	$enableDMZ 		= "true";
@@ -66,7 +74,6 @@ $IPv6Prefix = substr($IPv6Prefix,0, $IPv6Prefix.lastIndexOf("::"));
 // these means disable, MUST show empty on GUI!!!
 ("0.0.0.0" == $host)	&& ($host = "");
 ("0:0:0:0:0:0:0:0" == $hostv6)	&& ($hostv6 = "");
-$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 if (strpos($partnersId, "sky-") !== false) {
     $dmz_v6 =false;
 } else {
@@ -80,6 +87,7 @@ $(document).ready(function() {
 	var jsHost = "<?% echo( $host );?>".split(".");
 	var jsHostv6 = "<?% echo( $hostv6); ?>";
 	var jsNetMask = "<?% echo( $LanSubnetMask); ?>";
+	var jsMaptEnable = "<?% echo($jsMapEnable); ?>";
 	//alert(typeof(jsNetMask));
 	var jsGatewayIP = "<?% echo( $LanGwIP); ?>";
 	var jsGwIP = "<?% echo( $LanGwIP); ?>".split(".");
@@ -209,7 +217,11 @@ function populateIPv6Addr(v6addr){
 		title_on: $.i18n("Enable DMZ"),
 		title_off: $.i18n("Disable DMZ"),
 		state: jsEnableDMZ ? "on" : "off"
-	});	
+	});
+	if(!jsEnableDMZ && (jsMaptEnable == "true")){
+                $("#dmz_switch").radioswitch("doEnable", false);
+                $("#save_setting").prop("disabled",true);
+	}
 	$('[id^=dmz_host_address_]').each(function(index){
 		$(this).val(jsHost[index]);
 	});

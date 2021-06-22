@@ -27,6 +27,14 @@
 <?% include('includes/nav.jst'); ?>
 <?%
 $PTEnable=getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+$mapT ="";
+$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+//$mapT = "MAPT";
+$jsMapEnable="false";
+if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+        $jsMapEnable = "true";
+}
 /*if ($_DEBUG) {
 	$PTEnable = "true";
 }*/
@@ -51,6 +59,7 @@ $(document).ready(function() {
 		title_off: $.i18n("Disable port triggering"),
 		state: <?% echo( ($PTEnable === "true" ? "true" : "false")); ?> ? "on" : "off"
 	});
+	var jsMaptEnable = "<?% echo($jsMapEnable); ?>";
 	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
         /*
@@ -86,6 +95,8 @@ $(document).ready(function() {
     }
 	var isUPTRDisabled = $("#pt_switch").radioswitch("getState").on === false;
 	if(isUPTRDisabled) { 
+		if(jsMaptEnable == "true")
+                        $("#pt_switch").radioswitch("doEnable", false);
 		$("a.confirm").off('click');
 		$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 		$("#port-triggering-items").prop("disabled",true).addClass("disabled");
@@ -99,6 +110,8 @@ $(document).ready(function() {
 		var UPTRStatus = $("#pt_switch").radioswitch("getState").on ? "Enabled" : "Disabled";
 		var isUPTRDisabled = $("#pt_switch").radioswitch("getState").on === false;
 		if(isUPTRDisabled) { 
+			if(jsMaptEnable == "true")
+	                        $("#pt_switch").radioswitch("doEnable", false); 
 			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#port-triggering-items").prop("disabled",true).addClass("disabled");

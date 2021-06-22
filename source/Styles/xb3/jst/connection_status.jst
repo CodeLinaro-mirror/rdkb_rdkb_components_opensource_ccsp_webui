@@ -393,8 +393,19 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                 <div class="form-row ">
                     <span class="readonlyLabel" id="wanip4">WAN IP Address (IPv4):</span> <span class="value">
                          <?%
+			$mapT ="";
+			$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+			//$mapT = "MAPT";
+			$jsMapEnable="false";
+			$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+			if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+			        $jsMapEnable = "true";
+			}
                           $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-                          $WANIPv4 = getStr($fistUSif+"IPv4Address.1.IPAddress");
+			if($jsMapEnable == "true")
+				$WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address");
+			else
+                        	$WANIPv4 = getStr($fistUSif+"IPv4Address.1.IPAddress");
                           echo( $WANIPv4);
                          ?>
                     </span>

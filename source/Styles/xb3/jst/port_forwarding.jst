@@ -30,6 +30,7 @@ $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 <?% include('includes/nav.jst'); ?>
 <?% include('includes/utility.jst'); ?>
 <?%
+$mapT ="";
 $PFEnable = "";
 $productLink = "";
 $productLinkText = "";
@@ -46,6 +47,12 @@ if($ModelName == "SR203"){
 	$productLinkText = $productLink;
 	$productLink = 'http://'+$productLink;
 }
+$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+$jsMapEnable="false";
+if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+        $jsMapEnable = "true";
+}
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -59,6 +66,7 @@ $(document).ready(function() {
 		title_off: $.i18n("Disable port forwarding"),
 		state: <?% echo( ($PFEnable === "true" ? "true" : "false")); ?> ? "on" : "off"
 	});
+	var jsMaptEnable = "<?% echo($jsMapEnable); ?>";
 	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
         /*
@@ -95,6 +103,8 @@ $(document).ready(function() {
     }
 	var isUFWDDisabled = $("#pf_switch").radioswitch("getState").on === false;
 	if(isUFWDDisabled) { 
+		if(jsMaptEnable == "true")
+                        $("#pf_switch").radioswitch("doEnable", false);
 		$("a.confirm").off('click');
 		$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 		$("#forwarding-items").prop("disabled",true).addClass("disabled");
@@ -108,6 +118,8 @@ $(document).ready(function() {
 		var UFWDStatus = $("#pf_switch").radioswitch("getState").on ? "Enabled" : "Disabled";
 		var isUFWDDisabled = $("#pf_switch").radioswitch("getState").on === false;
 		if(isUFWDDisabled) { 
+			if(jsMaptEnable == "true")
+                                $("#pf_switch").radioswitch("doEnable", false); 
 			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#forwarding-items").prop("disabled",true).addClass("disabled");

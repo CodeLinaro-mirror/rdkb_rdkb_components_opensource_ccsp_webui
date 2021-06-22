@@ -34,8 +34,19 @@
 	if(!((($autoWanEnable=="true") || ($allowEthWan=="true")) && (($modelName=="CGM4140COM") || ($modelName=="CGM4331COM") || ($modelName=="CGM4981COM") || ($modelName=="TG4482A"))) ){
 		die();
 	}
+	$mapT ="";
+	$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+	//$mapT = "MAPT";
+	$jsMapEnable="false";
+	if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+		$jsMapEnable = "true";
+	}
 	$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-	$WANIPv4 = getStr($fistUSif+"IPv4Address.1.IPAddress");
+	if($jsMapEnable == "true")
+		$WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address");
+	else
+		$WANIPv4 = getStr($fistUSif+"IPv4Address.1.IPAddress");
 	$WANIPv6= getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
 	$wan_enable="";
 	$wnStatus="";
