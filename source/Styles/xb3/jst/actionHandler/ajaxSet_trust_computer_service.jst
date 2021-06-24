@@ -41,9 +41,15 @@ if($validation){
         $TrustedUserValues = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
         $deviceExist = false;
         for(var $keytmp in $TrustedUserValues) { $value=$TrustedUserValues[$keytmp];/*p2j-foreach*/
-            if ($flag['IPAddress'] == $value["IPAddress"] && $flag['HostName'] == $value["HostDescription"]) {
-               $deviceExist = true;
-               $id = $value["__id"];
+            if ( $flag['HostName'] == $value["HostDescription"]) {
+                $deviceExist = true;
+		$id = $value["__id"];
+	        $ipStatus= getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".IPAddressType");
+                if($ipStatus=="IPv4" && $ipAddr[0]!="NA"){
+                    setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".IPAddress", $ipAddr[0], false);
+                }else if($ipStatus=="IPv6" && $ipAddr[1]!="NA"){
+                    setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".IPAddress", $ipAddr[1], false);
+                }
                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".Trusted", $flag['trustFlag'], true);
                break; 
             }
@@ -80,7 +86,7 @@ if($validation){
         $mapping_array  = ["IPAddress", "HostDescription"]/*p2j-array*/;
         $TrustedUserValues = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
         for(var $keytmp in $TrustedUserValues) { $value=$TrustedUserValues[$keytmp];/*p2j-foreach*/
-            if ($flag['IPAddress'] == $value["IPAddress"] && $flag['HostName'] == $value["HostDescription"]) {
+            if ($flag['HostName'] == $value["HostDescription"]) {
                $index = $value["__id"];
                break; 
             }
