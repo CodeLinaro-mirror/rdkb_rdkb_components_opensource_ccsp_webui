@@ -51,6 +51,7 @@ $advanced_tab		= true;
 $wan_network        = true;
 $moca_diagnostics   = true;
 $voice_Dig = false;
+$device_discovery = true;
 $hwselftest_enabled = false;
 $hwselftest = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.hwHealthTest.Enable");
 $partnersId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
@@ -61,7 +62,10 @@ $voice_dev = getStr('Device.DeviceInfo.SoftwareVersion');
  * routing page(mso), dmz page, wizard pages, port fowarding and port triggering pages removed
  */
 if (isset($_SESSION['lanMode']) && $_SESSION["lanMode"] == "bridge-static") {
-	$advanced_tab		= false;
+	$advanced_tab		= true;
+	$remote_management      = true;
+	$dynamic_dns            = false;
+	$device_discovery       = false; 
 	$local_ip_config  	= false;
 	$firewall         	= false;
 	$parental_control 	= false;
@@ -201,7 +205,10 @@ echo( '</li>');
 }
 if($advanced_tab) {
 	echo( '<li class="nav-advanced">');
-		echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="port_forwarding.jst" id="advloc">Advanced</a>');
+		if (isset($_SESSION['lanMode']) && $_SESSION["lanMode"] == "bridge-static")
+			echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="remote_management.jst" id="advloc">Advanced</a>');
+		else
+			echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="port_forwarding.jst" id="advloc">Advanced</a>');
 		echo( '<ul>');
 		if($port_forwarding) echo( '<li class="nav-port-forwarding"><a role="menuitem"  href="port_forwarding.jst">Port Forwarding</a></li>');
 		if($hs_port_forwarding) echo( '<li class="nav-HS-port-forwarding"><a role="menuitem"  href="hs_port_forwarding.jst" id="hsportmess2">HS Port Forwarding</a></li>');
@@ -212,7 +219,7 @@ if($advanced_tab) {
 		if($nat) echo( '<li class="nav-nat"><a role="menuitem"  href="nat.jst">NAT</a></li>');
 		if($routing) echo( '<li class="nav-routing"><a role="menuitem"  href="routing.jst">Routing</a></li>');
 		if($dynamic_dns) echo( '<li class="nav-Dynamic-dns"><a role="menuitem"  href="dynamic_dns.jst" id="dyndnshead2">Dynamic DNS</a></li>');
-		echo( '<li class="nav-device-discovery"><a role="menuitem"  href="device_discovery.jst" id="devdishead">Device Discovery</a></li>');
+	 	if($device_discovery)	echo( '<li class="nav-device-discovery"><a role="menuitem"  href="device_discovery.jst" id="devdishead">Device Discovery</a></li>');
 		if($radius_servers) echo( '<li class="nav-radius-servers"><a role="menuitem"  href="radius_servers.jst">Radius Servers</a></li>');
 		if($local_users)  echo( '<li class="nav-local-users"><a role="menuitem"  href="local_users.jst" id="localuserloc">Local Users</a></li>');
 		echo( '</ul>');
