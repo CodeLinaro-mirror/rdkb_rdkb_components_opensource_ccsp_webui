@@ -22,6 +22,9 @@
 <!-- $Id: at_a_glance.dory.jst 2943 2009-08-25 20:58:43Z slemoine $ -->
 <?%
 session_start();
+$curr_sessID = session_id();
+$curr_IP = $_SESSION['PREV_REMOTEADDR'];
+exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is open from '" + $curr_IP + "' \" ");
 	$sta_batt=getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_batteryBackup.estimatedChargeRemaining");
 	//$sta_batt = "61";
 	//find battery class manually	
