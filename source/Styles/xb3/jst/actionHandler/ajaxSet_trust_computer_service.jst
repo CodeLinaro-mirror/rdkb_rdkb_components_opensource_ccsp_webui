@@ -51,7 +51,6 @@ if($validation){
                     setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".IPAddress", $ipAddr[1], false);
                 }
                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".Trusted", $flag['trustFlag'], true);
-               break; 
             }
         }
         if (!$deviceExist)
@@ -88,10 +87,9 @@ if($validation){
         for(var $keytmp in $TrustedUserValues) { $value=$TrustedUserValues[$keytmp];/*p2j-foreach*/
             if ($flag['HostName'] == $value["HostDescription"]) {
                $index = $value["__id"];
-               break; 
+               setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$index+".Trusted", 'false', true);
             }
         }
-        setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$index+".Trusted", 'false', true);
         //delTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$index+".");
     }
 }
