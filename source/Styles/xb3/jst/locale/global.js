@@ -348,7 +348,7 @@ $("#firwldd3").text($.i18n("NTP (TCP port 119, 123)"));
 $("#firwldd4").text($.i18n("email (TCP port 25, 110, 143, 465, 587, 993, 995)"));
 $("#firwldd5").text($.i18n("VPN (GRE, UDP 500, 4500, 62515, TCP 1723)"));
 $("#firwldd6").text($.i18n("iTunes (TCP port 3689)"));
-$("#firmess1").html($.i18n('<strong>WAN-to-LAN :</strong> Block all unrelated traffic and enable IDS'));
+$("[id^='firmess1']").html($.i18n('<strong>WAN-to-LAN :</strong> Block all unrelated traffic and enable IDS'));
 $("[id^='firmess33']").html($.i18n('<strong>WAN-to-LAN :</strong> Block all unrelated traffic and enable IDS.'));
 $("[id^='firmess2']").html($.i18n("<strong>LAN-to-WAN :</strong> Allow all."));
 $("[id^='firmess3']").html($.i18n("<strong>WAN-to-LAN :</strong> Block as per below and enable IDS."));
