@@ -314,14 +314,6 @@ width:80%;
                   </span>
               </div>
               <div class="form-row odd">
-                  <span class="readonlyLabel" id="dhcp6leasetime">DHCPv6 Lease Time:</span> <span class="value">
-                    <?% 
-                       $dhcpV6_lease_time = php_getstr("Device.DHCPv6.Server.Pool.1.LeaseTime");      
-                       echo( sec2dhms($dhcpV6_lease_time));
-                    ?>
-                  </span>
-              </div>
-              <div class="form-row ">
                   <span class="readonlyLabel" id="ipv6dns">IPV6 DNS:</span> 
                   <span id="v6-dns" class="value" >
                     <?% 
@@ -329,7 +321,7 @@ width:80%;
                     ?>
                   </span>
               </div>            
-              <div class="form-row odd">
+              <div class="form-row ">
                   <span class="readonlyLabel" id="noclients">No of Clients connected:</span> 
                   <span class="value">
                       <?%

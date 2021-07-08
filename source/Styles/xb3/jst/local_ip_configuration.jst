@@ -39,7 +39,6 @@ $device_ctrl_param = {
 	}*//*p2j-array*/;
     //$dhcpv4_value = KeyExtGet("Device.DHCPv4.", $dhcpv4_param);
 $dhcpv6_param = {
-       	"DHCPV6Time" 	: "Device.DHCPv6.Server.Pool.1.LeaseTime",
        	"state" 		: "Device.DHCPv6.Server.X_CISCO_COM_Type",
        	"v6_begin_addr" : "Device.DHCPv6.Server.Pool.1.PrefixRangeBegin",
        	"v6_end_addr" 	: "Device.DHCPv6.Server.Pool.1.PrefixRangeEnd" 
@@ -47,7 +46,6 @@ $dhcpv6_param = {
     $dhcpv6_value = KeyExtGet("Device.DHCPv6.Server.", $dhcpv6_param);
 $LanGwIP    = $device_ctrl_value["LanGwIP"];
 $DHCPTime   = getStr("Device.DHCPv4.Server.Pool.1.LeaseTime");
-$DHCPV6Time = $dhcpv6_value["DHCPV6Time"];
 $ipv6_prefix = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
 $interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
 $DeviceMode = $device_ctrl_value["DeviceMode"];
@@ -108,7 +106,6 @@ $(document).ready(function() {
     //console.log(login_user);
 	var jsGwIP = "<?% echo( $LanGwIP); ?>";
 	var jsLeaseTime = "<?% echo( $DHCPTime); ?>";
-	var jsV6LeaseTime = "<?% echo( $DHCPV6Time); ?>";
 	var old_beginning_ip4 = $("#ipv4_dhcp_beginning_address_4").val();
 	var old_ending_ip4 = $("#ipv4_dhcp_ending_address_4").val();
 	var default_admin_ip ="<?% echo( $default_admin_ip); ?>";
@@ -838,7 +835,7 @@ function calcuate_lease_time(num, unit){
    }
 }
 	display_time_format(jsLeaseTime);
-	display_time_format_V6(jsV6LeaseTime);
+	//display_time_format_V6(jsV6LeaseTime);
 function display_time_format(num){
 	if (num == "") return;
     var timeNum = parseInt(num);
@@ -1327,26 +1324,12 @@ setIPv6configuration(IPv6Config);
 					/<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_9" name="DEA_9" disabled="disabled" value="64"/>
 				<br/>
 				</div> 		
-    		<div class="form-row odd" id="ipv6_dhcp_lease_time">
-    			<label for="ipv6_dhcp_lease_time_amount" id="dhcp6leasetime">DHCPv6 Lease Time:</label>
-    			<input type="text" size="3" maxlength="3" id="ipv6_dhcp_lease_time_amount" name="ipv6_dhcp_lease_time_amount" class="smallInput" />
-                <label for="ipv6_dhcp_lease_time_measure" class="acs-hide"></label>
-                <select id="ipv6_dhcp_lease_time_measure" name="ipv6_dhcp_lease_time_measure">
-    	            <option value="seconds" id="seclocv6">Seconds</option>
-    	            <option value="minutes" id="minlocv6">Minutes</option>
-    	            <option value="hours" id="hrlocv6">Hours</option>
-    	            <option value="days" id="daylocv6">Days</option>
-    	            <option selected value="weeks" id="wklocv6">Weeks</option>
-    	            <option value="forever" id="#foreverlocv6">Forever</option>
-    	        </select>
-		</div>
-		<!-- IPv6 Enable / Disable Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIpv6Enable -->
 		<?%
 			if(strpos($partnerId, "sky-") !== false){
 				$ipv6_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6Enable");
 				$ula_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6UlaEnable");
 		?>
-		<div class="form-row" id='ipv6_enb_dis'>
+		<div class="form-row odd" id='ipv6_enb_dis'>
     			<label for="ipv6_enable" id="locipmess1">IPv6 Enable:</label>
 			<input type="checkbox" id='ipv6_enable' name="ipv6_enable" <?% if($ipv6_enb=='true') echo( 'checked="checked"'); ?>  />
 		</div>
@@ -1363,18 +1346,9 @@ setIPv6configuration(IPv6Config);
 		// $v6_beg_add_arr = explode(':', $v6_begin_addr);
 		?>
 		<div id='ula_dis'>
-		<div class="form-row odd" id='ula_enb_dis'>
+		<div class="form-row " id='ula_enb_dis'>
 	    			<label for="ula_enable" id="locipmess2">ULA Enable:</label>
 			<input type="checkbox" id='ula_enable' name="ula_enable"<?% if($ula_enb=='true') echo( 'checked="checked"'); ?> />
-		</div>
-		<div class="form-row ">
-				<?%
-				    $state = $dhcpv6_value["state"];
-				?>
-				<!-- 	<input type="radio"  name="ULA" value="ula_auto" checked="checked" id="ula_auto" />
-					<label for="ula_auto" class="acs-hide"></label> <b>ULA Prefix(Automatic)</b>
-					<input type="radio"  name="ULA" value="ula_manual" id="ula_manual" />
-					<label for="ula_manual" class="acs-hide"></label> <b>ULA Prefix(Manual)</b> -->
 		</div>
 			<div class="form-row odd">
 	    			<label for="ULA" id="locipmess3">ULA Prefix:</label>

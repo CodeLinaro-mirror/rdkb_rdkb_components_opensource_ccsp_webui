@@ -302,14 +302,6 @@ overflow-wrap: break-word;
                   </span>
               </div>
               <div class="form-row odd">
-                  <span class="readonlyLabel"><?php echo _("DHCPv6 Lease Time:")?></span> <span class="value">
-                    <?php 
-                       $dhcpV6_lease_time = php_getstr("Device.DHCPv6.Server.Pool.1.LeaseTime");      
-                       echo sec2dhms($dhcpV6_lease_time);
-                    ?>
-                  </span>
-              </div>
-              <div class="form-row ">
                   <span class="readonlyLabel"><?php echo _("IPV6 DNS:")?></span> 
                   <span id="v6-dns" class="value" >
                     <?php 
@@ -317,7 +309,7 @@ overflow-wrap: break-word;
                     ?>
                   </span>
               </div>            
-              <div class="form-row odd">
+              <div class="form-row ">
                   <span class="readonlyLabel"><?php echo _("No of Clients connected:")?></span> 
                   <span class="value">
                       <?php

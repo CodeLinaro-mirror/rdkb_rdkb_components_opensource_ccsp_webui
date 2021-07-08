@@ -97,7 +97,6 @@ else{
 		$validation = true;
 		if($validation) $validation = (preg_match("/^([0-9a-f]{1,4}:){3}[0-9a-f]{1,4}$/i", $ip_config['dhcpv6_begin_addr'])==1);
 		if($validation) $validation = (preg_match("/^([0-9a-f]{1,4}:){3}[0-9a-f]{1,4}$/i", $ip_config['dhcpv6_end_addr'])==1);
-		if($validation) $validation = (isValInRange($ip_config['dhcpv6_lease_time'], 120, 604195200) || $ip_config['dhcpv6_lease_time'] == '-1');
 		if($validation){
 	        getStr("Device.IP.Interface.1.IPv6Prefix.1."); //this line if a trick fix for Yan's framework bug, may delete in future 
 			setStr("Device.RouterAdvertisement.InterfaceSetting.1.AdvManagedFlag", "true", true);
@@ -122,7 +121,6 @@ else{
 		$validation = true;
 		if($validation) $validation = (preg_match("/^([0-9a-f]{1,4}:){3}[0-9a-f]{1,4}$/i", $ip_config['dhcpv6_begin_addr'])==1);
 		if($validation) $validation = (preg_match("/^([0-9a-f]{1,4}:){3}[0-9a-f]{1,4}$/i", $ip_config['dhcpv6_end_addr'])==1);
-		if($validation) $validation = (isValInRange($ip_config['dhcpv6_lease_time'], 120, 604195200) || $ip_config['dhcpv6_lease_time'] == '-1');
 		if($validation){
 			setStr("Device.RouterAdvertisement.InterfaceSetting.1.AdvManagedFlag", "false", true);
 			if(strpos($partnerId, "sky-") !== false){

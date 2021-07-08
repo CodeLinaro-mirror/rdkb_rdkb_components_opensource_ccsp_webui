@@ -226,13 +226,6 @@ function sec2dhms($sec)
 		</span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel"><?php echo _('DHCP Lease Expire Time (IPv6):')?></span> <span class="value">
-		<?php
-			echo $DHCP_LET_IPv6;
-		?>		
-		</span>
-	</div>
-	<div class="form-row odd">
 		<span class="readonlyLabel"><?php echo _('WAN MAC:')?></span>
 		<span class="value">
 			<?php echo strtoupper(getStr(getStr(getStr($fistUSif."LowerLayers").".LowerLayers").".MACAddress")); ?>

@@ -1313,27 +1313,13 @@ $('#restore_ipv6').click(function(e) {
 					/<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_9" name="DEA_9" disabled="disabled" value="64"/>
 				<br/>
 				</div> 		
-    		<div class="form-row odd" id="ipv6_dhcp_lease_time">
-    			<label for="ipv6_dhcp_lease_time_amount"><?php echo _('DHCPv6 Lease Time:')?></label>
-    			<input type="text" size="3" maxlength="3" id="ipv6_dhcp_lease_time_amount" name="ipv6_dhcp_lease_time_amount" class="smallInput" />
-                <label for="ipv6_dhcp_lease_time_measure" class="acs-hide"></label>
-                <select id="ipv6_dhcp_lease_time_measure" name="ipv6_dhcp_lease_time_measure">
-    	            <option value="seconds"><?php echo _('Seconds')?></option>
-    	            <option value="minutes"><?php echo _('Minutes')?></option>
-    	            <option value="hours"><?php echo _('Hours')?></option>
-    	            <option value="days"><?php echo _('Days')?></option>
-    	            <option selected value="weeks"><?php echo _('Weeks')?></option>
-    	            <option value="forever"><?php echo _('Forever')?></option>
-    	        </select>
-		</div>
-    		<!-- IPv6 Enable / Disable Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIpv6Enable -->
     		<?php
     				if(strpos($partnerId, "sky-") !== false){
     					$ipv6_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6Enable");
     		  			$ula_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6UlaEnable");
 
     		?>
-    		<div class="form-row" id='ipv6_enb_dis'>
+    		<div class="form-row odd" id='ipv6_enb_dis'>
     			<label for="ipv6_enable"><?php echo _('IPv6 Enable:')?></label>
     			<input type="checkbox" id='ipv6_enable' name="ipv6_enable" <?php if($ipv6_enb=='true') echo 'checked="checked"'; ?>  />
     		</div>
@@ -1350,19 +1336,10 @@ $('#restore_ipv6').click(function(e) {
 			      // $v6_beg_add_arr = explode(':', $v6_begin_addr);
 			    ?>
 	    	<div id='ula_dis'>
-	    		<div class="form-row odd" id='ula_enb_dis'>
+	    		<div class="form-row " id='ula_enb_dis'>
 	    			<label for="ula_enable"><?php echo _('ULA Enable:')?></label>
 	    			<input type="checkbox" id='ula_enable' name="ula_enable"<?php if($ula_enb=='true') echo 'checked="checked"'; ?> />
 	    		</div>
-	    		<div class="form-row ">
-				<?php
-				    $state = $dhcpv6_value["state"];
-				?>
-				       <!-- 	<input type="radio"  name="ULA" value="ula_auto" checked="checked" id="ula_auto" />
-					<label for="ula_auto" class="acs-hide"></label> <b><?php echo _('ULA Prefix(Automatic)')?></b>
-					<input type="radio"  name="ULA" value="ula_manual" id="ula_manual" />
-					<label for="ula_manual" class="acs-hide"></label> <b><?php echo _('ULA Prefix(Manual)')?></b> -->
-				</div>
 	    		<div class="form-row odd">
 	    			<label for="ULA"><?php echo _('ULA Prefix:')?></label>
 	    				<input type="text"  class="ipv6-input" size="2" minlength="4"  maxlength="4"  id="ULA_1" name="ULA_1"  value="<?php if($ula_size > 1) echo $ula_v6_prefix_arr[0]; else echo "0"; ?>" />
