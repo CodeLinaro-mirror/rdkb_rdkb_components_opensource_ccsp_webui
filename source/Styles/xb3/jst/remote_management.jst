@@ -613,7 +613,7 @@ $(".btn").click(function(){
 		var startIP_single=$("#ip_address_1").val()+"."+$("#ip_address_2").val()+"."+$("#ip_address_3").val()+"."+$("#ip_address_4").val();
 		var startIP_Compare=$("#rangeip_address_1").val()+"."+$("#rangeip_address_2").val()+"."+$("#rangeip_address_3").val()+"."+$("#rangeip_address_4").val();
 		var endIP_Compare=$("#endip_address_1").val()+"."+$("#endip_address_2").val()+"."+$("#endip_address_3").val()+"."+$("#endip_address_4").val();
-		if(allowtype_Compare == "single"){
+		/*if(allowtype_Compare == "single"){
 			if( (snetCal.toDeci(startIP_single) > snetCal.toDeci(ipv4_rlow)) && (snetCal.toDeci(startIP_single) < snetCal.toDeci(ipv4_rhigh)) ){
 				alertLocale("Invalid IPv4 Address.");
 				return;
@@ -627,7 +627,7 @@ $(".btn").click(function(){
 				alertLocale("Invalid IPv4 End Address.");
 				return;
 			}
-		}
+		}*/
 	}
 	// if($("#pageForm").valid()) {	
 		jProgress($.i18n("This will take several seconds!"), 60);

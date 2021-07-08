@@ -43,6 +43,8 @@ if($validation)
 if($validation)
 	if(!($_POST['endIPv6'] == 'x' || $_POST['endIPv6'] == 'notset'))
 		$validation = validIPAddr($_POST['endIPv6']);
+if($validation && ($_POST['startIP'] == "0.0.0.0" || $_POST['endIP'] == "0.0.0.0"))
+        $validation = false;
 //if($validation) $validation = isValInArray($_POST['mso_mgmt'], array('true', 'false', 'notset'));
 //if($validation) $validation = isValInArray($_POST['cus_mgmt'], array('true', 'false', 'notset'));
 if($validation) $validation = isValInArray($_POST['https'], ['true', 'false', 'notset']/*p2j-array*/);
