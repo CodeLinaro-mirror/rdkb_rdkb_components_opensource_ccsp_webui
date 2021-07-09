@@ -936,7 +936,7 @@
  "Invalid IPv4 End Address.":"Indirizzo di fine IPv4 non valido.",
  "This will take several seconds!":"L'operazione richiederà alcuni secondi.",
  "Advanced > Remote Management":"Avanzate > Gestione remota",
- "Remote Management allows the gateway to be remotely accessed by a customer account representative to perform troubleshooting or maintenance.":"La gestione remota consente l'accesso remoto al tuo Sky Wifi Hub per risolvere dei problemi o effettuare interventi di manutenzione.",
+ "Remote Management allows the gateway to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.":"La gestione remota consente l'accesso remoto al tuo Sky Wifi Hub per risolvere dei problemi o effettuare interventi di manutenzione.",
  "Remote Management can be used via HTTP and HTTPS.":"La gestione remota può essere utilizzata tramite HTTP e HTTPS.",
  "Enable the HTTP option and enter the value for HTTP Port, then you can access your device from HTTP. For example, if the WAN IP address is 11.22.11.22 and the HTTP port number is 8080, then you would use http://11.22.11.22:8080":"Attivando l'opzione HTTP e inserendo il numero di porta HTTP, è possibile accedere al dispositivo da HTTP. Ad esempio, se l'indirizzo IP WAN è 11.22.11.22 e il numero di porta HTTP è 8080, si può utilizzare http://11.22.11.22:8080",
  "It's the same way to configure HTTPS.":"La procedura è la stessa per la configurazione HTTPS.",
