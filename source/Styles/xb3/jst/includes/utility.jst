@@ -473,12 +473,7 @@ for($k=0;$k<$data.length;$k++){
 }
 $UTC_Enable = getStr("Device.Time.UTC_Enable");
 
-if(strpos($partnerId, "sky-") !== false){
-	$UTC_local_Time_conversion = ($UTC_Enable === true) ? true : false ;
-	}
-else{
-	$UTC_local_Time_conversion = ($UTC_Enable === 'true') ? true : false ;
-	}
+$UTC_local_Time_conversion = ($UTC_Enable === 'true') ? true : false ;
 //$UTC_local_Time_conversion = ($UTC_Enable === true) ? true : false ;
 //MROLLINS FIXME - setting this false because I cannot get days_time_conversion_get which calls group_2D_array, to work, when table fields are blank
 //Remove this 4 Line FIXME Block once fixed
