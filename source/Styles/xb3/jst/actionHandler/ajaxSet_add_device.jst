@@ -135,7 +135,15 @@ $deviceInfo = json_decode($_POST['DeviceInfo'], true);
 $result     = "";
 $validation = true;
 if($validation) $validation = printableCharacters($deviceInfo['hostName']);
-$new_hostName = str_replace(('<>&"\'|').split(""), '', $deviceInfo['hostName']);
+var k = $deviceInfo['hostName'].split("");
+var str = "";
+for (i=0;i<k.length;i++){
+		if(k[i] == '<' || k[i] == '>' || k[i] == "'" || k[i]== '&' || k[i]=='"'|| k[i]== '|')
+				continue;
+		else
+				str += k[i];
+}
+$new_hostName = str;
 if($validation) $validation = validMAC($deviceInfo['macAddress']);
 if($validation) $validation = validIPAddr($deviceInfo['reseverd_ipAddr']);
 if($validation) $validation = printableCharacters($deviceInfo['Comments']);
