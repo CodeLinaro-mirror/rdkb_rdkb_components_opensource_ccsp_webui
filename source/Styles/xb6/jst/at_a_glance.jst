@@ -88,6 +88,17 @@ session_start();
 	$wan_enable= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");	
 	$autoWanEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_AutowanFeatureSupport");
         $currentOpMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.CurrentOperationalMode");
+	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+	if (strpos($partnerId, "sky-") !== false) {
+		$MoCA = false;
+		$voice_line = "";
+		$voice_line = getStr('Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable');
+		$voice_lbl = false;
+		if($voice_line == 'Enabled'){$voice_lbl = true;}
+	} else {
+		$MoCA = true;
+		$voice_lbl = false;
+	}
 	?>
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -105,6 +116,10 @@ $(document).ready(function() {
     if(login_user == "admin") {
     	$('.div-bridge').remove();
     }*/
+    var partnerId = "<?% echo ($partnerId); ?>";
+    if (partnerId.indexOf("sky-") !== -1) {
+        $('.div-bridge').remove();
+    }
     var brandName = "<?% echo( $brandName); ?>";
     var productName = "<?% echo( $productName); ?>";
 	<?% $bridge_mode = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode"); ?>
@@ -200,36 +215,21 @@ function popUp(URL) {
 	//Only do WiFi SSID check if we are not in power saving mode
 	if ("Disabled"==$_SESSION["psmMode"]) {
 		//Assumes that private network is always SSID's 1 and 2
-		$frequency_band = "";
-		$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
-		if (strstr($frequency_band,"2.4G")) {
-			$wifi_param = {
-			        "wifi_24_enabled" 	: "Device.WiFi.SSID.1.Enable",
-				"wifi_24_ssid" 		: "Device.WiFi.SSID.1.SSID",
-				"wifi_24_passkey" 	: "Device.WiFi.AccessPoint.1.Security.X_COMCAST-COM_KeyPassphrase",
-				"wifi_24_secmode" 	: "Device.WiFi.AccessPoint.1.Security.ModeEnabled",
-				"wifi_50_enabled" 	: "Device.WiFi.SSID.2.Enable",
+		//$frequency_band = "";
+		//$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
+		$wifi_param = {
+			        "wifi_50_enabled" 	: "Device.WiFi.SSID.2.Enable",
 				"wifi_50_ssid" 		: "Device.WiFi.SSID.2.SSID",
 				"wifi_50_passkey" 	: "Device.WiFi.AccessPoint.2.Security.X_COMCAST-COM_KeyPassphrase",
 				"wifi_50_secmode" 	: "Device.WiFi.AccessPoint.2.Security.ModeEnabled",
-			        "wifi_24_radio" 	: "Device.WiFi.Radio.1.Enable",
-			        "wifi_50_radio" 	: "Device.WiFi.Radio.2.Enable" 
+				"wifi_24_enabled" 	: "Device.WiFi.SSID.1.Enable",
+				"wifi_24_ssid" 		: "Device.WiFi.SSID.1.SSID",
+				"wifi_24_passkey" 	: "Device.WiFi.AccessPoint.1.Security.X_COMCAST-COM_KeyPassphrase",
+				"wifi_24_secmode" 	: "Device.WiFi.AccessPoint.1.Security.ModeEnabled",
+			        "wifi_50_radio" 	: "Device.WiFi.Radio.2.Enable",
+			        "wifi_24_radio" 	: "Device.WiFi.Radio.1.Enable" 
 			}/*p2j-array*/;
-		} else {
-			$wifi_param = {
-			        "wifi_50_enabled" 	: "Device.WiFi.SSID.1.Enable",
-				"wifi_50_ssid" 		: "Device.WiFi.SSID.1.SSID",
-				"wifi_50_passkey" 	: "Device.WiFi.AccessPoint.1.Security.X_COMCAST-COM_KeyPassphrase",
-				"wifi_50_secmode" 	: "Device.WiFi.AccessPoint.1.Security.ModeEnabled",
-				"wifi_24_enabled" 	: "Device.WiFi.SSID.2.Enable",
-				"wifi_24_ssid" 		: "Device.WiFi.SSID.2.SSID",
-				"wifi_24_passkey" 	: "Device.WiFi.AccessPoint.2.Security.X_COMCAST-COM_KeyPassphrase",
-				"wifi_24_secmode" 	: "Device.WiFi.AccessPoint.2.Security.ModeEnabled",
-			        "wifi_50_radio" 	: "Device.WiFi.Radio.1.Enable",
-			        "wifi_24_radio" 	: "Device.WiFi.Radio.2.Enable" 
-			}/*p2j-array*/;
-		}
-            $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
+		$wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
 		$wifi_24_enabled = $wifi_value["wifi_24_enabled"];
 		$wifi_24_ssid = htmlspecialchars($wifi_value["wifi_24_ssid"], ENT_NOQUOTES, 'UTF-8');
 		$wifi_24_passkey = htmlspecialchars($wifi_value["wifi_24_passkey"], ENT_NOQUOTES, 'UTF-8');
@@ -240,6 +240,22 @@ function popUp(URL) {
 		$wifi_50_secmode = htmlspecialchars($wifi_value["wifi_50_secmode"], ENT_NOQUOTES, 'UTF-8');
 		$wifi_24_radio = $wifi_value["wifi_24_radio"];
 		$wifi_50_radio = $wifi_value["wifi_50_radio"];
+                if($OperatingChannelBandwidth == "6GHz")
+		{
+			$wifi_60_enabled = getStr("Device.WiFi.SSID.15.Enable");
+			$wifi_60_ssid = htmlspecialchars(getStr("Device.WiFi.SSID.15.SSID"), ENT_NOQUOTES, 'UTF-8');
+			$wifi_60_passkey = htmlspecialchars(getStr("Device.WiFi.AccessPoint.15.Security.SAEPassphrase"), ENT_NOQUOTES, 'UTF-8');
+			$wifi_60_secmode = htmlspecialchars(getStr("Device.WiFi.AccessPoint.15.Security.ModeEnabled"), ENT_NOQUOTES, 'UTF-8');
+			$wifi_60_radio = getStr("Device.WiFi.Radio.3.Enable");
+                        
+			$radioenable=($bridge_mode == "router" && ("true" == $wifi_24_enabled || "true" == $wifi_50_enabled || "true" == $wifi_60_enabled) && ("true" == $wifi_24_radio || "true" == $wifi_50_radio || "true" == $wifi_60_radio));
+			$activeradio=((($wifi_24_ssid == $wifi_50_ssid) && ($wifi_24_passkey == $wifi_50_passkey) && ($wifi_24_ssid == $wifi_60_ssid) && ($wifi_24_passkey == $wifi_60_passkey)) || !("true" == $wifi_24_enabled && "true" == $wifi_50_enabled && "true" == $wifi_60_enabled) || !("true" == $wifi_24_radio && "true" == $wifi_50_radio && "true" == $wifi_60_radio)); 
+		}
+		else
+		{
+			$radioenable=($bridge_mode == "router" && ("true" == $wifi_24_enabled || "true" == $wifi_50_enabled) && ("true" == $wifi_24_radio || "true" == $wifi_50_radio));
+			$activeradio=((($wifi_24_ssid == $wifi_50_ssid) && ($wifi_24_passkey == $wifi_50_passkey)) || !("true" == $wifi_24_enabled && "true" == $wifi_50_enabled) || !("true" == $wifi_24_radio && "true" == $wifi_50_radio));
+		}
 		//If at least one private SSID is enabled
 		if ( $bridge_mode == "router" && ("true" == $wifi_24_enabled || "true" == $wifi_50_enabled) && ("true" == $wifi_24_radio || "true" == $wifi_50_radio)) {
 			echo( '<div class="module forms" id="wifi-config">');
@@ -302,6 +318,22 @@ function popUp(URL) {
 						}
 					echo( '</div>');
                     }
+                     if($OperatingChannelBandwidth == "6GHz")
+                    {
+                    	if ("true" == $wifi_60_enabled && "true" == $wifi_60_radio){
+					echo( '<div class="form-row ">');
+						echo( '<div class="form-row">');
+							echo( '<span class="readonlyLabel" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi SSID (6 GHz):</span>');
+							echo( '<span class="value" style="white-space: pre;">');echo( $wifi_60_ssid);echo( '</span>');
+						echo( '</div>');
+						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_60_secmode) { 
+							echo( '<div class="form-row">');
+								echo( '<span class="readonlyLabel" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi Passkey (6 GHz):</span>');
+								echo( '<span class="value" style="white-space: pre;">');echo( $wifi_60_passkey);echo( '</span>');
+							echo( '</div>');
+						}
+					echo( '</div>');
+                    		}
 			}
 			echo( '</div>');
 		}
@@ -368,16 +400,20 @@ function popUp(URL) {
 				} else {
 					echo( "<div class=\"form-row odd off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='WiFi Off' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>");
 				}
-				if ($sta_moca == "true") {
-					echo( "<div class=\"form-row\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA On' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
-				} else {
-					echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
+				if ($MoCA) {
+					if ($sta_moca == "true") {
+						echo( "<div class=\"form-row\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA On' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
+					} else {
+						echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
+					}
 				}
 			}
 			else {
 				echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='Ethernet Off' /></span> <span class=\"readonlyLabel\">Ethernet</span></div>");
 				echo( "<div class=\"form-row odd off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='WiFi Off' /></span> <span class=\"readonlyLabel\">Wi-Fi</span></div>");
-				echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
+				if ($MoCA) {
+					echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
+				}
 			}
 			?>
 			<div class="form-row odd">
