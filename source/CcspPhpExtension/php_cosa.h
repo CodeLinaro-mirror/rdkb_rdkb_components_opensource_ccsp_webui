@@ -42,6 +42,7 @@
 #include <pthread.h>
 #include <ccsp_message_bus.h>
 #include <ccsp_base_api.h>
+#include "dslh_definitions_database.h"
 #include <sys/time.h>
 #include <time.h>
 #include <signal.h>
@@ -81,8 +82,8 @@ PHP_FUNCTION(DmExtGetInstanceIds);
 //#define CONF_FILENAME   "msg_daemon.cfg"
 #define CONF_FILENAME   "/tmp/ccsp_msg.cfg"
 
-#ifndef  CCSP_COMPONENT_ID_WebUI
-    #define  CCSP_COMPONENT_ID_WebUI                0x00000001
+#ifndef  DSLH_MPA_ACCESS_CONTROL_WEBUI
+    #define  DSLH_MPA_ACCESS_CONTROL_WEBUI                0x00000001
 #endif
 
 #ifndef SAFEC_DUMMY_API

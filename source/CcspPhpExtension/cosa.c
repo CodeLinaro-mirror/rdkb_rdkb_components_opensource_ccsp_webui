@@ -785,7 +785,7 @@ PHP_FUNCTION(setStr)
                 ppDestComponentName,
                 ppDestPath,
                 0,
-                CCSP_COMPONENT_ID_WebUI,
+                DSLH_MPA_ACCESS_CONTROL_WEBUI,
                 structSet,
                 1,
                 bDbusCommit,
@@ -1591,7 +1591,7 @@ PHP_FUNCTION(DmExtSetStrsWithRootObj)
                 pDestComponentName,
                 pDestPath,
                 0,
-                CCSP_COMPONENT_ID_WebUI,
+                DSLH_MPA_ACCESS_CONTROL_WEBUI,
                 pParameterValList,
                 iIndex,         /* use the actual count, instead of iParamCount */
                 bDbusCommit,
