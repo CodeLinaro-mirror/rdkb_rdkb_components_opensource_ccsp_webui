@@ -48,6 +48,18 @@ source /lib/rdk/t2Shared_api.sh
 #else
 #	echo "WEBGUI SRC does not exist!"
 #fi
+if [ -z $1 ] && [ ! -f /tmp/webuifwbundle ]; then
+    fwbundlename=$(basename `find /etc/ -name "webui-cert-bundle*.tar"`)
+    if [ ! -f /nvram/certs/myrouter.io.cert.pem ] || [ -f /etc/$fwbundlename ]; then
+        if [ -f /lib/rdk/check-webui-update.sh ]; then
+            sh /lib/rdk/check-webui-update.sh
+        else
+            echo "check-webui-update.sh not available means webuiupdate support is disabled"
+        fi
+    else
+        echo "certificate /nvram/certs/myrouter.io.cert.pem or webui bundle not available"
+    fi
+fi
 
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
