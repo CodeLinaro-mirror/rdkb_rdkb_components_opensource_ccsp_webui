@@ -77,10 +77,10 @@ $(document).ready(function() {
 	});
 	 <?%
 		if ($bridge_mode == "bridge-static" ) {
-			echo( '$("#wan_switch").children(".rs_radiolist").addClass("disabled_state");');
-			echo( '$("#wan_switch").data("radioswitchstates", "false");');
-			echo( '$("#autowan").prop("disabled", true);');
-			echo( '$("#save").prop("disabled", true);');
+			echo( '$("#wan_switch").children(".rs_radiolist").addClass("enabled_state");');
+			echo( '$("#wan_switch").data("radioswitchstates", "true");');
+			echo( '$("#autowan").prop("enabled", true);');
+			echo( '$("#save").prop("enabled", true);');
 		}
 	?>	
 	$("#wan_switch").change(function()
@@ -95,7 +95,7 @@ $(document).ready(function() {
 						changeMode(jsConfig);
 					} //end of if ret
 					else {
-						$("#wan_switch").radioswitch("doSwitch", "off");
+						$("#wan_switch").radioswitch("doSwitch", "on");
 					}
 				});//end of jConfirm
 		}
@@ -247,14 +247,6 @@ function changeMode(jsConfig){
 		<?%
 		}
 		?>
-		<?%
-            if($bridge_mode=="bridge-static"){
-		?>
-		    <p class="error">Ethernet WAN mode is not supported in bridge mode. Disable Bridge mode to enable Ethernet WAN mode.</p>
-            
-        <?%
-           }
-           ?> 
            <?%
 		if($autoWanEnable=="true"){
 			?>

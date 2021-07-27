@@ -86,6 +86,7 @@ $failedAttempt=parseInt(getStr("Device.Users.User.3.NumOfFailedAttempts"));
 $failedAttempt_mso=parseInt(getStr("Device.Users.User.1.NumOfFailedAttempts"));
 $passLockoutAttempt=parseInt(getStr("Device.UserInterface.PasswordLockoutAttempts"));
 $passLockoutTime=getStr("Device.UserInterface.PasswordLockoutTime");
+$lanMode=getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode");
 $currentOpMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.CurrentOperationalMode");
 $passLockoutTimeMins=$passLockoutTime/(1000*60);
 $client_ip = $_SERVER["REMOTE_ADDR"];       // $client_ip="::ffff:10.0.0.101";
@@ -459,6 +460,9 @@ PHP_SESSION_ACTIVE = 2;
 					if( $remoteAcess && ($httpRemoteEnable || $httpsRemoteEnable) && (($server_port==$httpRemotePort)|| ($server_port==$httpsRemotePort))){
 							return "rm_ip";
 					}
+				}
+				if($lanMode=="bridge-static"){
+					return "rm_ip";
 				}
 				return "eth_ip";
 			}else{
