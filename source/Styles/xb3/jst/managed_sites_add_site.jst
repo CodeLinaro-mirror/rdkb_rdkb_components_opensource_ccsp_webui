@@ -187,7 +187,11 @@ $(document).ready(function() {
             <input type="text" value="" id="url" name="url" class="text" size="50" />
          </div>
          <div class="form-row">
-            <label for="on" id="addblcmpmess3">Always Block?</label>
+	 <?%
+                if(strpos($partnerId, "sky-") !== false){$fieldname='Blocca sempre';}
+                else{$fieldname='Always Block?';}
+            ?>
+            <label for="on" id="addblcmpmess3"><?% echo($fieldname); ?></label>
 			<span id="always_switch"></span>
          </div>
         <div id="block-time">
