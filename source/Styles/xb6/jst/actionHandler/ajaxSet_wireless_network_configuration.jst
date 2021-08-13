@@ -145,6 +145,8 @@ else
 				if($validation) $validation = isValInArray($arConfig['channel_bandwidth'], ['20MHz', '40MHz', '80MHz']/*p2j-array*/);
 				if($validation) $validation = isValInArray($arConfig['guard_interval'], ['400nsec', '800nsec', 'Auto']/*p2j-array*/);
 				if($validation){
+					setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable", $arConfig['DFS_enabled'], true);
+                                        setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp.Enable", $arConfig['DFS_boot_enabled'], true);
 					setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_CTSProtectionMode", $arConfig['BG_protect_mode'], false);
 					setStr("Device.WiFi.Radio."+$r+".X_COMCAST_COM_IGMPSnoopingEnable", $arConfig['IGMP_Snooping'], false);
 					if(!$Mesh_Mode) setStr("Device.WiFi.Radio."+$r+".OperatingChannelBandwidth", $arConfig['channel_bandwidth'], false);
