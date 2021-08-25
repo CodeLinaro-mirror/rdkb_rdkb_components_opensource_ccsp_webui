@@ -78,7 +78,7 @@ $wifi_param = {
 	"DefaultSSID"		: "Device.WiFi.SSID."+$id+".X_COMCAST-COM_DefaultSSID",
 	"DefaultKeyPassphrase"	: "Device.WiFi.AccessPoint."+$id+".Security.X_COMCAST-COM_DefaultKeyPassphrase",
 	"AccessPoint_4_Enable"	: "Device.WiFi.AccessPoint.4.Enable",
-	"SupportedStandards"	: "Device.WiFi.Radio."+$rf+".SupportedStandards",
+	"SupportedStandards"	: "Device.WiFi.Radio."+$id+".SupportedStandards",
 	"DFS_Support1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSSupport", //1-supported 0-not supported
 	"DFS_Enable1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSEnable" 
 	}/*p2j-array*/;
@@ -165,15 +165,9 @@ if ("WPA2-Personal" == $encrypt_mode){
 	if ("TKIP" == $encrypt_method){
 		$security = "WPA2_PSK_TKIP";
 	}
-	else if ("AES" == $encrypt_method){
+	else{
 		$security = "WPA2_PSK_AES";
 	}
-	else{
-		$security = "WPA2_PSK_TKIPAES";
-	}
-}else if ("WPA3-Personal" == $encrypt_mode){
-    if ("AES" == $encrypt_method)
-        $security = "WPA3_SAE_AES";
 }
 else{
 		$security = "None";
@@ -183,7 +177,6 @@ $password_mso_user = !(($id == 1 || $id == 2) && ($_SESSION["loginuser"] == "mso
 $brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
 $productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
-$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 ?>
 <style>
 #tip_security_mode {
@@ -265,9 +258,6 @@ $(document).ready(function() {
     gateway.page.init("Gateway > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
-	var radio_check = '<?% echo( $radio_band); ?>';
-	var partner_ID = '<?% echo ($partnerId);?>';
-	if(radio_check =='6' && partner_ID =='sky-uk'){$("#tip_security_mode").remove();}
 	$("#wireless_network_switch").radioswitch({
 		id: "wireless-network-switch",
 		radio_name: "wireless_network",
@@ -918,18 +908,8 @@ function setResetInfo(info) {
 	<div id="educational-tip">
 		<p class="tip">Manage your <?% echo( $radio_band); ?> GHz network settings.</p>
 		<p class="hidden"><strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Gateway, but can be changed for easier identification.</p>
-		<?%
-		if($id == 15)
-		{
-		?>
-		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in ax modes.</p>
-		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
-		<?%
-                }else
-		{?>
-		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in <?% echo($supported_mode); ?> modes.</p>
-		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>		
-		<?%}?>
+		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in a/n/ac modes.</p>
+		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
 		<p class="hidden"><strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Gateway will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used.</p>
 		<p class="hidden"><strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Gateway. </p>
 		<p class="hidden"><strong>Broadcast Network Name (SSID):</strong>  If enabled, the Network Name (SSID) will be shown in the list of available networks. (If unchecked, you'll need to enter the exact Network Name (SSID) to connect.)</p>
@@ -980,11 +960,6 @@ function setResetInfo(info) {
 						echo( '<option value="n" ');     echo( (    "n"==$wireless_mode)? 'selected':''); echo('>802.11 n</option>');
 						echo( '<option value="a,n" ');   echo( (  "a,n"==$wireless_mode)? 'selected':''); echo('>802.11 a/n</option>');
 					}
-				}else if("6"==$radio_band)
-				{
-					if (strstr($supported_mode, "ax")){
-						echo( '<option value="ax" '); echo( ("ax"==$wireless_mode)? 'selected':''); echo('>802.11 ax</option>');
-					}
 				}
 				else {
 					if (strstr($supported_mode, "ax")){
@@ -1004,33 +979,18 @@ function setResetInfo(info) {
 		<div class="form-row">
 			<label for="security">Security Mode:</label>
 			<select name="encryption_method" id="security">
-				<option value="None" title="Open networks do not have a password." <?% if ("None"==$security) echo( "selected");?> >Open (risky)</option>
-				<option value="WPA2_PSK_TKIP" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIP"==$security)       echo( "selected");?> >WPA2-PSK (TKIP)</option>
-				<option value="WPA2_PSK_AES"title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES) (Recommended)</option>
-				<option value="WPA2_PSK_TKIPAES" id="secmode6" title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA2-PSK (TKIP/AES)</option>
-				<option value="WPAWPA2_PSK_TKIPAES" id="secmode4" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPAWPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA WPA2-PSK (TKIP/AES)</option>
-                                <?%
-					if($id == 15){?>
-						<option value="WPA3_SAE_AES" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA3_SAE_AES"==$security)  echo( "selected");?> >WPA3-SAE (AES) </option>
-					<?%}?>                                
+				<option value="None" 				title="Open networks do not have a password." 			<?% if ("None"==$security) echo( "selected");?> >Open (risky)</option>
+				<option value="WPA2_PSK_TKIP" 		title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIP"==$security)       echo( "selected");?> >WPA2-PSK (TKIP)</option>
+				<option value="WPA2_PSK_AES" 		title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_AES"==$security)        echo( "selected");?> >WPA2-PSK (AES) (Recommended)</option>
 				</select>
 			<p id="tip_security_mode" class="footnote">
 			<?%
-				if ("5"==$radio_band){
-					if(strstr($supported_mode, "ax")){
-						echo('Please note 802.11 a/n/ac/ax mode only compatible with AES and None encryption!!');
-					}
-					else if(strstr($supported_mode, "ac")){
-						echo('Please note 802.11 n/ac mode only compatible with AES and None encryption!!');
-					}
+				if ("5"==$radio_band && strstr($supported_mode, "ac")){
+
+					echo( 'Please note 802.11 n/ac mode only compatible with AES and None encryption!!');
 				}
-				else if("2.4"==$radio_band){
-					if(strstr($supported_mode, "ax")){
-						echo('Please note 802.11 g/n/ax mode only compatible with AES and None encryption!!');
-					}
-					else{
-						echo('Please note 802.11 n mode only compatible with AES and None encryption!!');
-					}
+				else{
+					echo( 'Please note 802.11 n mode only compatible with AES and None encryption!!');
 				}
 			?>
 			</p>
@@ -1062,18 +1022,6 @@ function setResetInfo(info) {
 			<input type="radio"  name="channel_bandwidth" value="20MHz" id="channel_bandwidth20" checked="checked" /><b>20</b>
 			<label for="channel_bandwidth" class="acs-hide"></label>
 			<input type="radio"  name="channel_bandwidth" value="40MHz" id="channel_bandwidth" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
-                <?% } else if($radio_band == "6" )
-		{ ?>
-			<label for="channel_bandwidth201">Channel Bandwidth:</label>
-			<input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth201" <?% if ("20MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20</b>
-			<?% if (strstr($supported_mode, "ax")){ ?>
-				<label for="channel_bandwidth1" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="40MHz"  id="channel_bandwidth1" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
-				<label for="channel_bandwidth2" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth2" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
-				<label for="channel_bandwidth3" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth3" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
-			<?%  } ?>
 		<?% } else { ?>
 			<label for="channel_bandwidth201">Channel Bandwidth:</label>
 			<input type="radio"  name="channel_bandwidth1" value="20MHz" id="channel_bandwidth201" checked="checked" /><b>20</b>

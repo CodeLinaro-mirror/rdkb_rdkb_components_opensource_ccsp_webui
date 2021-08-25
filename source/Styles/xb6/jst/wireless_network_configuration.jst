@@ -37,18 +37,6 @@ $Mesh_Enable 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.E
 $Mesh_State 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.State");
 $Mesh_Mode = ($Mesh_Enable == 'true' && $Mesh_State == 'Full')?'true':'false';
 $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable");
-$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-$OperatingChannelBandwidth="";
-$RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
-if($RadioNumberOfEntries)
-{
-	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
-	{
-		$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
-		if($OperatingChannelBandwidth == "6GHz")
-			break;
-	}
-}
 /*********************get WiFi parameters***************************/
 $wifi_param = {
 	"feq_band" 			: "Device.WiFi.Radio.1.OperatingFrequencyBand",
@@ -367,14 +355,6 @@ var G_wps_method	= "<?% echo( $wps_method); ?>";
 var isBridge		= "<?% echo( $_SESSION["lanMode"]); ?>";
 var modeEnabled		= "<?% echo( $encrypt_mode); ?>";
 var modeEnabled1	= "<?% echo( $encrypt_mode1); ?>";
-var partner_id = "<?% echo( $partnerId); ?>";
-<?%if($OperatingChannelBandwidth == "6GHz")
-{?>
-var G_radio_enable3	= <?% echo( ($radio_enable3 === "true" ? "true" : "false")); ?>;
-var modeEnabled15	= "<?% echo( $encrypt_mode15); ?>";
-<?%
-}?>
-
 function update_Wi_Fi_control_list(){
 	var ssid_number		= $("#mac_ssid").attr("value");
 	var jsConfig 	=	'{"ssid_number":"'+ssid_number+'", "target":"'+"mac_ssid"+'"}';
@@ -495,22 +475,6 @@ $(document).ready(function() {
 		title_off: "Disable WPS",
 		state: G_wps_enabled ? "on" : "off"
 	});
-        <?%if($OperatingChannelBandwidth == "6GHz")
-        {?>
-	$("#radio6_switch").radioswitch({
-		id: "radio6-switch",
-		radio_name: "at_a_glance3",
-		id_on: "radio_enable3",
-		id_off: "radio_disable3",
-		title_on: "Enable radio 6G",
-		title_off: "Disable radio 6G",
-		state: G_radio_enable3 ? "on" : "off"
-	}).change(function(){
-		save_enable("radio_enable3");
-	});
-	$("#radio6_switch").radioswitch("doEnable", $ForceDisable == 'true' ? false : true);
-        <?%
-        }?>
 	$("#pin_switch").radioswitch({
 		id: "pin-switch",
 		radio_name: "pin_switch",
@@ -786,8 +750,7 @@ $(document).ready(function() {
 	}
 	// remove sections as per loginuser, content must be hidden before doc ready
 	if ("mso" != "<?% echo( $_SESSION["loginuser"]); ?>"){
-		if(partner_id.indexOf('sky-')===-1){
-			$(".div_enable_radio").remove();}
+		$(".div_enable_radio").remove();
 		$(".div_public_wifi").remove();
 		$(".div_other_wifi").remove();
 		$(".div_radio_setting").remove();
@@ -1132,29 +1095,9 @@ function save_enable(sub_target)
 		if (G_wps_method == wps_method || !wps_enabled) return;
 		G_wps_method = wps_method;
 	}
-	if(partner_id.indexOf('sky-')===0){
-		if(!radio_enable){
-			var warningMsg=$.i18n("Warning: Please note that disabling the radio(s) might interrupt with your data and video services. It is recommended to keep the Wi-Fi radios ON for uninterrupted access to your subscribed services. To cancel these changes, choose cancel below.");
-			jConfirm(warningMsg,$.i18n('Are You Sure?'),function(ret){
-			if(ret){
-				var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
-						+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';
-				set_config(jsConfig);
-			}
-			else location.reload();
-			});
-		}
-		else{
-			var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
-				+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';
-			set_config(jsConfig);
-		}
-	}
-	else{
-	var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
+	var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_enabled":"'+wps_enabled+'", "wps_method":"'+wps_method
 					+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';	
-	set_config(jsConfig);
-	}	
+	set_config(jsConfig);	
 }
 function validChecksum(PIN)
 {
