@@ -41,10 +41,7 @@ function getPort4XHSEnabled() {
 	return false;
 }
 $isPort4XHSEnabled = getPort4XHSEnabled();
-$rootObjName = "Device.Ethernet.Interface.";
-$paramNameArray = ["Device.Ethernet.Interface."]/*p2j-array*/;
-$mapping_array  = ["Upstream", "Status", "MACAddress", "CurrentBitRate"]/*p2j-array*/;
-$ethernetParam = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
+
 if(strpos($PartnerId, "sky-") !== false){
 	$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 	if($fileget){
@@ -204,23 +201,29 @@ function reboot(){
 				return ($str == "Up" ? "Up" : "Down");
 		}
 	}
-	$ids = array_filter(explode(",",getInstanceIds("Device.Ethernet.Interface.")));
+	
 	/*if ($_DEBUG) {
 		$ids = array("1", "2", "3", "4");
 	}*/
-	for($id in $ethernetParam) { $value=$ethernetParam[$id];/*p2j-foreach*/
-		if ("true" == $ethernetParam[$id]["Upstream"]){
+	$InterfaceNumber = getStr("Device.Ethernet.InterfaceNumberOfEntries");
+	for ( $j=1; $j<= ($InterfaceNumber); $j++) {
+		$ethernetUpstream = getStr("Device.Ethernet.Interface."+$j+".Upstream");
+		$ethernetStatus = getStr("Device.Ethernet.Interface."+$j+".Status");
+		$ethernetMACAddress = getStr("Device.Ethernet.Interface."+$j+".MACAddress");
+		$ethernetBitRate = getStr("Device.Ethernet.Interface."+$j+".CurrentBitRate");
+		
+		if ("true" == $ethernetUpstream){
 			continue;
 		}
 		//WAN port details are not showing in lan page
-		if(strpos($PartnerId, "sky-") === false || (strpos($PartnerId, "sky-") !== false && $reclaim && $ids[$id]!='4')||(strpos($PartnerId, "sky-") !== false && $reclaim==false)){
+		if(strpos($PartnerId, "sky-") === false || (strpos($PartnerId, "sky-") !== false && $reclaim && $j!='4')||(strpos($PartnerId, "sky-") !== false && $reclaim==false)){
 		echo( '<div class="module forms block">');
-		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$ids[$id]+'</h2>');
+		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$j+'</h2>');
 		$dm = [
-			["LAN Ethernet link status:", null, $ethernetParam[$id]["Status"]]
+			["LAN Ethernet link status:", null, $ethernetStatus]
 		]/*p2j-array*/;
 		/* link speed */
-		$lspeed = $ethernetParam[$id]["CurrentBitRate"];
+		$lspeed = $ethernetBitRate;
 		$lunit = " Mbps";
 		if (empty($lspeed)) {
 			$lspeed = "Not Applicable";
@@ -236,22 +239,22 @@ function reboot(){
 			$lunit = " Gbps";
 		}
 		*/
-		array_push($dm, ["MAC Address:", $ethernetParam[$id]["MACAddress"]]);
+		array_push($dm, ["MAC Address:", $ethernetMACAddress]);
 		array_push($dm, ["Connection Speed:", $lspeed+$lunit]/*p2j-array*/);
 		for ($m=0, $i=0; $i<count($dm); $i++)
 		{
 			 var id="";
                        if($dm[$i][0]=="MAC Address:"){
-                         id='macaddr'+$id;
+                         id='macaddr'+$j;
                         }
 			if($dm[$i][0]=="LAN Ethernet link status:"){
-                         id='lanethlinkstat'+$id;
+                         id='lanethlinkstat'+$j;
 			}
 			 if($dm[$i][0]=="Connection Speed:"){
-                         id='connspeed'+$id;
+                         id='connspeed'+$j;
                         }
 
-			var idValue= ($dm[$i][1] === null ? NameMap($dm[$i][2],$ids[$id]) : $dm[$i][1]);
+			var idValue= ($dm[$i][1] === null ? NameMap($dm[$i][2],$j) : $dm[$i][1]);
                         if(idValue == "Inactive")
                                 idValue="inact";
 			else if(idValue == "Active")
@@ -275,10 +278,10 @@ function reboot(){
 
 			echo( '<div class="form-row '+(($m++ % 2)?'odd':'')+'" >');
 			echo( '<span class="readonlyLabel" id='+id+'>'+$dm[$i][0]+'</span>');
-			echo( '<span class="value" id='+idValue+'>'+($dm[$i][1] === null ? NameMap($dm[$i][2],$ids[$id]) : $dm[$i][1])+'</span>');
+			echo( '<span class="value" id='+idValue+'>'+($dm[$i][1] === null ? NameMap($dm[$i][2],$j) : $dm[$i][1])+'</span>');
 			echo( '</div>');
 		}
-		if ($ids[$id] === "4") {
+		if ($j === 4) {
 			/* port 4 as home security port */
 			//if($HomeNetworkControl == 'true'){
 				if($PartnerId == 'comcast'){
