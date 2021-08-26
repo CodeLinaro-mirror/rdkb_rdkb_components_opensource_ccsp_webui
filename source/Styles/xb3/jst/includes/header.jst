@@ -535,9 +535,11 @@ function isIE() {
 
 </script>
 <?%
- if (!isset($_SESSION["loginuser"])) {
+        if (!isset($_SESSION["loginuser"])) {
+            if (!isset($_SESSION["JWT_VALID"]) || $_SESSION['JWT_VALID'] != true ) {
                 echo( '<script type="text/javascript">alertLoc("Please Login First!"); location.href="home_loggedout.jst";</script>');
                 exit(0);
+            }
         }
 $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst', 'dynamic_dns', 'mta', 'voice_quality_metrics' ,'qos', 'callsignallog', 'DSXlog'];
         $not_mso_pages = ['password_change', 'admin_password_change' , 'wizard_step1'];

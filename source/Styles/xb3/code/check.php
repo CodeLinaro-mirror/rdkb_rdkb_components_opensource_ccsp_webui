@@ -156,7 +156,6 @@ header('X-robots-tag: noindex,nofollow');
                 {
                     if (!isset($_GET['code']))
                     {
-                        create_session();
                         $params = array('pfidpadapterid' => "loginform" );
                         $auth_url = getAuthenticationUrl( $clientid, $authendpoint, $redirect_page, $params );
                         echo "<script type='text/javascript'>document.location.href='{$auth_url}';</script>";
@@ -298,6 +297,8 @@ header('X-robots-tag: noindex,nofollow');
                 }
                 if( $tokenvalid == true )
                 {
+                    create_session();
+                    $_SESSION['JWT_VALID'] = true;
                     $failedAttempt_mso=0;
                     setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
                     exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");

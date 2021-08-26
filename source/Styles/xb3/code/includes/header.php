@@ -49,8 +49,10 @@ csrfprotector_rdkb::init();
     }
     
 	if (!isset($_SESSION["loginuser"])) {
+	    if (!isset($_SESSION["JWT_VALID"]) || $_SESSION['JWT_VALID'] != true ) {
 		echo '<script type="text/javascript">alert("'._("Please Login First!").'"); location.href="home_loggedout.php";</script>';
 		exit(0);
+            }
 	}
 	$not_admin_pages = array('email_notification.php', 'hs_port_forwarding', 'routing.php', 'dynamic_dns', 'mta', 'voice_quality_metrics' ,'qos', 'callsignallog', 'DSXlog','wizard_step1','wizard_step2');
 	$not_mso_pages = array('password_change', 'admin_password_change' , 'wizard_step1','wizard_step2');
