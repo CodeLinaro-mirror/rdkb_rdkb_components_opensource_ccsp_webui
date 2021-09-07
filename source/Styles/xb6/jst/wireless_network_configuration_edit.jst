@@ -873,7 +873,10 @@ function click_save()
 			// location.reload();
 			if(msg_parseJSON != "success"){
                                 jAlert(msg_parseJSON);
-                                $("#network_name").val(network_name_1);
+				network_name_2= network_name_1.replace(/&lt;/g,"<");
+                                network_name_2=network_name_2.replace(/&gt;/g,">");
+                                network_name_2=network_name_2.replace(/&amp;/g,"&");
+                                $("#network_name").val(network_name_2);
                         } else location.href = 'wireless_network_configuration.jst';
 		},
 		error: function(){            
