@@ -148,7 +148,16 @@ csrfprotector_rdkb::init();
                                 exit(0);
                             }
                        }
-         }
+         }else{
+                $not_xf3 = ['DPoE.jst'];
+                for($k in $not_xf3){
+                        $page = $not_xf3[$k];
+                        if (strstr($_SERVER['SCRIPT_FILENAME'], $page)) {
+                                echo( '<script type="text/javascript"> alert("Access Denied!"); history.back(); </script>');
+                                exit(0);
+                        }
+                }
+        }
 	/* demo flag in session */
 	/*if (!isset($_SESSION['_DEBUG'])) {
 		$_DEBUG = file_exists('/var/ui_dev_debug');
