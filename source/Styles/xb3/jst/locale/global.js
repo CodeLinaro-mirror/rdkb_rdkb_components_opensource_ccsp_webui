@@ -719,7 +719,6 @@ $("#firewall_time_lweek").text($.i18n("Reports from Last Week"));
 $("#firewall_time_lmonth").text($.i18n("Reports from Last Month"));
 $("#passchanhead").text($.i18n("Troubleshooting > Change Password"));
 $("#portfwdhead").text($.i18n("Advanced > Port Forwarding"));
-$("#portfwdmess1").text($.i18n(" to set up port forwards, among many other features and settings."));
 $("#portfwdtip1").text($.i18n("Manage external access to specific ports on your network."));
 $("#portfwdtip2").text($.i18n("Port forwarding permits communications from external hosts by forwarding them to a particular port."));
 $("#portfwdtip3").html($.i18n("Select <strong>Enable</strong> to manage external access to specific ports on your network."));
@@ -1059,7 +1058,6 @@ $("#line_status").text($.i18n("Line Status"));
 $("#dsx_us").text($.i18n("Upstream"));
 $("#add-radio").text($.i18n("Add"));
 $("#offlinessid").text($.i18n(" SSID"));
-$("#dmzmess").text($.i18n(" to set up DMZ, among many other features and settings."));
 $("#netwsetindex,#netwsetindex1").text($.i18n("Index"));
 $(".enablelogging").prop("value", $.i18n('Enable Logging'));
 $(".disablelogging").prop("value", $.i18n('Disable Logging'));
@@ -1083,6 +1081,8 @@ $("#wanipv6add").text($.i18n("WAN IPv6 Address:"));
 $("[id^='shrdMpT']").text($.i18n('(Shared using MAP-T)'));
 $("#pridnsv6").text($.i18n('Primary DNS Server (IPv6):'));
 $("[id^='deprev6']").text($.i18n('Delegated prefix (IPv6):'));
+$("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the Sky Wifi App."));
+$("#advmess2").text($.i18n(" for more information."));
 }
   $.i18n().load({ 
     'it': '/locale/it.json' 
