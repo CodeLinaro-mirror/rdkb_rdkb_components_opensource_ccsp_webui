@@ -207,7 +207,7 @@ $enableWMM1			= $wifi_value['enableWMM1'];
 $possible_channels1	= $wifi_value['possible_channels1'];
 $RDG_Supported1		= $wifi_value['RDG_Supported1'];
 $IEEE80211hSupport1	= $wifi_value['IEEE80211hSupported1'];
-$DFS_Support1 = "false" ; //Remove/disable DFS channels, DFS_Support1 1-supported 0-not supported
+//$DFS_Support1 = "false" ; //Remove/disable DFS channels, DFS_Support1 1-supported 0-not supported
 $support_mode_5g = $wifi_value['support_mode_5g'];
 //BandSteering
 $BS_Capability			= $wifi_value['BS_Capability'];
@@ -336,6 +336,9 @@ else {
 		array_remove($ssids,1);
 		array_remove($ssids,0);
 	}
+$dfsEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable");
+$dfsAtBootup= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp.Enable");
+$modelName= getStr("Device.DeviceInfo.ModelName");
 ?>
 <style>
 .forms .readonlyLabel {
@@ -526,6 +529,12 @@ $(document).ready(function() {
 	} else {
 		$('[name="DFS_Channel_Selection"]').prop("disabled", true);
 	}
+	if("<?% echo( $DFS_Support1);?>" == "true"){
+                        $('[name="DFS_disabled"]').prop("disabled", false);
+        }else{
+                        $('[name="DFS_disabled"]').prop("disabled", true);
+
+        }
 	if("<?% echo( $DCS_Supported);?>" == "true"){
 		$('[name="DCS_Channel_Selection"]').prop("disabled", false);
 	}if($ForceDisable == "true" || "<?% echo( $DCS_Supported);?>" == "false") {
@@ -621,7 +630,9 @@ $(document).ready(function() {
 	$("[name='channel_bandwidth1']").change(function() {
 		//enable all channel first
 		$("#channel_number1 option").prop("disabled", false);
-		if ("true"!="<?% echo( $DFS_Support1); ?>" || "true"!="<?% echo( $DFS_Enable1); ?>") {
+		if (("true"=="<?% echo( $DFS_Support1); ?>") && ("true"=="<?% echo( $DFS_Enable1); ?>")) {
+			$("#channel_number1").find("[value='52'],[value='56'],[value='60'],[value='64'],[value='100'],[value='104'],[value='108'],[value='112'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144']").prop("disabled", false);
+		}else{
 			$("#channel_number1").find("[value='52'],[value='56'],[value='60'],[value='64'],[value='100'],[value='104'],[value='108'],[value='112'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144']").prop("disabled", true).prop("selected", false);
 		}
 		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
@@ -1046,6 +1057,8 @@ function save_config(ssid_number, sub_target)
 	var blockBA_enabled 	= $("#blockBA_enabled"+suf).prop("checked");
 	var DFS_Selection	= $("#DFS_Channel_Selection_enabled").prop("checked");
 	var DCS_Selection	= $("#DCS_Channel_Selection_enabled"+suf).prop("checked");
+	var DFS_enabled       = $("#DFS_enabled").prop("checked");
+        var DFS_boot_enabled       = $("#DFS_boot_enabled").prop("checked");
 	//var HT_TxStream 	= $("#HT_TxStream"+suf).attr("value");
 	//var HT_RxStream 	= $("#HT_RxStream"+suf).attr("value");
 	var WMM_power_save 	= $("#WMM_power_save"+suf).prop("checked");
@@ -1058,7 +1071,7 @@ function save_config(ssid_number, sub_target)
 					+'", "blockBA_enabled":"'+blockBA_enabled+'", "DFS_Selection":"'+DFS_Selection
 					+'", "DCS_Selection":"'+DCS_Selection
 					//+'", "HT_TxStream":"'+HT_TxStream+'", "HT_RxStream":"'+HT_RxStream
-					+'", "WMM_power_save":"'+WMM_power_save+'", "STBC_enabled":"'+STBC_enabled
+					+'", "WMM_power_save":"'+WMM_power_save+'", "STBC_enabled":"'+STBC_enabled+'", "DFS_boot_enabled":"'+DFS_boot_enabled+'", "DFS_enabled":"'+DFS_enabled
 					+'", "target":"'+"save_config"+'", "ssid_number":"'+ssid_number+'", "sub_target":"'+sub_target+'"}';
 	set_config(jsConfig);
 }
@@ -1799,6 +1812,24 @@ function saveBandSteeringSettings()
 		<label for="blockBA_enabled1" class="acs-hide"></label>
 		<input type="radio"  name="Decline_BA_Request1" value="enabled"  id="blockBA_enabled1" <?% if ("true"==$blockBA_enabled1) echo('checked="checked"');?> /><b id="enaloc">Enable</b>
 	</div>
+<?%
+        if($modelName!="X5001"){
+        ?>
+	<div class="form-row">
+                <label for="DFS_disabled">DFS :</label>
+                <input type="radio"  name="DFS_disabled"  id="DFS_disabled" checked="checked"><b>Disable</b>
+                <label for="DFS_enabled" class="acs-hide"></label>
+		<input type="radio"  name="DFS_disabled" value="enabled"  id="DFS_enabled" <?% if ("true"==$dfsEnable) echo('checked="checked"');?> /><b>Enable</b>
+	</div>
+	 <div class="form-row odd">
+                <label for="DFS_bootup">DFS scanning/selection at boot up</label>
+                <input type="radio"  name="DFS_boot_disabled"  id="DFS_boot_disabled" checked="checked"><b>Disable</b>
+                <label for="DFS_enabled" class="acs-hide"></label>
+                <input type="radio"  name="DFS_boot_disabled" value="enabled"  id="DFS_boot_enabled" <?% if ("true"==$dfsAtBootup) echo('checked="checked"');?> /><b>Enable</b>
+        </div>
+ <?%
+        }
+        ?>
 	<div class="form-row">
 		<label for="DFS_Channel_Selection_disabled" id="wiremess40">DFS Channel Selection In Auto Mode:</label>
 		<input type="radio"  name="DFS_Channel_Selection" value="disabled" id="DFS_Channel_Selection_disabled" checked="checked" /><b id="disloc">Disable</b>
