@@ -35,7 +35,10 @@ $productLinkText = "";
 $ModelName = getStr("Device.DeviceInfo.ModelName");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 if($ModelName == "SR203") $productLinkText = "App Sky Wifi: impostazioni avanzate";
-else $productLinkText = $productLink;
+else {
+	$productLinkText = $productLink;
+	$productLink = 'http://'+$productLink;
+}
 $enableDMZ		= getStr("Device.NAT.X_CISCO_COM_DMZ.Enable");
 $host   		= getStr("Device.NAT.X_CISCO_COM_DMZ.InternalIP");
 $hostv6 		= getStr("Device.NAT.X_CISCO_COM_DMZ.IPv6Host");
@@ -351,7 +354,7 @@ populate_IPv6();
 		<div class="module data">
 			<div id="content" style="text-align: center;">
 				<br>
-				<h3><span id="advmess1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo('<a href="http://'+$productLink+'">'+$productLinkText +'</a>');?><span id="advmess2"> to set up DMZ, among many other features and settings.</span></h3>
+				<h3><span id="advmess1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?><span id="advmess2"> to set up DMZ, among many other features and settings.</span></h3>
 				<br>
 			</div>
 		</div> <!-- end .module -->
