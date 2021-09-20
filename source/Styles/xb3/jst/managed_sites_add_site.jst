@@ -27,6 +27,11 @@
 <?%
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 	if($partnerId=="cox") die();
+	$isManageEnabled = getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.Enable");
+        if($isManageEnabled == "false"){
+                echo( '<script type="text/javascript"> alert("Access Denied!"); window.history.back(); </script>');
+                exit(0);
+        }
 ?>
 <style>
 label{
