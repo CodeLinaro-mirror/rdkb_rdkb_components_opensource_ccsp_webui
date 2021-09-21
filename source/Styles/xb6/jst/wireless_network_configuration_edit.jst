@@ -869,7 +869,7 @@ function init_form()
 	var ext_channel			= "<?% echo( $ext_channel); ?>";
 	var security			= "<?% echo( $security); ?>";
 	var DFS_Support1		= "<?% echo( $DFS_Support1); ?>";
-	var DFS_Enable1			= "<?% echo( $DFS_Enable1); ?>";
+	var dfsEnable			= "<?% echo( $dfsEnable); ?>";
 	//show or hide divs as per user
 	if ("mso"==thisUser){
 		$("#div_wireless_mode").hide();
@@ -886,7 +886,7 @@ function init_form()
 	}
 	restyle_div();
 
-	if ("true"!="<?% echo( $DFS_Support1); ?>" || "true"!="<?% echo( $DFS_Enable1); ?>") {
+	if (("false"=="<?% echo( $DFS_Support1); ?>") || ("false"=="<?% echo( $dfsEnable); ?>")) {
 		$("#channel_number [value='52'],[value='56'],[value='60'],[value='64'],[value='100'],[value='104'],[value='108'],[value='112'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144']").prop("disabled", true);
 	}
 	//disable some channel as per extension channel when NOT 20MHz, only when can't set extension channel
