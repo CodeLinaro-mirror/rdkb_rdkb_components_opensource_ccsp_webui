@@ -29,6 +29,11 @@ $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); 
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+$enableMD = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
+if($enableMD == "false"){
+                echo( '<script type="text/javascript"> alert("Access Denied!"); window.history.back(); </script>');
+                exit(0);
+}
 ?>
 <?%
 	$i=$_GET['id'];

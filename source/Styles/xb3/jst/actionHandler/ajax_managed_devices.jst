@@ -18,7 +18,8 @@
 <?% include('includes/actionHandlerUtility.jst') ?>
 <?%
 session_start();
-if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {
+$enableMD = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false ) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
 	exit(0);
 }
@@ -52,6 +53,7 @@ if (isset($_POST['allow_block'])){
 if (isset($_POST['add'])){
 	$validation = true;
 	if($validation) $validation = isValInArray($_POST['type'], ['Allow', 'Block']/*p2j-array*/);
+	if($validation) $validation = ($enableMD == "true") ? true: false;
 	if($validation) $validation = printableCharacters($_POST['name']);
 	if($validation) $validation = is_allowed_string($_POST['name']);
 	if($validation) $validation = validMAC($_POST['mac']);
@@ -173,6 +175,7 @@ if (isset($_POST['add'])){
 if (isset($_POST['edit'])){
 	$validation = true;
 	if($validation) $validation = validId_PC($_POST['ID']);
+	if($validation) $validation = ($enableMD == "true") ? true: false;
 	if($validation) $validation = printableCharacters($_POST['name']);
 	if($validation) $validation = is_allowed_string($_POST['name']);
 	if($validation) $validation = validMAC($_POST['mac']);
