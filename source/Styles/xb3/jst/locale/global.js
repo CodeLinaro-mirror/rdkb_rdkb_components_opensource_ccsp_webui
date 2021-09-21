@@ -1069,7 +1069,6 @@ $("[id^='conninprog']").text($.i18n("Connecting"));
 $("#shpwdvoipbasic").text($.i18n("Show Password:"));
 $("[id^='wifimess2']").text($.i18n("Wi-Fi link status:"));
 $("[id^='dys']").text($.i18n("days"));
-$("#tip_security_mode").text($.i18n("Please note 802.11 n/ac mode only compatible with AES and None encryption!!"));
 $("#tip_security_mode2").text($.i18n("Please note 802.11 n mode only compatible with AES and None encryption!!"));
 $("[id^='btn-cancel']").prop("value", $.i18n('Cancel'));
 $("#reclaim").prop("value",$.i18n("Reclaim Eth port"));

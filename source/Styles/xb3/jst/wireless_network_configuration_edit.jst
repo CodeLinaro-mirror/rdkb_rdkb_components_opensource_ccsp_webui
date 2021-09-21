@@ -194,9 +194,6 @@ $productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBra
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 ?>
 <style>
-#tip_security_mode {
-    margin-left: 8px;
-}
 label[for="network_name"], label[for="security"], label[for="network_password"] {
     margin-right: 12px !important;
 }
@@ -894,14 +891,6 @@ function setResetInfo(info) {
 				<option value="WPA2_PSK_TKIPAES" id="secmode6"	title="WPA requires an 8-63 ASCII character or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPA2_PSK_TKIPAES"==$security)    echo( "selected");?> >WPA2-PSK (TKIP/AES)</option>
 				<option value="WPAWPA2_PSK_TKIPAES" id="secmode4" title="WPA requires an 8-63 ASCII character password or a 64 hex character password. Hex means only the following characters can be used: ABCDEF0123456789." <?% if ("WPAWPA2_PSK_TKIPAES"==$security) echo( "selected");?> >WPA WPA2-PSK (TKIP/AES)</option>
 			</select>
-			<?%
-				if ("5"==$radio_band && strstr($supported_mode, "ac")){
-					echo('<p id="tip_security_mode" class="footnote">Please note 802.11 n/ac mode only compatible with AES and None encryption!!</p>');
-				}
-				else{
-					echo('<p id="tip_security_mode2" class="footnote">Please note 802.11 n mode only compatible with AES and None encryption!!</p>');
-				}
-			?>
 		</div>
 		<div class="form-row odd" id="div_channel_switch">
 			<label for="channel_automatic"  id="mocamess4">Channel Selection:</label>

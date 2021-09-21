@@ -217,9 +217,6 @@ $modelName= getStr("Device.DeviceInfo.ModelName");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 ?>
 <style>
-#tip_security_mode {
-    margin-left: 8px;
-}
 label[for="network_name"], label[for="security"], label[for="network_password"] {
     margin-right: 12px !important;
 }
@@ -501,9 +498,6 @@ $(document).ready(function() {
     	});
         if("None" == $("#security").val()) {
           $("#network_password").val("");
-        }
-        if("WPA3-Personal Only" == $("#security").val()) {
-        	$("#tip_security_mode").remove();
         }
 	var pwd_mso=JSON.parse(password_mso_user);
         if(!pwd_mso && "None" == $("#security").val()){
@@ -1157,26 +1151,6 @@ function setResetInfo(info) {
                                <?%
                                  }?>
 			</select>
-			<p id="tip_security_mode" class="footnote">
-			<?%
-				if ("5"==$radio_band){
-					if(strstr($supported_mode, "ax")){
-						echo('Please note 802.11 a/n/ac/ax mode only compatible with AES and None encryption!!');
-					}
-					else if(strstr($supported_mode, "ac")){
-						echo('Please note 802.11 n/ac mode only compatible with AES and None encryption!!');
-					}
-				}
-				else if("2.4"==$radio_band){
-					if(strstr($supported_mode, "ax")){
-						echo('Please note 802.11 g/n/ax mode only compatible with AES and None encryption!!');
-					}
-					else{
-						echo('Please note 802.11 n mode only compatible with AES and None encryption!!');
-					}
-				}
-			?>
-			</p>
 		</div>
 		<div class="form-row odd" id="div_channel_switch">
 			<label for="channel_automatic">Channel Selection:</label>
