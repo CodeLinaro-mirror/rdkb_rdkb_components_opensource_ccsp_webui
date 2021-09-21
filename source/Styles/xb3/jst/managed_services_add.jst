@@ -24,6 +24,13 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
+<?%
+$enableMS = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
+if($enableMS == "false"){
+                echo( '<script type="text/javascript"> alert("Access Denied!"); window.history.back(); </script>');
+                exit(0);
+}
+?>
 <style>
 label{
 margin-right:10px !important;

@@ -26,6 +26,13 @@
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
 <?%
+$enableMS = getStr("Device.X_Comcast_com_ParentalControl.ManagedServices.Enable");
+if($enableMS == "false"){
+                echo( '<script type="text/javascript"> alert("Access Denied!"); window.history.back(); </script>');
+                exit(0);
+}
+?>
+<?%
 	$i=$_GET['id'];
 	$index = explode('_', $i);
 	if ($index.length == 0 || !preg_match('/^\\d{1,3}$/', $index[0])) die();
