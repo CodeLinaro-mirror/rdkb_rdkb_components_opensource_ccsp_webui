@@ -92,7 +92,7 @@ $psmMode = $DeviceControl_value['psmMode'];
 	$interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
 	$idArr = explode(",", getInstanceIds($interface+"IPv6Address."));
 	for ($key in $idArr) {
-    $value = $idArr[$key];
+	$value = $idArr[$key];
 		$ipv6addr = getStr($interface+"IPv6Address."+$value+".IPAddress");
 		if (stripos($ipv6addr, "fe80::") !== false) {
 			$LanGwIPv6 = $ipv6addr;
@@ -101,8 +101,26 @@ $psmMode = $DeviceControl_value['psmMode'];
 			$LanGwIPv6 = $ipv6addr;
 		}
 	}
+function ada_wan_status(){
+	$wan_connection=false;
+	$ipv4_status='';
+	$ipv6_status='';
+	$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
+	if($fileget){
+		$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
+		for($a= 1; $a <= count($instval);$a++) {
+			$activelink = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".Wan.ActiveLink");
+			if($activelink == 'true'|| $activelink==true){
+				$ipv4_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv4Status");
+				$ipv6_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv6Status");
+			}
+		}
+		if(strtoupper($ipv6_status) == 'UP' || strtoupper($ipv4_status) == 'UP'){$wan_connection=true;}else{$wan_connection=false;}
+	}
+	return $wan_connection;
+}
 if(!$isMSO) {
-        setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_access",true);
+	setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_access",true);
 	//If Cloud redirection is set, then everything through local GW should be redirected
 	/*--if(!strcmp($Cloud_Enabled, "true"))
 	{
@@ -112,26 +130,31 @@ if(!$isMSO) {
 	if(!strcmp($CaptivePortalEnable, "true")) {
 		$SERVER_ADDR = $_SERVER['SERVER_ADDR'];
 		$ip_addr = strpos($SERVER_ADDR, ":") == false ? $LanGwIPv4 : $LanGwIPv6 ;
-		 $SecWebUI = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.Enable");
-                $LocFqdn = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.LocalFqdn");
+		$SecWebUI = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.Enable");
+		$LocFqdn = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.LocalFqdn");
 		if(strcmp($url,$ip_addr)){
 			if(($enableRFCpativePortal=="true") && ($cableRFSignalStatus=="false") && !(($allowEthWanMode=="true") && ($wan_enabled=="true")) &&($modelName!="X5001")){
 				if (!strcmp($SecWebUI, "true")) {
-                                        header('Location:https://'+$LocFqdn+'/no_rf_signal.jst');
-                                }
-                                else {
-                                        header('Location:http://'+$ip_addr+'/no_rf_signal.jst');
-                                }
+					header('Location:https://'+$LocFqdn+'/no_rf_signal.jst');
+				}
+				else {
+					header('Location:http://'+$ip_addr+'/no_rf_signal.jst');
+				}
+				exit;
+			}
+			if(($modelName == 'SR300')&&(!ada_wan_status())){
+				if(strpos($SERVER_ADDR, ":") == false)
+					header('Location:http://'+$ip_addr+'/sky_self_heal_index.jst');
 				exit;
 			}
 		}
 		if(!strcmp($CONFIGUREWIFI, "true")) {
- 			if (!strcmp($SecWebUI, "true")) {
-                                header('Location:https://'+$LocFqdn+'/captiveportal.jst');
-                        }
-                        else {
-                               header('Location:http://'+$ip_addr+'/captiveportal.jst');
-                        }
+			if (!strcmp($SecWebUI, "true")) {
+				header('Location:https://'+$LocFqdn+'/captiveportal.jst');
+			}
+			else {
+				header('Location:http://'+$ip_addr+'/captiveportal.jst');
+			}
 			exit;
 		}
 	}
