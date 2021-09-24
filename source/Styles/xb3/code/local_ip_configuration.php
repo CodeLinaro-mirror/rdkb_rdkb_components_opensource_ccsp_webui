@@ -570,13 +570,13 @@ $(document).ready(function() {
 		$("#ipv4_dhcp_ending_address_2").val(default_ip[1]);
 		$("#ipv4_dhcp_ending_address_3").val(0);
 		$("#ipv4_dhcp_ending_address_4").val(253);
-		$("#ipv4_dhcp_lease_time_amount").val(1);
-		$("#ipv4_dhcp_lease_time_measure").val("weeks");
+		$("#ipv4_dhcp_lease_time_amount").val(2);
+		$("#ipv4_dhcp_lease_time_measure").val("days");
 		var ipaddr = default_admin_ip;
 		var subnet_mask = "255.255.255.0"; 
 		var dhcp_begin_addr = default_ip[0]+"."+default_ip[1]+".0.2";
 		var dhcp_end_addr = default_ip[0]+"."+default_ip[1]+".0.253";
-		var lease_time = 604800; // 1 week	
+		var lease_time = 172800; // 2 days	
         var Config = '{"Ipaddr":"' + ipaddr + '", "Subnet_mask":"' + subnet_mask + '", "Dhcp_begin_addr":"' + dhcp_begin_addr + '", "Dhcp_end_addr":"' + dhcp_end_addr +'", "Dhcp_lease_time":"' + lease_time + '"}';
         if((login_user == "admin") && (jsGwIP != ipaddr)) {
     	jConfirm(	        
