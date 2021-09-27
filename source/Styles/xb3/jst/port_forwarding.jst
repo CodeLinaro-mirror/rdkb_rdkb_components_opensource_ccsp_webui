@@ -36,8 +36,13 @@ $productLinkText = "";
 $PFEnable = getStr("Device.NAT.X_Comcast_com_EnablePortMapping");
 $ModelName = getStr("Device.DeviceInfo.ModelName");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
-if($ModelName == "SR203") $productLinkText = "App Sky Wifi: impostazioni avanzate";
-else {
+$idadv ="";
+$idadv2 = "";
+if($ModelName == "SR203"){ 
+	$productLinkText = "App Sky Wifi: impostazioni avanzate";
+	$idadv = "advmess1";
+        $idadv2 = "advmess2";
+}else {
 	$productLinkText = $productLink;
 	$productLink = 'http://'+$productLink;
 }
@@ -185,7 +190,7 @@ function getTitle(val){
 		<div class="module data">
 			<div id="content" style="text-align: center;">
 				<br>
-				<h3><span id="advmess1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?><span id="advmess2"> to set up port forwards, among many other features and settings.</span></h3>
+				<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?><span id="<?% echo($idadv2); ?>"> to set up port forwards, among many other features and settings.</span></h3>
 				<br>
 			</div>
 		</div> <!-- end .module -->
