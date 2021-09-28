@@ -298,6 +298,9 @@ header('X-robots-tag: noindex,nofollow');
                 if( $tokenvalid == true )
                 {
                     create_session();
+                    // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
+                    // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to be set.
+                    $_SESSION["loginuser"] = "mso";
                     $_SESSION['JWT_VALID'] = true;
                     $failedAttempt_mso=0;
                     setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
