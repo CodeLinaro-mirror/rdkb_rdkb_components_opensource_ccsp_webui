@@ -481,9 +481,7 @@ PHP_SESSION_ACTIVE = 2;
                     }
                     $curr_sessID = session_id();
                     $curr_IP = $_SERVER['REMOTE_ADDR'];
-                    exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is open from '" + $curr_IP + "' \" ");
                     if ($_SERVER['REMOTE_ADDR'] != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -493,7 +491,6 @@ PHP_SESSION_ACTIVE = 2;
                     }
                     
                     if ($curr_sessID != $_SESSION['PREV_SESSID']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -518,9 +515,7 @@ PHP_SESSION_ACTIVE = 2;
                         $_SESSION['CURR_REMOTEADDR'] = $_SERVER['REMOTE_ADDR'];
                     }
                     $curr_IP = $_SESSION['CURR_REMOTEADDR'];
-                    exec("/bin/echo \"Webui: session'" + $curr_sessID + "' is open from '" + $curr_IP + "' \" >> /rdklogs/logs/Consolelog.txt.0");
                     if ($_SESSION['CURR_REMOTEADDR'] != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/bin/echo \"Webui: session'" + $curr_sessID + "' is closed \" >> /rdklogs/logs/Consolelog.txt.0");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -552,9 +547,7 @@ PHP_SESSION_ACTIVE = 2;
                        } 
                     }
                     $curr_IP = $IP_ADDR;
-                    exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is open from '" + $curr_IP + "' \" ");
                     if ($IP_ADDR != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -564,7 +557,6 @@ PHP_SESSION_ACTIVE = 2;
                     }
                     
                     if ($curr_sessID != $_SESSION['PREV_SESSID']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);

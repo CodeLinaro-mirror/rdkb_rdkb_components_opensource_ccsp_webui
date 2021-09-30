@@ -32,10 +32,6 @@ csrfprotector_rdkb::init();
 	$cur_user = $_SESSION['loginuser'];
 	exec("/usr/bin/logger -t GUI -p local5.notice \"User:$cur_user logout\" ");
         $curr_sessID = session_id();
-        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
-        if ($modelName == "TG1682G") {
-             exec("/bin/echo \"Webui: session'" + $curr_sessID + "' is closed \" >> /rdklogs/logs/Consolelog.txt.0");
-        }
 	session_unset();
 	session_destroy();
 	header("location: index.jst");

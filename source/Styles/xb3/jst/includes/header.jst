@@ -54,7 +54,6 @@ csrfprotector_rdkb::init();
                     }
                     $curr_sessID = session_id();
                     if ($_SERVER['REMOTE_ADDR'] != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -64,7 +63,6 @@ csrfprotector_rdkb::init();
                     }
                     
                     if ($curr_sessID != $_SESSION['PREV_SESSID']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -90,7 +88,6 @@ csrfprotector_rdkb::init();
                         $_SESSION['CURR_REMOTEADDR'] = $_SERVER['REMOTE_ADDR'];
                     }
                     if ($_SESSION['CURR_REMOTEADDR'] != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/bin/echo \"Webui: session'" + $curr_sessID + "' is closed \" >> /rdklogs/logs/Consolelog.txt.0");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -121,7 +118,6 @@ csrfprotector_rdkb::init();
                        } 
                     }
                     if ($IP_ADDR != $_SESSION['PREV_REMOTEADDR']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
@@ -131,7 +127,6 @@ csrfprotector_rdkb::init();
                     }
                     
                     if ($curr_sessID != $_SESSION['PREV_SESSID']) {
-                        exec("/usr/bin/logger -t GUI -p local5.notice \"Webui: session'" + $curr_sessID + "' is closed \" ");
                         session_destroy(); // Destroy all data in session
                         echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
                         exit(0);
