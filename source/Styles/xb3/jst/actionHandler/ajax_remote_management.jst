@@ -111,8 +111,13 @@ if($validation) {
 		if ($_POST['startIP']!="notset")	setStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.StartIp",$_POST['startIP'],true);
 		//if ($_POST['httpport']!="notset")	setStr("Device.X_CISCO_COM_DeviceControl.HTTPPort",$_POST['httpport'],true);
 		if($_POST['httpsport']!="notset" && $_POST['httpport']!="notset") {
-	  		setStr("Device.X_CISCO_COM_DeviceControl.HTTPPort",$_POST['httpport'],false);
-	  		setStr("Device.X_CISCO_COM_DeviceControl.HTTPSPort",$_POST['httpsport'],true);
+			$rootObjName ="Device.X_CISCO_COM_DeviceControl.";
+			$paramArray =
+			[
+				["Device.X_CISCO_COM_DeviceControl.HTTPPort", "uint", $_POST['httpport']],
+				["Device.X_CISCO_COM_DeviceControl.HTTPSPort", "uint", $_POST['httpsport']],
+			];
+			$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);
 		}
 		if($_POST['httpport']!="notset" && $_POST['httpsport']=="notset"){
 	  		setStr("Device.X_CISCO_COM_DeviceControl.HTTPPort",$_POST['httpport'],true);
