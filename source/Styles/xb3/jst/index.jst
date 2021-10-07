@@ -61,6 +61,23 @@ $wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
 $allowEthWanMode= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.AllowEthernetWAN");
 $DeviceControl_value = KeyExtGet("Device.X_CISCO_COM_DeviceControl.", $DeviceControl_param);
 $url = $_SERVER['HTTP_HOST'];
+$webuiEnabled = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUI.Enable");
+$webuiIsEnabled = "true";
+$productLink = "";
+$productLinkText = "";
+$ModelName = getStr("Device.DeviceInfo.ModelName");
+$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+$idadv ="";
+$idadv2 = "";
+if($ModelName == "SR203"){
+        $productLinkText = "App Sky Wifi: impostazioni avanzate";
+        $idadv = "advmess1";
+        $idadv2 = "advmess2";
+}else {
+        $productLinkText = $productLink;
+        $productLink = 'http://'+$productLink;
+}
+
 if(typeof($url) == 'string')
 {
   $Wan_IPv4 = getStr("Device.X_CISCO_COM_CableModem.IPAddress");
@@ -156,8 +173,20 @@ if(!$isMSO) {
 				header('Location:http://'+$ip_addr+'/captiveportal.jst');
 			}
 			exit;
-		}
+		}else{
+                        if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
+                                $webuiIsEnabled="false";
+                        }
+                }
+	}else{
+		if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
+			$webuiIsEnabled="false";
+                }
 	}
+}else{
+        if($webuiEnabled == "Disable"){
+                $webuiIsEnabled="false";
+        }
 }
 ?>
 <?%
@@ -280,8 +309,21 @@ if (strpos($partnersId, "sky-") !== false) {
 </div><!-- end #sub-header -->
 <?%
 //Old Nav Bar. Put new login here.
+if($webuiIsEnabled == "false"){
 ?>
 <!--div id="nav"-->
+<div  id="content">
+        <div  id=forwarding-items>
+                <div class="module data" style="width: 717px; margin: 89px">
+                        <div id="content" style="text-align: center;">
+                                <br>
+                                <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever. </span><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?> <span>to manage your gateway settings, and other features.</span><br></h3>
+                                 <br>
+                        </div>
+                </div> <!-- end .module -->
+        </div>
+</div><!-- end #content -->
+<?% } else { ?>
 <h1 id="index_header">Gateway > Login</h1>
 <div style="float: left; margin: 0 20px 20px 0; width: 60%; height:290px;background:white;">
         <form action="check.jst" method="post" id="pageForm"  onsubmit="return f();">
@@ -306,6 +348,9 @@ if (strpos($partnersId, "sky-") !== false) {
 <input type="hidden" name="locale" id="locale" value="<?% echo($locale); ?>">
 </form>
 </div>
+<?%
+}
+?>
 <script type="text/javascript">
 $(document).ready(function() {
 	var user_type = "<?% echo(($isMSO)?'mso':'admin'); ?>";

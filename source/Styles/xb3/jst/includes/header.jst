@@ -47,6 +47,44 @@ csrfprotector_rdkb::init();
                 	$_SESSION['language'] = $locale;
        	 	}
 	}
+	$url = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "" ;
+	$wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
+	$webuiEnabled = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUI.Enable");
+	//$webuiEnabled = "msoOnly";
+	$webuiIsEnabled = "true";
+
+	if($wan_enabled=="true"){
+        	$Wan_IPv4 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IP");
+        	$Wan_IPv6 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
+	}else{
+        	$Wan_IPv4 = getStr("Device.X_CISCO_COM_CableModem.IPAddress");
+        	$Wan_IPv6 = getStr("Device.X_CISCO_COM_CableModem.IPv6Address");
+	}
+	//if user is entering literal IPv6 address then remove "[" and "]"
+	$url = str_replace("[","",$url);
+	$url = str_replace("]","",$url);
+
+	if((!strcmp($url, $Wan_IPv4) || ((inet_pton($url)!="") || (inet_pton($Wan_IPv6!==""))) &&(inet_pton($url) == inet_pton($Wan_IPv6)))){
+        	$isMSO  = true;
+	}
+	else {
+        	$isMSO  = false;
+	}
+	if(!$isMSO) {
+        	 if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
+                                $webuiIsEnabled="false";
+                 }
+	}else{
+        	if($webuiEnabled == "Disable"){
+                	$webuiIsEnabled="false";
+        	}
+	}
+	if($webuiIsEnabled=="false"){
+        	session_destroy(); // Destroy all data in session
+                echo( '<script type="text/javascript">alert("Access Denied!"); location.href="../index.jst";</script>');
+                exit(0);
+
+	}
         $modelName= getStr("Device.DeviceInfo.ModelName");
                 if (($modelName != "CGM4140COM") && ($modelName != "CGM4331COM") && ($modelName != "TG1682G") && ($modelName != "CGA4131COM") && ($modelName != "CGA4332COM") && ($modelName != "CGM4981COM"))  {
                     if (!isset($_SESSION['PREV_REMOTEADDR'])) {

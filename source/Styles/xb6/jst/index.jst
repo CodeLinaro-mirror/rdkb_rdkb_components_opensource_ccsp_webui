@@ -43,6 +43,23 @@ $wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
 $DeviceControl_value = KeyExtGet("Device.X_CISCO_COM_DeviceControl.", $DeviceControl_param);
 $url = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "" ;
 $wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
+$webuiEnabled = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUI.Enable");
+$webuiIsEnabled = "true";
+$productLink = "";
+$productLinkText = "";
+$ModelName = getStr("Device.DeviceInfo.ModelName");
+$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+$idadv ="";
+$idadv2 = "";
+if($ModelName == "SR203"){
+        $productLinkText = "App Sky Wifi: impostazioni avanzate";
+        $idadv = "advmess1";
+        $idadv2 = "advmess2";
+}else {
+        $productLinkText = $productLink;
+        $productLink = 'http://'+$productLink;
+}
+
 if($wan_enabled=="true"){
 	$Wan_IPv4 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IP");
 	$Wan_IPv6 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
@@ -112,8 +129,20 @@ if(!$isMSO) {
                           	header('Location:http://'+$ip_addr+'/captiveportal.jst');
                        	}
                        	exit;
+                }else{
+                        if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
+                                $webuiIsEnabled="false";
+                        }
+                }
+	}else{
+		if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
+                	$webuiIsEnabled="false";
                 }
 	}
+}else{
+        if($webuiEnabled == "Disable"){
+                $webuiIsEnabled="false";
+        }
 }
 ?>
 <?%
@@ -210,7 +239,20 @@ $logo = "cmn/syndication/img/"+$msoLogo;
 <?%
 //Old Nav Bar. Put new login here.
 //include('includes/nav.jst');
+if($webuiIsEnabled == "false"){
 ?>
+<div  id="content">
+        <div  id=forwarding-items>
+                <div class="module data" style="width: 717px; margin: 89px">
+                        <div id="content" style="text-align: center;">
+                                <br>
+				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever. </span><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?> <span>to manage your gateway settings, and other features.</span><br></h3>
+                                 <br>
+                        </div>
+                </div> <!-- end .module -->
+        </div>
+</div><!-- end #content -->
+<?% } else { ?>
 <!--div id="nav"-->
 <h1>Gateway > Login</h1>
 <div style="float: left; margin: 0 20px 20px 0; width: 60%; height:290px;background:white;">
@@ -235,6 +277,9 @@ $logo = "cmn/syndication/img/"+$msoLogo;
 	</div>
 </form>
 </div>
+<?%
+}
+?>
 <script type="text/javascript">
 $(document).ready(function() {
 	var user_type = "<?% echo( ($isMSO)?'mso':'admin'); ?>";
