@@ -743,15 +743,15 @@ function click_save()
 	//var security			= $("#security").val();
 	var security_id 		= document.getElementById("security");
 	var security 			= security_id.options[security_id.selectedIndex].value;
-	var channel_automatic	= $("#channel_automatic").prop("checked");
+	var channel_automatic		= ($("#channel_automatic").prop("checked") == true);
 	var channel_number		= $("#channel_number").attr("value");
-	var password_update      = $("#password_check").prop("checked");
+	var password_update      	= $("#password_check").prop("checked");
 	if((password_mso_user) || password_update){
 		network_password	= addslashes($("#network_password").val());
 	}
 	var broadcastSSID		= $("#broadcastSSID").prop("checked");
 	var enableWMM			= $("#enableWMM").prop("checked");
-	var channel_bandwidth	= $('[name="channel_bandwidth'+rf+'"]:checked').attr("value");
+	var channel_bandwidth		= $('[name="channel_bandwidth'+rf+'"]:checked').attr("value");
 	var jsConfig = '{"radio_enable":"'+radio_enable
 	+'", "network_name":"'+network_name
 	+'", "wireless_mode":"'+wireless_mode
