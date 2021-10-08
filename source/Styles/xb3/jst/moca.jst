@@ -27,6 +27,7 @@
 <?% include('includes/nav.jst'); ?>
 <?% 
 	$ret = init_psmMode("Gateway > Connection > MoCA", "nav-moca");
+        $splitmode="";
 	if ("" != $ret){echo( $ret);	exit(0);}
 	$MoCA_param = {
 		"moca_enable"	: "Device.MoCA.Interface.1.Enable",
@@ -68,6 +69,7 @@
 	$isNotAdmin = ("admin" != $_SESSION["loginuser"])?true:false;
 	$videoServiceEnable = getStr("Device.X_RDKCENTRAL-COM_VideoService.Enabled");
 	$mocaForceEnable	= getStr("Device.MoCA.X_RDKCENTRAL-COM_ForceEnable");
+        $splitmode = getStr("Device.X_RDK_CableModem.UpstreamDiplexerSetting");
 	?>
 <style type="text/css">
 label{
@@ -83,6 +85,7 @@ label{
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
+	var splitmode = '<?% echo( $splitmode); ?>';
     gateway.page.init("Gateway > Connection > MoCA", "nav-moca");
 	$("#moca_switch").radioswitch({
 		id: "moca-switch",
@@ -108,6 +111,16 @@ $(document).ready(function() {
 		title_off: "Disable QoS for MoCA",
 		state: < ? % echo( ($qos_enable === "true" ? "true" : "false")); ? > ? "on" : "off"
 	});*/
+	if ( splitmode > 85 )
+	{
+		$("#moca_note").show();
+		$('#pageForm *').addClass("disabled");
+                $("#moca_switch").radioswitch("doEnable", false);
+                $("#pageForm :input").prop("disabled", true);
+	}else
+	{
+		$("#moca_note").hide();
+	}
 	$lanMode = '<?% echo( $_SESSION["lanMode"]); ?>';
 	if ($lanMode != "router"){
 		$('#pageForm *').addClass("disabled");
@@ -336,6 +349,7 @@ function next_step()
 		}
 		?>
 	</div>
+	 <p id="moca_note" style="position:relative; left:200px" class="error">MOCA is not supported in High Split configuration.</p>
     <form id="pageForm">
 	<fieldset>
     <legend class="acs-hide" id="mocamess3">MoCA information</legend>
