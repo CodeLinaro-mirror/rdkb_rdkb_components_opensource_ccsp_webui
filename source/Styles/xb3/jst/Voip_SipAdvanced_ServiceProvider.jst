@@ -29,15 +29,8 @@
 	display: none;
 }
 </style>
-<script type="text/javascript">
-	$(document).ready(function() {
-	    gateway.page.init("Voice Diagnostics > Advanced Setup > Service Provider", "nav-voice-advance-service");
-		// now we can show target content
-		$("#content").show();
-	});
-</script>
 <?%
-    //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
+	//DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
 			'Sky_Network_Disconnect' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_NetworkDisconnect"),
@@ -52,6 +45,7 @@
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();
+	$values_got['Conference_URI'] = htmlspecialchars($values_got['Conference_URI'], ENT_NOQUOTES, 'UTF-8');
 ?>
 
 <div id="content">
@@ -106,6 +100,10 @@
 	</form>
 </div>
 <script type="text/javascript">
+$(document).ready(function() {
+    gateway.page.init("Voice Diagnostics > Advanced Setup > Service Provider", "nav-voice-advance-service");
+	// now we can show target content
+	$("#content").show();
 	var php_value= <?% echo( json_encode($values_got) );?>;
 	function page_load_values(){
 		if(php_value['CallWaitingEnable']=='true')
@@ -126,7 +124,10 @@
 			$('#SIP_Stop').prop('disabled', true);
 		if(php_value['Sky_Network_Disconnect']=='true')
 			$('#sky_ntwrk_discnt').attr('checked',true);
-		$('#sky_conferencing_uri').val(php_value['Conference_URI']);
+		conference_URI = php_value['Conference_URI'].replace(/&lt;/g,"<");
+		conference_URI = conference_URI.replace(/&gt;/g,">");
+		conference_URI = conference_URI.replace(/&amp;/g,"&");
+		$('#sky_conferencing_uri').val(conference_URI);
 	}
 
 	function get_set_val(){
@@ -142,34 +143,59 @@
 		};
 		return ret;
 	}
-	$('#SIP_Apply').on('click',function(){
-		var values = get_set_val();
-		var jsConfig = '{"CallWaitingEnable":"'+values['CallWaitingEnable']
-		 +'","ConferenceCallingEnable":"'+ values['ConferenceCallingEnable']
-		 +'","HoldEnable":"'+values['HoldEnable']
-		 +'","PhoneCallerIDEnable":"'+values['PhoneCallerIDEnable']
-		 +'","MWIEnable":"'+values['MWIEnable']
-		 +'","Sky_Network_Disconnect":"'+values['Sky_Network_Disconnect']
-		 +'","Conference_URI":"'+values['Conference_URI']
-		 +'","SkyEuroFlashCallWaitingEnable":"'+values['SkyEuroFlashCallWaitingEnable']+'"}';
-    	         jProgress($.i18n('This may take several seconds...'), 60);
-		$.ajax({
-			type: "POST",
-			url: "actionHandler/ajaxSet_SIPAdvanced_ServiceProvider.jst",
-			data: { configInfo: jsConfig },
-			success: function(msg) {
-				jHide();
-				msg_parseJSON = JSON.parse(msg);
-				// location.reload();
-				if(msg_parseJSON["error_message"]){
-					jAlert(msg_parseJSON["error_message"]);
-					setTimeout(page_load_values,50);
-				} else location.href = 'Voip_SipAdvanced_ServiceProvider.jst';
-			},
-			error: function(){
-				jHide();
+	$.validator.setDefaults({
+		errorElement : "p"
+		,errorPlacement: function(error, element) {
+			error.appendTo(element.closest(".form-row"));
+		}
+	});
+	jQuery.validator.addMethod("noSpace", function(value, element) {
+		return value.indexOf(" ") < 0 && value != "";
+	}, $.i18n('Spaces are not allowed'));
+	jQuery.validator.addMethod("allowed_char_new", function(value, element, param) {
+		//Invalid characters are Less than (<), Greater than (>), Ampersand (&), Double quote ("), Single quote ('), Pipe (|).
+		return !param || (value.match(/[\(<>&"'$`;|\)]/)==null);
+	}, $.i18n('Special characters are not allowed.'));
+	$('#sip_adv_serviceprovider').validate({
+		rules: {
+			sky_conferencing_uri: {
+				required: true,
+				noSpace: true,
+				allowed_char: true,
+				allowed_char_new: true,
 			}
-		});
+		}
+	});
+	$('#SIP_Apply').on('click',function(){
+		if($('#sip_adv_serviceprovider').valid()){
+			var values = get_set_val();
+			var jsConfig = '{"CallWaitingEnable":"'+values['CallWaitingEnable']
+			 +'","ConferenceCallingEnable":"'+ values['ConferenceCallingEnable']
+			 +'","HoldEnable":"'+values['HoldEnable']
+			 +'","PhoneCallerIDEnable":"'+values['PhoneCallerIDEnable']
+			 +'","MWIEnable":"'+values['MWIEnable']
+			 +'","Sky_Network_Disconnect":"'+values['Sky_Network_Disconnect']
+			 +'","Conference_URI":"'+values['Conference_URI']
+			 +'","SkyEuroFlashCallWaitingEnable":"'+values['SkyEuroFlashCallWaitingEnable']+'"}';
+			jProgress($.i18n('This may take several seconds...'), 60);
+			$.ajax({
+				type: "POST",
+				url: "actionHandler/ajaxSet_SIPAdvanced_ServiceProvider.jst",
+				data: { configInfo: jsConfig },
+				success: function(msg) {
+					jHide();
+					msg_parseJSON = JSON.parse(msg);
+					// location.reload();
+					if(msg_parseJSON["error_message"]){
+						jAlert(msg_parseJSON["error_message"]);
+						setTimeout(page_load_values,50);
+					} else location.href = 'Voip_SipAdvanced_ServiceProvider.jst';
+				},
+				error: function(){
+					jHide();
+				}
+			});
+		}
 	});
 	$('.sip_btn').on('click', function(){
 		var btn_val = $(this).attr('name');
@@ -203,5 +229,6 @@
 		});
 	}
 	setTimeout(page_load_values,50);
+});
 </script>
 <?% include('includes/footer.jst'); ?>

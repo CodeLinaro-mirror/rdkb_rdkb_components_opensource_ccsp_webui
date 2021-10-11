@@ -29,13 +29,6 @@
 	display: none;
 }
 </style>
-<script type="text/javascript">
-	$(document).ready(function() {
-	    gateway.page.init("Voice Diagnostics > SIP Basic Setup > Service Provider", "nav-voice-sip-service");
-		// now we can show target content
-		$("#content").show();
-	});
-</script>
 <?%
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
@@ -57,10 +50,18 @@
 			'DigitMap' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_DigitMap"),
 			'EmergencyDigitMap' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_EmergencyDigitMap"),
 			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus"),
-                        'uri' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI") 
+			'uri' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI")
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();
+	$values_got['uri'] = htmlspecialchars($values_got['uri'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['Auth_usr'] = htmlspecialchars($values_got['Auth_usr'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['ProxyServer'] = htmlspecialchars($values_got['ProxyServer'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['ProxyServerPort'] = htmlspecialchars($values_got['ProxyServerPort'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['OutboundProxy'] = htmlspecialchars($values_got['OutboundProxy'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['UserAgentDomain'] = htmlspecialchars($values_got['UserAgentDomain'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['RegistrarServer'] = htmlspecialchars($values_got['RegistrarServer'], ENT_NOQUOTES, 'UTF-8');
+	$values_got['Directory'] = htmlspecialchars($values_got['Directory'], ENT_NOQUOTES, 'UTF-8');
 ?>
 <div id="content">
 	<h1>Voice Diagnostics > SIP Basic Setup > Service Provider </h1>
@@ -172,22 +173,42 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 	</form>
 </div>
 <script type="text/javascript">
+$(document).ready(function() {
+	gateway.page.init("Voice Diagnostics > SIP Basic Setup > Service Provider", "nav-voice-sip-service");
+	// now we can show target content
+	$("#content").show();
+	function decode_chars(string){
+		if(string && typeof string === 'string') {
+			string = string.replace(/&lt;/g,"<");
+			string = string.replace(/&gt;/g,">");
+			string = string.replace(/&amp;/g,"&");
+		}
+		return string;
+	}
 	var php_value= <?% echo( json_encode($values_got) );?>;
 	function page_load_values(){
+		uri 		= decode_chars(php_value['uri']);
+		auth_usr 	= decode_chars(php_value['Auth_usr']);
+		proxyServer 	= decode_chars(php_value['ProxyServer']);
+		proxyServerPort = decode_chars(php_value['ProxyServerPort']);
+		outboundProxy 	= decode_chars(php_value['OutboundProxy']);
+		userAgentDomain = decode_chars(php_value['UserAgentDomain']);
+		registrarServer = decode_chars(php_value['RegistrarServer']);
+		directory 	= decode_chars(php_value['Directory']);
 		$('#S_digit_timer').val(php_value['SDigitTimer']);
 		$('#Z_digit_timer').val(php_value['ZDigitTimer']);
 		$('#SIP_acc_status').val(php_value['Acc_Status']);
-		$('#SIP_Directory').val(php_value['Directory']);
-                $('#SIP_URI').val(php_value['uri']);
-		$('#SIP_auth_name').val(php_value['Auth_usr']);
+		$('#SIP_Directory').val(directory);
+		$('#SIP_URI').val(uri);
+		$('#SIP_auth_name').val(auth_usr);
 		$('#SIP_auth_pwd').val('<EMPTY>').css('color','red');
-		$('#SIP_outbound_proxy').val(php_value['OutboundProxy']);
+		$('#SIP_outbound_proxy').val(outboundProxy);
 		$('#SIP_outbound_proxy_port').val(php_value['OutboundProxyPort']);
-		$('#SIP_proxy').val(php_value['ProxyServer']);
-		$('#SIP_proxy_port').val(php_value['ProxyServerPort']);
-		$('#SIP_registrar').val(php_value['RegistrarServer']);
+		$('#SIP_proxy').val(proxyServer);
+		$('#SIP_proxy_port').val(proxyServerPort);
+		$('#SIP_registrar').val(registrarServer);
 		$('#SIP_registrar_port').val(php_value['RegistrarServerPort']);
-		$('#SIP_domainName').val(php_value['UserAgentDomain']);
+		$('#SIP_domainName').val(userAgentDomain);
 		$('#SIP_digitMap').val(php_value['DigitMap']);
 		$('#SIP_Emer_digitMap').val(php_value['EmergencyDigitMap']);
 		if(php_value['Acc_Enabled']=='Enabled')
@@ -198,7 +219,7 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 			$('#SIP_Stop').prop('disabled', true);
 		checkboxes();
 	}
-        $('#SIP_auth_pwd').on('click',function(){
+	$('#SIP_auth_pwd').on('click',function(){
 		$(this).val('').css('color','black');
 	});
 	$("#password_show").change(function() {
@@ -249,26 +270,26 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 		else{
 			$('#SIP_proxy, #SIP_proxy_port ').prop("disabled", true);
 			$('#SIP_proxy').val('');
-		    $('#SIP_proxy_port').val(0);
+			$('#SIP_proxy_port').val(0);
 		}
 	});
 	$('#u_SIP_registrar').on('click', function(){
 		if($('#u_SIP_registrar').is(':checked')){
 			$('#SIP_registrar, #SIP_registrar_port').prop("disabled", false);
 			$('#SIP_registrar').val(php_value['RegistrarServer']);
-		    $('#SIP_registrar_port').val(php_value['RegistrarServerPort']);
+			$('#SIP_registrar_port').val(php_value['RegistrarServerPort']);
 		}
 		else{
 			$('#SIP_registrar, #SIP_registrar_port').prop("disabled", true);
 			$('#SIP_registrar').val('');
-		    $('#SIP_registrar_port').val(0);
+			$('#SIP_registrar_port').val(0);
 		}
 	});
 	$('#u_SIP_outbound_proxy').on('click', function(){
 		if($('#u_SIP_outbound_proxy').is(':checked')){
 			$('#SIP_outbound_proxy, #SIP_outbound_proxy_port').prop("disabled", false);
 			$('#SIP_outbound_proxy').val(php_value['OutboundProxy']);
-		    $('#SIP_outbound_proxy_port').val(php_value['OutboundProxyPort']);
+			$('#SIP_outbound_proxy_port').val(php_value['OutboundProxyPort']);
 		}
 		else{
 			$('#SIP_outbound_proxy, #SIP_outbound_proxy_port').prop("disabled", true);
@@ -276,45 +297,77 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 			$('#SIP_outbound_proxy_port').val(0);
 		}
 	});
+	$.validator.setDefaults({
+		errorElement : "p"
+		,errorPlacement: function(error, element) {
+			error.appendTo(element.closest(".form-row"));
+		}
+	});
+	jQuery.validator.addMethod("noSpace", function(value, element) {
+		return value.indexOf(" ") < 0 && value != "";
+	}, $.i18n("Spaces are not allowed"));
+	jQuery.validator.addMethod("allowed_char_new", function(value, element, param) {
+		//Invalid characters are Less than (<), Greater than (>), Ampersand (&), Double quote ("), Single quote ('), Pipe (|).
+		return !param || (value.match(/[\(<>&"'$`;|\)]/)==null);
+	}, $.i18n('Special characters are not allowed.'));
+	jQuery.validator.addMethod("port",function(value,element){
+		return this.optional(element) || (value.match(/^\d+$/g) && value >= 0 && value <= 65535);
+	}, $.i18n('Please enter a port number less than 65536.'));
+	var rule_uri = {
+		required: true,
+		noSpace: true,
+		allowed_char: true,
+		allowed_char_new: true,
+	}
+	$('#sip_serviceprovider').validate({
+		rules: {
+			SIP_URI: rule_uri,
+			SIP_proxy: rule_uri,
+			SIP_domainName: rule_uri,
+			SIP_registrar: rule_uri,
+		}
+	});
 	$('#SIP_Apply').on('click', function(){
-		var Authpwd = $('#SIP_auth_pwd').val();
-		if(Authpwd == '<EMPTY>')Authpwd = "";
-		var mod_values='{"Auth_usr":"'+$('#SIP_auth_name').val()
-			+'","Auth_pwd":"'+Authpwd
-			+'","OutboundProxy":"'+ $('#SIP_outbound_proxy').val()
-			+'","OutboundProxyPort":"'+$('#SIP_outbound_proxy_port').val()
-			+'","ProxyServer":"'+$('#SIP_proxy').val()
-			+'","ProxyServerPort":"'+$('#SIP_proxy_port').val()
-			+'","ProxyServer":"'+$('#SIP_proxy').val()
-			+'","ProxyServerPort":"'+$('#SIP_proxy_port').val()
-			+'","RegistrarServer":"'+$('#SIP_registrar').val()
-			+'","RegistrarServerPort":"'+$('#SIP_registrar_port').val()
-			+'","UserAgentDomain":"'+$('#SIP_domainName').val()
-			+'","DigitMap":"'+$('#SIP_digitMap').val()
-			+'","SDigitTimer":"'+$('#S_digit_timer').val()
-			+'","ZDigitTimer":"'+$('#Z_digit_timer').val()
-			+'","Acc_Enabled":"'+($('#SIP_acc_enabled').is(':checked')? 'Enabled' :'Disabled')
-			+'","Directory":"'+$('#SIP_Directory').val()
-                        +'","uri":"'+$('#SIP_URI').val()
-			+'","EmergencyDigitMap":"'+$('#SIP_Emer_digitMap').val()+'"}';
-         	var jsConfig = mod_values;
-        	jProgress($.i18n('This may take several seconds...'), 60);
-		$.ajax({
-			type: "POST",
-			url: "actionHandler/ajaxSet_SIPBasic_ServiceProvider.jst",
-			data: { configInfo: jsConfig },
-			success: function(msg) {
-				jHide();
-				msg_parseJSON = JSON.parse(msg);
-				if(msg_parseJSON["error_message"]){
-					jAlert(msg_parseJSON["error_message"]);
-					setTimeout(page_load_values,50);
-				} else location.href = 'Voip_SipBasic_ServiceProvider.jst';
-			},
-			error: function(){
-				jHide();
-			}
-		});
+		if($('#sip_serviceprovider').valid()){
+			var Authpwd = $('#SIP_auth_pwd').val();
+			if(Authpwd == '<EMPTY>')Authpwd = "";
+			var mod_values='{"Auth_usr":"'+$('#SIP_auth_name').val()
+				+'","Auth_pwd":"'+Authpwd
+				+'","OutboundProxy":"'+ $('#SIP_outbound_proxy').val()
+				+'","OutboundProxyPort":"'+$('#SIP_outbound_proxy_port').val()
+				+'","ProxyServer":"'+$('#SIP_proxy').val()
+				+'","ProxyServerPort":"'+$('#SIP_proxy_port').val()
+				+'","ProxyServer":"'+$('#SIP_proxy').val()
+				+'","ProxyServerPort":"'+$('#SIP_proxy_port').val()
+				+'","RegistrarServer":"'+$('#SIP_registrar').val()
+				+'","RegistrarServerPort":"'+$('#SIP_registrar_port').val()
+				+'","UserAgentDomain":"'+$('#SIP_domainName').val()
+				+'","DigitMap":"'+$('#SIP_digitMap').val()
+				+'","SDigitTimer":"'+$('#S_digit_timer').val()
+				+'","ZDigitTimer":"'+$('#Z_digit_timer').val()
+				+'","Acc_Enabled":"'+($('#SIP_acc_enabled').is(':checked')? 'Enabled' :'Disabled')
+				+'","Directory":"'+$('#SIP_Directory').val()
+				+'","uri":"'+$('#SIP_URI').val()
+				+'","EmergencyDigitMap":"'+$('#SIP_Emer_digitMap').val()+'"}';
+			var jsConfig = mod_values;
+			jProgress($.i18n('This may take several seconds...'), 60);
+			$.ajax({
+				type: "POST",
+				url: "actionHandler/ajaxSet_SIPBasic_ServiceProvider.jst",
+				data: { configInfo: jsConfig },
+				success: function(msg) {
+					jHide();
+					msg_parseJSON = JSON.parse(msg);
+					if(msg_parseJSON["error_message"]){
+						jAlert(msg_parseJSON["error_message"]);
+						setTimeout(page_load_values,50);
+					} else location.href = 'Voip_SipBasic_ServiceProvider.jst';
+				},
+				error: function(){
+					jHide();
+				}
+			});
+		}
 	});
 	$('.sip_btn').on('click', function(){
 		var btn_val = $(this).attr('name');
@@ -348,5 +401,6 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 		});
 	}
 	setTimeout(page_load_values,50);
+	});
 </script>
 <?% include('includes/footer.jst'); ?>
