@@ -539,9 +539,8 @@ $('#device').click(function(){
 		<th id="add-radio"><?php echo _("Add")?></th>					
 		<th colspan="2">&nbsp;</th>
 	</tr>
-	<?php 
-		$hostsInstance = getInstanceIds("Device.Hosts.Host.");
-		$hostsInstanceArr = explode(",", $hostsInstance);
+<?php
+		$hostsInstanceArr = DmExtGetInstanceIds("Device.Hosts.Host.");	
 		$hostNums = getStr("Device.Hosts.HostNumberOfEntries");
 		/*if ($_DEBUG) {
 			$hostNums = "2";

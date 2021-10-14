@@ -559,13 +559,12 @@ $('#device').click(function(){
 		<th colspan="2">&nbsp;</th>
 	</tr>
 	<?% 
-		$hostsInstance = getInstanceIds("Device.Hosts.Host.");
-		$hostsInstanceArr = explode(",", $hostsInstance);
+		$hostsInstanceArr = DmExtGetInstanceIds("Device.Hosts.Host.");
 		$hostNums = getStr("Device.Hosts.HostNumberOfEntries");
 		/*if ($_DEBUG) {
 			$hostNums = "2";
 		}*/
-		for ($i=0; $i < $hostNums; $i++) { 
+		for ($i=1; $i <= $hostNums; $i++) { 
                         $HostName  = getStr("Device.Hosts.Host."+$hostsInstanceArr[$i]+".HostName");
                         $IPAddress = getStr("Device.Hosts.Host."+$hostsInstanceArr[$i]+".IPAddress");
                         $Active    = getStr("Device.Hosts.Host."+$hostsInstanceArr[$i]+".Active");
