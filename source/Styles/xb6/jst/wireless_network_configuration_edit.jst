@@ -629,6 +629,8 @@ $(document).ready(function() {
 			$("#wireless_mode").change();
 		}
 	}).trigger("change");
+	<?%if($rf == 2)
+	{?>
 	// Warning for DFS channel (52-140)
 	$("#channel_number").change(function(){
 		var channel = $("#channel_number option:selected").val();
@@ -643,7 +645,9 @@ $(document).ready(function() {
 			});
 		}
 	});
-//zqiu >>	
+	<?%
+	}?>
+//zqiu >>
 	$("#restore-default-settings").click(function() {
 		var href = $(this).attr("href");
 		var message = ($(this).attr("title").length > 0) ? "Are you sure you want to " + $(this).attr("title") + "?" : "Are you sure?";
