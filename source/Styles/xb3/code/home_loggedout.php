@@ -25,8 +25,15 @@ include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.php';
 //Initialise CSRFGuard library
 csrfprotector_rdkb::init();
 	session_start();
-	$cur_user = $_SESSION['loginuser'];
-	exec("/usr/bin/logger -t GUI -p local5.notice \"User:$cur_user logout\" ");
+        if($_SESSION['loginuser'] == "admin") {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:admin logout\" ");
+        }
+        else if($_SESSION['loginuser'] == "mso") {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:mso logout\" ");
+        }
+        else {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:Unknown logout\" ");
+        }
 	session_unset();
 	session_destroy();
 	header("location: index.php");

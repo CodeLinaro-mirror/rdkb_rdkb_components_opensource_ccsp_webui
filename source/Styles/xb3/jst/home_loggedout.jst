@@ -29,9 +29,15 @@ csrfprotector_rdkb::init();
 */
 	session_start();
         $modelName= getStr("Device.DeviceInfo.ModelName");
-	$cur_user = $_SESSION['loginuser'];
-	exec("/usr/bin/logger -t GUI -p local5.notice \"User:$cur_user logout\" ");
-        $curr_sessID = session_id();
+        if($_SESSION['loginuser'] == "admin") {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:admin logout\" ");
+        }
+        else if($_SESSION['loginuser'] == "mso") {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:mso logout\" ");
+        }
+        else {
+                exec("/usr/bin/logger -t GUI -p local5.notice \"User:Unknown logout\" ");
+        }
 	session_unset();
 	session_destroy();
 	header("location: index.jst");
