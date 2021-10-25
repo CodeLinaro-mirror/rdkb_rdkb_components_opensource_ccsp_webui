@@ -31,7 +31,7 @@ $arConfig = json_decode($jsConfig, true);
 //print_r($arConfig);
 $response_message = '';
 ret_val = "false";
-ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered", $arConfig['current_line'], true);
+ret_val = setStr($tvdml["LoopCurrUntilReg"], $arConfig['current_line'], true);
 if (ret_val == "false") {
 	$response_message = 'Failed to set DisableLoopCurrent parametrer';
 }

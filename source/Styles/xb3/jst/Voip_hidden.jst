@@ -40,7 +40,7 @@
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
-			'line_register' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered") 			
+			'line_register' : getStr($tvdml["LoopCurrUntilReg"])
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

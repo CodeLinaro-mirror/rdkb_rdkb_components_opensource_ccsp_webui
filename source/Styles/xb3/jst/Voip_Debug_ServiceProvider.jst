@@ -40,11 +40,11 @@
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
-			'Ingress' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.ReceiveGain"),
-			'Egress' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.TransmitGain"),
-			'server_IP_addr' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServer"),
-			'server_port' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServerPort"),
-			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus") 
+			'Ingress' : getStr($tvdml["ReceiveGain"]),
+			'Egress' : getStr($tvdml["TransmitGain"]),
+			'server_IP_addr' : getStr($tvdml["LogServer"]),
+			'server_port' : getStr($tvdml["LogServerPort"]),
+			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus")
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

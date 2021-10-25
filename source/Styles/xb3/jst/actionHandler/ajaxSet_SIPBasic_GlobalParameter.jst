@@ -34,9 +34,9 @@ $response_message = '';
 ret_val = "false";
 $thisUser = count($arConfig);
 if($thisUser > 1){
-ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_BoundIfName", $arConfig['BoundIfName'], true);
-ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_IpAddressFamily", $arConfig['IpAddressFamily'], true);
-ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered", $arConfig['line_register'], true);
+ret_val = setStr($tvdml["BoundIfName"], $arConfig['BoundIfName'], true);
+ret_val = setStr($tvdml["IpAddressFamily"], $arConfig['IpAddressFamily'], true);
+ret_val = setStr($tvdml["LoopCurrUntilReg"], $arConfig['line_register'], true);
 }
 else{
 ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessState",$arConfig['SIP_val'],true);

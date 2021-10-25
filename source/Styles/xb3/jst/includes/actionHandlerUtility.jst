@@ -240,4 +240,114 @@ if(isset($locale)) {
         $_SESSION['language'] = $locale; // set the default locale for future pages
     }
 }
+/*
+	TelcoVoipAgent v1
+	TelcoVoiceManager v1 - IF /tmp/RDKB_TELCOVOICEMANAGER_ENABLED
+	TelcoVoiceManager v2 - IF ADA
+*/
+function voiceDML(){
+	var $voipAgentDMLv1 = {
+		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered",
+		"BoundIfName" 		: "Device.Services.VoiceService.1.X_RDK-Central_COM_BoundIfName",
+		"IpAddressFamily" 	: "Device.Services.VoiceService.1.X_RDK-Central_COM_IpAddressFamily",
+		"CallWaitingEnable" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.CallWaitingEnable",
+		"MWIEnable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.MWIEnable",
+		"ConferCallEnable"	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_ConferenceCallingEnable",
+		"HoldEnable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_HoldEnable",
+		"PhoneCallerIDEnable" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_PhoneCallerIDEnable",
+		"DirectoryNumber" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.DirectoryNumber",
+		"Line_Enable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable",
+		"SIP_AuthPassword" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthPassword",
+		"SIP_AuthUserName" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthUserName",
+		"SIP_URI" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI",
+		"ReceiveGain" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.ReceiveGain",
+		"TransmitGain" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.TransmitGain",
+		"OutboundProxy" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxy",
+		"OutboundProxyPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxyPort",
+		"ProxyServer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServer",
+		"ProxyServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServerPort",
+		"RegistrarServer" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServer",
+		"RegistrarServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServerPort",
+		"UserAgentDomain" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.UserAgentDomain",
+		"ConferencingURI" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_ConferencingURI",
+		"NetworkDisconnect" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_NetworkDisconnect",
+		"RDK_DigitMap" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_DigitMap",
+		"EmergencyDigitMap" 	: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_EmergencyDigitMap",
+		"SDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_SDigitTimer",
+		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_ZDigitTimer",
+		"LogServer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServer",
+		"LogServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServerPort",
+	};
+	var $voiceManagerDMLv1 = {
+		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK_DisableLoopCurrentUntilRegistered",
+		"BoundIfName" 		: "Device.Services.VoiceService.1.X_RDK_BoundIfName",
+		"IpAddressFamily" 	: "Device.Services.VoiceService.1.X_RDK_IpAddressFamily",
+		"CallWaitingEnable" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.CallWaitingEnable",
+		"MWIEnable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.MWIEnable",
+		"ConferCallEnable"	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_ConferenceCallingEnable",
+		"HoldEnable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_HoldEnable",
+		"PhoneCallerIDEnable" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_PhoneCallerIDEnable",
+		"DirectoryNumber" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.DirectoryNumber",
+		"Line_Enable" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable",
+		"SIP_AuthPassword" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthPassword",
+		"SIP_AuthUserName" 	: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthUserName",
+		"SIP_URI" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI",
+		"ReceiveGain" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.ReceiveGain",
+		"TransmitGain" 		: "Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.TransmitGain",
+		"OutboundProxy" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxy",
+		"OutboundProxyPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxyPort",
+		"ProxyServer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServer",
+		"ProxyServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServerPort",
+		"RegistrarServer" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServer",
+		"RegistrarServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServerPort",
+		"UserAgentDomain" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.UserAgentDomain",
+		"ConferencingURI" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_ConferencingURI",
+		"NetworkDisconnect" 	: "Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_NetworkDisconnect",
+		"RDK_DigitMap" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_DigitMap",
+		"EmergencyDigitMap" 	: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_EmergencyDigitMap",
+		"SDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_SDigitTimer",
+		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_ZDigitTimer",
+		"LogServer"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServer",
+		"LogServerPort"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServerPort",
+	};
+	var $voiceManagervDML2 = {
+		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK_DisableLoopCurrentUntilRegistered",
+		"BoundIfName" 		: "Device.Services.VoiceService.1.X_RDK_BoundIfName",
+		"IpAddressFamily" 	: "Device.Services.VoiceService.1.X_RDK_IpAddressFamily",
+		"CallWaitingEnable" 	: "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.1.CallWaitingEnable",
+		"MWIEnable" 		: "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.1.MWIEnable",
+		"ConferCallEnable"	: "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.1.X_RDK-Central_COM_ConferenceCallingEnable",
+		"HoldEnable" 		: "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.1.X_RDK-Central_COM_HoldEnable",
+		"PhoneCallerIDEnable" 	: "Device.Services.VoiceService.1.CallControl.CallingFeatures.Set.1.X_RDK-Central_COM_PhoneCallerIDEnable",
+		"DirectoryNumber" 	: "Device.Services.VoiceService.1.CallControl.Line.1.DirectoryNumber",
+		"Line_Enable" 		: "Device.Services.VoiceService.1.CallControl.Line.1.Enable",
+		"SIP_AuthPassword" 	: "Device.Services.VoiceService.1.SIP.Client.1.AuthPassword",
+		"SIP_AuthUserName" 	: "Device.Services.VoiceService.1.SIP.Client.1.AuthUserName",
+		"SIP_URI" 		: "Device.Services.VoiceService.1.SIP.Client.1.RegisterURIDevice.Services.VoiceService.1.SIP.Client.1.RegisterURI",
+		"ReceiveGain" 		: "Device.Services.VoiceService.1.Terminal.1.Audio.1.VoiceProcessing.ReceiveGain",
+		"TransmitGain" 		: "Device.Services.VoiceService.1.Terminal.1.Audio.1.VoiceProcessing.TransmitGain",
+		"OutboundProxy" 	: "Device.Services.VoiceService.1.SIP.Network.1.OutboundProxy",
+		"OutboundProxyPort" 	: "Device.Services.VoiceService.1.SIP.Network.1.OutboundProxyPort",
+		"ProxyServer" 		: "Device.Services.VoiceService.1.SIP.Network.1.ProxyServer",
+		"ProxyServerPort" 	: "Device.Services.VoiceService.1.SIP.Network.1.ProxyServerPort",
+		"RegistrarServer" 	: "Device.Services.VoiceService.1.SIP.Network.1.RegistrarServer",
+		"RegistrarServerPort" 	: "Device.Services.VoiceService.1.SIP.Network.1.RegistrarServerPort",
+		"UserAgentDomain" 	: "Device.Services.VoiceService.1.SIP.Network.1.UserAgentDomain",
+		"ConferencingURI" 	: "Device.Services.VoiceService.1.SIP.Network.1.X_RDK-Central_COM_ConferencingURI",
+		"NetworkDisconnect" 	: "Device.Services.VoiceService.1.SIP.Network.1.X_RDK-Central_COM_NetworkDisconnect",
+		"RDK_DigitMap" 		: "Device.Services.VoiceService.1.VoIPProfile.1.X_RDK-Central_COM_DigitMap",
+		"EmergencyDigitMap" 	: "Device.Services.VoiceService.1.VoIPProfile.1.X_RDK-Central_COM_EmergencyDigitMap",
+		"SDigitTimer" 		: "Device.Services.VoiceService.1.VoIPProfile.1.X_RDK-Central_COM_SDigitTimer",
+		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoIPProfile.1.X_RDK-Central_COM_ZDigitTimer",
+		"LogServer"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServer",
+		"LogServerPort"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServerPort",
+	};
+	$voiceDML 	= $voipAgentDMLv1;
+	$telco_vm	= file_exists("/tmp/RDKB_TELCOVOICEMANAGER_ENABLED");
+	$modelName 	= getStr("Device.DeviceInfo.ModelName");
+	$voiceDML 	= ($telco_vm) ? $voiceManagerDMLv1 : $voipAgentDMLv1 ;
+	if($modelName == 'SR300') $voiceDML = $voiceManagerDMLv2;
+	return $voiceDML;
+}
+$tvdml = voiceDML();
 ?>

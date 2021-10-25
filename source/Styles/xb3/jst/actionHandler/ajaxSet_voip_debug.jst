@@ -32,10 +32,10 @@ $thisUser = count($arConfig);
 $response_message = '';
 ret_val = "false";
 if($thisUser > 1){
-ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.ReceiveGain", $arConfig['Ingress'], true);
-ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.VoiceProcessing.TransmitGain", $arConfig['Egress'], true);
-ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServerPort", $arConfig['server_port'], true);
-ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServer", $arConfig['server_IP_addr'], true);
+ret_val = setStr($tvdml["ReceiveGain"], $arConfig['Ingress'], true);
+ret_val = setStr($tvdml["TransmitGain"], $arConfig['Egress'], true);
+ret_val = setStr($tvdml["LogServerPort"], $arConfig['server_port'], true);
+ret_val = setStr($tvdml["LogServer"], $arConfig['server_IP_addr'], true);
 }
 else{
 ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessState",$arConfig['SIP_val'],true);

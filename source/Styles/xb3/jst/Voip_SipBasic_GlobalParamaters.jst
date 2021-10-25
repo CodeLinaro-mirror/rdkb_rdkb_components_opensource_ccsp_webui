@@ -40,10 +40,10 @@
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
-			'BoundIfName' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_BoundIfName"),
-			'IpAddressFamily' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_IpAddressFamily"),
-			'line_register' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered"),
-			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus") 
+			'BoundIfName' : getStr($tvdml["BoundIfName"]),
+			'IpAddressFamily' : getStr($tvdml["IpAddressFamily"]),
+			'line_register' : getStr($tvdml["LoopCurrUntilReg"]),
+			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus")
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

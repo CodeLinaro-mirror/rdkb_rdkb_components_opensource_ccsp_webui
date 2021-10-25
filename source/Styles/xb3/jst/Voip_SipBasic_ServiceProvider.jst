@@ -33,24 +33,24 @@
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
-			'SDigitTimer' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_SDigitTimer"),
-			'ZDigitTimer':getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_ZDigitTimer"),
-			'Acc_Enabled':getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable"),
+			'SDigitTimer' : getStr($tvdml["SDigitTimer"]),
+			'ZDigitTimer':getStr($tvdml["ZDigitTimer"]),
+			'Acc_Enabled':getStr($tvdml["Line_Enable"]),
 			'Acc_Status': getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Status"),
-			'Directory' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.DirectoryNumber"),
-			'Auth_pwd' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthPassword"),
-			'Auth_usr' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.AuthUserName"),
-			'OutboundProxy' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxy"),
-			'OutboundProxyPort' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.OutboundProxyPort"),
-			'ProxyServer' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServer"),
-			'ProxyServerPort' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.ProxyServerPort"),
-			'RegistrarServer' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServer"),
-			'RegistrarServerPort' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.RegistrarServerPort"),
-			'UserAgentDomain' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.UserAgentDomain"),
-			'DigitMap' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_DigitMap"),
-			'EmergencyDigitMap' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_EmergencyDigitMap"),
+			'Directory' : getStr($tvdml["DirectoryNumber"]),
+			'Auth_pwd' : getStr($tvdml["SIP_AuthPassword"]),
+			'Auth_usr' : getStr($tvdml["SIP_AuthUserName"]),
+			'OutboundProxy' : getStr($tvdml["OutboundProxy"]),
+			'OutboundProxyPort' : getStr($tvdml["OutboundProxyPort"]),
+			'ProxyServer' : getStr($tvdml["ProxyServer"]),
+			'ProxyServerPort' : getStr($tvdml["ProxyServerPort"]),
+			'RegistrarServer' : getStr($tvdml["RegistrarServer"]),
+			'RegistrarServerPort' : getStr($tvdml["RegistrarServerPort"]),
+			'UserAgentDomain' : getStr($tvdml["UserAgentDomain"]),
+			'DigitMap' : getStr($tvdml["RDK_DigitMap"]),
+			'EmergencyDigitMap' : getStr($tvdml["EmergencyDigitMap"]),
 			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus"),
-			'uri' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.SIP.URI")
+			'uri' : getStr($tvdml["SIP_URI"])
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

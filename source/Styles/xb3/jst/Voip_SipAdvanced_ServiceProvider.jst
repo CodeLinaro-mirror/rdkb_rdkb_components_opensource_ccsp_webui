@@ -33,15 +33,15 @@
 	//DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
 		return {
-			'Sky_Network_Disconnect' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_NetworkDisconnect"),
-			'Conference_URI' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_ConferencingURI"),
-			'CallWaitingEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.CallWaitingEnable"),
-			'MWIEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.MWIEnable"),
-			'ConferenceCallingEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_ConferenceCallingEnable"),
-			'HoldEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_HoldEnable"),
-			'PhoneCallerIDEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_PhoneCallerIDEnable"),
+			'Sky_Network_Disconnect' : getStr($tvdml["NetworkDisconnect"]),
+			'Conference_URI' : getStr($tvdml["ConferencingURI"]),
+			'CallWaitingEnable' : getStr($tvdml["CallWaitingEnable"]),
+			'MWIEnable' : getStr($tvdml["MWIEnable"]),
+			'ConferenceCallingEnable' : getStr($tvdml["ConferCallEnable"]),
+			'HoldEnable' : getStr($tvdml["HoldEnable"]),
+			'PhoneCallerIDEnable' : getStr($tvdml["PhoneCallerIDEnable"]),
 			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus"),
-			//'SkyEuroFlashCallWaitingEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_EuroFlashCallWaitingEnable") 
+			//'SkyEuroFlashCallWaitingEnable' : getStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_EuroFlashCallWaitingEnable")
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

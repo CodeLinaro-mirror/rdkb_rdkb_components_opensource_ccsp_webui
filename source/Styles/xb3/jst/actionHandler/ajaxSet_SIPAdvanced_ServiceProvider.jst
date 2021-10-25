@@ -34,13 +34,13 @@ $response_message = '';
 ret_val = "false";
 $thisUser = count($arConfig);
 if($thisUser > 1){
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_NetworkDisconnect", $arConfig['Sky_Network_Disconnect'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_ConferencingURI", $arConfig['Conference_URI'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.CallWaitingEnable", $arConfig['CallWaitingEnable'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.MWIEnable", $arConfig['MWIEnable'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_ConferenceCallingEnable", $arConfig['ConferenceCallingEnable'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_HoldEnable", $arConfig['HoldEnable'], true);
-	ret_val = setStr("Device.Services.VoiceService.1.VoiceProfile.1.Line.1.CallingFeatures.X_RDK-Central_COM_PhoneCallerIDEnable", $arConfig['PhoneCallerIDEnable'], true);
+	ret_val = setStr($tvdml["NetworkDisconnect"], $arConfig['Sky_Network_Disconnect'], true);
+	ret_val = setStr($tvdml["ConferencingURI"], $arConfig['Conference_URI'], true);
+	ret_val = setStr($tvdml["CallWaitingEnable"], $arConfig['CallWaitingEnable'], true);
+	ret_val = setStr($tvdml["MWIEnable"], $arConfig['MWIEnable'], true);
+	ret_val = setStr($tvdml["ConferCallEnable"], $arConfig['ConferenceCallingEnable'], true);
+	ret_val = setStr($tvdml["HoldEnable"], $arConfig['HoldEnable'], true);
+	ret_val = setStr($tvdml["PhoneCallerIDEnable"], $arConfig['PhoneCallerIDEnable'], true);
 	//setStr("Device.Services.VoiceService.1.VoiceProfile.1.SIP.X_RDK-Central_COM_EuroFlashCallWaitingEnable", $arConfig['SkyEuroFlashCallWaitingEnable'], true);
 }
 else{
