@@ -277,6 +277,8 @@ function voiceDML(){
 		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_ZDigitTimer",
 		"LogServer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServer",
 		"LogServerPort" 	: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_LogServerPort",
+		"VoiceProcessState"	: "Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessState",
+		"VoiceProcessStatus"	: "Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus",
 	};
 	var $voiceManagerDMLv1 = {
 		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK_DisableLoopCurrentUntilRegistered",
@@ -309,8 +311,10 @@ function voiceDML(){
 		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoiceProfile.1.X_RDK-Central_COM_ZDigitTimer",
 		"LogServer"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServer",
 		"LogServerPort"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServerPort",
+		"VoiceProcessState"	: "Device.Services.VoiceService.1.X_RDK_Enable",
+		"VoiceProcessStatus"	: "Device.Services.VoiceService.1.X_RDK_Status",
 	};
-	var $voiceManagervDML2 = {
+	var $voiceManagerDMLv2 = {
 		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK_DisableLoopCurrentUntilRegistered",
 		"BoundIfName" 		: "Device.Services.VoiceService.1.X_RDK_BoundIfName",
 		"IpAddressFamily" 	: "Device.Services.VoiceService.1.X_RDK_IpAddressFamily",
@@ -341,6 +345,8 @@ function voiceDML(){
 		"ZDigitTimer" 		: "Device.Services.VoiceService.1.VoIPProfile.1.X_RDK-Central_COM_ZDigitTimer",
 		"LogServer"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServer",
 		"LogServerPort"		: "Device.Services.VoiceService.1.X_RDK_Debug.LogServerPort",
+		"VoiceProcessState"	: "Device.Services.VoiceService.1.X_RDK_Enable",
+		"VoiceProcessStatus"	: "Device.Services.VoiceService.1.X_RDK_Status",
 	};
 	$voiceDML 	= $voipAgentDMLv1;
 	$telco_vm	= file_exists("/tmp/RDKB_TELCOVOICEMANAGER_ENABLED");

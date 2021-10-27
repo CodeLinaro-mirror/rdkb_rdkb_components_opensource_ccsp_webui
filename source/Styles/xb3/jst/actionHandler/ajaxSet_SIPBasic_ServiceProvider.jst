@@ -51,7 +51,7 @@ if($thisUser > 1){
 	ret_val = setStr($tvdml["EmergencyDigitMap"], $arConfig['EmergencyDigitMap'], true);
 }
 else{
-	ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessState",$arConfig['SIP_val'],true);
+	ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
 }
 if (ret_val == "false") {
 	$response_message = 'Failed to set SIP service provider parameter';

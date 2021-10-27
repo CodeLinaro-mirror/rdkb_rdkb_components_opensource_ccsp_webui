@@ -44,7 +44,7 @@
 			'Egress' : getStr($tvdml["TransmitGain"]),
 			'server_IP_addr' : getStr($tvdml["LogServer"]),
 			'server_port' : getStr($tvdml["LogServerPort"]),
-			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus")
+			'sip_status' : getStr($tvdml["VoiceProcessStatus"])
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();

@@ -49,7 +49,7 @@
 			'UserAgentDomain' : getStr($tvdml["UserAgentDomain"]),
 			'DigitMap' : getStr($tvdml["RDK_DigitMap"]),
 			'EmergencyDigitMap' : getStr($tvdml["EmergencyDigitMap"]),
-			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus"),
+			'sip_status' : getStr($tvdml["VoiceProcessStatus"]),
 			'uri' : getStr($tvdml["SIP_URI"])
 		}/*p2j-array*/;
 	}

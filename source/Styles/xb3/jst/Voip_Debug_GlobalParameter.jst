@@ -41,7 +41,7 @@
 	function Dm_data_get(){
 		return {
 			'Console_log' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_LoggingLevel"),
-			'sip_status' : getStr("Device.Services.VoiceService.1.X_RDK-Central_COM_VoiceProcessStatus") 
+			'sip_status' : getStr($tvdml["VoiceProcessStatus"])
 		}/*p2j-array*/;
 	}
 	$values_got = Dm_data_get();
