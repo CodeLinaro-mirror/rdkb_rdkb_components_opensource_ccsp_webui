@@ -18,6 +18,7 @@
  limitations under the License.
 */
 ?>
+<?% include('includes/utility.jst'); ?>
 <?% include('includes/header.jst'); ?>
 <!-- $Id: at_a_glance.dory.jst 2943 2009-08-25 20:58:43Z slemoine $ -->
 <?%
@@ -111,9 +112,9 @@ $curr_IP = $_SESSION['PREV_REMOTEADDR'];
 	if (strpos($partnerId, "sky-") !== false) {
 		$MoCA = false;
 		$voice_line = "";
-		$voice_line = getStr('Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable');
+		$voice_line = getStr($tvdml["Line_Enable"]);
 		$voice_lbl = false;
-		if($voice_line == 'Enabled'){$voice_lbl = true;}
+		if($voice_line == 'true'){$voice_lbl = true;}
 	} else {
 		$MoCA = true;
 		$voice_lbl = false;
@@ -123,7 +124,6 @@ $curr_IP = $_SESSION['PREV_REMOTEADDR'];
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<?% include('includes/utility.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Gateway > At a Glance", "nav-at-a-glance");
@@ -443,6 +443,24 @@ function popUp(URL) {
 				if ($MoCA) {
 					echo( "<div class=\"form-row off\"><span class=\"on-off sprite_cont\"><img src=\"./cmn/img/icn_on_off.png\" alt='MoCA Off' /></span> <span class=\"readonlyLabel\">MoCA</span></div>");
 				}
+			}
+			if($voice_lbl){
+				$voice_status = getStr($tvdml["Line_Status"]);
+				$idVoice="";
+				if($voice_status == 'Up'){
+					$idVoice="connected";
+					$voice_state ='Connected';
+				}
+				else if($voice_status == 'Initializing'|| $voice_status=='Registering'){
+					$idVoice="conninprog";
+					$voice_state ='Connecting';
+				}
+				else{
+					$idVoice="disconnected";
+					$voice_state ='Disconnected';
+				}
+				echo ("<div class='form-row '>");
+				echo("<span class='readonlyLabel' style='white-space: pre;' id='ataglanmess2'>Voice: </span> <span class='value' id="+$idVoice+" style='white-space: pre;'>");echo($voice_state);echo("</span></div>");
 			}
 			?>
 			<div class="form-row odd">

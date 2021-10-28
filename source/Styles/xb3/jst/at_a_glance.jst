@@ -100,7 +100,7 @@ $curr_IP = $_SERVER['REMOTE_ADDR'];
 	if (strpos($partnersId, "sky-") !== false) {
 		$MoCA = false;
 		$voice_line = "";
-		$voice_line = getStr('Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Enable');
+		$voice_line = getStr($tvdml["Line_Enable"]);
 		$voice_lbl = false;
 		if($voice_line == 'Enabled'){
 			$voice_lbl = true;
@@ -413,7 +413,7 @@ function popUp(URL) {
 				}
 			}
 			if($voice_lbl){
-				$voice_status = getStr('Device.Services.VoiceService.1.VoiceProfile.1.Line.1.Status');
+				$voice_status = getStr($tvdml["Line_Status"]);
 				$idVoice="";
 				if($voice_status == 'Up'){
 					$idVoice="connected";
