@@ -968,7 +968,7 @@ $("#wps_pair_btn").prop("value", $.i18n('PAIR WITH MY Wi-Fi CLIENT'));
 $("#pop_ok").prop("value", $.i18n('Apply'));
 $("#wireedthead").text($.i18n("Gateway > Connection >  Wi-Fi > Edit"));
 $("#wireedttip1").html($.i18n("<strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Gateway, but can be changed for easier identification."));
-$("#wireedttip2").html($.i18n("<strong>Mode:</strong>  %s GHz operates in b/g/n modes. Unless you have older Wi-Fi devices that use only 'b' mode, use the default 802.11 g/n for faster performance."));
+$("#wireedttip2").html($.i18n("<strong>Mode:</strong>  %s GHz operates in {{supportedmode}} modes. Unless you have older Wi-Fi devices that use only 'b' mode, use the default 802.11 g/n for faster performance."));
 $("#wireedttip3").html($.i18n("<strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPAWPA2-PSK (TKIP/AES) setting is compatible with most devices and provides the best security and performance."));
 $("#wireedttip4").html($.i18n("<strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Gateway will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used."));
 $("#wireedttip5").html($.i18n("<strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Gateway."));
@@ -1050,7 +1050,7 @@ $("span[id^='enablespanid']").text($.i18n("Enabled"));
 $("span[id^='disablespanid']").text($.i18n("Disabled"));
 $("b[id^='disabledmess1']").text($.i18n("Disabled"));
 $("#wireedittip2").html($.i18n("<strong>Mode:</strong>  "));
-$("#wireedittip2_1").text($.i18n(" GHz operates in b/g/n modes. Unless you have older Wi-Fi devices that use only 'b' mode, use the default 802.11 g/n for faster performance."));
+$("#wireedittip2_1").text($.i18n(" GHz operates in {{supportedmode}} modes. Unless you have older Wi-Fi devices that use only 'b' mode, use the default 802.11 g/n for faster performance."));
 $("#dsxloghead").text($.i18n("Gateway > Connection > QoS > DSX logs"));
 $("#log_summary").text($.i18n("There are currently no DSX Logs"));
 $("#dsx_metrics").text($.i18n("Metrics"));
@@ -1092,4 +1092,11 @@ var locale=$('#locale').val();
  $.i18n().locale = locale; 
     do_translate(); 
   }); 
+});
+jQuery(function() {
+	$.extend($.i18n.parser.emitter, {
+		supportedmode: function() {
+			return "";
+		}
+	});
 });
