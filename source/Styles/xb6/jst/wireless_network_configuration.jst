@@ -317,6 +317,8 @@ $mac_address17		=$wifi6_value['mac_address17'];
 $radioband3            	= (typeof($feq_band3)=="undefined") ? "6" :  (strstr($feq_band3,"6G")) ? "6" : "5"; 
 $feq_band3              = (typeof($feq_band3)=="undefined") ? "6 GHz" : (strstr($feq_band3,"6G")) ? "6 GHz" : "5 GHz";         
 }
+if(($OperatingChannelBandwidth == "6GHz") && (strpos($partnerId, "sky-") === false))
+$possible_channels3 = "5,37,69,101,133,165,197";
 /**********************get WPS status, manual-disabled or auto-disabled?*******************************/
 // $ssidsWPS			= explode(",", getInstanceIds("Device.WiFi.SSID."));
 
@@ -844,7 +846,8 @@ $(document).ready(function() {
 		//enable all channel first
 		$("#channel_number3 option").prop("disabled", false);
 		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
-			//40MHz
+	if(partner_id.indexOf('sky-')===0)
+        {
 		if (!$("#channel_bandwidth203").prop("checked")) {
 			if ($("#channel_bandwidth4").prop("checked")){
 				$("#channel_number3").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);											
@@ -856,6 +859,7 @@ $(document).ready(function() {
 				$("#channel_number3").find("[value='5'],[value='9'],[value='13'],[value='17'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='49'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='81'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='113'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='145'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='177'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='209'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
 			}
 		}
+        }        
 	}).trigger("change");
         <?%
         }?>
@@ -2200,7 +2204,8 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="operation_mode1" value="true"  id="operation_mode1" <?% if ("true"==$operation_mode1) echo('checked="checked"');?> /><b>Green Field</b>
 	</div> --->
 	<div class="form-row" id="bandwidth_switch3">
-		<label for="channel_bandwidth203">Channel Bandwidth:</label>
+	<?%if (strpos($partnerId, "sky-") !== false){?>
+                <label for="channel_bandwidth203">Channel Bandwidth:</label>
 		<input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth203" checked="checked" /><b>20</b>
 		<label for="channel_bandwidth4" class="acs-hide"></label>
 		<input type="radio"  name="channel_bandwidth3" value="40MHz"  id="channel_bandwidth4" <?% if ("40MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40</b>
@@ -2208,6 +2213,10 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40/80</b>
 		<label for="channel_bandwidth6" class="acs-hide"></label>
 		<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40/80/160</b>
+        <?%}else{?>
+		<label for="channel_bandwidth6">Channel Bandwidth:</label>
+		<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>160MHz</b>
+	<?%}?>                
 	</div>
 	<div class="form-row odd">
 		<label for="guard_interval800ns1">Guard Interval:</label>
