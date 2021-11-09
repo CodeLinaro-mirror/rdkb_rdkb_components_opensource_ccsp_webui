@@ -450,6 +450,11 @@ else {
 $dfsEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable");
 $dfsAtBootup= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp.Enable");
 $modelName= getStr("Device.DeviceInfo.ModelName");
+$platformSupported = "false";
+if( ($modelName=="CGM4331COM") || ($modelName=="CGM4140COM") || ($modelName=="TG3482G")){
+	$platformSupported = "true";
+}
+
 ?>
 <style>
 .forms .readonlyLabel {
@@ -469,6 +474,7 @@ var modeEnabled		= "<?% echo( $encrypt_mode); ?>";
 var modeEnabled1	= "<?% echo( $encrypt_mode1); ?>";
 var partner_id = "<?% echo( $partnerId); ?>";
 var modelName = "<?% echo($modelName); ?>";
+var platformSupported  = "<?% echo($platformSupported); ?>";
 <?%if($OperatingChannelBandwidth == "6GHz")
 {?>
 var G_radio_enable3	= <?% echo( ($radio_enable3 === "true" ? "true" : "false")); ?>;
@@ -700,7 +706,7 @@ $(document).ready(function() {
 	//IEEE80211hSupported => X_COMCAST_COM_DFSEnable and TransmitPower
 	//if("<?% echo( $IEEE80211hSupport); ?>" == "false")	$('#transmit_power').prop("disabled", true);
 	//if("<?% echo( $IEEE80211hSupport1); ?>" == "false")	$('#transmit_power1').prop("disabled", true);
-	if(modelName=="CGM4331COM") {
+	if(platformSupported=="true") {
 	 $("[name='DFS_boot_disabled']").change(function() {
 		if($("#DFS_boot_disabled").is(":checked"))  {
         		$("#channel_bandwidth3").prop("disabled", true);
@@ -1024,7 +1030,7 @@ $(document).ready(function() {
 		$('[name="channel_bandwidth1"]:not([value="20MHz"])').prop("disabled", true);
 	}
 	else{
-		if($dfsBoot=="false" && (modelName=="CGM4331COM" ))
+		if($dfsBoot=="false" && (platformSupported=="true" ))
                         $("#channel_bandwidth3").prop("disabled", true);
                 else
 			$('[name="channel_bandwidth1"]').prop("disabled", false);
@@ -2067,7 +2073,7 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="Decline_BA_Request1" value="enabled"  id="blockBA_enabled1" <?% if ("true"==$blockBA_enabled1) echo('checked="checked"');?> /><b>Enable</b>
 	</div>
 <?%
-        if($modelName=="CGM4331COM"){
+        if($platformSupported=="true"){
         ?>
 	<div class="form-row">
                 <label for="DFS_disabled">DFS :</label>

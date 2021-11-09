@@ -219,6 +219,10 @@ $dfsAtBootup= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp
 $dfsEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable");
 if(($id == 17) && ($OperatingChannelBandwidth == "6GHz") && (strpos($partnerId, "sky-") === false))
 $possible_channels = "5,37,69,101,133,165,197";
+$platformSupported = "false";
+if( ($modelName=="CGM4331COM") || ($modelName=="CGM4140COM") || ($modelName=="TG3482G")){
+        $platformSupported = "true";
+}
 ?>
 <style>
 label[for="network_name"], label[for="security"], label[for="network_password"] {
@@ -304,6 +308,7 @@ $(document).ready(function() {
 	var radio_check = '<?% echo( $radio_band); ?>';
 	var partner_ID = '<?% echo ($partnerId);?>';
 	var modelName = '<?% echo($modelName); ?>';
+	var platformSupported  = "<?% echo($platformSupported); ?>";
 	$("#wireless_network_switch").radioswitch({
 		id: "wireless-network-switch",
 		radio_name: "wireless_network",
@@ -857,7 +862,7 @@ wpa2psk ==> 8 to 63 Ascii characters
 		}
     });
     $dfsBoot= '<?% echo($dfsAtBootup); ?>';
-    if($dfsBoot=="false" && (modelName=="CGM4331COM" )){
+    if($dfsBoot=="false" && (platformSupported=="true" )){
     	$("#channel_bandwidth3").prop("disabled", true);
     }
     if(MeshEnable == 'true'){
