@@ -280,30 +280,7 @@ function getTitle(val){
 							$etime = $value["EndTime"];
 							$bdays = $value["BlockDays"];
 							if(strpos($partnerId, "sky-") !== false){
-								$days_cvt = $bdays;
-								$days_cvt = explode(',',$days_cvt);
-								$val_key="";
-								for($a=0;$a<=count($days_cvt);$a++) {
-									if($locale=="it"){
-										if($days_cvt[$a] == "Mon")
-											$val_key += "Lun";
-										else if($days_cvt[$a] == "Tue")
-											$val_key += "Mart";
-										else if($days_cvt[$a] == "Wed")
-											$val_key += "Merc";
-										else if($days_cvt[$a] == "Thu")
-											$val_key += "Giov";
-										else if($days_cvt[$a] == "Fri")
-											$val_key += "Vene";
-										else if($days_cvt[$a] == "Sat")
-											$val_key += "Sab";
-										else if($days_cvt[$a] == "Sun")
-											$val_key += "Dome";
-									}
-									if($a<(count($days_cvt)-1)){$val_key += ',';}
-								}
-								$days_cvt = $val_key;
-								$bdays = $days_cvt;
+								$bdays = translateBlockedDays($bdays);
 							}
 					        $blockStatus = $stime+"-"+$etime+","+$bdays;
 						}
@@ -318,7 +295,7 @@ function getTitle(val){
 						<td headers='effect-time' id="+$idval+">"+$blockStatus+"</td>\
 						<td headers='edit-button' class=\"edit\"><a style='padding: 4px 10px' tabindex='0' href=\"managed_services_edit.jst?id="+$i+"\" class=\"btn\"  id=\"edit_"+$i+"\">Edit</a></td>\
 						<td headers='delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_services.jst?del="+$i+"\" class=\"btn confirm\" onmouseover=getTitle("+$j+") id=\"deleteservice_"+$j+"\">x</a></td>\
-					</tr>"); 
+					</tr>");
 					}
 				}
 		?>

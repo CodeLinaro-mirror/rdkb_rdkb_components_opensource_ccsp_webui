@@ -526,28 +526,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 					$URLAlwaysBlock = $blockedSitesURL[$i.toString()]['AlwaysBlock'];
 					if(strpos($partnerId, "sky-") !== false){
 						$days_cvt = $blockedSitesURL[$i.toString()]['BlockedDays'];
-						$days_cvt = explode(',',$days_cvt);
-						$val_key="";
-						for($a=0;$a<=count($days_cvt);$a++) {
-							if($locale=="it"){
-								if($days_cvt[$a] == "Mon")
-									$val_key += "Lun";
-								else if($days_cvt[$a] == "Tue")
-									$val_key += "Mart";
-								else if($days_cvt[$a] == "Wed")
-									$val_key += "Merc";
-								else if($days_cvt[$a] == "Thu")
-									$val_key += "Giov";
-								else if($days_cvt[$a] == "Fri")
-									$val_key += "Vene";
-								else if($days_cvt[$a] == "Sat")
-									$val_key += "Sab";
-								else if($days_cvt[$a] == "Sun")
-									$val_key += "Dome";
-							}
-							if($a<(count($days_cvt)-1)){$val_key += ',';}
-						}
-						$days_cvt = $val_key;
+						$days_cvt = translateBlockedDays($days_cvt);
 						$blockedSitesURL[$i.toString()]['BlockedDays'] = $days_cvt;
 					}
 					$URLBlockTime = $blockedSitesURL[$i.toString()]['StartTime']+ " - " +$blockedSitesURL[$i.toString()]['EndTime']+ ",  " +$blockedSitesURL[$i.toString()]['BlockedDays'];
@@ -568,8 +547,8 @@ $.validator.addMethod("no_space", function(value, element, param) {
             <td headers="url-number">null</td>
             <td headers="url">null</td>
             <td headers="url-blocked-time">null</td>
-            <td headers="edit-url">null</td>            
-            <td headers="delete-url">null</td>            
+            <td headers="edit-url">null</td>
+            <td headers="delete-url">null</td>
           </tr>
         </tfoot>
 			</table>
@@ -586,33 +565,12 @@ $.validator.addMethod("no_space", function(value, element, param) {
 					<th id="delete-keyword" class="delete">&nbsp;</th>
 				</tr>
 			<?%
-				$iclass=""; 
+				$iclass="";
 				for ($i=0,$k=1; $i < $KeywordNums; $i++,$k++) {
 					$KeywordAlwaysBlock = $blockedSitesKeyWord[$i.toString()]['AlwaysBlock'];
 				if(strpos($partnerId, "sky-") !== false){
 						$days_cvt = $blockedSitesKeyWord[$i.toString()]['BlockedDays'];
-						$days_cvt = explode(',',$days_cvt);
-						$val_key="";
-						for($a=0;$a<=count($days_cvt);$a++) {
-							if($locale=="it"){
-								if($days_cvt[$a] == "Mon")
-									$val_key += "Lun";
-								else if($days_cvt[$a] == "Tue")
-									$val_key += "Mart";
-								else if($days_cvt[$a] == "Wed")
-									$val_key += "Merc";
-								else if($days_cvt[$a] == "Thu")
-									$val_key += "Giov";
-								else if($days_cvt[$a] == "Fri")
-									$val_key += "Vene";
-								else if($days_cvt[$a] == "Sat")
-									$val_key += "Sab";
-								else if($days_cvt[$a] == "Sun")
-									$val_key += "Dome";
-							}
-							if($a<(count($days_cvt)-1)){$val_key += ',';}
-						}
-						$days_cvt = $val_key;
+						$days_cvt = translateBlockedDays($days_cvt);
 						$blockedSitesKeyWord[$i.toString()]['BlockedDays'] = $days_cvt;
 					}
 					$KeywordBlockTime = $blockedSitesKeyWord[$i.toString()]['StartTime']+ " - " +$blockedSitesKeyWord[$i.toString()]['EndTime']+ ",  " +$blockedSitesKeyWord[$i.toString()]['BlockedDays'];
@@ -633,8 +591,8 @@ $.validator.addMethod("no_space", function(value, element, param) {
             <td headers="keyword-number">null</td>
             <td headers="keyword">null</td>
             <td headers="keyword-blocked-time">null</td>
-            <td headers="edit-keyword">null</td>            
-            <td headers="delete-keyword">null</td>            
+            <td headers="edit-keyword">null</td>
+            <td headers="delete-keyword">null</td>
           </tr>
         </tfoot>
 			</table>
@@ -760,11 +718,11 @@ $.validator.addMethod("no_space", function(value, element, param) {
     }
     $block_days = $blockedInfo['BlockedDays'];
 	if(strpos($partnerId, "sky-") !== false){
-		$days_cnt = $block_days;
-		$days_cnt = explode(',',$days_cnt);
-		$val_key=""; 
-		for($a=0;$a<=count($days_cnt);$a++) {
-			if($locale=="it"){
+		if($locale=="it"){
+			$days_cnt = $block_days;
+			$days_cnt = explode(',',$days_cnt);
+			$val_key="";
+			for($a=0;$a<=count($days_cnt);$a++) {
 				if($days_cnt[$a]!=undefined){
 					if($days_cnt[$a]=="Lun"){$val_key += "Mon";}
 					else if($days_cnt[$a] == "Mart"){$val_key += "Tue";}
@@ -777,8 +735,8 @@ $.validator.addMethod("no_space", function(value, element, param) {
 					if($a<=(count($days_cnt)-1)){$val_key += ',';}
 				}
 			}
+			$block_days = $val_key;
 		}
-		$block_days = $val_key;
 	}
 	if($rel_st_hour == 0)
 	$rel_st_hour = 12;
@@ -873,7 +831,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
             return $str_edit;
 	}
     for($i=0; $i<$URLNums; $i++){
-     //generate edit blocked URL part 
+     //generate edit blocked URL part
     	echo( "<div id=\"edit-" + $blockedSitesURL[$i.toString()]['InstanceID'] + "\" class=\"edit-URL content\" style='display:none'>\
     	<h1 id=\"manstmess11\">Parental Control > Managed Sites > Edit Blocked Site</h1>\
       <form id=\"pageForm-" + $blockedSitesURL[$i.toString()]['InstanceID'] + "\" class=\"pageForm\">\

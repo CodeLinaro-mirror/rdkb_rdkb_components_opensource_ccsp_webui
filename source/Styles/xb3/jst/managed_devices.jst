@@ -260,12 +260,12 @@ $(document).ready(function() {
 		$blockedDevicesInstance = [];
 		for($key in $blockedDevicesInstanceArr) { $value=$blockedDevicesInstanceArr[$key];/*p2j-foreach*/
 			$value["Description"] = htmlspecialchars($value["Description"], ENT_NOQUOTES, 'UTF-8');
-			$type = $value["Type"]; 
+			$type = $value["Type"];
 			if($type == "Allow") {
 				$arrayAllowID[$allowCnt] = $value["__id"];
 				$arrayAllowName[$allowCnt] = $value["Description"];
-				$arrayAllowMAC[$allowCnt] = $value["MACAddress"]; 
-				$blockStatus = $value["AlwaysBlock"]; 
+				$arrayAllowMAC[$allowCnt] = $value["MACAddress"];
+				$blockStatus = $value["AlwaysBlock"];
 				if($blockStatus == "true"){
 					$arrayAllowStatus[$allowCnt] = "Always";
 					if(strpos($partnerId, "sky-") !== false){
@@ -275,44 +275,21 @@ $(document).ready(function() {
 					}
 				}else if($blockStatus == "false") {
 					//$arrayAllowStatus[$allowCnt] = "Period";
-					$stime = $value["StartTime"]; 
-					$etime = $value["EndTime"]; 
+					$stime = $value["StartTime"];
+					$etime = $value["EndTime"];
 					$bdays = $value["BlockDays"];
 					if(strpos($partnerId, "sky-") !== false){
-						$days_cvt = $bdays;
-						$days_cvt = explode(',',$days_cvt);
-						$val_key="";
-						for($a=0;$a<=count($days_cvt);$a++) {
-							if($locale=="it"){
-								if($days_cvt[$a] == "Mon")
-									$val_key += "Lun";
-								else if($days_cvt[$a] == "Tue")
-									$val_key += "Mart";
-								else if($days_cvt[$a] == "Wed")
-									$val_key += "Merc";
-								else if($days_cvt[$a] == "Thu")
-									$val_key += "Giov";
-								else if($days_cvt[$a] == "Fri")
-									$val_key += "Vene";
-								else if($days_cvt[$a] == "Sat")
-									$val_key += "Sab";
-								else if($days_cvt[$a] == "Sun")
-									$val_key += "Dome";
-							}
-							if($a<(count($days_cvt)-1)){$val_key += ',';}
-						}
-						$days_cvt = $val_key;
-						$bdays = $days_cvt;
-					} 
+						$bdays = translateBlockedDays($bdays);
+					}
 				    $arrayAllowStatus[$allowCnt] = $stime+"-"+$etime+","+$bdays;
 				}
 				$allowCnt++;
-			} 
+			}
 			else if($type == "Block") {
 				$arrayBlockID[$blockCnt] = $value["__id"];
-				$arrayBlockName[$blockCnt] = $value["Description"]; 
-				$arrayBlockMAC[$blockCnt] = $value["MACAddress"]; 
-				$blockStatus = $value["AlwaysBlock"]; 
+				$arrayBlockName[$blockCnt] = $value["Description"];
+				$arrayBlockMAC[$blockCnt] = $value["MACAddress"];
+				$blockStatus = $value["AlwaysBlock"];
 				if($blockStatus == "true"){
 					$arrayBlockStatus[$blockCnt] = "Always";
 					if(strpos($partnerId, "sky-") !== false){
@@ -322,35 +299,12 @@ $(document).ready(function() {
 					}
 				}else if($blockStatus == "false"){
 					//$arrayBlockStatus[$blockCnt] = "Period";
-					$stime = $value["StartTime"]; 
-					$etime = $value["EndTime"]; 
+					$stime = $value["StartTime"];
+					$etime = $value["EndTime"];
 					$bdays = $value["BlockDays"];
 					if(strpos($partnerId, "sky-") !== false){
-						$days_cnt = $bdays;
-						$days_cnt = explode(',',$days_cnt);
-						$val_key="";
-						for($a=0;$a<=count($days_cnt);$a++) {
-							if($locale=="it"){
-								if($days_cnt[$a] == "Mon")
-									$val_key += "Lun";
-								else if($days_cnt[$a] == "Tue")
-									$val_key += "Mart";
-								else if($days_cnt[$a] == "Wed")
-									$val_key += "Merc";
-								else if($days_cnt[$a] == "Thu")
-									$val_key += "Giov";
-								else if($days_cnt[$a] == "Fri")
-									$val_key += "Vene";
-								else if($days_cnt[$a] == "Sat")
-									$val_key += "Sab";
-								else if($days_cnt[$a] == "Sun")
-									$val_key += "Dome";
-								}
-								if($a<(count($days_cnt)-1)){$val_key += ',';}
-						}
-						$days_cnt = $val_key;
-						$bdays = $days_cnt;
-					} 
+						$bdays = translateBlockedDays($bdays);
+					}
 				    $arrayBlockStatus[$blockCnt] = $stime+"-"+$etime+","+$bdays;
 				}
 				$blockCnt++;

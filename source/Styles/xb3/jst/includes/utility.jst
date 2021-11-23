@@ -847,4 +847,26 @@ function voiceDML(){
 	return $voiceDML;
 }
 $tvdml = voiceDML();
+/**
+ * Discription:
+ *     This function translates BlockedDays based on $locale
+ *
+ * return: BlockedDays in "it" or "en"
+ */
+function translateBlockedDays($days_cvt){
+	var mapObj = {
+		Mon:"Lun",
+		Tue:"Mart",
+		Wed:"Merc",
+		Thu:"Giov",
+		Fri:"Vene",
+		Sat:"Sab",
+		Sun:"Dome",
+	};
+	$days_cvt_it = $days_cvt.replace(/Mon|Tue|Wed|Thu|Fri|Sat|Sun/gi, function(match){
+		return mapObj[match];
+	});
+	if($locale=="it") $days_cvt = $days_cvt_it;
+	return $days_cvt;
+}
 ?>
