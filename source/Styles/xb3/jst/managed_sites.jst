@@ -124,7 +124,6 @@ $(document).ready(function() {
 			if ($(this).radioswitch("getState").on){
 				$("#block-time-"+idx).find("*").prop("disabled", true).addClass("disabled");
 			} else {
-				$(".weekday input").prop("checked", true);
 				$("#block-time-"+idx).find("*").prop("disabled", false).removeClass("disabled");
 			}
 		});
