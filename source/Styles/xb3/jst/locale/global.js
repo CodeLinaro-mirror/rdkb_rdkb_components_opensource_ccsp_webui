@@ -1,26 +1,38 @@
 function jAlertLoggout(results){
-$.i18n().load({
-        'it': '/locale/it.json'
-    }).done(function() {
-var locale=$('#locale').val();
- $.i18n().locale = locale;
-    jAlert($.i18n(results), "Alert",function () {
-                                  window.location = "home_loggedout.jst";
-                                });
-  });
+	$.i18n().load({
+		'it': '/locale/it.json'
+	}).done(function() {
+		var locale=$('#locale').val();
+		$.i18n().locale = locale;
+			jAlert($.i18n(results), "Alert",function () {
+				window.location = "home_loggedout.jst";
+			});
+	});
 }
 function alertLocale(results){
-$.i18n().load({
-        'it': '/locale/it.json'
-    }).done(function() {
-var locale=$('#locale').val();
- $.i18n().locale = locale;
-    jAlert($.i18n(results));
-  });
+	$.i18n().load({
+			'it': '/locale/it.json'
+	}).done(function() {
+		var locale=$('#locale').val();
+		$.i18n().locale = locale;
+		jAlert($.i18n(results));
+	});
 }
-jQuery(function($) { 
-  var do_translate = function() { 
-$('#username_label').text($.i18n('Username:'));    
+function translateRadioSwitchTitle(){
+    $(".radioswitch_cont ul").children().each(function(){
+        $labelTitle = $(this).attr('title');
+        $labelTitle = $labelTitle.split(":")
+        $titlePrefix = $labelTitle[0]+":";
+        $titlePrefix = $titlePrefix.replace(/\s\s+/g, '');
+        $titlesuffix = $labelTitle[1];
+        $titlePrefixTranslated = $.i18n($titlePrefix);
+        $title = $titlePrefixTranslated + $titlesuffix;
+        $(this).prop('title', $title);
+    });
+}
+jQuery(function($) {
+	var do_translate = function(callback) {
+$('#username_label').text($.i18n('Username:'));
 $('#nonesec').text($.i18n('None'));
 $("#wirelesstip1").text($.i18n("View information about the Gateway's wireless components."));
 $("#wirelesstip2").html($.i18n("<strong>Wi-Fi:</strong> The Gateway provides concurrent 2.4 GHz and 5 GHz for Wi-Fi connections."));
@@ -37,7 +49,7 @@ $('#highsec').text($.i18n('High'));
 $('#custsec').text($.i18n('Custom'));
 $("[id^='firtypesecmed']").text($.i18n("Typical Security (Medium)"));
 $("[id^='typsec']").text($.i18n("Typical Security (Default)"));
-$('#network_header').text($.i18n('Gateway > Connection >')); 
+$('#network_header').text($.i18n('Gateway > Connection >'));
 $('#index_helptext').text($.i18n('Please login to view and manage your Gateway settings.'));
 $('#index_header').text($.i18n('Gateway > Login'));
 $('#edu_tip').text($.i18n('View technical information related to your '));
@@ -404,7 +416,7 @@ $("#stpubport").text($.i18n("Start Public Port:"));
 $("#endpubport").text($.i18n("End Public Port:"));
 $("#hsprivport").text($.i18n("Private Port(s):"));
 $("#enptrang").text($.i18n("Enable Port Range:"));
-$("#enprport").text($.i18n("Enable Private Port Range"));   
+$("#enprport").text($.i18n("Enable Private Port Range"));
 $("#btn-save-add").prop("value", $.i18n('Add'));
 $("#add_btn").prop("value", $.i18n('Add'));
 $("#hsportedithead").text($.i18n("Advanced > HS Port Forwarding > Edit Service"));
@@ -418,11 +430,11 @@ $("#statloc").text($.i18n("Status"));
 $("#lindiagloc").text($.i18n("Line Diagnostics"));
 $("#sippacloc").text($.i18n("SIP Packet Log"));
 $("#battloc").text($.i18n("Battery"));
-$("#devloc").text($.i18n("Devices"));   
-$("#mansitesloc,#mansitesloc1").text($.i18n("Managed Sites")); 
+$("#devloc").text($.i18n("Devices"));
+$("#mansitesloc,#mansitesloc1").text($.i18n("Managed Sites"));
 $("#manstmess7").text($.i18n("Managed Sites:"));
-$("#manserloc,#manserloc1").text($.i18n("Managed Services")); 
-$("#mandevloc,#mandevloc1").text($.i18n("Managed Devices")); 
+$("#manserloc,#manserloc1").text($.i18n("Managed Services"));
+$("#mandevloc,#mandevloc1").text($.i18n("Managed Devices"));
 $("#reploc").text($.i18n("Reports"));
 $("#advloc").text($.i18n("Advanced"));
 $("#remloc,#remloc1").text($.i18n("Remote Management"));
@@ -436,29 +448,28 @@ $("#mocdiagloc").text($.i18n("MoCA Diagnostics"));
 $("#resetloc").text($.i18n("Reset/Restore Gateway"));
 $("#hiloc").text($.i18n("Hi "));
 $("#batticonloc").attr('title',$.i18n("Battery icon"));
-
 $("#secuserloc").text($.i18n(" Security"));
 $("#uploc").text($.i18n("Up"));
 $("#downloc").text($.i18n("Down"));
 $("#lanheadloc").text($.i18n("Gateway > Hardware > LAN Ethernet"));
 $("#lantip1").text($.i18n("View information about the Gateway's Ethernet Ports."));
 $("#lantip2").html($.i18n("The Gateway has 4 Gigabit (GbE) Ethernet Ports. When a device is connected to the Gateway with an Ethernet cable, you'll see an <i>Active</i> status for that port."));
-$("span[id^='lanethport']").text($.i18n('LAN Ethernet Port ')); 
+$("span[id^='lanethport']").text($.i18n('LAN Ethernet Port '));
 $("span[id^='lanethlinkstat']").text($.i18n('LAN Ethernet link status:'));
 $("span[id^='notappl']").text($.i18n('Not Applicable'));
 $("span[id^='disconloc']").text($.i18n('Disconnected'));
-$("span[id^='connspeed']").text($.i18n('Connection Speed:'));     
+$("span[id^='connspeed']").text($.i18n('Connection Speed:'));
 $("#chansel").text($.i18n("Associate Ethernet Port 4 to XFINITY HOME Network:"));
 $("#chansel2").text($.i18n("Note: Associating Ethernet Port 4 to XFINITY HOME network will remove the port from your home network."));
-$("#chansel3").text($.i18n('Associate Ethernet Port 4 to HOME SECURITY Network:'));  
+$("#chansel3").text($.i18n('Associate Ethernet Port 4 to HOME SECURITY Network:'));
 $("#chansel4").text($.i18n("Note: Associating Ethernet Port 4 to HOME SECURITY network will remove the port from your home network."));
 $("#localiphead").text($.i18n("Gateway > Connection > Local IP Configuration"));
 $("#localiptip1").text($.i18n("Manage your home network settings."));
-$("#localiptip2").html($.i18n('<strong>Gateway address:</strong> Enter the IP address of the Gateway.'));  
-$("#localiptip3").html($.i18n("<strong>Subnet Mask:</strong> The subnet mask is associated with the IP address. Select the appropriate subnet mask based on the number of devices that will be connected to your network.")); 
-$("#localiptip4").html($.i18n("<strong>DHCP Beginning and Ending Addresses:</strong> The DHCP server in the Gateway allows the router to manage IP address assignment for the connected devices."));  
-$("#localiptip5").html($.i18n("<strong>DHCP Lease time:</strong> The lease time is the length of time the Gateway offers an IP address to a connected device. The lease is renewed while it is connected to the network. After the time expires, the IP address is freed and may be assigned to any new device that connects to the Gateway.")); 
-$("#localipmess1").text($.i18n("Gateway Address:")); 
+$("#localiptip2").html($.i18n('<strong>Gateway address:</strong> Enter the IP address of the Gateway.'));
+$("#localiptip3").html($.i18n("<strong>Subnet Mask:</strong> The subnet mask is associated with the IP address. Select the appropriate subnet mask based on the number of devices that will be connected to your network."));
+$("#localiptip4").html($.i18n("<strong>DHCP Beginning and Ending Addresses:</strong> The DHCP server in the Gateway allows the router to manage IP address assignment for the connected devices."));
+$("#localiptip5").html($.i18n("<strong>DHCP Lease time:</strong> The lease time is the length of time the Gateway offers an IP address to a connected device. The lease is renewed while it is connected to the network. After the time expires, the IP address is freed and may be assigned to any new device that connects to the Gateway."));
+$("#localipmess1").text($.i18n("Gateway Address:"));
 $("#localipmess2").text($.i18n("DHCP Beginning Address:"));
 $("#localipmess3").text($.i18n("DHCP Ending Address:"));
 $("#seclocv4,#seclocv6").text($.i18n("Seconds"));
@@ -468,40 +479,40 @@ $("#dayloc,#daylocv6").text($.i18n("Days"));
 $("#wkloc,#wklocv6").text($.i18n("Weeks"));
 $("#localipmess4").text($.i18n("Link-Local Gateway Address:"));
 $("#localipmess5").text($.i18n("Global Gateway Address:"));
-$("#localipmess6").text($.i18n('LAN IPv6 Address Assignment'));  
-$("#localipmess7").text($.i18n("Stateless(Auto-Config)")); 
-$("#localipmess8").text($.i18n("Stateful(Use Dhcp Server)"));  
-$("#localipmess9").text($.i18n("DHCPv6 Beginning Address:")); 
-$("#localipmess10").text($.i18n("DHCPv6 Ending Address:")); 
+$("#localipmess6").text($.i18n('LAN IPv6 Address Assignment'));
+$("#localipmess7").text($.i18n("Stateless(Auto-Config)"));
+$("#localipmess8").text($.i18n("Stateful(Use Dhcp Server)"));
+$("#localipmess9").text($.i18n("DHCPv6 Beginning Address:"));
+$("#localipmess10").text($.i18n("DHCPv6 Ending Address:"));
 $("#mandevhead").text($.i18n("Parental Control > Managed Devices"));
 $("#mandevmess").text($.i18n(" to enable parental controls for devices connected"));
 $("#mandevmessnew").text($.i18n("to your home network, among many other features and settings."));
 $("#mandevmess1").text($.i18n("Manage access by specific devices on your network."));
 $("#mandevmess2").html($.i18n("Select <strong>Enable</strong> to manage network devices, or <strong>Disable</strong> to turn off."));
-$("#mandevmess3").html($.i18n("<strong>Access Type:</strong> If you don't want your devices to be restricted, select <strong>Allow All</strong>. Then select <strong>+ADD BLOCKED DEVICE</strong> to add only the device you want to restrict."));  
-$("#mandevmess4").html($.i18n("If you want your devices to be restricted, select <strong>Block All.</strong> Click <strong>+ADD ALLOWED DEVICE</strong> to add the device you don't want to restrict.")); 
-$("[id^='mandevmess5']").text($.i18n("Managed Devices:"));  
-$("#mandevmess6").text($.i18n("Access Type:")); 
+$("#mandevmess3").html($.i18n("<strong>Access Type:</strong> If you don't want your devices to be restricted, select <strong>Allow All</strong>. Then select <strong>+ADD BLOCKED DEVICE</strong> to add only the device you want to restrict."));
+$("#mandevmess4").html($.i18n("If you want your devices to be restricted, select <strong>Block All.</strong> Click <strong>+ADD ALLOWED DEVICE</strong> to add the device you don't want to restrict."));
+$("[id^='mandevmess5']").text($.i18n("Managed Devices:"));
+$("#mandevmess6").text($.i18n("Access Type:"));
 $("#mandevmess7").text($.i18n("Allowed Devices"));
 $("#add-allowed-devices").text($.i18n("+ ADD ALLOWED DEVICE"));
-$("#allowed-device-name,#blocked-device-name,#device-name").text($.i18n("Computer Name"));  
-$("#allowed-time").text($.i18n("When Allowed")); 
+$("#allowed-device-name,#blocked-device-name,#device-name").text($.i18n("Computer Name"));
+$("#allowed-time").text($.i18n("When Allowed"));
 $("a[id^='delete_']").attr('title',$.i18n("Delete this device"));
-$("#mandevmess8").text($.i18n("Blocked Devices"));  
-$("#add-blocked-devices").text($.i18n("+ ADD BLOCKED DEVICE")); 
-$("#blocked-time").text($.i18n("When Blocked")); 
+$("#mandevmess8").text($.i18n("Blocked Devices"));
+$("#add-blocked-devices").text($.i18n("+ ADD BLOCKED DEVICE"));
+$("#blocked-time").text($.i18n("When Blocked"));
  $("#addalldevhead").text($.i18n("Parental Control > Managed Devices > Add Allowed Device"));
 $("#adddevallmess1").text($.i18n("Add Device to be Allowed"));
-$("#adddevallmess2").text($.i18n("Set Allowed Device"));  
-$("#adddevallmess3").text($.i18n("Auto-Learned Devices:")); 
+$("#adddevallmess2").text($.i18n("Set Allowed Device"));
+$("#adddevallmess3").text($.i18n("Auto-Learned Devices:"));
 $("#adddevallmess4").text($.i18n("Custom Device:"));
 $("#adddevallmess5").text($.i18n("Always Allow?"));
 $("#adddevallmess6").text($.i18n("Set Allow Time"));
 $("[id^='adddevallmess7']").text($.i18n("Start from:"));
- $("#adddevallmess8").text($.i18n("Set Allow Days"));
+$("#adddevallmess8").text($.i18n("Set Allow Days"));
 $("#adddevallmess9").text($.i18n("Set Allow Days"));
-$("[id^='weekday_select_all']").text($.i18n("Select All"));  
-$("[id^='weekday_select_none']").text($.i18n("Select None")); 
+$("[id^='weekday_select_all']").text($.i18n("Select All"));
+$("[id^='weekday_select_none']").text($.i18n("Select None"));
 $("[id^='mon-']").text($.i18n("Monday"));
 $("[id^='tue']").text($.i18n("Tuesday"));
 $("[id^='wed-']").text($.i18n("Wednesday"));
@@ -511,35 +522,35 @@ $("[id^='satur-']").text($.i18n("Saturday"));
 $("[id^='sun-']").text($.i18n("Sunday"));
 $("#addblcmphead").text($.i18n("Parental Control > Managed Devices > Add Blocked Device"));
 $("#addblcmpmess1").text($.i18n("Add Device to be Blocked"));
-$("#addblcmpmess2").text($.i18n("Set Blocked Device"));  
-$("[id^='addblcmpmess3']").text($.i18n("Always Block?")); 
+$("#addblcmpmess2").text($.i18n("Set Blocked Device"));
+$("[id^='addblcmpmess3']").text($.i18n("Always Block?"));
 $("[id^='addblcmpmess4']").text($.i18n("Set Block Time"));
 $("[id^='addblcmpmess5']").text($.i18n("End on:"));
 $("[id^='addblcmpmess6']").text($.i18n("Set Block Days"));
-$("#editbldevhead").text($.i18n("Parental Control > Managed Devices > Edit Allowed Device"));  
-$("#editbldevmess1").text($.i18n("Edit Device to be Allowed")); 
+$("#editbldevhead").text($.i18n("Parental Control > Managed Devices > Edit Allowed Device"));
+$("#editbldevmess1").text($.i18n("Edit Device to be Allowed"));
 $("#editbldevmess2").text($.i18n("Computer Name:"));
 $("#editbldevmess3").text($.i18n("Parental Control > Managed Devices > Edit Blocked Device"));
 $("#editbldevmess4").text($.i18n("Edit Device to be Blocked"));
 $("#manservtip1").text($.i18n("Manage access to specific services and applications by network devices."));
 $("#manservtip2").html($.i18n("Select <strong>Enable</strong> to manage services and applications, or <strong> Disable</strong>  to turn off."));
-$("#manservtip3").html($.i18n("<strong>+ADD:</strong> Add to block a new service or application."));  
-$("#manservtip4").html($.i18n("The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.")); 
+$("#manservtip3").html($.i18n("<strong>+ADD:</strong> Add to block a new service or application."));
+$("#manservtip4").html($.i18n("The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>."));
 $("span[id^='manservmess1']").text($.i18n("Managed Services:"));
 $("#manservmess2").text($.i18n("Blocked Services"));
 $("#add-blocked-services,#add_blocked_site,#add-blocked-keywords").text($.i18n("+ Add"));
 $("#manservmess3").text($.i18n("Services"));
 $("#service-name1").text($.i18n("Services"));
-$("#start-port").text($.i18n("Starting Port"));  
-$("#end-port").text($.i18n("Ending Port")); 
+$("#start-port").text($.i18n("Starting Port"));
+$("#end-port").text($.i18n("Ending Port"));
 $("#effect-time,#url-blocked-time").text($.i18n("When"));
 $(".when").text($.i18n("When"));
 $("a[id^='deleteservice_']").attr('title',$.i18n("delete this service for "));
 $("#manservmess4").text($.i18n("Trusted Computers"));
 $("#manservaddblhead").text($.i18n("Parental Control > Managed Services > Add Blocked Service"));
 $("#manservaddblmess1").text($.i18n("Add Service to be Blocked"));
-$("#manservaddblmess2").text($.i18n("User Defined Service:"));  
-$("#manservaddblmess3").text($.i18n("Protocol:")); 
+$("#manservaddblmess2").text($.i18n("User Defined Service:"));
+$("#manservaddblmess3").text($.i18n("Protocol:"));
 $("#manservaddblmess4").text($.i18n("Start Port:"));
 $("#manservaddblmess5").text($.i18n("End Port:"));
 $("#manservaddblmess6").text($.i18n("Set Blocked Days"));
@@ -547,15 +558,15 @@ $("#manservedthead").text($.i18n("Parental Control > Managed Services >Edit Bloc
 $("#manservedtmess1").text($.i18n("Edit Service to be Blocked"));
 $("#mansthead").text($.i18n("Parental Control > Managed Sites"));
 $("#manstmess1").text($.i18n("Manage access to specific websites by network devices."));
-$("#manstmess2").html($.i18n("Select <strong>Enable</strong> to manage sites, or <strong>Disable</strong> to turn off."));  
-$("#manstmess3").html($.i18n("<strong>+ADD:</strong> Add a new website or keyword.")); 
+$("#manstmess2").html($.i18n("Select <strong>Enable</strong> to manage sites, or <strong>Disable</strong> to turn off."));
+$("#manstmess3").html($.i18n("<strong>+ADD:</strong> Add a new website or keyword."));
 $("#manstmess4").html($.i18n("<strong>Blocked Sites:</strong> Deny access to specific websites (URLs)."));
 $("#manstmess5").html($.i18n("<strong>Blocked Keywords:</strong> Deny access to websites containing specific words."));
 $("#manstmess6").html($.i18n("The Gateway will block connections to websites on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>."));
 $("[id^='idval']").text($.i18n("Always"));
 $("#manstmess8").text($.i18n("Blocked Sites"));
-$("#manstmess9").text($.i18n("Blocked Keywords"));  
-$("[id^='keywordSpan']").text($.i18n("Keyword")); 
+$("#manstmess9").text($.i18n("Blocked Keywords"));
+$("[id^='keywordSpan']").text($.i18n("Keyword"));
 $("#manstmess10").text($.i18n("Trusted devices management"));
 $("[id^='manstmess11']").text($.i18n("Parental Control > Managed Sites > Edit Blocked Site"));
 $("[id^='manstmess12']").text($.i18n("Edit Site to be Blocked"));
@@ -563,23 +574,23 @@ $("[id^='manstmess13']").text($.i18n("Parental Control > Managed Sites > Edit Bl
 $("[id^='manstmess14']").text($.i18n("Edit Keyword to be Blocked"));
 $("#addblkywdhead").text($.i18n("Parental Control > Managed Sites > Add Blocked Keyword"));
 $("#addblkywdmess1").text($.i18n("Add Keyword to be Blocked"));
-$("#addblsthead").text($.i18n("Parental Control > Managed Sites > Add Blocked Domain"));  
+$("#addblsthead").text($.i18n("Parental Control > Managed Sites > Add Blocked Domain"));
 $("#addblstmess1").text($.i18n("Add Site to be Blocked"));
 $("#mocahead").text($.i18n("Gateway > Connection > MoCA"));
 $("#mocamess1").text($.i18n("You have the option to enable or disable the Gateway's MoCA Network."));
-$("#mocamess2").html($.i18n("<strong>MoCA Privacy: </strong> You can enable or disable MoCA Privacy. If Privacy is enabled, all the devices connecting to the Gateway via MoCA will use the MoCA Network Password. "));  
+$("#mocamess2").html($.i18n("<strong>MoCA Privacy: </strong> You can enable or disable MoCA Privacy. If Privacy is enabled, all the devices connecting to the Gateway via MoCA will use the MoCA Network Password. "));
 $("#mocamesstip2").html($.i18n("<strong>Network Password:</strong> This is the password for the MoCA network, and will only be used when MoCA Privacy is enabled. "));
-$("#mocamess3").text($.i18n("MoCA information")); 
+$("#mocamess3").text($.i18n("MoCA information"));
 $("label[id^='mocamess4']").text($.i18n("Channel Selection:"));
 $("label[id^='mocamess5']").text($.i18n("Channel:"));
 $("#mocamess6").text($.i18n("Preferred Network Controller:"));
 $("#mocamess7").text($.i18n("Beacon Power Reduction(dB):"));
-$("#mocamess8").text($.i18n("Taboo Frequency:"));  
-$("#mocamess9").text($.i18n("Network Password:")); 
+$("#mocamess8").text($.i18n("Taboo Frequency:"));
+$("#mocamess9").text($.i18n("Network Password:"));
 $("#mocamess10").text($.i18n("Show Network Password:"));
 $("#mocamess11").text($.i18n("12 Digits Min,17 Digits Max"));
 $("#mocamess12").text($.i18n("Network Controller MAC:"));
-$("#mocdiaghead").text($.i18n("Troubleshooting > MoCA Diagnostics")); 
+$("#mocdiaghead").text($.i18n("Troubleshooting > MoCA Diagnostics"));
 $("#mocadiagtip1").text($.i18n("View information about devices currently connected to the Gateway's MoCA Network."));
 $("#mocadiagtip2").html($.i18n("<strong>MoCA Privacy: </strong> If MoCA Privacy is enabled, all the devices connecting to the Gateway via MoCA will use the MoCA Network Password."));
 $("#mocadiagmess1").text($.i18n("Status:"));
@@ -587,18 +598,18 @@ $("#mocadiagmess2").text($.i18n("Maximum Version Supported:"));
 $("#mocadiagmess3").text($.i18n("Current Operational Capabilities:"));
 $("#mocadiagmess4").text($.i18n("Active Network Controller:"));
 $("#mocadiagmess5").text($.i18n("Backup Network Controller:"));
-$("#mocadiagmess6").text($.i18n("Beacon Frequency:"));  
-$("#mocadiagmess8").text($.i18n("Center frequency:")); 
+$("#mocadiagmess6").text($.i18n("Beacon Frequency:"));
+$("#mocadiagmess8").text($.i18n("Center frequency:"));
 $("#mocadiagmess9").text($.i18n("Beacon Backoff Power Level:"));
 $("#mocadiagmess10").text($.i18n("Link Uptime:"));
 $("#mocadiagmess11").text($.i18n("Number of Packets Transmitted:"));
 $("#mocadiagmess12").text($.i18n("Number of Packets Received:"));
-$("#mocadiagmess13").text($.i18n("Number of Uncorrectable Error Packets Received:")); 
+$("#mocadiagmess13").text($.i18n("Number of Uncorrectable Error Packets Received:"));
 $("#mocadiagmess14").text($.i18n("Number of Corrected Error Packets Received:"));
 $("#mocadiagmess15").text($.i18n("Channel Mask:"));
 $("#mocadiagmess16").text($.i18n("MoCA Nodes"));
-$("#node-id").text($.i18n("Node ID"));  
-$("#mac-address").text($.i18n("MoCA MAC Address")); 
+$("#node-id").text($.i18n("Node ID"));
+$("#mac-address").text($.i18n("MoCA MAC Address"));
 $("#network-controller").text($.i18n("Network Controller"));
 $("#transmit-power-level").text($.i18n("MoCA Transmit Power Reduction"));
 $("#receive-power-level").text($.i18n("MoCA Receive Power Level"));
@@ -607,8 +618,8 @@ $("#refresh").prop("value", $.i18n('Refresh'));
 $("#mtalinhead").text($.i18n("Gateway > Connection > MTA > Line Diagnostics"));
 $("#mtalintip1").text($.i18n("Information related to the MTA Line Diagnostics."));
 $("#mtalinmess1").text($.i18n("MTA Line 1 Diagnostics"));
-$("[id^='mtalinmess2']").text($.i18n("Hazardous Potential:"));  
-$("#line1hp,#line1hp,#line1femf,#line1rf,#line1roh,#line1re,#line2hp,#line2femf,#line2rf,#line2roh,#line2re").text($.i18n("Not Started")); 
+$("[id^='mtalinmess2']").text($.i18n("Hazardous Potential:"));
+$("#line1hp,#line1hp,#line1femf,#line1rf,#line1roh,#line1re,#line2hp,#line2femf,#line2rf,#line2roh,#line2re").text($.i18n("Not Started"));
 $("[id^='mtalinmess3']").text($.i18n("Foreign EMF:"));
 $("[id^='mtalinmess4']").text($.i18n("Receiver Off Hook:"));
 $("[id^='mtalinmess5']").text($.i18n("Ringer Equivalency:"));
@@ -620,25 +631,25 @@ $("#mtalinmess6").text($.i18n("MTA Line 2 Diagnostics"));
 $("#mtalinstathead").text($.i18n("Gateway > Connection > MTA > Line Status"));
 $("#mtalinstattip1").text($.i18n("Information related to the MTA Line Status."));
 $("#mtalinstatmess1").text($.i18n("MTA Line Status"));
-$("#mtalinstatmess2").text($.i18n("Line 1 Status:"));  
+$("#mtalinstatmess2").text($.i18n("Line 1 Status:"));
 $("#mtalinstatmess3").text($.i18n("Line 2 Status:"));
 $("#mtasiplogmess1").text($.i18n("MTA SIP Packet Log"));
 $("#mtasiploghead").text($.i18n("Gateway > Connection > MTA >SIP Packet Log"));
 $("#mtasiplogtip1").text($.i18n("Information related to the SIP Packet Log."));
-$("#log_summary").html($.i18n("<b>The SIP trace log didn't generate yet</b>")); 
-$("#showlogs").prop("value", $.i18n('REFRESH'));  
+$("#log_summary").html($.i18n("<b>The SIP trace log didn't generate yet</b>"));
+$("#showlogs").prop("value", $.i18n('REFRESH'));
 $("#netdiaghead").text($.i18n("Troubleshooting > Network Diagnostic Tools"));
 $("#netdiagtip1").text($.i18n("Troubleshoot your network connectivity."));
 $("#netdiagmess1").html($.i18n("<strong>Test Connectivity Results:</strong> Checks your connectivity to the Internet."));
-$("#netdiagmess2").html($.i18n("<strong>Check IPv4 and IPv6 Address Results:</strong> Identifies accessibility to specific IP addresses.")); 
-$("#netdiagmess3").html($.i18n("<strong>Traceroute Results:</strong> Displays the route of packets across an Internet Protocol (IP) network.")); 
+$("#netdiagmess2").html($.i18n("<strong>Check IPv4 and IPv6 Address Results:</strong> Identifies accessibility to specific IP addresses."));
+$("#netdiagmess3").html($.i18n("<strong>Traceroute Results:</strong> Displays the route of packets across an Internet Protocol (IP) network."));
 $("#netdiagmess4").text($.i18n("Test Connectivity Results"));
 $("#netdiagmess5").text($.i18n("Connectivity to the Internet:"));
 $("#connectivity_internet,#packets_sent,#packets_received,#connectivity_ipv4,#connectivity_ipv6").text($.i18n("Not Tested"));
 $("#netdiagmess6").text($.i18n("Packets Sent:"));
 $("#netdiagmess7").text($.i18n("Packets Received:"));
-$("#netdiagmess8").text($.i18n("Destination Address:")); 
-$("[id^='netdiagmess9']").text($.i18n("Count:")); 
+$("#netdiagmess8").text($.i18n("Destination Address:"));
+$("[id^='netdiagmess9']").text($.i18n("Count:"));
 $("#test_connectivity").prop("value", $.i18n('Test  Connectivity'));
 $("#netdiagmess10").text($.i18n("Check for IPv4 Address Results"));
 $("[id^='netdiagmess11']").text($.i18n("Connectivity:"));
@@ -1084,14 +1095,15 @@ $("#pridnsv6").text($.i18n('Primary DNS Server (IPv6):'));
 $("[id^='deprev6']").text($.i18n('Delegated prefix (IPv6):'));
 $("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the Sky Wifi App."));
 $("#advmess2").text($.i18n(" for more information."));
+callback();
 }
-  $.i18n().load({ 
-    'it': '/locale/it.json' 
-  }).done(function() { 
-var locale=$('#locale').val(); 
- $.i18n().locale = locale; 
-    do_translate(); 
-  }); 
+$.i18n().load({
+	'it': '/locale/it.json'
+}).done(function() {
+	var locale=$('#locale').val();
+	$.i18n().locale = locale;
+		do_translate(translateRadioSwitchTitle);
+	});
 });
 jQuery(function() {
 	$.extend($.i18n.parser.emitter, {
