@@ -185,7 +185,7 @@ $(document).ready(function() {
 		if ($ids[$id] === "2") {
 			/* port 2 as home security port */
 			//if($HomeNetworkControl == 'true'){
-				if($PartnerId == 'comcast'){
+				if($PartnerId == 'comcast' || $PartnerId == 'test-partner'){
 
 				echo '<div class="form-row odd ">'.
 					'<label for="channel_selection">Associate Ethernet Port 2 to XFINITY HOME Network:</label>'.
