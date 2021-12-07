@@ -64,6 +64,8 @@ fi
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
 source /etc/device.properties
+touch /rdklogs/logs/webui.log
+chown non-root:non-root /rdklogs/logs/webui.log
 if [ "x$BOX_TYPE" != "xHUB4" ]; then
     source /fss/gw/etc/utopia/service.d/log_env_var.sh
 fi
