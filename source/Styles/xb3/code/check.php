@@ -67,9 +67,6 @@ $passLockoutTimeMins=$passLockoutTime/(1000*60);
 $client_ip = $_SERVER["REMOTE_ADDR"];       // $client_ip="::ffff:10.0.0.101";
 $server_ip = $_SERVER["SERVER_ADDR"];
 $redirect_page = "https://{$_SERVER["SERVER_NAME"]}" . $_SERVER["PHP_SELF"];
-$tokenendpoint = $clientid = $pStr = "";
-$JWTdir = "/tmp/.jwt/";
-$JWTfile = $JWTdir . "JWT.txt";
 header('X-robots-tag: noindex,nofollow');
     if (isset($_POST["username"]))
     {
@@ -261,79 +258,40 @@ header('X-robots-tag: noindex,nofollow');
     }
     else
     {
-        if (isset($_GET['code']))
+        if (isset($_GET['token']))
         {
-            $clientid=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ClientId" );
-            $tokenendpoint=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.TokenEndpoint" );
-            $pStr = 'code=' . $_GET['code'] . '&' . 'redirect_uri=' . $redirect_page; //$params = array('code' => $_GET['code'], 'redirect_uri' => $redirect_page );
-            if( is_dir( $JWTdir ) || mkdir( $JWTdir ) )
+            $ADToken = $_GET['token'];
+            $tokenvalid = VerifyToken( $ADToken );
+            if( $tokenvalid == true )
             {
-                $retval = getJWT( $tokenendpoint, $clientid, $pStr, $JWTfile ); //$response = $client->getAccessToken($tokenendpoint, 'authorization_code', $params);
+                create_session();
+                // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
+                // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to b
+                $_SESSION["loginuser"] = "mso";
+                $_SESSION['JWT_VALID'] = true;
+                $failedAttempt_mso=0;
+                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
+                exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
+                header("location:at_a_glance.jst");
             }
             else
             {
-                $retval = 15;
-            }
-            if( $retval == 0 && file_exists( $JWTfile ) )
-            {
-                $response = file_get_contents( $JWTfile );
-                array_map( 'unlink', glob( $JWTdir . "*" ) );    //delete everything in directory
-                rmdir( $JWTdir );
-            }
-
-            if( isset( $response ) && !is_null( $response ) ) // if( isset($response['result']['access_token']) )
-            {
-                $tokenvalid = false;
-                $response = trim( $response, "{}" );
-                $response = str_replace( '"', '', $response);
-                $token = array();
-                foreach ( explode( ',', $response) as $pair ) {
-                    list( $key, $val ) = explode( ':', $pair, 2 );
-                    $token[$key] = $val;
-                }
-                if( isset( $token['access_token'] ) )
-                {
-                    $tokenvalid = VerifyToken( $token['access_token'], $clientid );
-                }
-                if( $tokenvalid == true )
-                {
-                    create_session();
-                    // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
-                    // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to be set.
-                    $_SESSION["loginuser"] = "mso";
-                    $_SESSION['JWT_VALID'] = true;
-                    $failedAttempt_mso=0;
-                    setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
-                    exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
-                    header("location:at_a_glance.php");
-                }
-                else
-                {
-                    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_failed",true);
-                    if( session_status() == PHP_SESSION_ACTIVE )
-                    {
-                        session_destroy();
-                    }
-                    echo '<script type="text/javascript"> alert("',_("Access level is none!").'"); history.back(); </script>';
-                }
-            }
-            else
-            {
-                setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_fetch",true);
+                setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_failed",true);
                 if( session_status() == PHP_SESSION_ACTIVE )
                 {
                     session_destroy();
                 }
-                if( isset($response['result']['error_description']) && isset($response['code']) )
-                {
-                    $outstr = $response['code'] . " " . $response['result']['error_description'];
-                    echo '<script type="text/javascript"> alert("'.$outstr.'"); history.back(); </script>';
-                }
-                else
-                {
-                    echo '<script type="text/javascript"> alert("'.("Access Denied, Unknown Error").'"); history.back(); </script>';
-                }
+                echo '<script type="text/javascript"> alert("'._("Access Denied, level is none!").'"); history.back(); </script>';
             }
+        }
+        else
+        {
+            setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_fetch",true);
+            if( session_status() == PHP_SESSION_ACTIVE )
+            {
+                session_destroy();
+            }
+            echo '<script type="text/javascript"> alert("'._("Access Denied,  unknown error").'"); history.back(); </script>';
         }
     }
 	function innerIP($client_ip){		//for compatibility, $client_ip is not used
@@ -436,14 +394,12 @@ header('X-robots-tag: noindex,nofollow');
 		$_SESSION["loginuser"]	= $_POST["username"];
 	}
 
-function getAuthenticationUrl( $client_id, $auth_endpoint, $redirect_uri, array $extra_parameters = array() )
+function getAuthenticationUrl( $auth_endpoint, $redirect_uri )
 {
-    $parameters = array_merge(array(
-        'response_type' => 'code',
-        'client_id'     => $client_id,
-        'redirect_uri'  => $redirect_uri
-    ), $extra_parameters);
-    return $auth_endpoint . '?' . http_build_query($parameters, null, '&');
+    $parameters = {
+        ip_uri:$redirect_uri
+    };
+    return $auth_endpoint + '?' + http_build_query($parameters, null, '&');
 }
 
 /*	

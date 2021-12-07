@@ -92,9 +92,6 @@ $passLockoutTimeMins=$passLockoutTime/(1000*60);
 $client_ip = $_SERVER["REMOTE_ADDR"];       // $client_ip="::ffff:10.0.0.101";
 $server_ip = $_SERVER["SERVER_ADDR"];
 $redirect_page = "https://"+$_SERVER["HTTP_HOST"] + $_SERVER["SCRIPT_NAME"];
-$tokenendpoint = $clientid = $pStr = "";
-$JWTdir = "/tmp/.jwt/";
-$JWTfile = $JWTdir + "JWT.txt";
 PHP_SESSION_ACTIVE = 2;
 
     if (isset($_POST["username"]))
@@ -179,12 +176,11 @@ PHP_SESSION_ACTIVE = 2;
             else
             {
                 $authendpoint=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ServerUrl" );
-                $clientid=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ClientId" );
-                if( $authmode != "potd" && $authendpoint && $clientid )
+                if( $authmode != "potd" && $authendpoint )
                 {
                     if (!isset($_GET['code']))
                     {
-                        $auth_url = getAuthenticationUrl( $clientid, $authendpoint, $redirect_page );
+                        $auth_url = getAuthenticationUrl( $authendpoint, $redirect_page );
                         sendError("<script type='text/javascript'>document.location.href='"+$auth_url+"';</script>");
                         die("Please wait ...");
                     }
@@ -295,86 +291,40 @@ PHP_SESSION_ACTIVE = 2;
     }
     else
     {
-        var $response = "";
-        if (isset($_GET['code']))
+        if (isset($_GET['token']))
         {
-            $clientid=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ClientId" );
-            $tokenendpoint=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.TokenEndpoint" );
-            $pStr = 'code=' + $_GET['code'] + '&' + 'redirect_uri=' + $redirect_page; //$params = {'code':$_GET['code'], 'redirect_uri':$redirect_page};
-            if( file_exists( $JWTdir ) || exec("mkdir "+$JWTdir) )
+            $ADToken = $_GET['token'];
+            $tokenvalid = VerifyToken( $ADToken );
+            if( $tokenvalid == true )
             {
-                $retval = getJWT( $tokenendpoint, $clientid, $pStr, $JWTfile ); //$response = $client->getAccessToken($tokenendpoint, 'authorization_code', $params);
+                create_session();
+                // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
+                // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to b
+                $_SESSION["loginuser"] = "mso";
+                $_SESSION['JWT_VALID'] = true;
+                $failedAttempt_mso=0;
+                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
+                exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
+                header("location:at_a_glance.jst");
             }
             else
             {
-                $retval = 15;
-            }
-            if( $retval == 0 && file_exists( $JWTfile ) )
-            {
-                $response = file_get_contents( $JWTfile );
-                //array_map( 'unlink', glob( $JWTdir . "*" ) );    //delete everything in directory
-                remove_directory_contents($JWTdir);
-                exec("rmdir "+$JWTdir);
-            }
-
-            if( isset( $response ) && $response ) // if( isset($response['result']['access_token']) )
-            {
-                $tokenvalid = false;
-                $response = trim( $response, "{}" );
-                $response = $response.split('"').join('');
-                $response = str_replace( '{', '', $response);
-                $response = str_replace( '}', '', $response);
-                $token = {};
-                $arr = explode( ',', $response);
-                for ( $k in $arr ) {
-                    $pair = $arr[$k];
-                    list = {};
-                    list = explode( ':', $pair, 2 );
-                    $token[list[0]] = list[1];
-                }
-                if( isset( $token['access_token'] ) )
-                {
-                    $tokenvalid = VerifyToken( $token['access_token'], $clientid );
-                }
-                if( $tokenvalid == true )
-                {
-                    create_session();
-                    // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
-                    // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to be set.
-                    $_SESSION["loginuser"] = "mso";
-                    $_SESSION['JWT_VALID'] = true;
-                    $failedAttempt_mso=0;
-                    setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
-                    exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
-                    header("location:at_a_glance.jst");
-                }
-                else
-                {
-                    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_failed",true);
-                    if( session_status() == PHP_SESSION_ACTIVE )
-                    {
-                        session_destroy();
-                    }
-                    sendError( '<script type="text/javascript"> alert($.i18n("Access level is none!")); history.back(); </script>');
-                }
-            }
-            else
-            {
-                setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_fetch",true);
+                setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_failed",true);
                 if( session_status() == PHP_SESSION_ACTIVE )
                 {
                     session_destroy();
                 }
-                if(($response!="") && isset($response['result']['error_description']) && isset($response['code']) )
-                {
-                    $outstr = $response['code'] + " " + $response['result']['error_description'];
-                    sendError( '<script type="text/javascript"> alert("'+$outstr+'"); history.back(); </script>');
-                }
-                else
-                {
-		    sendError('<script type="text/javascript"> alert($.i18n("Access Denied, Unknown Error")); history.back(); </script>');
-                }
+                sendError( '<script type="text/javascript"> alert($.i18n("Access Denied, level is none!")); history.back(); </script>');
             }
+        }
+        else
+        {
+            setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","token_fetch",true);
+            if( session_status() == PHP_SESSION_ACTIVE )
+            {
+                session_destroy();
+            }
+            sendError( '<script type="text/javascript"> alert($.i18n("Access Denied, unknown error")); history.back(); </script>');
         }
     }
 
@@ -600,13 +550,10 @@ PHP_SESSION_ACTIVE = 2;
 		$_SESSION["loginuser"]	= $_POST["username"];
 	}
 
-function getAuthenticationUrl( $client_id, $auth_endpoint, $redirect_uri )
+function getAuthenticationUrl( $auth_endpoint, $redirect_uri )
 {
     $parameters = {
-        response_type:'code',
-        client_id:$client_id,
-        redirect_uri:$redirect_uri,
-        'pfidpadapterid':"loginform"
+        ip_uri:$redirect_uri
     };
     return $auth_endpoint + '?' + http_build_query($parameters, null, '&');
 }
