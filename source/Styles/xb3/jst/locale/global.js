@@ -19,16 +19,22 @@ function alertLocale(results){
 	});
 }
 function translateRadioSwitchTitle(){
-    $(".radioswitch_cont ul").children().each(function(){
-        $labelTitle = $(this).attr('title');
-        $labelTitle = $labelTitle.split(":")
-        $titlePrefix = $labelTitle[0]+":";
-        $titlePrefix = $titlePrefix.replace(/\s\s+/g, '');
-        $titlesuffix = $labelTitle[1];
-        $titlePrefixTranslated = $.i18n($titlePrefix);
-        $title = $titlePrefixTranslated + $titlesuffix;
-        $(this).prop('title', $title);
-    });
+	$(".radioswitch_cont ul").children().each(function(){
+		$labelTitle = $(this).attr('title');
+		if($labelTitle.indexOf(":") !== -1){
+			$labelTitle = $labelTitle.split(":");
+			$titlePrefix = $labelTitle[0]+":";
+		}
+		else if($labelTitle.indexOf("?") !== -1){
+			$labelTitle = $labelTitle.split("?");
+			$titlePrefix = $labelTitle[0]+"?";
+		}
+		$titlePrefix = $titlePrefix.replace(/\s\s+/g, '');
+		$titlesuffix = $labelTitle[1];
+		$titlePrefixTranslated = $.i18n($titlePrefix);
+		$title = $titlePrefixTranslated + $titlesuffix;
+		$(this).prop('title', $title);
+	});
 }
 jQuery(function($) {
 	var do_translate = function(callback) {
