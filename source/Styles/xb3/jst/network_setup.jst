@@ -194,6 +194,8 @@ function sec2dhms($sec)
 		$portVal="Porta";
 	}
 	if(strpos($partnerId, "sky-") !== false){
+		$ipv4_status = '';
+		$ipv6_status = '';
 		$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 		if($fileget){
 			$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
