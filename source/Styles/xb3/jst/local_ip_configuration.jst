@@ -1059,12 +1059,12 @@ $('#submit_ipv6').click(function(e){
 		var ula_prefix='';
 		if($('#ULA_1').val().indexOf('fc')===0|| $('#ULA_1').val().indexOf('fd')===0  || $('#ULA_1').val().indexOf('fC')===0|| $('#ULA_1').val().indexOf('fD')===0 ||$('#ULA_1').val().indexOf('Fc')===0|| $('#ULA_1').val().indexOf('Fd')===0 ||$('#ULA_1').val().indexOf('FC')===0|| $('#ULA_1').val().indexOf('FD')===0){
              		for(i=1; i<=4;i++){
-                		if($('#ULA_'+i).val()!==''){
-                     			ula_prefix += $('#ULA_'+i).val()+':';
+				if(($('#ULA_'+i).val()!=='') && ($('#ULA_'+i).val().length === 4)){
+					ula_prefix += $('#ULA_'+i).val()+':';
 				}
 				else{alertLocale("Incorrect Prefix ULA address..!");return false; }
-	      		}
-	    		ula_prefix = ula_prefix.slice(0,-1);
+			}
+			ula_prefix = ula_prefix.slice(0,-1);
 		}
 		else{alertLocale("Prefix value should start with [fc] or [fd]");return false;}
 		var IPv6Config = '{"IPv6": "Yes", "Stateful": "' + Stateful + '", "dhcpv6_begin_addr": "' + dhcpv6_begin_addr + '", "dhcpv6_end_addr": "' + dhcpv6_end_addr +'", "dhcpv6_lease_time": "' + dhcpv6_lease_time +'", "ipv6_enable": "' + ipv6_enable +'", "ula_enable": "' + ula_enable +'", "ula_prefix": "' + ula_prefix +'"}';
