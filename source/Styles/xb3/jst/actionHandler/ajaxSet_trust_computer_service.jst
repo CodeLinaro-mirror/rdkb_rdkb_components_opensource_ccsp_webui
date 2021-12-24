@@ -53,28 +53,30 @@ if($validation){
                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$id+".Trusted", $flag['trustFlag'], true);
             }
         }
-        if (!$deviceExist)
+
+    if (!$deviceExist)
         {
-            addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."); 
+            if($ipAddr[1]!="NA"){
+                addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.");
+                $IDs  = getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.");
+                $idArr = explode(",", $IDs);
+                $instanceid = array_pop($idArr);
+                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".HostDescription", $flag['HostName'], false);
+                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddressType", "IPv6", false);
+                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddress", $ipAddr[1], false);
+                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".Trusted", $flag['trustFlag'], true);
+            }
+ if($ipAddr[0]=="NA")
+                $ipAddr[0]="";
+            addTblObj("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.");
             $IDs  = getInstanceIds("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser.");
             $idArr = explode(",", $IDs);
             $instanceid = array_pop($idArr);
             setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".HostDescription", $flag['HostName'], false);
-            if ( strpos($flag['IPAddress'], ':') != false ){
-                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddressType", "IPv6", false);
-            	setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddress", $ipAddr[1], false);
-	    }
-            else{
-                setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddressType", "IPv4", false);
-		setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddress", $ipAddr[0], false);
-            }
-            //setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddress", $flag['IPAddress'], false);
+            setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddressType", "IPv4", false);
+            setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddress", $ipAddr[0], false);
             setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".Trusted", $flag['trustFlag'], true);
         }
-        else{
-            setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".IPAddressType", "IPv4", false);
-        }
-        setStr("Device.X_Comcast_com_ParentalControl.ManagedServices.TrustedUser."+$instanceid+".Trusted", $flag['trustFlag'], true);
     }
     else{
         // "yes" => "no" not trusted
