@@ -62,9 +62,9 @@ if (isset($_POST['add'])) {
 		if ($type=="TCP/UDP") $type="BOTH";
 		$ip=$_POST['ip'];
 		$startport=$_POST['startport'];
-		$endport=$_POST['endport'];
+		$endport=$_POST['startport'];
 		$priport=$_POST['priport'];
-		$enportrange=$_POST['enportrange']; // string "true" / "false"
+		$enportrange= 'false'; // string "true" / "false"
 		$enableHSEntry = 'true';  // set 'true' to default value
 		if (getStr("Device.NAT.PortMappingNumberOfEntries")==0) {	//no table, need test whether it equals 0
 			addTblObj("Device.NAT.PortMapping.");
@@ -189,9 +189,9 @@ if (isset($_POST['edit'])){
 		if ($type=="TCP/UDP") $type="BOTH";
 		$ip=$_POST['ip'];
 		$sport=$_POST['startport'];
-		$eport=$_POST['endport'];
+		$eport=$_POST['startport'];
 		$priport=$_POST['priport'];
-		$enportrange=$_POST['enportrange'];
+		$enportrange= 'false';
 		// $result="";
 		$rootObjName    = "Device.NAT.PortMapping.";
 		$paramNameArray = array("Device.NAT.PortMapping.");
