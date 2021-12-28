@@ -869,4 +869,16 @@ function translateBlockedDays($days_cvt){
 	if($locale=="it") $days_cvt = $days_cvt_it;
 	return $days_cvt;
 }
+/**
+ * Discription:
+ *     This function checks and appends protocol if protocol is not present
+ *
+ * return: returns URL with protocol
+ */
+function updateURL(url){
+	if (!(url.indexOf("http://") == 0 || url.indexOf("https://") == 0)) {
+		url = "http://" + url;
+	}
+	return url;
+}
 ?>
