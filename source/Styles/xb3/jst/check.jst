@@ -136,7 +136,7 @@ PHP_SESSION_ACTIVE = 2;
             {
                 $curPwd1 = "Invalid_PWD";    // trigger SSO login attempt
             }
-            if ( innerIP($client_ip) || ( (if_type($server_ip)=="rg_ip") && (strtolower($currentOpMode) !="ethernet") ) )
+	    if ( innerIP($client_ip) || ( ((if_type($server_ip)=="rg_ip") || (if_type($server_ip)=="docsis_ip") ) && (strtolower($currentOpMode) !="ethernet") ) )
             {
                 if($passLockEnable == "true")
                 {
