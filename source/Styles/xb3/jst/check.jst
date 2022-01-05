@@ -396,7 +396,6 @@ PHP_SESSION_ACTIVE = 2;
 			return "cm_ip";
 		}
 		else{
-			$remote_ip=get_ips("erouter0");
 			$remoteAcess= getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.Enable");
 			$httpRemoteEnable= getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpEnable");
 			$httpRemotePort= getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpPort");
@@ -406,6 +405,7 @@ PHP_SESSION_ACTIVE = 2;
 			$server_ip      = parseIP($_SERVER["SERVER_ADDR"]);
 			$adminOnlyMode = "true";
 			if(strtolower($currentOpMode) =="ethernet"){
+				$remote_ip=get_ips("erouter0");
 				if (in_array($server_ip,$remote_ip)){
 					$adminOnlyMode= "false";
 					if( $remoteAcess && ($httpRemoteEnable || $httpsRemoteEnable) && (($server_port==$httpRemotePort)|| ($server_port==$httpsRemotePort))){
@@ -417,13 +417,7 @@ PHP_SESSION_ACTIVE = 2;
 				}
 				return "eth_ip";
 			}else if(!$currentOpMode || strtolower($currentOpMode) =="docsis"){
-                                //Checking Remote Management Enabled
-                                if( $remoteAcess && ($httpRemoteEnable || $httpsRemoteEnable) && (($server_port==$httpRemotePort)|| ($server_port==$httpsRemotePort))){
-                                        return "docsis_ip";
-                                }
-                        	if($lanMode=="bridge-static"){
-					return "docsis_ip";
-				}	
+                         	return "docsis_ip";
 			}else{
                                 return "rg_ip";
                         }
