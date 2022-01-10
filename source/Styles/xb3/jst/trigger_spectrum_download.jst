@@ -26,7 +26,7 @@ include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
 csrfprotector_rdkb::init();
 */
 session_start();
-if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || typeof($_SESSION["loginuser"])=="undefined" ) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="index.jst";</script>');
 	exit(0);
 }
