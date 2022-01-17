@@ -35,6 +35,7 @@ $(document).ready(function() {
 	else if ("admin" == "<?% echo( $_SESSION["loginuser"]); ?>") {
 		$("#div6").remove();
 		$("#div5").addClass("odd");
+		$("#div7").removeClass("odd");
 	}
 	if ("false" == "<?% echo( $_SESSION["batteryInstalled"]); ?>") {
                 $("#div7").remove();
