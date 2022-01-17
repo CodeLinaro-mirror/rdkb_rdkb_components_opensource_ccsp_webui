@@ -126,7 +126,7 @@ else
 		setStr("Device.WiFi.Radio."+$apply_rf+".X_CISCO_COM_ApplySettingSSID", $apply_id, false);
 		setStr("Device.WiFi.Radio."+$apply_rf+".X_CISCO_COM_ApplySetting", "true", true);
 	}
-        $channel = getStr("Device.WiFi.Radio."+$i+".AutoChannelEnable");
+        $channel = getStr("Device.WiFi.Radio."+$r+".AutoChannelEnable");
 	if ("save_config" == $arConfig['target'])
 	{        
 		//save_basic & save_advance is only for mso
