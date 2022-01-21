@@ -56,7 +56,7 @@ function spanTable($rows, startIdx, endIdx){
 			}
 		}
 	}
-	function ajax_spec_analyzer()
+	function ajax_spec_analyzer(status='analyse')
 	{
 		$("#save_result").hide();
 		$("#scan_status").html($.i18n("Scanning...")).show();
@@ -65,7 +65,7 @@ function spanTable($rows, startIdx, endIdx){
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajax_wifi_spectrum_analyser.jst",
-			data: { wifi_spectrum_analyser: 'analyse' },
+			data: { wifi_spectrum_analyser: status },
 			success: function(result) {
 				result = JSON.parse(result);
 				if(result.status == "success")
@@ -99,7 +99,7 @@ function spanTable($rows, startIdx, endIdx){
 				else
 				{
 					setTimeout(function(){
-						ajax_spec_analyzer();
+						ajax_spec_analyzer(result.status);
 					}, 5000);
 				}
 			},

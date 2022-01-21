@@ -67,15 +67,17 @@ function get_results()
 		return {"status": "success", "data": $new_array}/*p2j-array*/;
 	}
 }
-$WiFiDiagnostic_enable = getStr("Device.WiFi.NeighboringWiFiDiagnostic.Enable");
-if($WiFiDiagnostic_enable == "false")
-{
-	setStr("Device.WiFi.NeighboringWiFiDiagnostic.Enable", "true", true);
-	setStr("Device.WiFi.NeighboringWiFiDiagnostic.DiagnosticsState", "Requested", true);
-}
-else
-{
-	setStr("Device.WiFi.NeighboringWiFiDiagnostic.DiagnosticsState", "Requested", true);	
+if($_POST["wifi_spectrum_analyser"] == "analyse"){
+	$WiFiDiagnostic_enable = getStr("Device.WiFi.NeighboringWiFiDiagnostic.Enable");
+	if($WiFiDiagnostic_enable == "false")
+	{
+		setStr("Device.WiFi.NeighboringWiFiDiagnostic.Enable", "true", true);
+		setStr("Device.WiFi.NeighboringWiFiDiagnostic.DiagnosticsState", "Requested", true);
+	}
+	else
+	{
+		setStr("Device.WiFi.NeighboringWiFiDiagnostic.DiagnosticsState", "Requested", true);
+	}
 }
 $result = get_results();
 echo( htmlspecialchars(json_encode($result), ENT_NOQUOTES, 'UTF-8'));
