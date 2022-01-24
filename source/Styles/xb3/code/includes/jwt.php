@@ -21,15 +21,19 @@
 
 $tid = "906aefe9-76a7-4f65-b82d-5ec20775d5aa";
 $JWTdir = "/tmp/.jwt/";
-$PUBKEYFILE = $JWTdir + "pubkey.cer";
-$JWTkeyfile = $JWTdir + "keys";
+$PUBKEYFILE = $JWTdir . "pubkey.cer";
+$JWTkeyfile = $JWTdir . "keys";
 $KeyURL = "https://login.microsoftonline.com/906aefe9-76a7-4f65-b82d-5ec20775d5aa/discovery/v2.0/keys";
-$GetKeys = "/usr/bin/curl --connect-timeout 8 -o "+ $JWTkeyfile + " " + $KeyURL;
+$GetKeys = "/usr/bin/curl --connect-timeout 8 -o ". $JWTkeyfile . " " . $KeyURL;
 
 function VerifyToken($token)
 {
 
-    $tokendata = {};
+    if (!extension_loaded('openssl')) {
+        throw new Exception('The PHP openssl extension is missing.');
+    }
+
+    $tokendata = "";   
     $tokensegs = explode('.', $token);
     $cnt = count($tokensegs);
     if( $cnt != 3) {
@@ -39,20 +43,10 @@ function VerifyToken($token)
     else
     {
         $validtoken = VerifySignature( $tokensegs[0], $tokensegs[1], $tokensegs[2] );
-	if( $validtoken == true ) {
+        if( $validtoken == true ) {
             $decodeddata = base64decode_url( $tokensegs[1] );
-            $decodeddata = trim( $decodeddata, "{}" );
-            $decodeddata = str_replace( '{', '', $decodeddata);
-            $decodeddata = str_replace( '}', '', $decodeddata);
-            $decodeddata = $decodeddata.split('"').join('');
-            $pair = explode( ',', $decodeddata );
-            for ( $k in $pair ) {
-                temp = $pair[$k];
-                list = {};
-                list = explode( ':', temp, 2 );
-                $tokendata[list[0]] = list[1];
-            }
-	    $validtoken &= VerifyTokenData( $tokendata );
+            $tokendata = json_decode( $decodeddata, true );
+            $validtoken &= VerifyTokenData( $tokendata );
         }
         else
         {
@@ -68,17 +62,16 @@ function VerifyToken($token)
     {
         LogTokenData( "Invalid Token Received", $validtoken );
     }
-    LogTokenData( $tokendata, $validtoken );
 
     return $validtoken;
 }
 
-
 function VerifySignature($header, $payload, $sig)
 {
+    global $JWTdir, $JWTkeyfile, $GetKeys, $PUBKEYFILE;
     $sigverified = false;
 
-    if( file_exists( $JWTdir ) || exec("mkdir "+$JWTdir) )
+    if( file_exists( $JWTdir ) || mkdir($JWTdir) )
     {
         exec( $GetKeys );    // always try to download new list of keys.
         // but even if previous curl failed, see if old key file is still there.
@@ -86,21 +79,21 @@ function VerifySignature($header, $payload, $sig)
         if( file_exists( $JWTkeyfile ) )
         {
             $headerdecoded = base64decode_url( $header );
-            $headerarr = json_decode( $headerdecoded );
+            $headerarr = json_decode( $headerdecoded, true );
     
             $keyfile = file_get_contents( $JWTkeyfile );
-            $keyarr = json_decode( $keyfile );
-            for( $n in $keyarr['keys'] )  {
-                $key = $keyarr['keys'][$n];
+	    $keyarr = json_decode( $keyfile, true );
+            foreach ( $keyarr[ 'keys'] as $key ) {
                 if( $key['kid'] == $headerarr['kid'] ) {
-                    WritePubKey( $key['x5c'] );
+                    WritePubKey( $key['x5c'][0] );
                     break;
                 }
             }
-            $pubkey = "file://" + $PUBKEYFILE;
-            $token = $header + '.' + $payload;
+	    $pubkey = "file://" . $PUBKEYFILE;
+            $pubkeyid = openssl_pkey_get_public( $pubkey );
+            $token = $header . '.' . $payload;
             $sig2verify = base64decode_url( $sig );
-            $sigvalid = ccsp.openssl_verify_with_cert($pubkey, $token, $sig2verify, 'SHA256');
+            $sigvalid = openssl_verify( $token, $sig2verify, $pubkeyid, 'SHA256' );
     
             if( $sigvalid == 1 )
             {
@@ -115,14 +108,14 @@ function VerifySignature($header, $payload, $sig)
 
 function VerifyTokenData($tkdata)
 {
+    global $tid;
     $retval = false;
     $errstr = "";
 
-    var date = new Date();
-    $curtime = parseInt( date.getTime()/1000 );
-    $tokeniat = parseInt( $tkdata['iat'] );
-    $tokennbf = parseInt( $tkdata['nbf'] );
-    $tokenexp = parseInt( $tkdata['exp'] );
+    $curtime = time();
+    $tokeniat = intval( $tkdata['iat'] );
+    $tokennbf = intval( $tkdata['nbf'] );
+    $tokenexp = intval( $tkdata['exp'] );
 
     if( ($curtime < $tokenexp)        // current time must be < expiration
         && ($curtime >= $tokennbf)    // current time must be >= not before time
@@ -134,16 +127,16 @@ function VerifyTokenData($tkdata)
         }
         else
         {
-            $errstr = "Error: Token fails Tenant ID, tid=" + $tkdata['tid'];
-            $errstr = $errstr + ", userId=" + $tkdata['email'];
+            $errstr = "Error: Token fails Tenant ID, tid=" . $tkdata['tid'];
+            $errstr = $errstr . ", userId=" . $tkdata['email'];
             LogTokenData( $errstr, false );
         }
     }
     else
     {
-        $errstr = "Error: Token fails time validation, cur=" + $curtime;
-        $errstr = $errstr + ", iat=" + $tokeniat + ", nbf=" + $tokennbf + ", exp=" + $tokenexp;
-        $errstr = $errstr + ", userId=" + $tkdata['email'];
+        $errstr = "Error: Token fails time validation, cur=" . $curtime;
+        $errstr = $errstr . ", iat=" . $tokeniat . ", nbf=" . $tokennbf . ", exp=" . $tokenexp;
+        $errstr = $errstr . ", userId=" . $tkdata['email'];
         LogTokenData( $errstr, false );
     }
 
@@ -152,14 +145,16 @@ function VerifyTokenData($tkdata)
 
 function WritePubKey($pubkey)
 {
+    global $PUBKEYFILE;
+
     $file = fopen( $PUBKEYFILE, "w" );
     if( $file != false )
     {
-        $str = "-----BEGIN CERTIFICATE-----" + "\n";
+        $str = "-----BEGIN CERTIFICATE-----" . "\n";
         fwrite( $file, $str );
-        $str = $pubkey + "\n";
+        $str = $pubkey . "\n";
         fwrite( $file, $str );
-        $str = "-----END CERTIFICATE-----" + "\n";
+        $str = "-----END CERTIFICATE-----" . "\n";
         fwrite( $file, $str );
         fclose( $file );
     }
@@ -171,26 +166,18 @@ function LogTokenData($tkdata, $usetoken)
     $file = fopen( "/rdklogs/logs/webui.log", "a" );
     if( $file != false )
     {
-        var date = new Date();
-
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        var seconds = date.getSeconds();
-        $str = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+        $str = date("Y-m-d H:i:s");
 
         if( $usetoken == true )
         {
-            $str = $str + " WebUI: OAUTH userId=" + $tkdata['email'];
-            $str = $str + " expiration=" + $tkdata['exp'];
+            $str = $str . " WebUI: OAUTH userId=" . $tkdata['email'];
+            $str = $str . " expiration=" . $tkdata['exp'];
         }
         else
         {
-            $str = $str + " " + $tkdata;
+            $str = $str . " " . $tkdata;
         }
-        $str = $str + "\n";
+        $str = $str . "\n";
         fwrite( $file, $str );
         fclose( $file );
     }
@@ -198,25 +185,25 @@ function LogTokenData($tkdata, $usetoken)
 
 function base64decode_url($string)
 {
-	/* Need to map non-RFC-1421 characters in the URL to the proper base64 charset. */
-	$data = $string.split("-").join("+");
-	$data = $data.split("_").join("/");
-	/* Decode input must be a multiple of 4 bytes so pad up with “=”. */
-	$mod4 = strlen($data) % 4;
+   /* Need to map non-RFC-1421 characters in the URL to the proper base64 charset. */
+   $data = str_replace( "-", "+", $string);
+   $data = str_replace( "_", "/", $data);
+   /* Decode input must be a multiple of 4 bytes so pad up with “=”. */
+   $mod4 = strlen($data) % 4;
 
-	switch ($mod4)
-	{
-		case 1:
-			 $data = $data+"===";
-			 break;
-	 	case 2:
-	 		 $data = $data+"==";
-	 		 break;
-	 	case 3:
-	 		 $data = $data+"=";
-	 		 break;
-	}
-	 return base64_decode($data);
+   switch ($mod4)
+   {
+       case 1:
+           $data = $data."===";
+           break;
+       case 2:
+           $data = $data."==";
+           break;
+       case 3:
+           $data = $data."=";
+           break;
+    }
+    return base64_decode($data);
 }
-?>
 
+?>

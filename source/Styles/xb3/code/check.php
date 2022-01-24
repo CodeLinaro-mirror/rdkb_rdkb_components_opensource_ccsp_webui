@@ -68,6 +68,7 @@ $client_ip = $_SERVER["REMOTE_ADDR"];       // $client_ip="::ffff:10.0.0.101";
 $server_ip = $_SERVER["SERVER_ADDR"];
 $redirect_page = "https://{$_SERVER["SERVER_NAME"]}" . $_SERVER["PHP_SELF"];
 header('X-robots-tag: noindex,nofollow');
+
     if (isset($_POST["username"]))
     {
 		/*=============================================*/
@@ -148,13 +149,11 @@ header('X-robots-tag: noindex,nofollow');
             else
             {
                 $authendpoint=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ServerUrl" );
-                $clientid=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.ClientId" );
-                if( $authmode != "potd" && $authendpoint && $clientid )
+                if( $authmode != "potd" && $authendpoint )
                 {
                     if (!isset($_GET['code']))
                     {
-                        $params = array('pfidpadapterid' => "loginform" );
-                        $auth_url = getAuthenticationUrl( $clientid, $authendpoint, $redirect_page, $params );
+                        $auth_url = getAuthenticationUrl( $authendpoint, $redirect_page );
                         echo "<script type='text/javascript'>document.location.href='{$auth_url}';</script>";
                         die('_("Please wait ...")');
                     }
@@ -270,9 +269,9 @@ header('X-robots-tag: noindex,nofollow');
                 $_SESSION["loginuser"] = "mso";
                 $_SESSION['JWT_VALID'] = true;
                 $failedAttempt_mso=0;
-                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
+                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
                 exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
-                header("location:at_a_glance.jst");
+                header("location:at_a_glance.php");
             }
             else
             {
@@ -391,15 +390,18 @@ header('X-robots-tag: noindex,nofollow');
 		("" == $timeout_val) && ($timeout_val = 900);
 		$_SESSION["timeout"]	= $timeout_val - 60;	//dmcli param is returning 900, GUI expects 840 - then GUI adds 60
 		$_SESSION["sid"]	= session_id();
-		$_SESSION["loginuser"]	= $_POST["username"];
+                if (isset($_POST["username"]))
+                {
+                    $_SESSION["loginuser"]	= $_POST["username"];
+                }
 	}
 
 function getAuthenticationUrl( $auth_endpoint, $redirect_uri )
 {
-    $parameters = {
-        ip_uri:$redirect_uri
-    };
-    return $auth_endpoint + '?' + http_build_query($parameters, null, '&');
+    $parameters = array(
+        'ip_uri'  => $redirect_uri
+    );
+    return $auth_endpoint . '?' . http_build_query($parameters, null, '&');
 }
 
 /*	
