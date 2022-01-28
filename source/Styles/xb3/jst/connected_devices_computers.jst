@@ -98,19 +98,19 @@ table a:link, table a:visited {
 			if (stristr($interface, "WiFi.SSID.17") && ($OperatingChannelBandwidth == "6GHz")) {
 				$host['networkType'] = "Private";
 				$frequency_band = getStr("Device.WiFi.Radio.3.OperatingFrequencyBand");
-				$frequency_band = (strstr($frequency_band,"6G")) ? "6G" : "2.4G";
+				$frequency_band = (strstr($frequency_band,"6G")) ? "6 GHz" : "2.4 GHz";
 				$host['connectionType'] = "Wi-Fi " + $frequency_band;
 			}
 			else if (stristr($interface, "WiFi.SSID.2")) {
 				$host['networkType'] = "Private";
 				$frequency_band = getStr("Device.WiFi.Radio.2.OperatingFrequencyBand");
-				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+				$frequency_band = (strstr($frequency_band,"5G")) ? "5 GHz" : "2.4 GHz";
 				$host['connectionType'] = "Wi-Fi " + $frequency_band;
 			}
 			else if (stristr($interface, "WiFi.SSID.1")) {
 				$host['networkType'] = "Private";
 				$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
-				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+				$frequency_band = (strstr($frequency_band,"5G")) ? "5 GHz" : "2.4 GHz";
 				$host['connectionType'] = "Wi-Fi " + $frequency_band;
 			}
 			else {
@@ -691,13 +691,13 @@ function getTitle(val){
 		if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Unknown"){
 			privconnnetid ="unknown";
 		}
-		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 2.4G"){
+		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 2.4 GHz"){
 			privconnnetid ="24_G";
 		}
-		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5G"){
+		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5 GHz"){
 			privconnnetid ="5_G";
 		}
-		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6G"){
+		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6 GHz"){
                         privconnnetid ="6_G";
                 }
 		else if($onlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetid ="ethcon";}
@@ -795,12 +795,12 @@ function getTitle(val){
         if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Unknown"){
                 privconnnetOffid ="unknown";
 	}
-	else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 2.4G"){
+	else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 2.4 GHz"){
 		privconnnetOffid ="24_G";
 	}
-	else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5G"){
+	else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 5 GHz"){
 		privconnnetOffid ="5_G";
-	}else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6G"){
+	}else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Wi-Fi 6 GHz"){
                 privconnnetOffid ="6_G";
         }
 else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){privconnnetOffid ="ethcon";}
@@ -1091,13 +1091,13 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 	      		if ($i == 0 || $i == 2) {
 	      			$gre_ssid = 1;
 				$frequency_band = getStr("Device.WiFi.Radio.1.OperatingFrequencyBand");
-				$frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+				$frequency_band = (strstr($frequency_band,"5G")) ? "5 GHz" : "2.4 GHz";
 				$WiFiType = "Wi-Fi " + $frequency_band;
 	      		}
 	      		else {
 	      			$gre_ssid = 2;
                                 $frequency_band = getStr("Device.WiFi.Radio.2.OperatingFrequencyBand");
-                                $frequency_band = (strstr($frequency_band,"5G")) ? "5G" : "2.4G";
+                                $frequency_band = (strstr($frequency_band,"5G")) ? "5 GHz" : "2.4 GHz";
                                 $WiFiType = "Wi-Fi " + $frequency_band;
 	      		}
 	         	if($i % 2) $odd = "";
@@ -1156,10 +1156,10 @@ for ($i=0; $i < $onlinePrivateNetworkHost['hostNum']; $i++) {
 	if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Unknown"){
 		unknowid="unknown";
 	}
-	else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 2.4G"){
+	else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 2.4 GHz"){
 		unknowid ="24_G";
 	}
-	else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 5G"){
+	else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 5 GHz"){
 		unknowid ="5_G";
 	}else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Ethernet"){unknowid ="ethcon";}
 	echo( "\
@@ -1230,10 +1230,10 @@ for ($i=0; $i < $offlinePrivateNetworkHost['hostNum']; $i++) {
         if($offlinePrivateNetworkHost[$i.toString()]['Connection']=="Unknown"){
                 unknowid="unknown";
 	}
-	else if($offlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 2.4G"){
+	else if($offlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 2.4 GHz"){
 		unknowid ="24_G";
 	}
-	else if($offlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 5G"){
+	else if($offlinePrivateNetworkHost[$i.toString()]['Connection']=="Wi-Fi 5 GHz"){
 		unknowid ="5_G";
 	}else{unknowid ="ethcon";}
         echo("\
