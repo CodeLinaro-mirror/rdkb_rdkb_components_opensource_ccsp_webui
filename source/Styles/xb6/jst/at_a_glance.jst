@@ -114,7 +114,7 @@ $curr_IP = $_SESSION['PREV_REMOTEADDR'];
 		$voice_line = "";
 		$voice_line = getStr($tvdml["Line_Enable"]);
 		$voice_lbl = false;
-		if($voice_line == 'true'){$voice_lbl = true;}
+		if($voice_line == 'true' || $voice_line == 'Enabled'){$voice_lbl = true;}
 	} else {
 		$MoCA = true;
 		$voice_lbl = false;

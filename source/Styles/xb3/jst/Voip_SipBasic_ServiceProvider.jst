@@ -62,6 +62,7 @@
 	$values_got['UserAgentDomain'] = htmlspecialchars($values_got['UserAgentDomain'], ENT_NOQUOTES, 'UTF-8');
 	$values_got['RegistrarServer'] = htmlspecialchars($values_got['RegistrarServer'], ENT_NOQUOTES, 'UTF-8');
 	$values_got['Directory'] = htmlspecialchars($values_got['Directory'], ENT_NOQUOTES, 'UTF-8');
+	$ModelName = getStr("Device.DeviceInfo.ModelName");
 ?>
 <div id="content">
 	<h1>Voice Diagnostics > SIP Basic Setup > Service Provider </h1>
@@ -211,7 +212,7 @@ $(document).ready(function() {
 		$('#SIP_domainName').val(userAgentDomain);
 		$('#SIP_digitMap').val(php_value['DigitMap']);
 		$('#SIP_Emer_digitMap').val(php_value['EmergencyDigitMap']);
-		if(php_value['Acc_Enabled']=='Enabled')
+		if(php_value['Acc_Enabled']=='Enabled' || php_value['Acc_Enabled']=='true')
 			$('#SIP_acc_enabled').prop('checked', true);
 		if(php_value['sip_status'] == 'Started'|| php_value['sip_status'] =='Starting' )
 			$('#SIP_Start').prop('disabled', true);
@@ -331,6 +332,12 @@ $(document).ready(function() {
 		if($('#sip_serviceprovider').valid()){
 			var Authpwd = $('#SIP_auth_pwd').val();
 			if(Authpwd == '<EMPTY>')Authpwd = "";
+			if("<?% echo($ModelName); ?>" == 'SR300'){
+				$SIP_acc = $('#SIP_acc_enabled').is(':checked') ? 'true' :'false';
+			}
+			else {
+				$SIP_acc = $('#SIP_acc_enabled').is(':checked') ? 'Enabled' :'Disabled';
+			}
 			var mod_values='{"Auth_usr":"'+$('#SIP_auth_name').val()
 				+'","Auth_pwd":"'+Authpwd
 				+'","OutboundProxy":"'+ $('#SIP_outbound_proxy').val()
@@ -345,7 +352,7 @@ $(document).ready(function() {
 				+'","DigitMap":"'+$('#SIP_digitMap').val()
 				+'","SDigitTimer":"'+$('#S_digit_timer').val()
 				+'","ZDigitTimer":"'+$('#Z_digit_timer').val()
-				+'","Acc_Enabled":"'+($('#SIP_acc_enabled').is(':checked')? 'Enabled' :'Disabled')
+				+'","Acc_Enabled":"'+($SIP_acc)
 				+'","Directory":"'+$('#SIP_Directory').val()
 				+'","uri":"'+$('#SIP_URI').val()
 				+'","EmergencyDigitMap":"'+$('#SIP_Emer_digitMap').val()+'"}';

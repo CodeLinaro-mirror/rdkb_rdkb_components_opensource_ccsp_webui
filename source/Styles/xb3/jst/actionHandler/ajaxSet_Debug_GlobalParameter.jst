@@ -35,6 +35,7 @@ if($arConfig['Console_log']){
 	ret_val = setStr("Device.Services.VoiceService.1.X_RDK-Central_COM_LoggingLevel", $arConfig['Console_log'], true);
 }
 else if ($arConfig['SIP_val']) {
+    if($telco_vm) $arConfig['SIP_val'] = ($arConfig['SIP_val'] == 'Start') ? "Enable" : "Disable" ;
 	ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
 }
 if (ret_val == "false") {

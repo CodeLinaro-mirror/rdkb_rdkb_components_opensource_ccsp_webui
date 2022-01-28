@@ -32,13 +32,14 @@ $thisUser = count($arConfig);
 $response_message = '';
 ret_val = "false";
 if($thisUser > 1){
-ret_val = setStr($tvdml["ReceiveGain"], $arConfig['Ingress'], true);
-ret_val = setStr($tvdml["TransmitGain"], $arConfig['Egress'], true);
-ret_val = setStr($tvdml["LogServerPort"], $arConfig['server_port'], true);
-ret_val = setStr($tvdml["LogServer"], $arConfig['server_IP_addr'], true);
+    ret_val = setStr($tvdml["ReceiveGain"], $arConfig['Ingress'], true);
+    ret_val = setStr($tvdml["TransmitGain"], $arConfig['Egress'], true);
+    ret_val = setStr($tvdml["LogServerPort"], $arConfig['server_port'], true);
+    ret_val = setStr($tvdml["LogServer"], $arConfig['server_IP_addr'], true);
 }
 else{
-ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
+    if($telco_vm) $arConfig['SIP_val'] = ($arConfig['SIP_val'] == 'Start') ? "Enable" : "Disable" ;
+    ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
 }
 if (ret_val == "false") {
 	$response_message = 'Failed to set debug service provider parameter';

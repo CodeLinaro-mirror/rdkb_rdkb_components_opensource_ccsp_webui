@@ -102,7 +102,7 @@ $curr_IP = $_SERVER['REMOTE_ADDR'];
 		$voice_line = "";
 		$voice_line = getStr($tvdml["Line_Enable"]);
 		$voice_lbl = false;
-		if($voice_line == 'Enabled'){
+		if($voice_line == 'true' || $voice_line == 'Enabled'){
 			$voice_lbl = true;
 		}
 	} else {

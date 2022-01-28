@@ -245,6 +245,7 @@ if(isset($locale)) {
 	TelcoVoiceManager v1 - IF /tmp/RDKB_TELCOVOICEMANAGER_ENABLED
 	TelcoVoiceManager v2 - IF ADA
 */
+var $telco_vm = false;
 function voiceDML(){
 	var $voipAgentDMLv1 = {
 		"LoopCurrUntilReg" 	: "Device.Services.VoiceService.1.X_RDK-Central_COM_DisableLoopCurrentUntilRegistered",
@@ -330,7 +331,7 @@ function voiceDML(){
 		"Line_Status" 		: "Device.Services.VoiceService.1.CallControl.Line.1.Status",
 		"SIP_AuthPassword" 	: "Device.Services.VoiceService.1.SIP.Client.1.AuthPassword",
 		"SIP_AuthUserName" 	: "Device.Services.VoiceService.1.SIP.Client.1.AuthUserName",
-		"SIP_URI" 		: "Device.Services.VoiceService.1.SIP.Client.1.RegisterURIDevice.Services.VoiceService.1.SIP.Client.1.RegisterURI",
+		"SIP_URI" 		: "Device.Services.VoiceService.1.SIP.Client.1.RegisterURI",
 		"ReceiveGain" 		: "Device.Services.VoiceService.1.Terminal.1.Audio.1.VoiceProcessing.ReceiveGain",
 		"TransmitGain" 		: "Device.Services.VoiceService.1.Terminal.1.Audio.1.VoiceProcessing.TransmitGain",
 		"OutboundProxy" 	: "Device.Services.VoiceService.1.SIP.Network.1.OutboundProxy",

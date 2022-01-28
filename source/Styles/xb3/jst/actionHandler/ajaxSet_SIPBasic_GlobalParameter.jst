@@ -34,12 +34,13 @@ $response_message = '';
 ret_val = "false";
 $thisUser = count($arConfig);
 if($thisUser > 1){
-ret_val = setStr($tvdml["BoundIfName"], $arConfig['BoundIfName'], true);
-ret_val = setStr($tvdml["IpAddressFamily"], $arConfig['IpAddressFamily'], true);
-ret_val = setStr($tvdml["LoopCurrUntilReg"], $arConfig['line_register'], true);
+    ret_val = setStr($tvdml["BoundIfName"], $arConfig['BoundIfName'], true);
+    ret_val = setStr($tvdml["IpAddressFamily"], $arConfig['IpAddressFamily'], true);
+    ret_val = setStr($tvdml["LoopCurrUntilReg"], $arConfig['line_register'], true);
 }
 else{
-ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
+    if($telco_vm) $arConfig['SIP_val'] = ($arConfig['SIP_val'] == 'Start') ? "Enable" : "Disable" ;
+    ret_val = setStr($tvdml["VoiceProcessState"],$arConfig['SIP_val'],true);
 }
 if (ret_val == "false") {
 	$response_message = 'Failed to set SIP global parameter';
