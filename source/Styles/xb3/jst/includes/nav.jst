@@ -56,6 +56,8 @@ $hwselftest_enabled = false;
 $hwselftest = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.hwHealthTest.Enable");
 $partnersId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 $voice_dev = getStr('Device.DeviceInfo.SoftwareVersion');
+$telco_vm = file_exists("/tmp/RDKB_TELCOVOICEMANAGER_ENABLED");
+$voice_debug_global = !$telco_vm;
 /*
  * The difference between  bridge mode and router mode
  * In bridge mode, local ip config page, firewall page, parental control pages,
@@ -255,7 +257,7 @@ echo( '<li class="nav-troubleshooting">');
 				</li>');
 			echo( '<li class="nav-voice-debug"><a role="menuitem"  title="click to toggle sub menu"  href="javascript:;">Debug</a>');
 			    echo( '<ul>');
-					echo( '<li class="nav-voice-debug-global"><a role="menuitem"  href="Voip_Debug_GlobalParameter.jst">Global Parameters</a></li>');
+					if($voice_debug_global) echo( '<li class="nav-voice-debug-global"><a role="menuitem"  href="Voip_Debug_GlobalParameter.jst">Global Parameters</a></li>');
 					echo( '<li class="nav-voice-debug-service"><a role="menuitem"  href="Voip_Debug_ServiceProvider.jst">Service Provider</a></li>');
 				echo( '</ul>');
 			echo( '</li>');
