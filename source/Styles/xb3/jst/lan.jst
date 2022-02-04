@@ -111,53 +111,7 @@ $(document).ready(function() {
 	gateway.page.init("Gateway > Hardware > LAN Ethernet", "nav-lan");
 	$("#port4").prop("checked", o_isPort4XHSEnabled);
 	initEvents();
-	$('.btn_vdsl').click(function(){
-		var click_val = $(this).attr('name');
-		var set_val;
-		if(click_val == 'reclaim'){set_val='{"value_set":"'+false+'"}';}
-		else if(click_val == 'wan_OE'){set_val='{"value_set":"'+true+'"}';}
-		if(set_val!== null){
-			jProgress($.i18n('This may take several seconds'), 5*60);
-			$.ajax({
-				type: 'POST',
-				url: 'actionHandler/ajaxSet_wanOE_lan.jst',
-				data:{configInfo: set_val},
-				success: function(msg){
-					msg_parseJSON = JSON.parse(msg);
-					if(msg_parseJSON == 'success'){
-						reboot();
-					}
-				}
-			});
-		}
-	});
 });
-function reboot(){
-	var set_val='{"router_reboot":"Router,Wifi,VoIP,Dect,MoCA"}';
-	$.ajax({
-		type: 'POST',
-		url: 'actionHandler/ajaxSet_wanOE_lan.jst',
-		data: { configInfo: set_val},
-		success: function(data) {
-			msg_parseJSON = $.parseJSON(data);
-			if(msg_parseJSON == 'success'){
-				setTimeout(function recon_check(){
-					var url = 'http://'+location.host+'/index.jst';
-					var request = new XMLHttpRequest;
-					request.open('GET', url, true);
-					request.send();
-					request.onreadystatechange = function(){
-					if(request.status==200){
-						location.href= url;
-					}
-					else{
-						setTimeout(recon_check,30*1000);
-					}
-				}},3*60*1000);
-			}
-		}
-	});
-}
 </script>
 <div id="content">
 	<h1 id="lanheadloc">Gateway > Hardware > LAN Ethernet</h1>
@@ -310,19 +264,6 @@ function reboot(){
 		echo( '</div>');
              }
 	}
-	?>
-	<?%
-		if(strpos($PartnerId, "sky-") !== false){
-			echo ('<div class="form-btn">');
-			//SWITCH to WANOE && RECLAIM ETH PORT
-			if($reclaim == true){
-				echo ('<input id="reclaim" type="button" name="reclaim" value="Reclaim Eth port" class="btn btn_vdsl">');
-			}
-			else{
-				echo ('<input type="button" id="wanOE" name="wan_OE" value="Switch to WANOE" class="btn btn_vdsl">');
-			}
-			echo ('</div>');
-		}
 	?>
 </div><!-- end #content -->
 <?% include('includes/footer.jst'); ?>
