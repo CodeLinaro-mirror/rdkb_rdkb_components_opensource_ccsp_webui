@@ -64,6 +64,9 @@ fi
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
 source /etc/device.properties
+# setup non-root related file-permission for lighttpd
+touch /rdklogs/logs/lighttpderror.log
+chown non-root:non-root /rdklogs/logs/lighttpderror.log
 touch /rdklogs/logs/webui.log
 chown non-root:non-root /rdklogs/logs/webui.log
 if [ "x$BOX_TYPE" != "xHUB4" ]; then
