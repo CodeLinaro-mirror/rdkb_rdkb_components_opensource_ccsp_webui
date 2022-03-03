@@ -631,19 +631,20 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
                 }
         }
         
-        if(!($modelName == "SR203")) {
-        $not_admin_and_mso_pages = ['Voip_Debug_GlobalParameter', 'Voip_Debug_ServiceProvider', 'Voip_SipAdvanced_ServiceProvider', 'Voip_SipBasic_GlobalParamaters', 'Voip_SipBasic_ServiceProvider', 'Voip_hidden'];
-        if ($_SESSION['loginuser'] == 'admin' || $_SESSION['loginuser'] == 'mso') {
-                for ($p in $not_admin_and_mso_pages) {
-        $page = $not_admin_and_mso_pages[$p];
-                        if (strstr($_SERVER['SCRIPT_FILENAME'], $page)) {
-                                echo( '<script type="text/javascript"> alertLoc("Access Denied!"); window.history.back(); </script>');
-                                exit(0);
-                        }
-                 }
-       }
-       }
-        
+              
+	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+	if(!(strpos($partnerId, "sky-") !== false)) {
+		$not_admin_and_mso_pages = ['Voip_Debug_GlobalParameter', 'Voip_Debug_ServiceProvider', 'Voip_SipAdvanced_ServiceProvider', 'Voip_SipBasic_GlobalParamaters', 'Voip_SipBasic_ServiceProvider', 'Voip_hidden'];
+		if ($_SESSION['loginuser'] == 'admin' || $_SESSION['loginuser'] == 'mso') {
+			for ($p in $not_admin_and_mso_pages) {
+				$page = $not_admin_and_mso_pages[$p];
+				if (strstr($_SERVER['SCRIPT_FILENAME'], $page)) {
+					echo( '<script type="text/javascript"> alertLoc("Access Denied!"); window.history.back(); </script>');
+					exit(0);
+				}
+			}
+		}
+	}
 ?>
 
 <body>
