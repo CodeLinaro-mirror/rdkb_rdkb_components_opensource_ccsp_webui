@@ -59,7 +59,7 @@ $(document).ready(function() {
     }, jQuery.validator.messages.url);
     $(".edit-URL").hide();
     $(".edit-Keyword").hide();
-    $("a.confirm").unbind('click');
+    $("a.confirm").off('click');
 	$("#managed_sites_switch").radioswitch({
 		id: "managed-sites-switch",
 		radio_name: "managed_sites",
@@ -148,7 +148,7 @@ $(document).ready(function() {
     $(".edit-cancel").click(function() {
     	window.location.href = "managed_sites.jst";
     });
-    $(".del-btn").unbind('click').click(function(e){
+    $(".del-btn").off('click').click(function(e){
 	e.preventDefault();
     var href = $(this).attr("href");
     var message = ($(this).attr("title").length > 0) ? $.i18n("Are you sure you want to ") + $(this).attr("title") + "?" : $.i18n("Are you sure?");
@@ -180,7 +180,7 @@ if(isManageEnabled != 'true'){
 	$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 	$(".module .radioswitch_cont:not(#managed_sites_switch)").radioswitch("doEnable", false);
 	$(".btn").prop("disabled", true);
-	$('.del-btn').unbind('click');
+	$('.del-btn').off('click');
 }
 $("#managed_sites_switch").change(function() {
  	var isManageDisabled = $("#managed_sites_switch").radioswitch("getState").on === false;
@@ -188,7 +188,7 @@ $("#managed_sites_switch").change(function() {
 		$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 		$(".module .radioswitch_cont:not(#managed_sites_switch)").radioswitch("doEnable", false);
 		$(".btn").prop("disabled", true);
-		$('.del-btn').unbind("click");
+		$('.del-btn').off("click");
 	}
  	else {
  		$(".module *").not(".radioswitch_cont, .radioswitch_cont *").removeClass("disabled");

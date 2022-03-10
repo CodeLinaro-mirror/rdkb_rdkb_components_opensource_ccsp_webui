@@ -43,7 +43,7 @@ if(isset($locale)) {
     <link rel="stylesheet" type="text/css" media="screen" href="./cmn/css/common-min.css" />
     <!--Character Encoding-->
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <script type="text/javascript" src="./cmn/js/lib/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="./cmn/js/lib/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="./cmn/js/lib/jquery-migrate-1.2.1.js"></script>
     <script type="text/javascript" src="<?php 
         if((isset($locale)&&($locale!="")) && !strstr($locale, 'en')) { 

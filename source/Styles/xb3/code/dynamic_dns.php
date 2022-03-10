@@ -39,7 +39,7 @@ $(document).ready(function() {
 		title_off: "<?php echo _('Disable Dynamic DNS')?>",
 		state: jsEnable ? "on" : "off"
 	});
-	$("a.confirm").unbind('click');
+	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
 	/*
 	 * Confirm dialog for delete action
@@ -75,7 +75,7 @@ $(document).ready(function() {
 	function enableHandler() {
 		var isUDNSDisabled = $("#ddns_switch").radioswitch("getState").on === false;
 		if(isUDNSDisabled) {
-			$("a.confirm").unbind('click');
+			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#DNS-items").prop("disabled",true).addClass("disabled");
 			$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -89,7 +89,7 @@ $(document).ready(function() {
 		var status = ($("#ddns_switch").radioswitch("getState").on ? "Enabled" : "Disabled");
 		var isUDNSDisabled = $("#ddns_switch").radioswitch("getState").on === false;
 		if(isUDNSDisabled){
-			$("a.confirm").unbind('click');
+			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#DNS-items").prop("disabled",true).addClass("disabled");
 			$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});

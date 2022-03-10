@@ -177,7 +177,7 @@ $('#btn6').click(function(e) {
 	});	
 });
 	if("Enabled"=="<?php echo $_SESSION["psmMode"]; ?>") {
-		$('#btn2,#btn3,#btn4').unbind("click").click(function(){
+		$('#btn2,#btn3,#btn4').off("click").click(function(){
 			jAlert("Your device is in battery mode that can't reset or restore Wi-Fi.");
 		});
 	}

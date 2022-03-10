@@ -358,7 +358,7 @@ function update_Wi_Fi_control_list(){
 	var ssid_number		= $("#mac_ssid").attr("value");
 	var jsConfig 	=	'{"ssid_number":"'+ssid_number+'", "target":"'+"mac_ssid"+'"}';
 	//jProgress('This may take several seconds...', 60);
-	$("#mac_admin_temp, #mac_admin").toggle();
+	$("#mac_admin_temp, #mac_admin").toggleExt();
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.php",
@@ -380,11 +380,11 @@ function update_Wi_Fi_control_list(){
 				}
 			}
 			//jHide();
-			$("#mac_admin_temp, #mac_admin").toggle();
+			$("#mac_admin_temp, #mac_admin").toggleExt();
 		},
 		error: function(){
 			//jHide();
-			$("#mac_admin_temp, #mac_admin").toggle();
+			$("#mac_admin_temp, #mac_admin").toggleExt();
 			jAlert("<?php echo _('Failure, please try again.')?>");
 		}
 	});
@@ -755,7 +755,7 @@ $(document).ready(function() {
 		<p/>Then please refresh(or back to) this page and try again.</p>');
 		$("#pair_method_form").remove();
 	*/
-		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").unbind("click").prop("disabled", true).addClass("disabled").removeClass("selected");
+		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").off("click").prop("disabled", true).addClass("disabled").removeClass("selected");
 		$(".wps_config .radioswitch_cont").radioswitch("doEnable", false);
 	}
 	// disable NOT 20MHz channel if 165
@@ -833,13 +833,13 @@ $(document).ready(function() {
         }
 
 });
-$(window).load(function() {
+setTimeout(function(){
 	var mac_ssid_GET	= "<?php echo $_GET['mac_ssid'];?>";
 	if(mac_ssid_GET == '3' || mac_ssid_GET == '5') {
 		$("#mac_ssid").val(mac_ssid_GET);
 	}
 	update_Wi_Fi_control_list();
-});
+}, 100);
 function set_config(jsConfig)
 {
 	// alert(jsConfig);

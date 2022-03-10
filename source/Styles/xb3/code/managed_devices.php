@@ -69,7 +69,7 @@ $(document).ready(function() {
 		label_off: "<?php echo _("Block All")?>",
 		state: jsAllowAll ? "on" : "off"
 	});
-    $("a.confirm").unbind('click');
+    $("a.confirm").off('click');
 	$(".btn").click(function (e) {
 		e.preventDefault();
 		if ($(this).hasClass('disabled')) {

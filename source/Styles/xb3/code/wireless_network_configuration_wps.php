@@ -244,7 +244,7 @@ $(document).ready(function() {
 		+'<!--p style="color: #838c91;"><?php echo _('(4) Its MAC filter function is not enabled')?></p-->'
 		+'<p style="color: #838c91;"><?php echo _('Then please refresh(or back to) this page and try again.')?></p>');
 		return;
-		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").unbind("click").prop("disabled", true).addClass("disabled").removeClass("selected");
+		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").off("click").prop("disabled", true).addClass("disabled").removeClass("selected");
 		$(".wps_config .radioswitch_cont").radioswitch("doEnable", false);
 	}
 });

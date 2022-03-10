@@ -147,7 +147,7 @@ $(document).ready(function(){
 });
 $ForceDisable = '<?php echo $ForceDisable; ?>';
   if($ForceDisable == "false"){
-$(window).load(function() {
+$(window).on("load",function() {
 	ajax_spec_analyzer();
 });
  }

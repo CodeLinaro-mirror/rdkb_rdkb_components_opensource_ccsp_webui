@@ -37,7 +37,7 @@ $(document).ready(function() {
 		// });
 	// });
 });
-$(window).load(function() {
+$(window).on("load",function() {
 	$.ajax({
 		type:"POST",
 		url:"actionHandler/ajaxSet_mta_sip_packet_log.jst",

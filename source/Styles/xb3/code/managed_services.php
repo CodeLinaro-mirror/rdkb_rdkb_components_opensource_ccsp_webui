@@ -86,7 +86,7 @@ $(document).ready(function() {
 			});
     	});
 	});
-    $("a.confirm").unbind('click');
+    $("a.confirm").off('click');
 	$(".btn").click(function (e) {
 		e.preventDefault();
 		if ($(this).hasClass('disabled')) {

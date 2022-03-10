@@ -42,7 +42,7 @@ $(document).ready(function() {
 		title_off: "Disable HS port forwarding",
 		state: <?php echo ($HPEnable === "true" ? "true" : "false"); ?> ? "on" : "off"
 	});
-	$("a.confirm").unbind('click');
+	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
         /*
          * Confirm dialog for delete action
@@ -107,10 +107,10 @@ $(document).ready(function() {
 					$("#hs-port-forwarding-items").prop("disabled",true).addClass("disabled");
 					$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
 					$("input[name='PortActive']").prop("disabled",true);
-					$("a.confirm").unbind('click');
+					$("a.confirm").off('click');
 				} else {
 					$("#hs-port-forwarding-items").prop("disabled",false).removeClass("disabled");
-					$("a.btn").removeClass("disabled").unbind('click');
+					$("a.btn").removeClass("disabled").off('click');
 					$("input[name='PortActive']").prop("disabled",false);
 					setupDeleteConfirmDialogs();
 					// window.location.href="hs_port_forwarding.php";

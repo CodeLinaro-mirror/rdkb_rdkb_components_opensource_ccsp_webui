@@ -207,8 +207,8 @@ function showDialog() {
 		$("#pop_dialog").find("input[value='None']").prop("disabled", true);
 		$("#pop_dialog").find("input[value='None']").next().css('color', 'grey');
 	}
-	$("#pop_dialog").find("input[value^='WEP']").nextUntil("input").toggle( "ac" == $("#wireless_mode").val() );
-	$("#pop_dialog").find("input[value^='WEP']").toggle( "ac" == $("#wireless_mode").val() );
+	$("#pop_dialog").find("input[value^='WEP']").nextUntil("input").toggleExt( "ac" == $("#wireless_mode").val() );
+	$("#pop_dialog").find("input[value^='WEP']").toggleExt( "ac" == $("#wireless_mode").val() );
 	$.virtualDialog({
 		title: "<?php echo _("Wi-Fi Security Modes")?>",
 		content: $("#pop_dialog"),

@@ -821,7 +821,7 @@ ili{
 	$defaultssid = getStr("Device.WiFi.SSID.1.X_COMCAST-COM_DefaultSSID");
 	$defaultssid1 = getStr("Device.WiFi.SSID.2.X_COMCAST-COM_DefaultSSID");
 ?>
-<script type="text/javascript" src="./cmn/js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="./cmn/js/lib/jquery-3.4.1.js"></script>
 <script>
 $(document).ready(function(){
 	var Defaultssid = "<?% echo( $defaultssid);?>";
@@ -1445,7 +1445,7 @@ $("#f_i_option1").click(function(){
 	//check all the check boxes by default
 	$("#selectSettings").prop('checked', true);
 	$("#showDual").click(function(){
-		$("#dualSettings").toggle();
+		$("#dualSettings").toggleExt();
 		if($("#dualSettings").css('display') == "block"){
 			$("#selectSettings").prop('checked', true);
 			$("#selectSettings").siblings('label').addClass('checkLabel');

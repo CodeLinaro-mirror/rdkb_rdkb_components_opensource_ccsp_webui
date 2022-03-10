@@ -46,7 +46,7 @@ $(document).ready(function() {
 		title_off: "<?php echo _("Disable port triggering")?>",
 		state: <?php echo ($PTEnable === "true" ? "true" : "false"); ?> ? "on" : "off"
 	});
-	$("a.confirm").unbind('click');
+	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
         /*
          * Confirm dialog for delete action
@@ -81,7 +81,7 @@ $(document).ready(function() {
     }
 	var isUPTRDisabled = $("#pt_switch").radioswitch("getState").on === false;
 	if(isUPTRDisabled) { 
-		$("a.confirm").unbind('click');
+		$("a.confirm").off('click');
 		$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 		$("#port-triggering-items").prop("disabled",true).addClass("disabled");
 		$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -94,7 +94,7 @@ $(document).ready(function() {
 		var UPTRStatus = $("#pt_switch").radioswitch("getState").on ? "Enabled" : "Disabled";
 		var isUPTRDisabled = $("#pt_switch").radioswitch("getState").on === false;
 		if(isUPTRDisabled) { 
-			$("a.confirm").unbind('click');
+			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#port-triggering-items").prop("disabled",true).addClass("disabled");
 			$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -129,7 +129,7 @@ $(document).ready(function() {
 				}
 				else {
 					//$("#port-triggering-items").prop("disabled",false).removeClass("disabled");
-					//$("a.btn").removeClass("disabled").unbind('click');
+					//$("a.btn").removeClass("disabled").off('click');
 					//$("input[name='PortActive']").prop("disabled",false);
 					window.location.href="port_triggering.php";
 				}*/

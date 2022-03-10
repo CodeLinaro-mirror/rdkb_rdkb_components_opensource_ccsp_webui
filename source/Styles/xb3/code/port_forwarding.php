@@ -44,7 +44,7 @@ $(document).ready(function() {
 		title_off: "<?php echo _("Disable port forwarding")?>",
 		state: <?php echo ($PFEnable === "true" ? "true" : "false"); ?> ? "on" : "off"
 	});
-	$("a.confirm").unbind('click');
+	$("a.confirm").off('click');
 	function setupDeleteConfirmDialogs() {
         /*
          * Confirm dialog for delete action
@@ -80,7 +80,7 @@ $(document).ready(function() {
     }
 	var isUFWDDisabled = $("#pf_switch").radioswitch("getState").on === false;
 	if(isUFWDDisabled) { 
-		$("a.confirm").unbind('click');
+		$("a.confirm").off('click');
 		$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 		$("#forwarding-items").prop("disabled",true).addClass("disabled");
 		$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -93,7 +93,7 @@ $(document).ready(function() {
 		var UFWDStatus = $("#pf_switch").radioswitch("getState").on ? "Enabled" : "Disabled";
 		var isUFWDDisabled = $("#pf_switch").radioswitch("getState").on === false;
 		if(isUFWDDisabled) { 
-			$("a.confirm").unbind('click');
+			$("a.confirm").off('click');
 			$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 			$("#forwarding-items").prop("disabled",true).addClass("disabled");
 			$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -123,7 +123,7 @@ $(document).ready(function() {
 				}*/
 				var isUFWDDisabled = $("#pf_switch").radioswitch("getState").on === false;
 				if(isUFWDDisabled){
-					$("a.confirm").unbind('click');
+					$("a.confirm").off('click');
 					$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 					$("#forwarding-items").prop("disabled",true).addClass("disabled");
 					$("a.btn").addClass("disabled").click(function(e){e.preventDefault();});
@@ -131,7 +131,7 @@ $(document).ready(function() {
 				}else{
 					$('.module *').not(".radioswitch_cont, .radioswitch_cont *").removeClass("disabled");
 					$("#forwarding-items").prop("disabled",false).removeClass("disabled");
-					$("a.btn").removeClass("disabled").unbind('click');
+					$("a.btn").removeClass("disabled").off('click');
 					setupDeleteConfirmDialogs();
 					$(':checkbox').removeClass("disabled").prop("disabled", false);
 				}

@@ -105,7 +105,7 @@ function onsavePort4() {
 	});
 }
 function initEvents() {
-	$("#saveXHSBtn").unbind("click").click(onsavePort4);
+	$("#saveXHSBtn").off("click").click(onsavePort4);
 }
 $(document).ready(function() {
 	gateway.page.init("Gateway > Hardware > LAN Ethernet", "nav-lan");

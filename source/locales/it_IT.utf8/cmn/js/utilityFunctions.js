@@ -215,3 +215,17 @@ $.validator.addMethod("noSpace", function(value, element, param) {
 	var res = !(/\s/g.test(value));
 	return res;
 }, 'Nessun carattere di spazio è consentito.'); //Nessun carattere di spazio è consentito
+
+jQuery.fn.toggleExt = function( state ) {
+	// ".toggle()" is deprecated, Extending jQuery with ".toggleExt()" as a workaround
+	// "return this" needed for other methods to be able to chain off of ".toggleExt()"
+	var bool = typeof state === "boolean";
+	return this.each(function() {
+		if ( bool ? state : !jQuery( this ).is(":visible") ) {
+			jQuery( this ).show();
+		} else {
+			jQuery( this ).hide();
+		}
+	});
+}
+

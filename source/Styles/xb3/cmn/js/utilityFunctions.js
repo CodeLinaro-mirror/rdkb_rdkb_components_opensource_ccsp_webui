@@ -208,3 +208,17 @@ $.validator.addMethod("allowed_char", function(value, element, param) {
 	//Invalid characters are Less than (<), Greater than (>), Ampersand (&), Double quote ("), Single quote ('), Pipe (|).
 	return !param || (value.match(/[<>&"'|]/)==null);
 }, 'Less than (<), Greater than (>), Ampersand (&), Double quote ("), Single quote (\') and Pipe (|) characters are not allowed.');
+
+jQuery.fn.toggleExt = function( state ) {
+	// ".toggle()" is deprecated, Extending jQuery with ".toggleExt()" as a workaround
+	// "return this" needed for other methods to be able to chain off of ".toggleExt()"
+	var bool = typeof state === "boolean";
+	return this.each(function() {
+		if ( bool ? state : !jQuery( this ).is(":visible") ) {
+			jQuery( this ).show();
+		} else {
+			jQuery( this ).hide();
+		}
+	});
+}
+

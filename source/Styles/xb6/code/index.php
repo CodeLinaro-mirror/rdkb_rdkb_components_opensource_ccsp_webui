@@ -158,7 +158,7 @@ $logo = "cmn/syndication/img/".$msoLogo;
 	<!--Character Encoding-->
 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
         <meta name="robots" content="noindex,nofollow">
-	<script type="text/javascript" src="./cmn/js/lib/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="./cmn/js/lib/jquery-3.4.1.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery-migrate-1.2.1.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.validate.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.alerts.js"></script>

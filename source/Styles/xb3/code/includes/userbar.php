@@ -49,7 +49,7 @@
 	}
 ?>
 <script type="text/javascript">
-$(window).load(function() {
+setTimeout(function(){
 	/*
 	* get status when hover or tab focused one by one
 	* but for screen reader we have to load all status once
@@ -165,7 +165,7 @@ observer.observe(targetNode, config);
 	$("#status a").blur(function() {
 		$(".tooltip").hide();
 	});
-});
+}, 100);
 </script>
 <style>
 #status a:link, #status a:visited {

@@ -274,7 +274,7 @@ $(document).ready(function() {
 		ajax_moca_diagnostics();
 	});
 });
-$(window).load(function() {
+$(window).on("load",function() {
 	ajax_moca_diagnostics();
 });
 </script>

@@ -323,7 +323,7 @@ $(document).ready(function() {
        }) (i); //end of function(x)
     }; // end of for loop   
 
-    $('.confirm').unbind('click').click(function(e){
+    $('.confirm').off('click').click(function(e){
 	    if(!(privateDisabled && $(this).hasClass("private"))){
 		    e.preventDefault();
 		    var message = ($(this).attr("title").length > 0) ? "<?php echo _('Are you sure you want to ')?>" + $(this).attr("title") + "?" : "<?php echo _('Are you sure?')?>";

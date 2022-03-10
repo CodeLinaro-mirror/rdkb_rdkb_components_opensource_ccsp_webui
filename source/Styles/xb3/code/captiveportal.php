@@ -535,7 +535,7 @@ ili{
 	$defaultssid = getStr("Device.WiFi.SSID.1.X_COMCAST-COM_DefaultSSID");
 	$defaultssid1 = getStr("Device.WiFi.SSID.2.X_COMCAST-COM_DefaultSSID");
 ?>
-<script type="text/javascript" src="./cmn/js/lib/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="./cmn/js/lib/jquery-3.4.1.js"></script>
 <script>
 $(document).ready(function(){
 	var Defaultssid = "<?php echo $defaultssid;?>";
