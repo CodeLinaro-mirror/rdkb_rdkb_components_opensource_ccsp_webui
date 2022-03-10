@@ -18,11 +18,11 @@
 
 
 # Dynamically create pause screen file
-PARTNER_URL=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link | grep value | cut -f3 -d : | cut -f2 -d " "`
+PARTNER_URL=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link | grep value | cut -f3,4 -d : | cut -f2 -d " "`
 PARTNER_LOGO_FILE=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.WiFiPersonalization.MSOLogo | grep value | cut -f3 -d : | cut -f2 -d " "`
 PARTNER_BRANDNAME=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname | grep value | cut -f3 -d : | cut -f2 -d " "`
 DEFAULT_LANG=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.DefaultLanguage | grep value | cut -f3 -d : | cut -f2 -d " "`
-PARTNER_PRODUCTNAME=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname | grep value | cut -f3 -d : `
+PARTNER_PRODUCTNAME=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname | grep value | cut -f3 -d :`
 PARTNER_ID=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId | grep value | cut -f3 -d : | cut -f2 -d " "`
 
 if [ "$PARTNER_ID" == "comcast" ];then
@@ -57,7 +57,7 @@ fi
 
 if [ "$PARTNER_ID" == "sky-italia" ];then
 STRING1='Questo dispositivo è in pausa.'
-STRING2="Per riprendere l'accesso a Internet sulla tua rete domestica, apri l'app '"$PARTNER_BRANDNAME" "$PARTNER_PRODUCTNAME"' o visita '"$PARTNER_URL"' utilizzando una connessione o un dispositivo diverso."
+STRING2="Per riprendere l'accesso a Internet sulla tua rete domestica, apri l'app '"$PARTNER_BRANDNAME" "$PARTNER_PRODUCTNAME"' utilizzando una connessione o un dispositivo diverso."
 fi
 
 touch /tmp/pcontrol/index.html
