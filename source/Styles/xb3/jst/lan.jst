@@ -159,18 +159,22 @@ $(document).ready(function() {
 	/*if ($_DEBUG) {
 		$ids = array("1", "2", "3", "4");
 	}*/
-	$InterfaceNumber = getStr("Device.Ethernet.InterfaceNumberOfEntries");
+	$ModelName = getStr("Device.DeviceInfo.ModelName");
+	if($ModelName == "SR203") $InterfaceNumber = getStr("Device.Ethernet.X_RDK_InterfaceNumberOfEntries");
+	else $InterfaceNumber = getStr("Device.Ethernet.InterfaceNumberOfEntries");
 	for ( $j=1; $j<= ($InterfaceNumber); $j++) {
-		$ethernetUpstream = getStr("Device.Ethernet.Interface."+$j+".Upstream");
 		$ethernetStatus = getStr("Device.Ethernet.Interface."+$j+".Status");
 		$ethernetMACAddress = getStr("Device.Ethernet.Interface."+$j+".MACAddress");
 		$ethernetBitRate = getStr("Device.Ethernet.Interface."+$j+".CurrentBitRate");
-		
+
+		if($ModelName == "SR203") $ethernetUpstream = getStr("Device.Ethernet.X_RDK_Interface."+$j+".Upstream");
+		else $ethernetUpstream = getStr("Device.Ethernet.Interface."+$j+".Upstream");
+
 		if ("true" == $ethernetUpstream){
 			continue;
 		}
 		//WAN port details are not showing in lan page
-		if(strpos($PartnerId, "sky-") === false || (strpos($PartnerId, "sky-") !== false && $reclaim && $j!='4')||(strpos($PartnerId, "sky-") !== false && $reclaim==false)){
+		if(strpos($PartnerId, "sky-") === false || (strpos($PartnerId, "sky-") !== false && $reclaim && $j!='4')||(strpos($PartnerId, "sky-") !== false && $reclaim==false) || $ModelName == "SR203"){
 		echo( '<div class="module forms block">');
 		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$j+'</h2>');
 		$dm = [
