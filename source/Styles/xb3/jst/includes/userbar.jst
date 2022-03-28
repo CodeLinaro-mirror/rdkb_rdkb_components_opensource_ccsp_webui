@@ -93,18 +93,34 @@ $(window).load(function() {
 					{
 						$("#"+msg.tags[i]).addClass("off");
 					}
-					if($.i18n().locale=="it")
-                                                $("#sta_fire a>span").text($.i18n(" Security")+$.i18n(msg.mainStatus[i]) );
-                                        else
-						$("#sta_fire a>span").text("<?% echo($sta_fire+" Security");?>");
+					$("#sta_fire a > label").text($.i18n(msg.mainStatus[i]+" Security"));
 				}
 			}
 			//$sta_batt,$battery_class
 			$("#sta_batt a").text(msg.mainStatus[4]+"%");
 			$("#sta_batt > div > span").removeClass().addClass(msg.mainStatus[5]);
 			if(partner_id.indexOf('sky-')===0){
-				var ipv4_status = '<?% echo (getStr("Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState")); ?>';
-				var ipv6_status = '<?% echo (getStr("Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState")); ?>';
+				<?%
+					$ipv4_status = '';
+					$ipv6_status = '';
+					$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
+					if($fileget){
+						$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
+						for($a= 1; $a <= count($instval);$a++) {
+							$activelink = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".Wan.ActiveLink");
+							if($activelink == 'true'|| $activelink==true){
+								$ipv4_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv4Status");
+								$ipv6_status =  getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv6Status");
+							}
+						}
+					}
+					else{
+						$ipv4_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState");
+						$ipv6_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState");
+					}
+				?>
+				var ipv4_status = '<?% echo ($ipv4_status); ?>';
+				var ipv6_status = '<?% echo ($ipv6_status); ?>';
 				var map_mode = '<?% echo (getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode")); ?>';
 				if((ipv6_status == 'up' || ipv4_status == 'up')&& map_mode =='MAPT'){
 					$('#sta_inet').removeClass('off');
@@ -224,9 +240,9 @@ $(window).load(function() {
 		echo( '<li id="sta_dect" class="DECT off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="DECT Offline" /></span><a href="javascript: void(0);" tabindex="0">DECT<div class="tooltip">Loading...</div></a></li>');
 	}*/
 	if (("High"==$sta_fire) || ("Medium"==$sta_fire)) {
-		echo( '<li id="sta_fire" class="security last"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security On" /></span><a href="javascript: void(0);" tabindex="0"><span>'+$sta_fire+'<label id="secuserloc">Security</label></span><div class="tooltip" id="bat_remain">Loading...</div></a></li>');
+		echo( '<li id="sta_fire" class="security last"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security On" /></span><a href="javascript: void(0);" tabindex="0"><label id="secuserloc'+$sta_fire+'">'+$sta_fire+' Security</label><div class="tooltip" id="bat_remain">Loading...</div></a></li>');
 	} else {
-		echo( '<li id="sta_fire" class="security last off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security Off" /></span><a href="javascript: void(0);" tabindex="0"><span>'+($sta_fire)+ '<label id="secuserloc">Security</label></span><div class="tooltip" id="bat_remain">Loading...</div></a></li>');
+		echo( '<li id="sta_fire" class="security last off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="Security Off" /></span><a href="javascript: void(0);" tabindex="0"><label id="secuserloc'+$sta_fire+'">'+$sta_fire+' Security</label><div class="tooltip" id="bat_remain">Loading...</div></a></li>');
 	}
 	?>
 </ul>
