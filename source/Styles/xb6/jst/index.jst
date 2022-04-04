@@ -18,6 +18,19 @@
  limitations under the License.
 */
 ?>
+<?%
+/*
+ * Set the Locale for the Web UI based on the LANG setting or current linux locale
+ */
+$locale = getenv("LANG");
+$locale = $locale ? $locale : "false";
+if($locale != "false"){
+	if(strstr($locale, 'it')){
+		$locale="it";
+		$_SESSION['language'] = $locale;
+	}
+}
+?>
 <?% include('includes/utility.jst'); ?>
 <?%
     $apipath = "fwd=api/v1/configurator-initiate-dpp";
@@ -192,15 +205,49 @@ $logo = "cmn/syndication/img/"+$msoLogo;
 	<script type="text/javascript" src="./cmn/js/lib/jquery-1.9.1.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery-migrate-1.2.1.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.validate.js"></script>
-	<script type="text/javascript" src="./cmn/js/lib/jquery.alerts.js"></script>
+	<script type="text/javascript" src="<?%
+	    if((isset($locale)&&($locale!="false")) && !strstr($locale, 'en')) {
+	        echo( './locales/'+$locale+'/cmn/js/lib/jquery.alerts.js');
+	    } else {
+	        echo( './cmn/js/lib/jquery.alerts.js');
+	    }?>"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.ciscoExt.js"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.highContrastDetect.js"></script>
-	<script type="text/javascript" src="./cmn/js/lib/jquery.radioswitch.js"></script>
+	<script type="text/javascript" src="<?%
+	    if((isset($locale)&&($locale!="false")) && !strstr($locale, 'en')) {
+	        echo( './locales/'+$locale+'/cmn/js/lib/jquery.radioswitch.js');
+	    } else {
+	        echo( './cmn/js/lib/jquery.radioswitch.js');
+	    }?>"></script>
 	<script type="text/javascript" src="./cmn/js/lib/jquery.virtualDialog.js"></script>
-	<script type="text/javascript" src="./cmn/js/utilityFunctions.js"></script>
-	<script type="text/javascript" src="./cmn/js/gateway.js"></script>
+	<script type="text/javascript" src="<?%
+	    if((isset($locale)&&($locale!="false")) && !strstr($locale, 'en')) {
+	        echo( './locales/'+$locale+'/cmn/js/utilityFunctions.js');
+	    } else {
+	        echo( './cmn/js/utilityFunctions.js');
+	    }?>"></script>
+    <script type="text/javascript" src="<?%
+        if((isset($locale)&&($locale!="false")) && !strstr($locale, 'en')) {
+            echo( './locales/'+$locale+'/cmn/js/gateway.js');
+        } else {
+            echo( './cmn/js/gateway.js');
+        }?>"></script>
 	<script type="text/javascript" src="./cmn/js/lib/bootstrap.min.js"></script>
-    <script type="text/javascript" src="./cmn/js/lib/bootstrap-waitingfor.js"></script>
+    <script type="text/javascript" src="<?%
+    if((isset($locale)&&($locale!="false")) && !strstr($locale, 'en')) {
+        echo( './locales/'+$locale+'/cmn/js/lib/bootstrap-waitingfor.js');
+    } else {
+        echo( './cmn/js/lib/bootstrap-waitingfor.js');
+    }?>"></script>
+  <script src="locale/CLDRPluralRuleParser.js"></script>
+  <script src="locale/jquery.i18n.js"></script>
+  <script src="locale/jquery.i18n.messagestore.js"></script>
+  <script src="locale/jquery.i18n.fallbacks.js"></script>
+  <script src="locale/jquery.i18n.language.js"></script>
+  <script src="locale/jquery.i18n.parser.js"></script>
+  <script src="locale/jquery.i18n.emitter.js"></script>
+  <script src="locale/jquery.i18n.emitter.bidi.js"></script>
+   <script src="locale/global.js"></script> <!-- add this -->
 	<style>
 		#div-skip-to {
 			position:relative;
@@ -254,16 +301,16 @@ if($webuiIsEnabled == "false"){
 </div><!-- end #content -->
 <?% } else { ?>
 <!--div id="nav"-->
-<h1>Gateway > Login</h1>
+<h1 id="index_header">Gateway > Login</h1>
 <div style="float: left; margin: 0 20px 20px 0; width: 60%; height:290px;background:white;">
 	<form action="check.jst" method="post" id="pageForm"  onsubmit="return f();">
 	<div class="form-row">
-		<p>Please login to view and manage your Gateway settings.</p>
+		<p id="index_helptext">Please login to view and manage your Gateway settings.</p>
 	</div>
 	<div>
 		<table style="background:white; text-align:center;">
 			<tr>
-				<td><label for="username"><b>Username:</b></label></td>
+				<td><label for="username"><b><div id="username_label">Username:</div></b></label></td>
 				<td><input type="text"     id="username" name="username" style="width: 250px;" class="text" autocomplete="off" /></td>
 			</tr>
 			<tr>
@@ -275,6 +322,7 @@ if($webuiIsEnabled == "false"){
 	<div class="form-btn"  style="margin-top: 25px;text-align:center;">
 		<input type="submit" class="btn" value="Login" />
 	</div>
+<input type="hidden" name="locale" id="locale" value="<?% echo($locale); ?>">
 </form>
 </div>
 <?%
@@ -290,7 +338,7 @@ $(document).ready(function() {
 		,invalidHandler: function(form, validator) {
 			var errors = validator.numberOfInvalids();
 			if (errors) {
-				var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+				var message = errors == 1 ? $.i18n("You missed 1 field. It has been highlighted") : $.i18n("You missed") + errors + $.i18n("fields. They have been highlighted");
 				$("div.error").html(message);
 				$("div.error").show();
 			} else {
@@ -309,11 +357,11 @@ $(document).ready(function() {
 		}
 		,messages: {
 			username: {
-				required: "Username cannot be blank. Please enter a valid username."
+				required: $.i18n('Username cannot be blank. Please enter a valid username.')
 			}
 			,password: {
-				required: "Password cannot be blank. Please enter a valid password."
-				,minlength: "Password must be at least 3 characters."
+				required: $.i18n('Password cannot be blank. Please enter a valid password.')
+				,minlength: $.i18n("Password must be at least 3 characters.")
 			}
 		}
 	});
