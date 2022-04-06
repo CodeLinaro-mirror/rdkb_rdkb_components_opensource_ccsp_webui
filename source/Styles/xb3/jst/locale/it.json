@@ -165,6 +165,8 @@
   "Wi-Fi Passkey (2.4 GHz):":"Password wifi (2,4 GHz):",
   "Wi-Fi SSID (5 GHz):":"Nome rete wifi (5 GHz):",
   "Wi-Fi Passkey (5 GHz):":"Password wifi (5 GHz):",
+  "Wi-Fi SSID (6 GHz):":"Nome rete wifi (6 GHz):",
+  "Wi-Fi Passkey (6 GHz):":"Password wifi (6 GHz):",
   "Power Saving Mode is enabled!":"Modalità di risparmio energetico attivata",
   " Video Service only works in this setting.":"Il servizio video funziona solo in questa impostazione.",
   "Home Network":"Rete domestica",
