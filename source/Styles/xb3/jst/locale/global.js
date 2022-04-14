@@ -157,6 +157,8 @@ $("#wifissid24").text($.i18n("Wi-Fi SSID (2.4 GHz):"));
 $("#wifipasskey24").text($.i18n("Wi-Fi Passkey (2.4 GHz):"));
 $("#wifissid5").text($.i18n("Wi-Fi SSID (5 GHz):"));
 $("#wifipasskey5").text($.i18n("Wi-Fi Passkey (5 GHz):"));
+$("#wifissid6").text($.i18n("Wi-Fi SSID (6 GHz):"));
+$("#wifipasskey6").text($.i18n("Wi-Fi Passkey (6 GHz):"));
 $("#powsav").text($.i18n("Power Saving Mode is enabled!"));
 $("#vidser").text($.i18n("Video Service only works in this setting."));
 $("#homnet").text($.i18n("Home Network"));
