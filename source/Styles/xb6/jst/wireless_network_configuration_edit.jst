@@ -223,6 +223,10 @@ $platformSupported = "false";
 if( ($modelName=="CGM4331COM") || ($modelName=="CGM4140COM") || ($modelName=="TG3482G") || ($modelName=="CGM4981COM")){
         $platformSupported = "true";
 }
+$isPartnerSky = false;
+if(strpos($partnerId, "sky-") !== false) {
+	$isPartnerSky = true;
+}
 ?>
 <style>
 label[for="network_name"], label[for="security"], label[for="network_password"] {
@@ -560,11 +564,11 @@ $(document).ready(function() {
 			if ($("#channel_bandwidth1").is(":checked")) {
 				if ("BelowControlChannel" == "<?% echo( $ext_channel); ?>"){
 					$("#channel_number").val('40');
-					$("#channel_number").find("[value='116'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
 				}	
 				else{	//AboveControlChannel or Auto  //zqiu: exclude 116,140
 					$("#channel_number").val('36');
-					$("#channel_number").find("[value='116'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
 					//$("#channel_number").find("[value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='116'],[value='136'],[value='140'],[value='144'],[value='153'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);
 				}
 			} 
@@ -923,7 +927,7 @@ function init_form()
 				}	
 				else{	//AboveControlChannel or Auto
 					//$("#channel_number [value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='136'],[value='153'],[value='161']").prop("disabled", true);
-					$("#channel_number").find("[value='116'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
 				}	
 			}
 		}
