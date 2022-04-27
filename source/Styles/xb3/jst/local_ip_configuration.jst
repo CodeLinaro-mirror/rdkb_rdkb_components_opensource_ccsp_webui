@@ -798,14 +798,12 @@ function setIPv6configuration(configuration){
 			type: "POST",
 			url: "actionHandler/ajaxSet_IP_configuration.jst",
 			data: { configInfo: configuration },
-			success: function(){            
-				jHide();
-
-				if(partner_id.indexOf("sky-") !== -1){setTimeout(function(){window.location.href = "local_ip_configuration.jst";},10000)}
-				else{window.location.href = "local_ip_configuration.jst";}
+			success: function(){
+				if(partner_id.indexOf("sky-") !== -1){setTimeout(function(){jHide();window.location.href = "local_ip_configuration.jst";},10000)}
+				else{jHide();window.location.href = "local_ip_configuration.jst";}
 				//window.location.href = "local_ip_configuration.jst";
 			},
-			error: function(){            
+			error: function(){
 				jHide();
 				//jAlert("Failure, please try again.");
 			}
