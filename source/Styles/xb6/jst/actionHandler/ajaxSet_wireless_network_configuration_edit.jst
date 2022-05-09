@@ -28,6 +28,7 @@ $arConfig = json_decode($jsConfig, true);
 $thisUser = $arConfig['thisUser'];
 /*********************************************************************************************/
 $i = $arConfig['ssid_number'];
+$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 $Mesh_Enable 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.Enable");
 $Mesh_State 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.State");
 $Mesh_Mode = ($Mesh_Enable == 'true' && $Mesh_State == 'Full')? true : false;
@@ -127,19 +128,20 @@ if ($i == 1 || $i == 2 || $i == 17) {
 				$validation = false;
 				$response_message = 'WiFi name is not valid. Please enter a new name !';
 			}
+			if (strpos($partnerId, "sky-") === false) {
 				//Choose a different Network Name (SSID) than the one provided on your gateway
-			$DefaultSSID = getStr("Device.WiFi.SSID."+$i+".X_COMCAST-COM_DefaultSSID");
-			if($validation && (strtolower($DefaultSSID) == strtolower($arConfig['network_name']))){
-				$validation = false;
-				$response_message = 'WiFi name is not valid. Please enter a new name !';
-			} 
+				$DefaultSSID = getStr("Device.WiFi.SSID."+$i+".X_COMCAST-COM_DefaultSSID");
+				if($validation && (strtolower($DefaultSSID) == strtolower($arConfig['network_name']))){
+					$validation = false;
+					$response_message = 'WiFi name is not valid. Please enter a new name !';
+				}
 				//Choose a different Network Password than the one provided on your gateway
-			$DefaultKeyPassphrase = getStr("Device.WiFi.AccessPoint."+$i+".Security.X_COMCAST-COM_DefaultKeyPassphrase");
-			if($validation && ($DefaultKeyPassphrase == $arConfig['network_password']) && ($arConfig['security']!="None")) {
-				$validation = false;
-				$response_message = 'Please change Network Password !';
+				$DefaultKeyPassphrase = getStr("Device.WiFi.AccessPoint."+$i+".Security.X_COMCAST-COM_DefaultKeyPassphrase");
+				if($validation && ($DefaultKeyPassphrase == $arConfig['network_password']) && ($arConfig['security']!="None")) {
+					$validation = false;
+					$response_message = 'Please change Network Password !';
+				}
 			}
-			
 			if($validation){
 				switch ($arConfig['security'])
 				{
