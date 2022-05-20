@@ -118,6 +118,24 @@ $psmMode = $DeviceControl_value['psmMode'];
 			$LanGwIPv6 = $ipv6addr;
 		}
 	}
+	//$LanGwIPv6 Scope:Global
+	if($modelName == 'SR300'){
+		$lan_ip = [];
+		$bin = exec("which ifconfig");
+		$xbin=$bin[0].replace(/ /g,'').replace(/\n/g,'');
+		$out = exec($xbin+" brlan0");
+		for($k in $out){
+			$v = $out[$k];
+			if (strpos($v, 'inet6 addr')){
+				$tmp = explode('Scope', $v);
+				$tmp = explode('addr:', $tmp[0]);
+				$tmp = explode('%', $tmp[1]);
+				$tmp = explode('/', $tmp[0]);
+				$lan_ip.push(trim($tmp[0]));
+			}
+		}
+		$LanGwIPv6 = $lan_ip.pop();
+	}
 function ada_wan_status(){
 	$wan_connection=false;
 	$ipv4_status='';
@@ -149,7 +167,7 @@ if(!$isMSO) {
 		$ip_addr = strpos($SERVER_ADDR, ":") == false ? $LanGwIPv4 : $LanGwIPv6 ;
 		$SecWebUI = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.Enable");
 		$LocFqdn = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.LocalFqdn");
-		if(strcmp($url,$ip_addr)){
+		if(strcmp($url,$ip_addr)&&(strcmp($url,$LanGwIPv6))){
 			if(($enableRFCpativePortal=="true") && ($cableRFSignalStatus=="false") && !(($allowEthWanMode=="true") && ($wan_enabled=="true")) &&($modelName!="X5001")){
 				if (!strcmp($SecWebUI, "true")) {
 					header('Location:https://'+$LocFqdn+'/no_rf_signal.jst');
@@ -160,8 +178,11 @@ if(!$isMSO) {
 				exit;
 			}
 			if(($modelName == 'SR300')&&(!ada_wan_status())){
+				$LanGwIPv6 = '['+$LanGwIPv6+']';
 				if(strpos($SERVER_ADDR, ":") == false)
 					header('Location:http://'+$ip_addr+'/sky_self_heal_index.jst');
+				else
+					header('Location:http://'+$LanGwIPv6+'/sky_self_heal_index.jst');
 				exit;
 			}
 		}
