@@ -15,7 +15,17 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/php.jst'); ?>
 <?%
+//unset and destroy can be removed after the fix of RDKB-41778
+session_unset();
+session_destroy();
+
+session_start();
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == "false" || typeof($_SESSION["loginuser"]) == "undefined" ) {
+      echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
+      exit(0);
+}
 $jsConfig = $_POST['configInfo'];
 //$jsConfig = '{"status":"true", "target":"sta_inet"}';
 $arConfig = json_decode($jsConfig, true);
