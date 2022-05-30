@@ -40,21 +40,6 @@
 		'Metric'         : "Device.Routing.RIP.X_CISCO_COM_DefaultMetric" 
 		}/*p2j-array*/;
 	$RIPEntry = KeyExtGet("Device.Routing.RIP.", $RIP_param);
-	/*$RIPEntry = array(
-		'Enable'         => 'True',
-		'ItfName'        => 'Ethernet',
-		'SendVersion'    => 'RIP2',
-		'ReceiveVersion' => 'RIP2',
-		'Interval'       => '15',
-		'Metric'         => '10',
-		'AuthType'       => 'MD5',
-		'MD5KeyValue'    => 'pwd',
-		'SimplePassword' => 'comcast',
-		'MD5KeyID'       => '1',
-		'NeighborIP'     => '0.0.0.0',
-		'SendRA'         => 'true',
-		'AcceptRA'       => 'false',
-		);*/
 	$jsRIPEntry = json_encode($RIPEntry);
 ?>
 <style type="text/css">

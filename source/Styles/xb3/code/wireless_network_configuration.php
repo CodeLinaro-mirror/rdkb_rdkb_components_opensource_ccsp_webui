@@ -257,63 +257,7 @@ foreach ($ssidsWPS as $i){
 		}
 	}
 }
-/*if ($_SESSION['_DEBUG']){
-	$wps_config = "true";
-	$radio_enable = "true";
-	$network_name = "111111";
-	$feq_band = 	"2.4 GHz";
-	$mac_address =	"00:00:00:00:00:00";
-	$encrypt_mode = 	"WEP-128";
-	$encrypt_method = 	"TKIP";
-	$encrypt_mode = 	"WPA-WPA2-Personal";
-	$encrypt_method = 	"AES+TKIP";
-	$wireless_mode = "g,n";
-	$transmit_power = "1";
-	$channel_automatic ="true";
-	$channel_number =	"7";
-	$BG_protect_mode = "Auto";
-	$operation_mode =	"b,g,n";
-	$channel_bandwidth= "20MHz";
-	$guard_interval = "800nsec";
-	$reverse_enabled = "true";
-	$ext_channel =			"AboveControlChannel";
-	$MSDU_enabled =	"true";
-	$blockACK_enabled =	"true";
-	$blockBA_enabled = "true";
-	$HT_TxStream =	"1";	
-	$HT_RxStream =	"2";	
-	$WMM_power_save =	"false";
-	$enableWMM			= "true";
-	$STBC_enabled = 	"true";
-	$possible_channels = "1-11";
-	$radio_enable1 = "false";
-	$network_name1 = "222222";
-	$feq_band1 = 	"5 GHz";
-	$mac_address1 =	"00:66:00:00:00:00";
-	$encrypt_mode1 = 	"WPA-WPA2-Personal";
-	$encrypt_method1 = 	"AES+TKIP";
-	$wireless_mode1 = "ac";
-	$transmit_power1 = "19";
-	$channel_automatic1 ="true";
-	$channel_number1 =	"165";
-	$BG_protect_mode1 = "Auto";
-	$operation_mode1 =	"n";
-	$channel_bandwidth1= "40MHz";
-	$guard_interval1 = "Auto";
-	$reverse_enabled1 = "true";
-	$ext_channel1 =			"BelowControlChannel";
-	$MSDU_enabled1 =	"true";
-	$blockACK_enabled1 =	"true";
-	$blockBA_enabled1 = "true";
-	$HT_TxStream1 =	"1";	
-	$HT_RxStream1 =	"2";	
-	$WMM_power_save1 =	"false";
-	$enableWMM1			= "true";
-	$STBC_enabled1 = 	"true";
-	$possible_channels1="36,40,44,48,149,153,157,161,165";
-	$support_mode_5g 	= "a,n,ac";
-	// $support_mode_5g 	= "a,n";
-}*/
+
 if ("1-11"==$possible_channels)
 $possible_channels = "1,2,3,4,5,6,7,8,9,10,11";
 // SSID 1,2 for Private, 3,4 for Home Security, 5,6 for Hot Spot, HotSpot share the same SSID as a service set

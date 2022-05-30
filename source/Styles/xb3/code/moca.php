@@ -52,18 +52,6 @@
 	$privacy_enable	= $MoCA_value['privacy_enable'];
 	$net_password	= $MoCA_value['net_password'];
 	if ($_SESSION["lanMode"] != "router") $moca_enable = 'false';
-	//$qos_enable 	= "true";
-	// $taboo_enable	= getStr("Device.MoCA.Interface.1.X_CISCO_COM_EnableTabooBit");
-	// $qos_enable 	= getStr("Device.MoCA.Interface.1.QoS.X_CISCO_COM_Enabled");
-	// $moca_enable	= "false";
-	// $scan_method	= "true";
-	// $channel		= "1275"; 
-	// $beacon_power	= "false";
-	// $taboo_enable	= "true";
-	// $taboo_freq		= "FFffAAaa00010000"; 
-	// $nc_enable		= "false";
-	// $privacy_enable	= "false";
-	// $net_password	= "1234567891011";
 	$isNotAdmin = ("admin" != $_SESSION["loginuser"])?true:false;
 	$videoServiceEnable = getStr("Device.X_RDKCENTRAL-COM_VideoService.Enabled");
 	$mocaForceEnable	= getstr("Device.MoCA.X_RDKCENTRAL-COM_ForceEnable");

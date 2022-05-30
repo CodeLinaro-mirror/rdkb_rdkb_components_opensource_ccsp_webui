@@ -137,27 +137,6 @@ if ("false" == $wifi_value['Radio_'.$rf.'_Enable']){
 }
 //check if support 802.11ac
 $supported_mode		= $wifi_value['SupportedStandards'];
-/*if ($_SESSION['_DEBUG']){
-	$radio_enable		= "true";
-	$network_name		= "string";
-	$wireless_mode		= "b,g,n";
-	$encrypt_mode		= "WPA2-Personal";
-	$encrypt_mode		= "WEP-128";
-	// $encrypt_mode		= "None";
-	$encrypt_method		= "AES";
-	$channel_automatic	= "false";
-	$channel_number		= "36";
-	$broadcastSSID		= "false";
-	$network_password	= "abc123456";
-	$enableWMM			= "true";
-	$channel_bandwidth	= "40MHz";
-	$ext_channel			= "BelowControlChannel";
-	$network_pass_64		= "wep64";
-	$network_pass_128	= "wep128";
-	$possible_channels	= "36,40,44,48,149,153,157,161,165";
-	// $possible_channels	= "1-11";
-       	$supported_mode 	= "a,n,ac";
-}*/
 if ("1-11"==$possible_channels)
 $possible_channels = "1,2,3,4,5,6,7,8,9,10,11";
 $security = "None";
@@ -503,103 +482,6 @@ $(document).ready(function() {
 		}
 		});	
 	});	
-/*	
-    $("#restore-default-settings").click(function() {
-		<?php
-		$xml_SSID = "HOME-DEFAULT";
-		$xml_Passphrase = "COMCAST123456";
-		$xml_WLANEnable = "1";
-		$xml_HideSSID = "0";
-		$xml_Mode = "32";
-		$xml_Encryption = "3";
-		$xml_WMMEnable = "1";	
-		$xml_security = "None";
-		$path = "/nvram/bbhm_cur_cfg.xml";
-		if (file_exists($path))
-		{
-			$file= fopen($path, "r");
-			while ($file && !feof($file)) 
-			{
-				$tag = fgets($file);
-				if (strstr($tag,"Device.WiFi.Radio.SSID.$id.SSID")) {
-					$xml_SSID = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.Passphrase")) {
-					$xml_Passphrase = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.WLANEnable")) {
-					$xml_WLANEnable = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.HideSSID")) {
-					$xml_HideSSID = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.Security")) {
-					$xml_Mode = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.Encryption")) {
-					$xml_Encryption = trim(strip_tags($tag));
-				}
-				elseif (strstr($tag,"Device.WiFi.Radio.SSID.$id.WMMEnable")) {
-					$xml_WMMEnable = trim(strip_tags($tag));
-				}
-			}
-			fclose($file);
-		}
-		if ("1" == $xml_Mode) {
-				$xml_security = "None";
-		}			
-		elseif ("2" == $xml_Mode) {
-				$xml_security = "WEP_64";
-		}
-		elseif ("4" == $xml_Mode) {
-				$xml_security = "WEP_128";
-		}
-		elseif ("8" == $xml_Mode) {
-			if ("1" == $xml_Encryption) {
-				$xml_security = "WPA_PSK_TKIP";
-			}
-			else {
-				$xml_security = "WPA_PSK_AES";
-			}
-		}
-		elseif ("16" == $xml_Mode) {
-			if ("1" == $xml_Encryption) {
-				$xml_security = "WPA2_PSK_TKIP";
-			}
-			elseif ("2" == $xml_Encryption) {
-				$xml_security = "WPA2_PSK_AES";
-			}
-			else {
-				$xml_security = "WPA2_PSK_TKIPAES";
-			}
-		}
-		elseif ("32" == $xml_Mode) {
-				$xml_security = "WPAWPA2_PSK_TKIPAES";
-		}
-		?>
-        jConfirm(
-            "Are you sure you want to change to default settings?"
-            ,"Reset Default Settings"
-            ,function(ret) {
-                if (ret) {
-					$("#wireless_network_switch").radioswitch("doSwitch", "<?php echo ($xml_WLANEnable=="1")?"on":"off" ?>");
-					$("#network_name").attr("value", 	 "<?php echo $xml_SSID; ?>");
-					$("#security").attr("value", 		 "<?php echo $xml_security; ?>");
-					$("#network_password").attr("value", "<?php echo $xml_Passphrase; ?>");
-					$("#broadcastSSID").prop("checked",  <?php echo ($xml_HideSSID=="0")?"true":"false" ?>);
-					$("#enableWMM").prop("checked", 	 <?php echo ($xml_WMMEnable=="1")?"true":"false" ?>);
-					//following can't find in nvram
-					$("#wireless_mode").attr("value",    "<?php echo ("5"==$radio_band)?'a,n,ac':'g,n'; ?>");
-					$("#channel_number").attr("value",   "<?php echo ("5"==$radio_band)?'36':'6'; ?>");
-					$("#channel_automatic").prop("checked", true);
-					//trigger saving
-					$("#wireless_network_switch").change();
-					click_save();
-                }
-            }
-		);	
-	});
-*/
 //zqiu <<	
 /*
  *  Manage password field: open wep networks don't use passwords

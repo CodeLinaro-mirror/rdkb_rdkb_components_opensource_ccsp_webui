@@ -38,16 +38,6 @@ $IPv6Prefix     = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
 $beginAddr      = getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
 $endAddr        = getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 ("" == $enableDMZ) && ($enableDMZ = "false");
-/*if ($_SESSION['_DEBUG']){
-	$enableDMZ 		= "true";
-	$host   		= "10.0.0.11";
-	$hostv6 		= "0::1";	
-	$host   		= "0.0.0.0";
-	$hostv6 		= "x";
-	$LanGwIP 		= "10.0.0.1";
-	$LanSubnetMask 	= "255.255.255.0";
-	$IPv6Prefix 	= "2042:cafe:0:b::/64";
-}*/
 $IPv6Prefix = substr($IPv6Prefix,0, strrpos($IPv6Prefix, "::"));
 // these means disable, MUST show empty on GUI!!!
 ("0.0.0.0" == $host)	&& ($host = "");

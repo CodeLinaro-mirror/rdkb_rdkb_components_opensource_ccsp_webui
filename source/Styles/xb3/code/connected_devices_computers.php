@@ -721,7 +721,7 @@ $(document).ready(function() {
 		}
 		//home security ssid name
 		$xhsSSIDName = getStr("Device.WiFi.SSID.3.SSID"); 
-		/*(true === $_DEBUG) && ($xhsSSIDName = 'Security-2.4');*/
+		
 	?>
 	<?php
 		if($loginuser=="mso"){
@@ -745,25 +745,7 @@ $(document).ready(function() {
 			$paramNameArray = array($rootObjName);
 			$mapping_array  = array("X_CISCO_COM_HostName", "Chaddr", "IPv4Address.1.IPAddress");
 			$PoolClientArr = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
-			/*if ($_DEBUG) {
-				$PoolClientArr = array(
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-1',
-						'Chaddr' => '00:00:ff:fe:ec:fb',
-						'__id' => '1',
-						),
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-2',
-						'Chaddr' => '00:00:ff:fe:ec:fc',
-						'__id' => '2',
-						),
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-3',
-						'Chaddr' => '00:00:ff:fe:ec:ac',
-						'__id' => '3',
-						),
-				);
-			}*/
+			
 			foreach ($PoolClientArr as $k => $entry) {
 				$PoolClientArr[$k] = array_merge($entry, array('IPv4Address' => $entry["IPv4Address.1.IPAddress"]));
 			}
@@ -777,22 +759,6 @@ $(document).ready(function() {
 			$AssoDeviceArr4 = getParaValues($WiFi4_rootObjName, $WiFi4_paramNameArray, $WiFi4_mapping_array);
 			$AssoDeviceArr = array_merge($AssoDeviceArr3, $AssoDeviceArr4);
 			//MACAddress, SignalStrength, Active
-			/*if ($_DEBUG) {
-				$AssoDeviceArr = array(
-					array(
-						'MACAddress' => '00:00:ff:fe:ec:fa',
-					),
-					array(
-						'MACAddress' => '00:00:ff:fe:ec:fb',
-					),
-					array(
-						'MACAddress' => '00:00:ff:fe:ec:fc',
-					),
-					array(
-						'MACAddress' => '00:00:ff:fe:ec:fd',
-					),
-				);
-			}*/
 			$onXHSClientArr  = array();
 			$onXHSAssoDeviceArr  = array();
 			$offXHSClientArr = array();

@@ -178,28 +178,6 @@ $(document).ready(function() {
 				$mapping_array  = array("LeaseDuration", "InternalPort", "Protocol", "Description",
 					                    "ExternalPort", "ExternalPortEndRange", "InternalClient", "Enable");
 				$resArray = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);				
-				/*if ($_DEBUG) {
-					$resArray = array(
-						array(
-							'Protocol' => 'TCP',
-							'Enable' => 'true',
-							'Description' => 'services 1',
-							'ExternalPort' => 666,
-							'InternalPort' => 22,
-							'InternalClient' => '172.16.12.2',
-							'LeaseDuration' => 0,
-							),
-							array(
-							'Protocol' => 'BOTH',
-							'Enable' => 'true',
-							'Description' => 'services 2',
-							'ExternalPort' => 366,
-							'InternalPort' => 25,
-							'InternalClient' => '172.16.12.22',
-							'LeaseDuration' => 0,
-							),
-					 );
-				}*/
 				if(!empty($resArray)){
 					$iclass = ""; 
 					foreach ($resArray as $hspf_entry) {

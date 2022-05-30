@@ -867,7 +867,6 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 		}
 		//home security ssid name
 		$xhsSSIDName = getStr("Device.WiFi.SSID.3.SSID"); 
-		/*(true === $_DEBUG) && ($xhsSSIDName = 'Security-2.4');*/
 	?>
 	<?%
 		if($loginuser=="mso"){
@@ -891,25 +890,7 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 			$paramNameArray = [$rootObjName]/*p2j-array*/;
 			$mapping_array  = ["X_CISCO_COM_HostName", "Chaddr", "IPv4Address.1.IPAddress"]/*p2j-array*/;
 			$PoolClientArr = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
-			/*if ($_DEBUG) {
-				$PoolClientArr = array(
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-1',
-						'Chaddr' => '00:00:ff:fe:ec:fb',
-						'__id' => '1',
-						),
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-2',
-						'Chaddr' => '00:00:ff:fe:ec:fc',
-						'__id' => '2',
-						),
-					array(
-						'X_CISCO_COM_HostName' => 'xhs-client-3',
-						'Chaddr' => '00:00:ff:fe:ec:ac',
-						'__id' => '3',
-						),
-				);
-			}*/
+
 			for($k in $PoolClientArr) { $entry=$PoolClientArr[$k];/*p2j-foreach*/
 				$entry['IPv4Address']= $entry["IPv4Address.1.IPAddress"];
                                 $PoolClientArr[$k] = $entry;
