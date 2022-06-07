@@ -135,7 +135,7 @@ function populateIPv6Addr(v6addr){
 		if(id_prefix == "ip6_address_r"){
 			$('[id^="'+id_prefix+'"]').each(function(){
 				if(local_v6_prefix!=""){
-					if ((local_v6_prefix.split(":").length < $(this).context.id.substr(13)) && $(this).val().replace(/\s/g, '') != ""){
+					if ((local_v6_prefix.split(":").length < $(this)[0].id.substr(13)) && $(this).val().replace(/\s/g, '') != ""){
 						ret = false;
 						return false;
 					}
@@ -234,7 +234,7 @@ function populateIPv6Addr(v6addr){
 		$('[id^=ip6_address_r]').prop("disabled", !isEnabledDMZ);
 		if(local_v6_prefix!=""){
 			$('[id^=ip6_address_r]').each(function(index){
-				if(local_v6_prefix.split(":").length >= $(this).context.id.substr(13)){
+				if(local_v6_prefix.split(":").length >= $(this)[0].id.substr(13)){
 					$(this).prop("disabled", true);
 				}
 			});
@@ -335,7 +335,7 @@ function populate_IPv6(){
 	if(local_v6_prefix){
 		var local_v6_addr_arr = local_v6_prefix.indexOf(':') < 0 ? null : populateIPv6Addr(local_v6_prefix);
 		$('[id^=ip6_address_r]').each(function(index){
-			if(local_v6_prefix.split(":").length >= $(this).context.id.substr(13)){
+			if(local_v6_prefix.split(":").length >= $(this)[0].id.substr(13)){
 				$(this).val(local_v6_addr_arr ? local_v6_addr_arr[index] : '');
 				$(this).prop("disabled", true);
 			}
