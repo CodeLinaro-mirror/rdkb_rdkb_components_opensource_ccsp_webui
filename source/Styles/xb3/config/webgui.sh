@@ -61,6 +61,22 @@ if [ -z $1 ] && [ ! -f /tmp/webuifwbundle ]; then
     fi
 fi
 
+#upstreamed webgui_script_https_support.patch to Secure webui redirection as part of RDKB-42686.
+if [ -d /nvram/certs ]; then
+    if [ ! -f /usr/bin/GetConfigFile ];then
+        echo "Error: GetConfigFile Not Found"
+        exit 127
+    fi
+    mkdir -p /tmp/.webui/
+    ID="/tmp/trpfizyanrln"
+    GetConfigFile $ID
+    cp /nvram/certs/myrouter.io.cert.pem /tmp/.webui/
+    if [ "$MANUFACTURE" = "Technicolor" ]; then
+    	echo " " >> $ID
+    fi
+    cat /tmp/.webui/myrouter.io.cert.pem >> $ID
+fi
+
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
 source /etc/device.properties
@@ -73,13 +89,7 @@ if [ "x$BOX_TYPE" != "xHUB4" ]; then
     source /fss/gw/etc/utopia/service.d/log_env_var.sh
 fi
 REVERT_FLAG="/nvram/reverted"
-if [ "$MODEL_NUM" = "TG3482G" ] ; then
-# RDKB-15633 from Arris XB6
-LIGHTTPD_CONF="/tmp/lighttpd.conf"   
-else
-LIGHTTPD_CONF="/var/lighttpd.conf"
-fi
-LIGHTTPD_DEF_CONF="/etc/lighttpd.conf"
+LIGHTTPD_CONF="/etc/lighttpd.conf"
 FILE_LOCK="/tmp/webgui.lock"
 MAX_RETRY_COUNT=10
 webgui_count=0
@@ -109,114 +119,7 @@ LIGHTTPD_PID=`pidof lighttpd`
 if [ "$LIGHTTPD_PID" != "" ]; then
 	/bin/kill -9 $LIGHTTPD_PID
 fi
-
-if [ "$BOX_TYPE" = "HUB4" ]; then
-    # Grab the locale based on the region code if we don't have the override flag
-    LOCALE_OVERRIDE_FILE=/nvram/locale-override
-    LOCALE_CONF=/tmp/locale.conf
-    if [ -f "$LOCALE_OVERRIDE_FILE" ]; then
-       LOCALE=`cat $LOCALE_OVERRIDE_FILE`
-    else
-       # set the locale from the region code
-       COUNTRY=`grep "REGION" /tmp/serial.txt | cut -d"=" -f2 | xargs`
-       if [ "$COUNTRY" == "IT" ]; then
-               LOCALE="it_IT.utf8"
-       else
-               LOCALE="en_GB.utf8"
-       fi
-    fi
-    # Now set the system locale before starting the UI
-    localectl set-locale LANG=$LOCALE
-    sed -i'' "s/LANG=en_GB.utf8/LANG=$LOCALE/g" $LOCALE_CONF
-    export LANG=$LOCALE
-fi
-
-HTTP_ADMIN_PORT=`syscfg get http_admin_port`
-HTTP_PORT=`syscfg get mgmt_wan_httpport`
-HTTP_PORT_ERT=`syscfg get mgmt_wan_httpport_ert`
-HTTPS_PORT=`syscfg get mgmt_wan_httpsport`
-BRIDGE_MODE=`syscfg get bridge_mode`
-
-if [ "$BRIDGE_MODE" != "0" ]; then
-    INTERFACE="lan0"
-else
-    INTERFACE="brlan0"
-fi
-
-cp $LIGHTTPD_DEF_CONF $LIGHTTPD_CONF
-
-#sed -i "s/^server.port.*/server.port = $HTTP_PORT/" /var/lighttpd.conf
-#sed -i "s#^\$SERVER\[.*\].*#\$SERVER[\"socket\"] == \":$HTTPS_PORT\" {#" /var/lighttpd.conf
-
-if [ "$BOX_TYPE" == "HUB4" ]; then
-    echo "setenv.add-environment = (\"LANG\" => \"$LOCALE\")" >> $LIGHTTPD_CONF
-fi
-HTTP_SECURITY_HEADER_ENABLE=`syscfg get HTTPSecurityHeaderEnable`
-
-if [ "$HTTP_SECURITY_HEADER_ENABLE" = "true" ]; then
-    echo "setenv.add-response-header = ("  >> $LIGHTTPD_CONF
-    echo "    \"X-Frame-Options\" => \"deny\","  >> $LIGHTTPD_CONF
-    echo "    \"X-XSS-Protection\" => \"1; mode=block\","  >> $LIGHTTPD_CONF
-    echo "    \"X-Content-Type-Options\" => \"nosniff\","  >> $LIGHTTPD_CONF
-    echo "    \"Content-Security-Policy\" => \"default-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' 'unsafe-eval'; frame-src 'self' 'unsafe-inline' 'unsafe-eval'; font-src 'self' 'unsafe-inline' 'unsafe-eval'; form-action 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self'; connect-src 'self'; object-src 'none'; media-src 'none'; script-nonce 'none'; plugin-types 'none'; reflected-xss 'none'; report-uri 'none';\","  >> $LIGHTTPD_CONF
-    echo ")"  >> $LIGHTTPD_CONF
-    echo "#sandbox 'allow-same-origin allow-scripts allow-popups allow-forms';"  >> $LIGHTTPD_CONF
-fi
-
-echo "server.port = $HTTP_ADMIN_PORT" >> $LIGHTTPD_CONF
-echo "server.bind = \"$INTERFACE\"" >> $LIGHTTPD_CONF
-if [ "$BOX_TYPE" == "HUB4" ]
-then
-    echo "\$SERVER[\"socket\"] == \"erouter0:80\" { server.use-ipv6 = \"enable\" }" >> $LIGHTTPD_CONF
-else
-    if ([ "$BOX_TYPE" = "XB6" -a "$MANUFACTURE" = "Arris" ] || [ "$MODEL_NUM" = "INTEL_PUMA" ]) ; then
-    	# Intel Proposed Bug Fix to not add in ETH WAN Mode
-    	if [ ! -f /nvram/ETHWAN_ENABLE ] ; then
-    		echo "\$SERVER[\"socket\"] == \"wan0:80\" { server.use-ipv6 = \"enable\" }" >> $LIGHTTPD_CONF
-    	fi
-    else
-    	echo "\$SERVER[\"socket\"] == \"wan0:80\" { server.use-ipv6 = \"enable\" }" >> $LIGHTTPD_CONF
-    fi
-fi
-
-if [ "x$HTTP_PORT_ERT" != "x" ] && [ $HTTP_PORT_ERT -ne 0 ] && [ "$HTTP_PORT_ERT" -ge 1025 ] && [ "$HTTP_PORT_ERT" -le 65535 ];then
-    echo "\$SERVER[\"socket\"] == \"erouter0:$HTTP_PORT_ERT\" { server.use-ipv6 = \"enable\" }" >> $LIGHTTPD_CONF
-else
-    echo "\$SERVER[\"socket\"] == \"erouter0:$HTTP_PORT\" { server.use-ipv6 = \"enable\" }" >> $LIGHTTPD_CONF
-fi
-
-echo "\$SERVER[\"socket\"] == \"$INTERFACE:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-
-#If video analytics test is enabled in device.properties file, open 58081 securely.
-if [ "$VIDEO_ANALYTICS" = "enabled" ]
-then
-#Opening port 58081 for MTLS connection
-	echo "\$SERVER[\"socket\"] == \"$INTERFACE:58081\" { server.use-ipv6 = \"enable\" server.document-root = \"/usr/video_analytics\" ssl.engine = \"enable\" ssl.verifyclient.activate = \"enable\" ssl.ca-file = \"/etc/webui/certs/comcast-rdk-ca-chain.cert.pem\" ssl.pemfile = \"/tmp/.webui/rdkb-video.pem\" }" >> $LIGHTTPD_CONF
-fi
-
-if [ "$BOX_TYPE" == "HUB4" ]; then
-   echo "\$SERVER[\"socket\"] == \"erouter0:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-else
-    if ([ "$BOX_TYPE" = "XB6" -a "$MANUFACTURE" = "Arris" ] || [ "$MODEL_NUM" = "INTEL_PUMA" ]) ; then
-    	# Intel Proposed Bug Fix to not add in ETH WAN Mode
-    	if [ ! -f /nvram/ETHWAN_ENABLE ] ; then
-    		echo "\$SERVER[\"socket\"] == \"wan0:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-    	fi
-    else
-    	echo "\$SERVER[\"socket\"] == \"wan0:443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-    fi
-fi
-
-if [ $HTTPS_PORT -ne 0 ] && [ "$HTTPS_PORT" -ge 1025 ] && [ "$HTTPS_PORT" -le 65535 ]
-then
-  echo "\$SERVER[\"socket\"] == \"erouter0:$HTTPS_PORT\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-else
-    # When the httpsport is set to NULL. Always put default value into database.
-    syscfg set mgmt_wan_httpsport 8181
-    syscfg commit
-    HTTPS_PORT=`syscfg get mgmt_wan_httpsport`
-    echo "\$SERVER[\"socket\"] == \"erouter0:$HTTPS_PORT\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" }" >> $LIGHTTPD_CONF
-fi
+#upstreamed webgui_remove_dynamic_configs.patch as part of RDKB-42686
 
 #Changes for ArrisXb6-2949
 
@@ -229,8 +132,6 @@ cp -rf /usr/www/cmn/ /tmp/pcontrol
 #Dynamically create pause screen file 
 #removed chmod as part of CISCOXB3-6294 since etc is read-only FileSystem
 sh /etc/pauseBlockGenerateHtml.sh
-
-echo "\$SERVER[\"socket\"] == \"$INTERFACE:21515\" { server.use-ipv6 = \"enable\" server.document-root = \"/tmp/pcontrol/\" url.rewrite-if-not-file = \"('^/(.*)$' => '/index.html?fwd=$1')\" url.access-deny =(\".inc\" )  }" >> $LIGHTTPD_CONF
 
 WIFIUNCONFIGURED=`syscfg get redirection_flag`
 SET_CONFIGURE_FLAG=`psmcli get eRT.com.cisco.spvtg.ccsp.Device.WiFi.NotifyWiFiChanges`
@@ -388,16 +289,6 @@ then
     fi
 fi
 
-#echo "\$SERVER[\"socket\"] == \"$INTERFACE:10443\" { server.use-ipv6 = \"enable\" ssl.engine = \"enable\" ssl.pemfile = \"/etc/server.pem\" server.document-root = \"/fss/gw/usr/walled_garden/parcon/siteblk\" server.error-handler-404 = \"/index.php\" }" >> /var/lighttpd.conf
-#echo "\$SERVER[\"socket\"] == \"$INTERFACE:18080\" { server.use-ipv6 = \"enable\"  server.document-root = \"/fss/gw/usr/walled_garden/parcon/siteblk\" server.error-handler-404 = \"/index.php\" }" >> /var/lighttpd.conf
-
-LOG_PATH_OLD="/var/tmp/logs/"
-
-if [ "$LOG_PATH_OLD" != "$LOG_PATH" ]
-then
-	sed -i "s|${LOG_PATH_OLD}|${LOG_PATH}|g" $LIGHTTPD_CONF
-fi
-
 if [ "$MODEL_NUM" = "TG3482G" ] ; then
 	# RDKB-15633 from Arris XB6
 	RFC_CONTAINER_SUPPORT=`syscfg get containersupport`
@@ -423,5 +314,48 @@ fi
 echo "WEBGUI : Set event"
 sysevent set webserver started
 touch /tmp/webgui_initialized
+
+
+#upstreamed webgui_TCXB6_2988.patch as part of RDKB-42686
+if [ "$MANUFACTURE" = "Technicolor" ]
+then
+	#Added fix for TCXB6-2988
+
+	CAPTIVEPORTAL_ENABLED=`syscfg get CaptivePortal_Enable`
+ 	 echo_t "WEBGUI : CaptivePortal enabled val is $CAPTIVEPORTAL_ENABLED"
+
+	REDIRECTION_FLAG=`syscfg get redirection_flag`
+  	 echo_t "REDIRECTION_FLAG got is : $REDIRECTION_FLAG"
+
+ 	if [ "$REDIRECTION_FLAG" = "true" ] && [ "$CAPTIVEPORTAL_ENABLED" == "true" ]
+ 	then
+         	#Check if lighttpd daemon is up
+         	CHECK_LIGHTTPD=`pidof lighttpd`
+
+         	iter=0
+         	max_iter=30
+        	while [ "$CHECK_LIGHTTPD" = "" ] && [ "$iter" -le $max_iter ]
+         	do
+            	   iter=$((iter+1))
+            	   #echo_t "$iter"
+            	   CHECK_LIGHTTPD=`pidof lighttpd`
+            	   sleep 1
+         	done
+
+         	if [ "$CHECK_LIGHTTPD" != "" ]
+         	then
+              		echo_t "WEBUI : LIGHTTPD IS UP"
+              		uptime=`cat /proc/uptime | awk '{ print $1 }' | cut -d"." -f1`
+              		echo_t "Enter_WiFi_Personalization_captive_mode:$uptime"
+         	fi
+  	fi
+fi
+
 #Removing the lock
 rm -f $FILE_LOCK
+#Upstreamed webgui_sh.patch(SKYH4-3996) as part of RDKB-42686
+if [[ $MANUFACTURE == SKY* ]]
+then
+	rm -rf /tmp/.webui
+	rm $ID
+fi
