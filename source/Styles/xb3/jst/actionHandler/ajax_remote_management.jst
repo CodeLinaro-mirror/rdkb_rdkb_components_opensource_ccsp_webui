@@ -28,6 +28,9 @@ function PORTTEST($port,$arraySp,$arrayEp){
 	
 	else return 0;
 }
+if($_POST['http'] == 'false' || $_POST['https'] == 'false'){
+	$_SESSION['rm'] = true;
+}
 $validation = true;
 if($validation) $validation = isValInArray($_POST['allowtype'], ['true', 'false', 'notset']/*p2j-array*/);
 if($validation)

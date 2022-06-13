@@ -53,6 +53,9 @@ csrfprotector_rdkb::init();
 	//$webuiEnabled = "msoOnly";
 	$webuiIsEnabled = "true";
 
+	$RemoteMgt = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUIRemoteMgtOption.Enable");
+	$http_mode = getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpEnable");
+	$https_mode = getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpsEnable");
 	if($wan_enabled=="true"){
         	$Wan_IPv4 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IP");
         	$Wan_IPv6 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
@@ -632,7 +635,12 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
                         }
                 }
         }
-        
+	if ($RemoteMgt == "false" && $http_mode == "false" && $https_mode == "false" && (!isset($_SESSION['rm']) || typeof($_SESSION['rm']) == "undefined" || $_SESSION['rm'] == false )) {
+		if (strstr($_SERVER['SCRIPT_FILENAME'], 'remote_management.jst')) {
+			echo(( '<script type="text/javascript"> window.history.back(); </script>'));
+			exit(0);
+		}
+	}
               
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 	if(!(strpos($partnerId, "sky-") !== false)) {

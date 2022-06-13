@@ -131,6 +131,13 @@ if (isset($_SESSION['loginuser']) && $_SESSION['loginuser'] == 'mso') {
 $allowEthWan= "";
 $allowEthWan= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.AllowEthernetWAN");
 $autoWanEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_AutowanFeatureSupport");
+$RemoteMgt = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUIRemoteMgtOption.Enable");
+$http_mode = getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpEnable");
+$https_mode = getStr("Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpsEnable");
+if($http_mode == "true" || $https_mode == "true") {
+        $_SESSION['rm'] = false;
+}
+
 echo( '<div id="nav">');
 echo( '<ul>');
 echo( '<li class="nav-gateway">');
@@ -207,15 +214,28 @@ echo( '</li>');
 }
 if($advanced_tab) {
 	echo( '<li class="nav-advanced">');
-		if (isset($_SESSION['lanMode']) && $_SESSION["lanMode"] == "bridge-static")
-			echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="remote_management.jst" id="advloc">Advanced</a>');
-		else
+		if (isset($_SESSION['lanMode']) && $_SESSION["lanMode"] == "bridge-static"){
+			if ($RemoteMgt == "false" && $http_mode == "false" && $https_mode == "false" && ($_SESSION['rm'] == false || typeof($_SESSION['rm']) == "undefined")) echo('');
+			else echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="remote_management.jst" id="advloc">Advanced</a>');
+		}
+		else {
 			echo( '<a role="menuitem"  title="click to toggle sub menu"  class="top-level" href="port_forwarding.jst" id="advloc">Advanced</a>');
+		}
 		echo( '<ul>');
 		if($port_forwarding) echo( '<li class="nav-port-forwarding"><a role="menuitem"  href="port_forwarding.jst">Port Forwarding</a></li>');
 		if($hs_port_forwarding) echo( '<li class="nav-HS-port-forwarding"><a role="menuitem"  href="hs_port_forwarding.jst" id="hsportmess2">HS Port Forwarding</a></li>');
 		if($port_triggering) echo( '<li class="nav-port-triggering"><a role="menuitem"  href="port_triggering.jst">Port Triggering</a></li>');
-		if($remote_management) echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst" id="remloc">Remote Management</a></li>');
+		if($remote_management){
+			if ($RemoteMgt == "false" && $http_mode == "false" && $https_mode == "false"){
+				if ($_SESSION['rm'] == false || typeof($_SESSION['rm']) == "undefined")
+					echo('');
+				else
+					echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst">Remote Management</a></li>');
+			}
+			else {
+				echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst">Remote Management</a></li>');
+			}
+		}
 		echo( '<!--li class="nav-qos1"><a role="menuitem"  href="qos1.jst">QoS</a></li-->');
 		if($dmz) echo( '<li class="nav-dmz"><a role="menuitem"  href="dmz.jst">DMZ</a></li>');
 		if($nat) echo( '<li class="nav-nat"><a role="menuitem"  href="nat.jst">NAT</a></li>');
