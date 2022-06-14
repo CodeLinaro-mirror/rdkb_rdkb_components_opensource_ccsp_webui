@@ -29,6 +29,7 @@ ob_implicit_flush(true);
 ob_end_flush();
 $ret = {};
 $OperatingChannelBandwidth ="";
+$Manufacturer = getStr("Device.DeviceInfo.Manufacturer");
 $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
 if($RadioNumberOfEntries)
 {
@@ -113,6 +114,10 @@ switch ($infoArray[0]) {
 	case "btn5" :
 		$ret["reboot"] = true;
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
+		//Upstreamed ajaxSet_Reset_Restore_jst.patch(TCXB6-1578) as part of RDKB-41235
+		if($Manufacturer == "Technicolor"){
+			setStr("Device.WiFi.X_CISCO_COM_FactoryResetRadioAndAp", "1,2;1,2",true);       //radio 1, radio 2; Ap 1, Ap 2
+		}
 		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","factory_reset",true);
 		setStr("Device.X_CISCO_COM_DeviceControl.FactoryReset", $infoArray[1],true);
 		exit(0);

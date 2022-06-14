@@ -29,6 +29,7 @@
 <?% include('includes/nav.jst'); ?>
 <?% 
 	$ret = init_psmMode("Troubleshooting > MoCA Diagnostics", "nav-moca-diagnostics");
+	$Manufacturer = getStr("Device.DeviceInfo.Manufacturer");
 	if ("" != $ret){echo( $ret);	exit(0);}
 	function div_mod($n, $m)
 	{
@@ -49,7 +50,6 @@
 		"moca_NodeID" 		: "Device.MoCA.Interface.1.NodeID",
 		"BeaconPowerLimit" 	: "Device.MoCA.Interface.1.BeaconPowerLimit",
 		"LinkUpTime" 		: "Device.MoCA.Interface.1.LinkUpTime",
-		"NodeTabooMask" 	: "Device.MoCA.Interface.1.NodeTabooMask",
 		"TxPowerLimit" 		: "Device.MoCA.Interface.1.TxPowerLimit",
 		"Privacy_Setting" 	: "Device.MoCA.Interface.1.PrivacyEnabledSetting",
 		"BackupNC"			: "Device.MoCA.Interface.1.BackupNC",
@@ -59,6 +59,11 @@
 		"PacketsSent" 		: "Device.MoCA.Interface.1.Stats.PacketsSent",
 		"PacketsReceived" 	: "Device.MoCA.Interface.1.Stats.PacketsReceived" 
 	}/*p2j-array*/;
+	if ($Manufacturer == "Technicolor"){
+		$MoCA_param["NodeTabooMask"] = "Device.MoCA.Interface.1.X_CISCO_COM_ChannelScanMask";
+	} else {
+		$MoCA_param["NodeTabooMask"] = "Device.MoCA.Interface.1.NodeTabooMask";
+	}
 	$MoCA_value = {};
 	$MoCA_value = KeyExtGet("Device.MoCA.Interface.1.", $MoCA_param);
 	$moca_enable		= $MoCA_value['moca_enable'];

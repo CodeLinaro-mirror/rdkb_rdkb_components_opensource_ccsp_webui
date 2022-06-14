@@ -861,14 +861,18 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	</thead>
 	<tbody>
 		<tr class="">
+	    <th class="row-label ">Index</td>
+	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$i+'</div></td>');?>
+	</tr>
+	<tr class="odd">
 			<th class="row-label ">Unerrored Codewords</td>
 			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UnerroredCodewords']+'</div></td>');?>
 		</tr>
-		<tr class="odd">
+		<tr class="">
 			<th class="row-label ">Correctable Codewords</td>
 			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['CorrectableCodewords']+'</div></td>');?>
 		</tr>
-		<tr class="">
+		<tr class="odd">
 			<th class="row-label ">Uncorrectable Codewords</td>
 			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UncorrectableCodewords']+'</div></td>');?>
 		</tr>

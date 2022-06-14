@@ -469,12 +469,17 @@ else
 		var $tmp;
 		$lxc_check = [];
 		$status = 1;
+		$Manufacturer = getStr("Device.DeviceInfo.Manufacturer");
 		$lan_ip	= get_ips("brlan0");
 		exec('grep -a container=lxc /proc/1/environ', $lxc_check, $status);//use eth0 if webserver is running in lxc
 		if (0==$status) {
 			$cm_ip  = get_ips("eth0");
 		} else {
-			$cm_ip  = get_ips("wan0");
+			if ($Manufacturer == "Technicolor"){
+				$cm_ip  = get_ips("privbr");
+			} else {
+				$cm_ip  = get_ips("wan0");
+			} //upstreamed webui_pod_jst.patch (RDKB-21882) as part of RDKB-41235
 		}
     		$ip_addr = parseIP($ip_addr);
 		if (in_array($ip_addr, $lan_ip)){
