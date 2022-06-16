@@ -79,8 +79,13 @@ if(!array_key_exists('IPv6', $ip_config)){
 	}
 	if($validation){
 		//set ipv4 part
-		setStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress", $ip_config['Ipaddr'], true);
-		setStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask", $ip_config['Subnet_mask'], true);
+		$rootObjName = "Device.X_CISCO_COM_DeviceControl.LanManagementEntry.";
+		$paramArray =
+			[
+				["Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress", "string", $ip_config['Ipaddr']],
+				["Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask", "string", $ip_config['Subnet_mask']],
+			];
+		$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);
 		//20140523
 		//set LanManagementEntry_ApplySettings after change LanManagementEntry table
 		setStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry_ApplySettings", "true", true);
