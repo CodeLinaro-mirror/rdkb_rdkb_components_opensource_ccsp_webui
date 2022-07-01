@@ -689,7 +689,7 @@ function get_wan_type()
 	$modelName = getStr("Device.DeviceInfo.ModelName");
 	if (getStr("Device.DPoE.Mac_address")){
       		get_wan_type.wan_type = "EPON";
-    	} else if (strpos($modelName, "SR20") !== false || strpos($modelName, "SR30") !== false) {
+	} else if (strpos($modelName, "SR20") !== false || strpos($modelName, "SR30") !== false || strpos($modelName, "SR21") !== false) {
         	get_wan_type.wan_type = "DSL";
     	} else {
       		get_wan_type.wan_type = "DOCSIS";
