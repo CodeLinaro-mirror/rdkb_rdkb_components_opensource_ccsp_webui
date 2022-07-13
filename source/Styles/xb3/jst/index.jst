@@ -113,7 +113,7 @@ $psmMode = $DeviceControl_value['psmMode'];
 		}
 	}
 	//$LanGwIPv6 Scope:Global
-	if($modelName == 'SR300'){
+	if($modelName == 'SR300' || $modelName == 'SR213'){
 		$lan_ip = [];
 		$bin = exec("which ifconfig");
 		$xbin=$bin[0].replace(/ /g,'').replace(/\n/g,'');
@@ -130,7 +130,7 @@ $psmMode = $DeviceControl_value['psmMode'];
 		}
 		$LanGwIPv6 = $lan_ip.pop();
 	}
-function ada_wan_status(){
+function wan_status(){
 	$wan_connection=false;
 	$ipv4_status='';
 	$ipv6_status='';
@@ -171,7 +171,7 @@ if(!$isMSO) {
 				}
 				exit;
 			}
-			if(($modelName == 'SR300')&&(!ada_wan_status())){
+			if(($modelName == 'SR300' || $modelName == 'SR213')&&(!wan_status())){
 				$LanGwIPv6 = '['+$LanGwIPv6+']';
 				if(strpos($SERVER_ADDR, ":") == false)
 					header('Location:http://'+$ip_addr+'/sky_self_heal_index.jst');
