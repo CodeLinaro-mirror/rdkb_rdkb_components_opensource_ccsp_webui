@@ -332,7 +332,7 @@ $(document).ready(function() {
 		if($('#sip_serviceprovider').valid()){
 			var Authpwd = $('#SIP_auth_pwd').val();
 			if(Authpwd == '<EMPTY>')Authpwd = "";
-			if("<?% echo($ModelName); ?>" == 'SR300'){
+			if(("<?% echo($ModelName); ?>" == 'SR300') || ("<?% echo($ModelName); ?>" == 'SR213')){
 				$SIP_acc = $('#SIP_acc_enabled').is(':checked') ? 'true' :'false';
 			}
 			else {

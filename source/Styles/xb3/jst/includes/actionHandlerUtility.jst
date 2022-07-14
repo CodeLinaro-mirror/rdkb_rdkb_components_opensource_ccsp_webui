@@ -356,7 +356,7 @@ function voiceDML(){
 	$telco_vm	= file_exists("/tmp/RDKB_TELCOVOICEMANAGER_ENABLED");
 	$modelName 	= getStr("Device.DeviceInfo.ModelName");
 	$voiceDML 	= ($telco_vm) ? $voiceManagerDMLv1 : $voipAgentDMLv1 ;
-	if($modelName == 'SR300') $voiceDML = $voiceManagerDMLv2;
+	if($modelName == 'SR300' || $modelName == 'SR213') $voiceDML = $voiceManagerDMLv2;
 	return $voiceDML;
 }
 $tvdml = voiceDML();
