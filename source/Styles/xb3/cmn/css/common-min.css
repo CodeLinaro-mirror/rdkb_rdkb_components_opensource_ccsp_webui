@@ -164,7 +164,7 @@ small {
 }
 
 .device-hide{
-    display:none; 
+    display:none;
 }
 
 #header {
@@ -582,6 +582,7 @@ div.sprite_cont, span.sprite_cont {
 	clear: both;
 	overflow: hidden;
 	padding: 8px;
+	position: relative;
 }
 
 .form-row .on-off {
@@ -655,6 +656,8 @@ div.sprite_cont, span.sprite_cont {
 	margin: 4px 0 0 -30px;
 	line-height: 1.6em;
 	font-weight: bold;
+	position: absolute;
+	bottom: 6px;
 }
 .forms .ems {
 	display: inline;
@@ -1024,11 +1027,10 @@ a.btn.disabled {
 #login {
 	width: 500px;
 	height: 200px;
-    	
 }
 
 #login table{
-	background-color: #fff;    	
+	background-color: #fff;
 }
 
 #login label {
@@ -1048,10 +1050,9 @@ a.btn.disabled {
 	width: 240px;
 }
 
-#login .form-btn {	
+#login .form-btn {
 	padding-left: 190px;
 	margin:30px 0px
-	
 }
 
 #password .form-btn {
@@ -1175,22 +1176,22 @@ a.btn.disabled {
 	background: #9CCD00;
 }
 
-#t1 td 
+#t1 td
 { font-size: 11px;
 }
-#t1 th 
+#t1 th
 { font-size: 11px;
 }
-#t2 dd 
+#t2 dd
 { font-size: 8px;
 }
-#t1 dd 
+#t1 dd
 { font-size: 8px;
 }
-#t2 td 
+#t2 td
 { font-size: 11px;
 }
-#t2 th 
+#t2 th
 { font-size: 11px;
 }
 
@@ -1300,7 +1301,6 @@ a.btn.disabled {
 	background: #9e9e9e;
 	padding: 3px 2px;
 	float: left;
-	
 }
 
 .radiolist li {
