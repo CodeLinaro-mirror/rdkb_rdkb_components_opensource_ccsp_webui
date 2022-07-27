@@ -27,8 +27,9 @@
 <?% include('includes/nav.jst'); ?>
 <?%
 $modelName= getStr("Device.DeviceInfo.ModelName");
-if ($modelName == "SR300") $modelSkySR300 = true;
-else $modelSkySR300 = false;
+//if $removeHttpRM is true, removes HTTP Remote Management option from GUI
+if ($modelName == "SR300" || $modelName == "SR213") $removeHttpRM = true;
+else $removeHttpRM = false;
 $RemoteAccess_param = {
 	"http_mode"	: "Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpEnable",
 	"https_mode"	: "Device.UserInterface.X_CISCO_COM_RemoteAccess.HttpsEnable",
@@ -49,7 +50,7 @@ $DeviceControl_param = {
 	}/*p2j-array*/;
 $DeviceControl_value = KeyExtGet("Device.X_CISCO_COM_DeviceControl.", $DeviceControl_param);
 $http_mode	= $RemoteAccess_value['http_mode'];
-if($modelSkySR300) $http_mode = "false";
+if($removeHttpRM) $http_mode = "false";
 $https_mode	= $RemoteAccess_value['https_mode'];
 $allow_type	= $RemoteAccess_value['allow_type'];
 $start_ip	= $RemoteAccess_value['start_ip'];
@@ -564,11 +565,11 @@ $(".btn").click(function(){
 	}
  	var http = $("#http_switch").radioswitch("getState").on;
 	if (HTTP==http) http="notset";
-	<?% if($modelSkySR300) echo('http="notset";'); ?>
+	<?% if($removeHttpRM) echo('http="notset";'); ?>
 	var httpport=$('#http').val();
 	// if (HTTPPORT==httpport || HTTP=="false") httpport="notset";
 	if (HTTPPORT==httpport) httpport="notset";
-	<?% if($modelSkySR300) echo('httpport="notset";'); ?>
+	<?% if($removeHttpRM) echo('httpport="notset";'); ?>
 	var https = $("#https_switch").radioswitch("getState").on;
 	if (HTTPS==https) https="notset";
 	var httpsport=$('#https').val();
@@ -753,7 +754,7 @@ function remote_access_block(){
 	<form method="" id="pageForm" action="">
 	<div class="module forms">
 		<h2 id="remloc1">Remote Management</h2>
-		<div class="form-row" <?% if ($modelSkySR300) { echo('style="display: none;"'); } ?> >
+		<div class="form-row" <?% if ($removeHttpRM) { echo('style="display: none;"'); } ?> >
 			<label for="http">HTTP: <input type="text" value="" name="http"  maxlength="5" size=7 id="http" /></label>
 			<span id="http_switch"></span>
 		</div>
