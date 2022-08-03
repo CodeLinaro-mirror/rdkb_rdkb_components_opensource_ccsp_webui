@@ -457,26 +457,30 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
             }
               ?>
         </div>
-        <div class="form-row odd">
-              <span class="readonlyLabel" id="waniploc">WAN IP Address:</span> <span class="value">
-              <?%
-                  if(strpos($partnerId, "sky-") !== false){
-                    $isMapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
-                    if($isMapT == 'MAPT'){
-                      $WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address")+' (Condiviso utilizzando MAP-T)';
-                      //$WANIPv4Gateway = '-NA-';
-			echo ($WANIPv4);
-                    }else{
-                        $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-                        echo( php_getstr( $interface + "IPv4Address.1.IPAddress" ));
-                      }
-                  }
-                  else{
-                      $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-                      echo( php_getstr( $interface + "IPv4Address.1.IPAddress" ));
-                  } 
-              ?>
-             </span>
+        <?%
+            $WAN_IP_Address = '';
+            $address_style = '';
+            if(strpos($partnerId, "sky-") !== false){
+                $isMapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+                if($isMapT == 'MAPT'){
+                    $WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address")+' (Condiviso utilizzando MAP-T)';
+                    //$WANIPv4Gateway = '-NA-';
+                    $WAN_IP_Address = $WANIPv4;
+                    $address_style = 'style="height: 40px;"';
+                }else{
+                    $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+                    $WAN_IP_Address =  php_getstr( $interface + "IPv4Address.1.IPAddress" );
+                }
+            }
+            else{
+                    $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+                    $WAN_IP_Address = php_getstr( $interface + "IPv4Address.1.IPAddress" );
+            }
+        ?>
+        <div class="form-row odd" <?% echo($address_style); ?> >
+            <span class="readonlyLabel" id="waniploc">WAN IP Address:</span> <span class="value">
+                <?% echo($WAN_IP_Address); ?>
+            </span>
         </div>
       
         <div class="form-row">
