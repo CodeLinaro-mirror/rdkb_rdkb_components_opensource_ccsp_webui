@@ -254,16 +254,6 @@ function sec2dhms($sec)
 		?>		
 		</span>
 	</div>
-	<div class="form-row odd">
-		<span class="readonlyLabel">WAN MAC:</span>
-		<span class="value">
-			<?% echo( strtoupper(getStr(getStr(getStr($fistUSif+"LowerLayers")+".LowerLayers")+".MACAddress"))); ?>
-		</span>
-	</div>
-	<div class="form-row">
-		<span class="readonlyLabel">eMTA MAC:</span>
-		<span class="value"><?% echo( strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress")));?></span>
-	</div>
 	<?%
 		$CM_param = {
 			"MACAddress"	: "Device.X_CISCO_COM_CableModem.MACAddress",
@@ -272,10 +262,6 @@ function sec2dhms($sec)
 		}/*p2j-array*/;
 		$CM_value = KeyExtGet("Device.X_CISCO_COM_CableModem.", $CM_param);
 	?>
-	<div class="form-row odd">
-		<span class="readonlyLabel">CM MAC:</span>
-		<span class="value"><?% echo( strtoupper($CM_value["MACAddress"]));?></span>
-	</div>
 	<?%
 	if($jsMapEnable == "true"){
 	?>
@@ -290,6 +276,47 @@ function sec2dhms($sec)
 	<?%
 	}
 	?>
+</div>
+<div class="module forms dev_label">
+	<h2>Device Label Information</h2>
+        <?%
+                $wifi_param = {
+                        "DefaultSSID"   : "Device.WiFi.SSID.1.X_COMCAST-COM_DefaultSSID",
+                        "DefaultKeyPassphrase" : "Device.WiFi.AccessPoint.1.Security.X_COMCAST-COM_DefaultKeyPassphrase",
+                        "WPS_Pin"       : "Device.WiFi.AccessPoint.1.WPS.X_CISCO_COM_Pin"
+                }
+                $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
+        ?>
+	<div class="form-row ">
+		<span class="readonlyLabel">Default Network Name (SSID):</span>
+		<span class="value"><?% echo( $wifi_value['DefaultSSID'] );?></span>
+	</div>
+	<div class="form-row odd">
+		<span class="readonlyLabel">Default Password:</span>
+		<span class="value"><?% echo( $wifi_value['DefaultKeyPassphrase'] );?></span>
+	</div>
+	<div class="form-row ">
+		<span class="readonlyLabel">WPS PIN:</span>
+		<span class="value"><?% echo( $wifi_value['WPS_Pin'] );?></span>
+	</div>
+	<div class="form-row odd ">
+		<span class="readonlyLabel" id="sernum">Serial Number:</span>
+		<span class="value"><?% echo(getStr("Device.DeviceInfo.SerialNumber"));?></span>
+	</div>
+	<div class="form-row div_cm_mac">
+		<span class="readonlyLabel">CM MAC:</span>
+		<span class="value"><?% echo( strtoupper($CM_value["MACAddress"]));?></span>
+	</div>
+	<div class="form-row odd">
+		<span class="readonlyLabel">eMTA MAC:</span>
+		<span class="value"><?% echo( strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress")));?></span>
+	</div>
+	<div class="form-row">
+		<span class="readonlyLabel" id="wanmac">WAN MAC:</span>
+		<span class="value">
+			<?% echo( strtoupper(getStr(getStr(getStr($fistUSif+"LowerLayers")+".LowerLayers")+".MACAddress"))); ?>
+		</span>
+	</div>
 </div>
 <?%
 $cmStatus = $CM_value["CMStatus"];
@@ -615,7 +642,6 @@ $device_value["ModelName"] 					= getStr("Device.DeviceInfo.ModelName");
 $device_value["ProductClass"] 				= getStr("Device.DeviceInfo.ProductClass");
 $device_value["Hardware"] 					= getStr("Device.DeviceInfo.Hardware");
 $device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.AdditionalSoftwareVersion");
-$device_value["SerialNumber"] 				= getStr("Device.DeviceInfo.SerialNumber");
 ?>
 <div class="module forms">
 	<h2>Cable Modem</h2>
@@ -650,10 +676,6 @@ $device_value["SerialNumber"] 				= getStr("Device.DeviceInfo.SerialNumber");
 	<div class="form-row odd">
 		<span class="readonlyLabel" style="color:#333333">Download Version:</span>
 		<span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
-	</div>
-	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333">Serial Number:</span>
-		<span class="value"><?% echo( $device_value['SerialNumber']);?></span>
 	</div>
 </div>
 <?%
