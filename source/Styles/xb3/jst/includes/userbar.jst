@@ -159,6 +159,9 @@ setTimeout(function(){
 			, $.i18n('You are being logged out due to inactivity!')
 			, function(){
 				clearInterval(h_cntd);
+				$.ajax({
+				type: "POST",
+				});
 			});
 		}
 		, jsInactTimeout);
