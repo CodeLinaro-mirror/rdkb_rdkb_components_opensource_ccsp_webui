@@ -134,7 +134,7 @@ $channel_bandwidth	= $wifi_value['channel_bandwidth'];
 $ext_channel		= $wifi_value['ext_channel'];
 $network_pass_64	= $wifi_value['network_pass_64'];
 $network_pass_128	= $wifi_value['network_pass_128'];
-$possible_channels	= $wifi_value['possible_channels'];
+$possible_channels	= getStr("Device.WiFi.Radio."+$rf+".PossibleChannels");
 $defaultSSID		= ($id == 3)?"":$wifi_value['DefaultSSID'];
 $defaultKeyPassphrase	= ($id == 3)?"":$wifi_value['DefaultKeyPassphrase'];
 $DFS_Support1		= $wifi_value['DFS_Support1'];
@@ -173,7 +173,7 @@ if (!in_array($id, $valid_ids)) {
 if ("false" == $wifi_value['Radio_'+$rf+'_Enable']){
 	$radio_enable = "false";
 }
-$supported_mode         = $wifi_value['SupportedStandards'];
+$supported_mode         = getStr("Device.WiFi.Radio."+$rf+".SupportedStandards");
 //check if support 802.11ac
 
 if ("1-11"==$possible_channels)
