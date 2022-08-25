@@ -818,30 +818,33 @@ function init_form()
 	//disable some channel as per extension channel when NOT 20MHz, only when can't set extension channel
 	if ("20MHz" != channel_bandwidth){
 		//40MHz, exclude 80MHz for 5G
-		if ("40MHz" == channel_bandwidth){
-			if ("2.4"==radio_band){
-				if ("BelowControlChannel"==ext_channel){	//alert("hahaha");
-					$("#channel_number [value='1'],[value='2'],[value='3'],[value='4']").prop("disabled", true);
+                if((radio_band != "6") && (ssid_number != "17"))
+                {
+			if ("40MHz" == channel_bandwidth){
+				if ("2.4"==radio_band){
+					if ("BelowControlChannel"==ext_channel){	//alert("hahaha");
+						$("#channel_number [value='1'],[value='2'],[value='3'],[value='4']").prop("disabled", true);
+					}
+					else{	//AboveControlChannel or Auto
+						$("#channel_number [value='8'],[value='9'],[value='10'],[value='11']").prop("disabled", true);				
+					}
 				}
-				else{	//AboveControlChannel or Auto
-					$("#channel_number [value='8'],[value='9'],[value='10'],[value='11']").prop("disabled", true);				
+				else{
+					if ("BelowControlChannel"==ext_channel){
+						$("#channel_number [value='36'],[value='44'],[value='52'],[value='60'],[value='100'],[value='108'],[value='116'],[value='132'],[value='140'],[value='149'],[value='157'],[value='165']").prop("disabled", true);
+					}	
+					else{	//AboveControlChannel or Auto
+						//$("#channel_number [value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='136'],[value='153'],[value='161']").prop("disabled", true);
+						$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+					}
 				}
 			}
-			else{
-				if ("BelowControlChannel"==ext_channel){
-					$("#channel_number [value='36'],[value='44'],[value='52'],[value='60'],[value='100'],[value='108'],[value='116'],[value='132'],[value='140'],[value='149'],[value='157'],[value='165']").prop("disabled", true);
-				}	
-				else{	//AboveControlChannel or Auto
-					//$("#channel_number [value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='136'],[value='153'],[value='161']").prop("disabled", true);
-					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
-				}	
+			else if ("160MHz" == channel_bandwidth){
+				$("#channel_number").find("[value='132'],[value='136'],[value='140'],[value='144'],[value='149'],[value='153'],[value='157'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);
 			}
+			// NOT 20MHz, disable channel 165
+			$("#channel_number").find("[value='165']").prop("disabled", true).prop("selected", false);
 		}
-		else if ("160MHz" == channel_bandwidth){
-			$("#channel_number").find("[value='132'],[value='136'],[value='140'],[value='144'],[value='149'],[value='153'],[value='157'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);
-		}
-		// NOT 20MHz, disable channel 165
-		$("#channel_number").find("[value='165']").prop("disabled", true).prop("selected", false);
 	}
 	else {
 		//if Channel Bandwidth is 20MHz DFS Channels (Channels 50 - 144) should be greyed out
