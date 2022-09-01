@@ -263,15 +263,15 @@ header('X-robots-tag: noindex,nofollow');
             $tokenvalid = VerifyToken( $ADToken );
             if( $tokenvalid == true )
             {
+                $failedAttempt_mso=0;
+                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
+                exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
+                header("location:at_a_glance.php");
                 create_session();
                 // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
                 // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to b
                 $_SESSION["loginuser"] = "mso";
                 $_SESSION['JWT_VALID'] = true;
-                $failedAttempt_mso=0;
-                setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso,true);
-                exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
-                header("location:at_a_glance.php");
             }
             else
             {

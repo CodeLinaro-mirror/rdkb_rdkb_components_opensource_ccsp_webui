@@ -50,7 +50,7 @@ function client_IP()
         $OutIP = explode(" ", $buffer);
         exec("rm "+ $FILEID);
         $AcPort = $OutIP[1];
-        if ($AcPort == (80 || 443))
+        if ($AcPort == 80 || $AcPort == 443)
         {
             $IP_ADDR = $OutIP[0];
             return $IP_ADDR ;
@@ -381,15 +381,15 @@ else
             {
                 LogStr( " : OAUTH SUCCESS" );
                 
-                create_session();
-                // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
-                // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to be set
-                $_SESSION["loginuser"] = "mso";
-                $_SESSION['JWT_VALID'] = true;
                 $failedAttempt_mso=0;
                 setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
                 exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
                 header("location:at_a_glance.jst");
+                create_session();
+                // since $_POST["username"] is empty when we get a token, we'll set it in the $_SESSION["loginuser"]
+                // to mso because that's the only user that can get the JWT. Later Web GUI processing requires it to be set
+                $_SESSION['loginuser'] = "mso";
+                $_SESSION['JWT_VALID'] = true;
             }
             else
             {
@@ -574,8 +574,8 @@ else
                     if (($modelName == "CGM4140COM") || ($modelName == "CGM4331COM") || ($modelName == "CGM4981COM") || ($modelName == "CGA4131COM") || ($modelName == "CGA4332COM")) {
                     $curr_sessID = session_id();
                     if ( strcmp($_SERVER['REMOTE_ADDR'], "172.31.255.45") == 0 ||
-		        strcasecmp($_SERVER['REMOTE_ADDR'], "fe80::ffff:ac1f:ff2d") == 0 ||
-		        strcasecmp($_SERVER['REMOTE_ADDR'], "fd00::ffff:ac1f:ff2d") == 0 ) {
+                        strcasecmp($_SERVER['REMOTE_ADDR'], "fe80::ffff:ac1f:ff2d") == 0 ||
+                        strcasecmp($_SERVER['REMOTE_ADDR'], "fd00::ffff:ac1f:ff2d") == 0 ) {
                         $SID = session_id();
                         $FILEID = "/tmp/IPADDR";
                         $FILEID += $SID;
@@ -590,7 +590,7 @@ else
                                 $OutIP = explode(" ", $buffer);
                                 exec("rm "+ $FILEID);
                                 $AcPort = $OutIP[1];
-                                if ($AcPort == (80 || 443))
+                                if ($AcPort == 80 || $AcPort == 443)
                                 {
                                     $IP_ADDR = $OutIP[0];
                                     if (!isset($_SESSION['PREV_REMOTEADDR'])) {
