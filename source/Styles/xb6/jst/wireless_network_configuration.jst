@@ -975,6 +975,17 @@ $(document).ready(function() {
 			$(".btn-group").hide();
 		else
 			$(".btn-group").show();
+	}else{
+		if(modeEnabled=="None" || modeEnabled1=="None" || modeEnabled=="WPA3-Personal" || modeEnabled1=="WPA3-Personal"){
+			$(".div_wps_setting input, .div_wps_setting select").addClass('disabled').attr('disabled',true);
+			$("#wps_switch, #pin_switch").radioswitch("doEnable", false);
+                    	$("#mac_admin option[value = '1'], #mac_admin option[value = '2']").addClass('disabled').attr('disabled',true);
+                    	$('.div_wps_setting *').addClass('disabled');
+			$('.div_wps_setting .btn').prop('disabled',true);
+			$('.div_wps_setting .btn').click(function(e) {
+				e.preventDefault();
+			});
+                }
 	}
 	// xb3_R1_4: just for now, remove public WiFi
 	// $(".div_public_wifi").remove();
