@@ -40,6 +40,7 @@ $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 $OperatingChannelBandwidth="";
 $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+$axEnable = getStr("Device.WiFi.2G80211axEnable");
 if($RadioNumberOfEntries)
 {
 	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
@@ -1742,7 +1743,7 @@ if($OperatingChannelBandwidth == "6GHz")
 	<div class="form-row">
 		<label for="wireless_mode" id="wiremess8">Mode:</label>
 		<select name="wireless_mode" id="wireless_mode">
-		 <?% if (strstr($support_mode, "ax")){ ?>
+		 <?% if ((strstr($support_mode, "ax")) && ($axEnable == "true")){ ?>
                         <option value="g,n"     <?% if ("g,n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n</option>
                         <option value="g,n,ax"  <?% if ("g,n,ax" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n/ax</option>
                 <?% } else { ?>
@@ -1969,7 +1970,7 @@ if($OperatingChannelBandwidth == "6GHz")
 	<div class="form-row">
 		<label for="wireless_mode1" id="wiremess8">Mode:</label>
 		<select name="wireless_mode1" id="wireless_mode1">
-		<?% if (strstr($support_mode_5g, "ax")){ ?>
+		<?% if ((strstr($support_mode_5g, "ax")) && ($axEnable == "true" )){ ?>
 			<option value="a,n,ac"	<?% if ("a,n,ac" == $wireless_mode1) echo( 'selected="selected"');?> >802.11 a/n/ac</option>
 			<option value="a,n,ac,ax"	<?% if ("a,n,ac,ax" == $wireless_mode1) echo( 'selected="selected"');?> >802.11 a/n/ac/ax</option>
 		<?% } 
@@ -2164,7 +2165,7 @@ if($OperatingChannelBandwidth == "6GHz")
 	<div class="form-row">
 		<label for="wireless_mode3" id="wiremess8">Mode:</label>
 		<select name="wireless_mode3" id="wireless_mode3">
-		<?% if (strstr($support_mode_6g, "ax")){ ?>
+		<?% if ((strstr($support_mode_6g, "ax"))  && ($axEnable == "true" )){ ?>
                 	<option value="ax"	<?% if ("ax" == $wireless_mode3) echo( 'selected="selected"');?> >802.11 ax</option>
 		<?% }  ?>
 		</select>
