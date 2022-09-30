@@ -888,6 +888,7 @@ function init_form()
 function addslashes( str ) {
 	return (str + '').replace(/[\\]/g, '\\$&').replace(/["]/g, '\\\$&').replace(/\u0000/g, '\\0');
 }
+var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 function click_save()
 {
 	$modelName = '<?% echo( $modelName); ?>';
@@ -930,7 +931,7 @@ function click_save()
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wireless_network_configuration_edit.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
 			jHide();
 			msg_parseJSON = JSON.parse(msg);
@@ -956,7 +957,7 @@ function setResetInfo(info) {
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_Reset_Restore.jst",
-		data: { resetInfo: jsonInfo },
+		data: { resetInfo: jsonInfo,csrfp_token: token },
 		success: function(data){
 			jHide();
 			jProgress($.i18n("Restoring Wi-Fi Settings is in progress..."), 999999);

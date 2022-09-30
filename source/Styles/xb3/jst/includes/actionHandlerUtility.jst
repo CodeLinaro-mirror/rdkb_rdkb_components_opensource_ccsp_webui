@@ -20,10 +20,9 @@
 //check if $input[0] is in range $input[1] - $input[2]
 ?>
 <?% include('includes/php.jst'); ?>
+<?% include('csrfprotector.jst'); ?>
 <?%
-//include_once __DIR__ .'/../CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst'; /*MROLLINS FIXME*/
-//Initialise CSRFGuard library
-//csrfprotector_rdkb::init(); /*MROLLINS FIXME*/
+csrfProtector.init();
 ?>
 <?%
 function printableCharacters($input){

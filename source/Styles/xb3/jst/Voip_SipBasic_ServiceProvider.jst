@@ -187,6 +187,7 @@ $(document).ready(function() {
 		return string;
 	}
 	var php_value= <?% echo( json_encode($values_got) );?>;
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	function page_load_values(){
 		uri 		= decode_chars(php_value['uri']);
 		auth_usr 	= decode_chars(php_value['Auth_usr']);
@@ -361,7 +362,7 @@ $(document).ready(function() {
 			$.ajax({
 				type: "POST",
 				url: "actionHandler/ajaxSet_SIPBasic_ServiceProvider.jst",
-				data: { configInfo: jsConfig },
+				data: { configInfo: jsConfig,csrfp_token: token },
 				success: function(msg) {
 					jHide();
 					msg_parseJSON = JSON.parse(msg);
@@ -393,7 +394,7 @@ $(document).ready(function() {
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_SIPBasic_ServiceProvider.jst",
-			data: { configInfo: jsConfig },
+			data: { configInfo: jsConfig,csrfp_token: token },
 			success: function(msg) {
 				jHide();
 				msg_parseJSON = JSON.parse(msg);

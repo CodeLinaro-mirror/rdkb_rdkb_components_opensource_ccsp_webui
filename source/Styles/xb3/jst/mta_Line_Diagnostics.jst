@@ -27,6 +27,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line-diagnostics");
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#start_diagnostics1").click(function(){
 		var isTest1	= true;
 		document.getElementById('line1hp').value	= "InProgress";
@@ -35,7 +36,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 		document.getElementById('line1roh').value	= "InProgress";
 		document.getElementById('line1re').value	= "InProgress";
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
-		$.post(
+		$.get(
 			"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 			{"get_status1":"true"},
 			function(msg)
@@ -48,7 +49,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 					, function(ret){
 						if(ret){
 							jProgress($.i18n("This may take several seconds."), 60);
-							$.post(
+							$.get(
 								"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 								{"start_diagnostics1":"true"},
 								function(msg)
@@ -67,7 +68,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 				}
 				else{
 					jProgress($.i18n("This may take several seconds..."), 60);
-					$.post(
+					$.get(
 						"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 						{"start_diagnostics1":"true"},
 						function(msg)
@@ -93,7 +94,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 		document.getElementById('line2roh').value	= "InProgress";
 		document.getElementById('line2re').value	= "InProgress";
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
-		$.post(
+		$.get(
 			"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 			{"get_status2":"true"},
 			function(msg)
@@ -106,7 +107,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 					, function(ret){
 						if(ret){
 							jProgress($.i18n("This may take several seconds..."), 60);
-							$.post(
+							$.get(
 								"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 								{"start_diagnostics2":"true"},
 								function(msg)
@@ -125,7 +126,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 				}
 				else{
 					jProgress($.i18n("This may take several seconds..."), 60);
-					$.post(
+					$.get(
 						"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 						{"start_diagnostics2":"true"},
 						function(msg)

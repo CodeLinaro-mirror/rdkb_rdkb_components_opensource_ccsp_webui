@@ -62,7 +62,7 @@
 </div>
 <script type="text/javascript">
 	var php_value= <?% echo( json_encode($values_got) );?>;
-
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	function page_load_values(){
 		if(php_value['line_register'] ==true || php_value['line_register'] == 'true')
 			$('#sky_line_registered').attr('checked', true);
@@ -74,7 +74,7 @@
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_voip_hidden.jst",
-			data: { configInfo: jsConfig },
+			data: { configInfo: jsConfig,csrfp_token: token },
 			success: function(msg) {
 				jHide();
 				msg_parseJSON = JSON.parse(msg);

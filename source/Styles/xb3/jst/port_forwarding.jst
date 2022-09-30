@@ -57,6 +57,7 @@ if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Advanced > Port Forwarding", "nav-port-forwarding");
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#pf_switch").radioswitch({
 		id: "forwarding-switch",
 		radio_name: "forwarding",
@@ -86,7 +87,7 @@ $(document).ready(function() {
 						$.ajax({
 							type:"POST",
 							url:"actionHandler/ajax_port_forwarding.jst",
-							data:{del:delVal},
+							data:{del:delVal,csrfp_token: token},
 							success:function(){
 								jHide();
 								window.location.reload();
@@ -137,7 +138,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_port_forwarding.jst",
-			data:{set:"true",UFWDStatus:UFWDStatus},
+			data:{set:"true",UFWDStatus:UFWDStatus,csrfp_token: token},
 			success:function(){
 				jHide();
 				/*results=eval("("+result+")");
@@ -162,7 +163,7 @@ $(document).ready(function() {
 					setupDeleteConfirmDialogs();
 					$(':checkbox').removeClass("disabled").prop("disabled", false);
 				}
-				//window.location.reload();
+				window.location.reload();
 			},
 			error: function(){
 				jHide();
@@ -178,9 +179,10 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_port_forwarding.jst",
-			data:{active:"true",isChecked:isChecked,id:id},
+			data:{active:"true",isChecked:isChecked,id:id,csrfp_token: token},
 			success:function(){
 				jHide();
+				window.location.reload();
 			},
 			error:function(){
 				jHide();

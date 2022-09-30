@@ -138,12 +138,13 @@ function changeAutoWanMode(){
 	}
 }
 function saveConfig(jsConfigVal){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsConfig='{"wan_network": "' + jsConfigVal + '"} ';
 	 jProgress($.i18n("Waiting for backend to be fully executed, please be patient..."), 100);
 						$.ajax({
 							type: "POST",
 							url: "actionHandler/ajaxSet_wan_network.jst",
-							data: { configInfo: jsConfig },
+							data: { configInfo: jsConfig,csrfp_token: token },
 							success: function() {   
 								setTimeout(function(){
 									jHide();
@@ -157,11 +158,12 @@ function saveConfig(jsConfigVal){
 						});	
 }
 function changeMode(jsConfig){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	jProgress($.i18n("Waiting for backend to be fully executed, please be patient..."), 100);
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wan_network.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function() {   
 			setTimeout(function(){
 				jHide();

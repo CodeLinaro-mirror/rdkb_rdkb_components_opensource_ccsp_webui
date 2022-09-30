@@ -57,9 +57,13 @@ setTimeout(function(){
 	* below code can easily rollback
 	*/
 	//update user bar
+	var sessionCsrf= "<?% echo( $_SESSION['Csrf_token']);?>";
+	if(document.cookie==""){
+		sessionStorage.setItem("Csrfp_token",sessionCsrf);
+	}
 	var partner_id = '<?% echo ($partnerId); ?>';
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		url: "actionHandler/ajaxSet_userbar.jst",
 		data: { configInfo: "noData" },
 		dataType: "json",

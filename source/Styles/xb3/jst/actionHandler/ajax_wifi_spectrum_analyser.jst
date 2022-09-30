@@ -67,7 +67,7 @@ function get_results()
 		return {"status": "success", "data": $new_array}/*p2j-array*/;
 	}
 }
-if($_POST["wifi_spectrum_analyser"] == "analyse"){
+if($_GET["wifi_spectrum_analyser"] == "analyse"){
 	$WiFiDiagnostic_enable = getStr("Device.WiFi.NeighboringWiFiDiagnostic.Enable");
 	if($WiFiDiagnostic_enable == "false")
 	{

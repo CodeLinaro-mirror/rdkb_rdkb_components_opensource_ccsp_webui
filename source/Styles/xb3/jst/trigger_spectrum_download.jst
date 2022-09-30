@@ -20,12 +20,9 @@
 ?>
 <?%
 include("includes/php.jst");
-/*MROLLINS FIXME
-include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
-//Initialise CSRFGuard library
-csrfprotector_rdkb::init();
-*/
+include('csrfprotector.jst');
 session_start();
+csrfProtector.init();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || typeof($_SESSION["loginuser"])=="undefined" ) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="index.jst";</script>');
 	exit(0);

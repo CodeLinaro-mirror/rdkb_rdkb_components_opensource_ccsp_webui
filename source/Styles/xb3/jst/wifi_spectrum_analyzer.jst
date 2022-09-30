@@ -58,14 +58,15 @@ function spanTable($rows, startIdx, endIdx){
 	}
 	function ajax_spec_analyzer(status='analyse')
 	{
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		$("#save_result").hide();
 		$("#scan_status").html($.i18n("Scanning...")).show();
 		$("#start_scan").hide();
 		$("#spec_capture_table tr").slice(1).remove()
 		$.ajax({
-			type: "POST",
+			type: "GET",
 			url: "actionHandler/ajax_wifi_spectrum_analyser.jst",
-			data: { wifi_spectrum_analyser: status },
+			data: { wifi_spectrum_analyser: status,csrfp_token: token },
 			success: function(result) {
 				result = JSON.parse(result);
 				if(result.status == "success")
@@ -127,12 +128,13 @@ $(document).ready(function(){
 		ajax_spec_analyzer();
 	});
 	$("#save_result").click(function(){
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		table_data = $("#table_WSA").html();
 		jProgress($.i18n("This may take several seconds"), 60);
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajax_at_saving.jst",
-			data: { configInfo: table_data },
+			data: { configInfo: table_data,csrfp_token: token },
 			success: function(result) {
         result = JSON.parse(result);
 				if(result.status == "success")

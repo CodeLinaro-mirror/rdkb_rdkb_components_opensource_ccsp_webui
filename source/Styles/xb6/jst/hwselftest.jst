@@ -44,13 +44,14 @@ $box_param = {
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Hardware Health Test", "nav-hwselftest");
+    var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	
     $("#run_diag_tests").click(function(){
         jProgress($.i18n('Running Diagnostic Tests...'),210);
         $.ajax({
             type:"POST",
             url:"actionHandler/ajax_hwselftest.jst",
-            data:{run_diag_tests:"true"},
+            data:{run_diag_tests:"true",csrfp_token: token},
             dataType:"json",
             success:function(result){
                 jHide();
@@ -85,7 +86,7 @@ $(document).ready(function() {
         $.ajax({
             type:"POST",
             url:"actionHandler/ajax_hwselftest.jst",
-            data:{show_prev_results:"true"},
+            data:{show_prev_results:"true",csrfp_token: token},
             dataType:"json",
             success:function(result){
                 jHide();

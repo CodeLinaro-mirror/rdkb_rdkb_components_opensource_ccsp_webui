@@ -97,12 +97,13 @@ $(document).ready(function() {
 		var endport=$('#end_public_port').val();
 		var priport=$('#private_port').val();
 		var enportrange=$('#enable_port_range').is(':checked'); // true or false (bool)
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		if($("#pageForm").valid()){
 			jProgress('This may take several seconds.',60);
 			$.ajax({
 				type:"POST",
 				url:"actionHandler/ajax_hs_port_forwarding.jst",
-				data:{add:"true",name:name,type:type,ip:ip,startport:startport,endport:endport,priport:priport,enportrange:enportrange},
+				data:{add:"true",name:name,type:type,ip:ip,startport:startport,endport:endport,priport:priport,enportrange:enportrange,csrfp_token: token},
 				success:function(result){
 					jHide();
 					if (JSON.parse(result)=="Success!") { window.location.href="hs_port_forwarding.jst";}

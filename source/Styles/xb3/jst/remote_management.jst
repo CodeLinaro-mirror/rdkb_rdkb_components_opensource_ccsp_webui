@@ -501,6 +501,7 @@ var snetCal = {
 	}
 };
 $(".btn").click(function(){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var isValid = true;
 	$("p.error").remove();
 	var http_enabled  = $("#http_switch").radioswitch("getState").on;
@@ -655,7 +656,7 @@ $(".btn").click(function(){
 			url:"actionHandler/ajax_remote_management.jst",
 			data:{http:http, httpport:httpport, https:https, httpsport:httpsport,
 					allowtype:allowtype, startIP:startIP, endIP:endIP,
-					startIPv6:startIPv6, endIPv6:endIPv6
+					startIPv6:startIPv6, endIPv6:endIPv6,csrfp_token: token
 					/*
 					ssh:ssh,
 					mso_mgmt:$("#mso_mgmt").prop("checked"),

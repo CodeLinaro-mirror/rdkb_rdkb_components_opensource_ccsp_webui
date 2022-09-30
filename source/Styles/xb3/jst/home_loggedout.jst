@@ -22,12 +22,9 @@
 <!-- do nothing, just clean php session, log this logout !!!user!!!, then redirect to login page -->
 <?%
 include('includes/php.jst');
-/* MROLLINS fixme
-include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
-//Initialise CSRFGuard library
-csrfprotector_rdkb::init();
-*/
+include('csrfprotector.jst');
 	session_start();
+	csrfProtector.init();
         $modelName= getStr("Device.DeviceInfo.ModelName");
         if($_SESSION['loginuser'] == "admin") {
                 exec("/usr/bin/logger -t GUI -p local5.notice \"User:admin logout\" ");

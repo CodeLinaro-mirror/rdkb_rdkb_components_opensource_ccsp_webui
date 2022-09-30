@@ -48,7 +48,7 @@ $('#btn1').click(function(e) {
 	,function(ret) {
 	if(ret) {
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
-		$.post(
+		$.get(
 			"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 			{"get_statusx":"true",
 			"restore_reboot":"true"},
@@ -130,7 +130,7 @@ $('#btn5').click(function(e) {
 	,function(ret) {
 	if(ret) {
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
-		$.post(
+		$.get(
 			"actionHandler/ajaxSet_mta_Line_Diagnostics.jst",
 			{"get_statusx":"true",
                         "restore_reboot":"true"},
@@ -180,12 +180,13 @@ $('#btn6').click(function(e) {
 	}
 function setResetInfo(info) {
 //	alert(info);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsonInfo = '["' + info[0] + '","' + info[1]+ '","' + "<?% echo( $_SESSION["loginuser"]); ?>" + '"]';
 	jProgress($.i18n('This may take several seconds...'), 60);
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_Reset_Restore.jst",
-		data: { resetInfo: jsonInfo },
+		data: { resetInfo: jsonInfo,csrfp_token: token },
 		success: function(data){
 			jHide();
 			if (JSON.parse(data).reboot) {

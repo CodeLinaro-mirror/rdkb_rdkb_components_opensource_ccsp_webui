@@ -24,9 +24,17 @@ if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {
 //if responce is "", then CcspTandDSsp has crashed
 $states=["Complete","Error_CannotResolveHostName","Error_Internal","Error_Other"]/*p2j-array*/;
 $states_trace=["Complete","Error_CannotResolveHostName","Error_MaxHopCountExceeded","Error_Internal"]/*p2j-array*/;
-if (isset($_POST['test_connectivity'])){
-	$destination_address=$_POST['destination_address'];
-	$count1=$_POST['count1'];
+function correcting_ipv6_format($value) {
+    $i = 0;
+    while($i <= 6) {
+        $value = str_replace("%3A",":",$value);
+        $i++;
+    }
+    return $value;
+}
+if (isset($_GET['test_connectivity'])){
+	$destination_address=$_GET['destination_address'];
+	$count1=$_GET['count1'];
 	$DiagnosticsState="Requested";
 	if(validLink($destination_address) && preg_match('/^[1-4]$/', $count1)){
 		// setStr("Device.IP.Diagnostics.IPPing.Interface","Device.IP.Interface.1");
@@ -50,9 +58,9 @@ if (isset($_POST['test_connectivity'])){
 	header("Content-Type: application/json");
 	echo( htmlspecialchars(json_encode($result), ENT_NOQUOTES, 'UTF-8'));
 }
-else if (isset($_POST['destination_ipv4'])){
-	$destination_ipv4=$_POST['destination_ipv4'];
-	$count2=$_POST['count2'];
+else if (isset($_GET['destination_ipv4'])){
+	$destination_ipv4=$_GET['destination_ipv4'];
+	$count2=$_GET['count2'];
 	$DiagnosticsState="Requested";
 	if(validIPAddr($destination_ipv4) && preg_match('/^[1-4]$/', $count2)){
 		setStr("Device.IP.Diagnostics.IPPing.Host",$destination_ipv4,true);
@@ -74,9 +82,10 @@ else if (isset($_POST['destination_ipv4'])){
 	header("Content-Type: application/json");
 	echo( htmlspecialchars(json_encode($result), ENT_NOQUOTES, 'UTF-8'));
 }
-else if (isset($_POST['destination_ipv6'])){
-	$destination_ipv6=$_POST['destination_ipv6'];
-	$count3=$_POST['count3'];
+else if (isset($_GET['destination_ipv6'])){
+	$destination_ipv6=$_GET['destination_ipv6'];
+	$destination_ipv6 = correcting_ipv6_format($destination_ipv6);
+	$count3=$_GET['count3'];
 	$DiagnosticsState="Requested";
 	if(validIPAddr($destination_ipv6) && preg_match('/^[1-4]$/', $count3)){
 		setStr("Device.IP.Diagnostics.IPPing.Host",$destination_ipv6,true);
@@ -98,8 +107,8 @@ else if (isset($_POST['destination_ipv6'])){
 	header("Content-Type: application/json");
 	echo( htmlspecialchars(json_encode($result), ENT_NOQUOTES, 'UTF-8'));
 }
-else if (isset($_POST['trace_ipv4_dst'])){
-	$trace_ipv4_dst	   = $_POST['trace_ipv4_dst'];
+else if (isset($_GET['trace_ipv4_dst'])){
+	$trace_ipv4_dst	   = $_GET['trace_ipv4_dst'];
 	$trace_ipv4_status = "Requested";
 	$trace_ipv4_result = [
 		// "Tracing route to comcast.net [10.0.0.101] over a maximum of 30 hops:",
@@ -139,9 +148,10 @@ else if (isset($_POST['trace_ipv4_dst'])){
 	header("Content-Type: application/json");
 	echo( htmlspecialchars(json_encode($result), ENT_NOQUOTES, 'UTF-8'));
 }
-else if (isset($_POST['trace_ipv6_dst'])){
-	$trace_ipv6_dst	   = $_POST['trace_ipv6_dst'];
+else if (isset($_GET['trace_ipv6_dst'])){
+	$trace_ipv6_dst	   = $_GET['trace_ipv6_dst'];
 	$trace_ipv6_status = "Requested";
+	$trace_ipv6_dst    = correcting_ipv6_format($trace_ipv6_dst);
 	$trace_ipv6_result = []/*p2j-array*/;
 	if(validIPAddr($trace_ipv6_dst)){
 		setStr("Device.IP.Diagnostics.TraceRoute.Host", $trace_ipv6_dst, true);

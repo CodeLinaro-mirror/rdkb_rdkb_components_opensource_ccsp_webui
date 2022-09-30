@@ -65,6 +65,7 @@ if($enableMD == "false"){
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Devices > Add Allowed Device", "nav-devices");
+    var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
     $("input[name='computer']").focus();
 	/*	$("input[name='computer']").click(function(event,value) {
 		alert(event+";"+value);
@@ -163,7 +164,7 @@ $(document).ready(function() {
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{add:"true",type:type,name:name,mac:mac,block:block},
+						data:{add:"true",type:type,name:name,mac:mac,block:block,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
 							jHide();
@@ -218,7 +219,7 @@ $(document).ready(function() {
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{add:"true",type:type,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days},
+						data:{add:"true",type:type,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
 							jHide();

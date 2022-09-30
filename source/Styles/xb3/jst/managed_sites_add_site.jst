@@ -151,12 +151,13 @@ $(document).ready(function() {
         else
             var blockInfo = '{"URL": "'+URL+'", "alwaysBlock": "'+alwaysBlock+'", "StartTime": "'+StartTime+'", "EndTime": "'+EndTime+'", "blockedDays": "'+blockedDays+'"}';
         //alert(blockInfo);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
         if($("#pageForm").valid()){
             jProgress($.i18n("This may take several seconds"), 60);
             $.ajax({
                 type: "POST",
                 url: "actionHandler/ajaxSet_add_blockedSite.jst",
-                data: { BlockInfo: blockInfo },
+                data: { BlockInfo: blockInfo,csrfp_token: token },
                 success: function(result){
                   jHide();
                   var status = JSON.parse(result).status;

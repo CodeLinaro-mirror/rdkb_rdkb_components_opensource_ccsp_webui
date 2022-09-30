@@ -17,7 +17,7 @@
 <?% include('includes/actionHandlerUtility.jst') ?>
 <?%
 session_start();
-if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || (!isset($_POST['restore_reboot']) && $_SESSION['loginuser'] != 'mso')) {
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || (!isset($_GET['restore_reboot']) && $_SESSION['loginuser'] != 'mso')) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
 	exit(0);
 }
@@ -26,7 +26,7 @@ function TransEmpty($v)
 	return (""==$v) ? "Failed" : $v;
 }
 var $arConfig = {};
-if (isset($_POST['get_statusx']))
+if (isset($_GET['get_statusx']))
 {
 	$line1hook	= getStr("Device.X_CISCO_COM_MTA.LineTable.1.Status");
 	$line2hook	= getStr("Device.X_CISCO_COM_MTA.LineTable.2.Status");
@@ -38,21 +38,21 @@ if (isset($_POST['get_statusx']))
 	// $linexhook	= "Off-Hook";
 	$arConfig	= {'linexhook':$linexhook}/*p2j-array*/;
 }
-else if (isset($_POST['get_status1']))
+else if (isset($_GET['get_status1']))
 {
 	$line1hook	= getStr("Device.X_CISCO_COM_MTA.LineTable.1.Status");
 	sleep(2);
 	// $line1hook	= "On-Hook";
 	$arConfig	= {'line1hook':$line1hook}/*p2j-array*/;
 }
-else if (isset($_POST['get_status2']))
+else if (isset($_GET['get_status2']))
 {
 	$line2hook	= getStr("Device.X_CISCO_COM_MTA.LineTable.2.Status");
 	sleep(2);
 	// $line2hook	= "Off-Hook";
 	$arConfig	= {'line2hook':$line2hook}/*p2j-array*/;
 }
-else if (isset($_POST['start_diagnostics1']))
+else if (isset($_GET['start_diagnostics1']))
 {
 	setStr("Device.X_CISCO_COM_MTA.LineTable.1.TriggerDiagnostics", "true", true);
 	sleep(15);
@@ -63,7 +63,7 @@ else if (isset($_POST['start_diagnostics1']))
 	$line1re 	= getStr("Device.X_CISCO_COM_MTA.LineTable.1.RingerEquivalency");	
 	$arConfig	= {'line1hp':$line1hp, 'line1femf':$line1femf, 'line1rf':$line1rf, 'line1roh':$line1roh, 'line1re':$line1re}/*p2j-array*/;
 }
-else if (isset($_POST['start_diagnostics2']))
+else if (isset($_GET['start_diagnostics2']))
 {
 	setStr("Device.X_CISCO_COM_MTA.LineTable.2.TriggerDiagnostics", "true", true);
 	sleep(15);

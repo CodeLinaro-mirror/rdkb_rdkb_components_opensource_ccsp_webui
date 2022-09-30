@@ -47,9 +47,11 @@ $ethernetPort5Name = getStr("Device.Ethernet.Interface.5.Name");
 <script type="text/javascript">
 var o_isPort4XHSEnabled = <?% echo( $isPort4XHSEnabled ? 'true' : 'false'); ?>;
 function onsavePort4() {
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var postData = {};
 	postData.op = "savePort4XHS";
 	postData.enable = $("#port2").prop("checked");
+	postData.csrfp_token =token;
 	jProgress('This may take several seconds', 60);
 	$.ajax({
 		type: 'POST',

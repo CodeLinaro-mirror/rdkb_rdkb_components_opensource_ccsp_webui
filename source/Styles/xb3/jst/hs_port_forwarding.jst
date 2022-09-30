@@ -40,6 +40,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > HS Port Forwarding", "nav-HS-port-forwarding");
+        var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#hspf_switch").radioswitch({
 		id: "hs-forwarding-switch",
 		radio_name: "hs-forwarding",
@@ -68,7 +69,7 @@ $(document).ready(function() {
 						$.ajax({
 							type:"POST",
 							url:"actionHandler/ajax_hs_port_forwarding.jst",
-							data:{del:delVal},
+							data:{del:delVal,csrfp_token: token},
 							success:function(){
 								jHide();
 								window.location.reload();
@@ -98,7 +99,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_hs_port_forwarding.jst",
-			data:{set:"true",UHSPStatus:UHSPStatus},
+			data:{set:"true",UHSPStatus:UHSPStatus,csrfp_token: token},
 			success:function(){
 				jHide();
 				/*results=eval("("+result+")");
@@ -122,6 +123,7 @@ $(document).ready(function() {
 					setupDeleteConfirmDialogs();
 					// window.location.href="hs_port_forwarding.jst";
 				}
+				window.location.reload();
 			},
 			error:function(){
 				jHide();
@@ -137,7 +139,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_hs_port_forwarding.jst",
-			data:{active:"true",isChecked:isChecked,id:id},
+			data:{active:"true",isChecked:isChecked,id:id,csrfp_token: token},
 			success:function(){
 				jHide();
 			},

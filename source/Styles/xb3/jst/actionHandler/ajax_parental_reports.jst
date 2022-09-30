@@ -61,8 +61,10 @@ function str2time($str){
         return $time;
 }
 
-$mode=$_POST['mode'];
-$timef=$_POST['timef'];
+$mode=$_GET['mode'];
+$timef=$_GET['timef'];
+$timef = str_replace("+"," ",str_replace("+"," ",$timef));
+$timef=rawurldecode($timef);
 var $maxtime;
 var $mintime;
 switch($timef){			//	[$mintime, $maxtime)

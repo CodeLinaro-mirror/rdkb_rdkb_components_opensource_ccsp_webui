@@ -144,6 +144,7 @@ function set_config(target)
 	var wps_method	= $("#pin_switch").radioswitch("getState").on ? "PushButton,PIN" : "PushButton";
 	var pair_method = $("#connection_options").val();
 	var pin_number	= $("#pin_number").attr("value").replace(/ |-/g,'');
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsConfig 	=	'{"ssid_number":"'+ssid_number
 		+'", "target":"'+target
 		+'", "wps_enabled":"'+wps_enabled
@@ -155,7 +156,7 @@ function set_config(target)
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wps_config.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
 			jHide();
 			if ("pair_client"==target){

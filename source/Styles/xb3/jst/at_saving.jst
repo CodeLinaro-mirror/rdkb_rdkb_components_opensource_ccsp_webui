@@ -17,12 +17,9 @@
 <?%
 include("includes/php.jst");
 include("includes/header.jst");
-/*MROLLINS FIXME
-include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
-//Initialise CSRFGuard library
-csrfprotector_rdkb::init();
-*/
+include('csrfprotector.jst');
 session_start();
+csrfProtector.init();
 /*
  * Set the Locale for the Web UI based on the LANG setting or current linux locale
  */

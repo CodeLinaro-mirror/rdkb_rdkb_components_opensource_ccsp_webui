@@ -174,13 +174,14 @@ $(document).ready(function() {
 			}
 			var block = $("#always_switch").radioswitch("getState").on;
 	//		alert(name+";"+mac+";"+block);
+			var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 			if(isMacValid) {
 				if(block) {
 					jProgress($.i18n('This may take several seconds'), 60);
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{add:"true",type:type,name:name,mac:mac,block:block},
+						data:{add:"true",type:type,name:name,mac:mac,block:block,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
 							jHide();
@@ -235,7 +236,7 @@ $(document).ready(function() {
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{add:"true",type:type,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days},
+						data:{add:"true",type:type,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
 							jHide();

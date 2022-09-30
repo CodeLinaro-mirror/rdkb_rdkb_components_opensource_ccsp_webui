@@ -30,6 +30,7 @@ $enable = getStr("Device.X_CISCO_COM_DDNS.Enable");
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Dynamic DNS", "nav-Dynamic-dns");
+    	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsEnable = <?% echo( $enable === "true" ? "true" : "false"); ?>;
 	$("#ddns_switch").radioswitch({
 		id: "Dynamic-DNS-switch",
@@ -59,7 +60,7 @@ $(document).ready(function() {
 						$.ajax({
 							type:"POST",
 							url:"actionHandler/ajax_ddns.jst",
-							data:{del:delVal},
+							data:{del:delVal,csrfp_token: token},
 							success:function(){
 								jHide();
 								window.location.reload();
@@ -103,7 +104,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_ddns.jst",
-			data:{set:"true",status:status},
+			data:{set:"true",status:status,csrfp_token: token},
 			success:function(results){
 				//jAlert(results);
 				jHide();

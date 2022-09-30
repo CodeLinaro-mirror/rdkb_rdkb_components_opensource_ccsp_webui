@@ -89,12 +89,13 @@ $(document).ready(function() {
 		var fep=$('#from_end_port').val();
 		var tsp=$('#to_start_port').val();
 		var tep=$('#to_end_port').val();
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		if($("#pageForm").valid()){
 		jProgress($.i18n('This may take several seconds.'),60);
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_port_triggering.jst",
-			data:{add:"true",name:name,type:type,fsp:fsp,fep:fep,tsp:tsp,tep:tep},
+			data:{add:"true",name:name,type:type,fsp:fsp,fep:fep,tsp:tsp,tep:tep,csrfp_token: token},
 			dataType: "json",
 			success:function(results){
 				jHide();

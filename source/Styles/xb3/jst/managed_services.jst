@@ -48,6 +48,7 @@ table#blocked-services .services {
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Services", "nav-services");
 	jsEnableMS = <?% echo( $enableMS );?>;
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#managed_services_switch").radioswitch({
 		id: "managed-services-switch",
 		radio_name: "managed_services",
@@ -80,7 +81,7 @@ $(document).ready(function() {
 			$.ajax({                  
 				type: "POST",
 				url: "actionHandler/ajaxSet_trust_computer_service.jst",
-				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}' },
+				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}',csrfp_token: token },
 				success: function(){            
 					jHide();
 					//window.location.href = "managed_services.jst";
@@ -112,7 +113,7 @@ $(document).ready(function() {
 							$.ajax({
 								type:"POST",
 								url:"actionHandler/ajax_managed_services.jst",
-								data:{del:delVal},
+								data:{del:delVal,csrfp_token: token},
 								success:function(){
 									jHide();
 									window.location.reload();
@@ -145,20 +146,10 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_managed_services.jst",
-			data:{set:"true",UMSStatus:UMSStatus},
+			data:{set:"true",UMSStatus:UMSStatus,csrfp_token: token},
 			success:function(result){
 				//jAlert(result);
 				jHide();
-				if(isIE()){
-					var newmsg = JSON.stringify(result);
-		                	var status= jQuery.parseJSON( newmsg).status;
-				}else{
-					var status = JSON.parse(result).status;
-				}
-				if (UMSStatus!=status){ 
-					alertLocale("Could not do it!");
-					$("#managed_services_switch").radioswitch("doSwitch", status === 'Enabled' ? 'on' : 'off');
-				}
 				var isUMSDisabled = $("#managed_services_switch").radioswitch("getState").on === false;
 				if(isUMSDisabled){
 					// $("#managed-services-items").prop("disabled",true).addClass("disabled");
@@ -169,6 +160,7 @@ $(document).ready(function() {
 					$('.module *').not(".radioswitch_cont, .radioswitch_cont *").removeClass("disabled");
 					$(".module .radioswitch_cont:not(#managed_services_switch)").radioswitch("doEnable", true);
 				}
+				window.location.reload();
 			},
 			error:function(){
 				jHide();
@@ -189,7 +181,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_managed_services.jst",
-			data:{trust_not:"true",ID:ID,status:status},
+			data:{trust_not:"true",ID:ID,status:status,csrfp_token: token},
 			success:function(results){
 				jAlert(results);
 /*				if (UMSStatus!=results){ 

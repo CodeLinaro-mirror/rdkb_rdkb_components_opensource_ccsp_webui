@@ -580,6 +580,7 @@ $(document).ready(function() {
 		var lease_time = 172800; // 2 days	
         var Config = '{"Ipaddr":"' + ipaddr + '", "Subnet_mask":"' + subnet_mask + '", "Dhcp_begin_addr":"' + dhcp_begin_addr + '", "Dhcp_end_addr":"' + dhcp_end_addr +'", "Dhcp_lease_time":"' + lease_time + '"}';
         if((login_user == "admin") && (jsGwIP != ipaddr)) {
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
     		if($("#pageForm").valid()){
 			jConfirm(	        
 	        	$.i18n('This may need you to relogin with new Gateway IP address')
@@ -591,7 +592,8 @@ $(document).ready(function() {
             				type: "POST",
             				url:  "actionHandler/ajaxSet_IP_configuration.jst",
             				data: {
-            					configInfo: Config
+            					configInfo: Config,
+						csrfp_token: token
             				},
             				dataType: "json",
             				//timeout:  15000,
@@ -738,6 +740,7 @@ $('#submit_ipv4').click(function(e){
 			             + '", "manual_dns":"false", "Dhcp_end_addr":"' + dhcp_end_addr + '", "Dhcp_lease_time":"' + dhcp_lease_time + '"}';
     //alert(IPv4Config)
     if((login_user == "admin") && (jsGwIP != ipaddr)) {
+    	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
       if($("#pageForm").valid()){
       jConfirm(
 	        $.i18n('This may need you to relogin with new Gateway IP address')
@@ -749,7 +752,8 @@ $('#submit_ipv4').click(function(e){
             			type: "POST",
             			url:  "actionHandler/ajaxSet_IP_configuration.jst",
             			data: {
-            				configInfo: IPv4Config
+            				configInfo: IPv4Config,
+					csrfp_token: token
             			},
             			dataType: "json",
             			//timeout:  15000,
@@ -774,12 +778,13 @@ $('#submit_ipv4').click(function(e){
 	}
 });
 function setIPconfiguration(configuration){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	if($("#pageForm").valid()){
 		jProgress($.i18n('This may take several seconds...'), 120);
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_IP_configuration.jst",
-			data: { configInfo: configuration },
+			data: { configInfo: configuration,csrfp_token: token},
 			success: function(){            
 				jHide();
 				window.location.href = "local_ip_configuration.jst";
@@ -792,12 +797,13 @@ function setIPconfiguration(configuration){
 	}
 }
 function setIPv6configuration(configuration){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	if($("#pageFormV6").valid()){
 		jProgress($.i18n('This may take several seconds...'), 120);
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_IP_configuration.jst",
-			data: { configInfo: configuration },
+			data: { configInfo: configuration,csrfp_token: token },
 			success: function(){
 				if(partner_id.indexOf("sky-") !== -1){setTimeout(function(){jHide();window.location.href = "local_ip_configuration.jst";},10000)}
 				else{jHide();window.location.href = "local_ip_configuration.jst";}

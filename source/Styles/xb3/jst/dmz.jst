@@ -316,11 +316,12 @@ $('#save_setting').click(function() {
 });
 function saveQoS(information){
 //alert(information);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	jProgress($.i18n("This may take several seconds"), 60);
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_DMZ_configuration.jst",
-		data: { dmzInfo: information },
+		data: { dmzInfo: information,csrfp_token: token },
 		success: function(){            
 			jHide();
 			window.location.reload(true);

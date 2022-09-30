@@ -320,11 +320,12 @@ function next_step()
 	+ '"} ';
 	var jsConfig = ("admin" == "<?% echo( $_SESSION["loginuser"]); ?>")?jsConfig_admin:jsConfig_others;
 	// alert(jsConfig);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	jProgress($.i18n("Waiting for backend to be fully executed, please be patient..."), 100);
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_moca_config.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function() {   
 			setTimeout(function(){
 				jHide();

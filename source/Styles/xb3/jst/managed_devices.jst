@@ -86,6 +86,7 @@ $(document).ready(function() {
 		}
 		else
 		{
+			var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 			var btnHander = $(this);
 			if (btnHander.attr("id").indexOf("delete")!=-1)	{
 				jConfirm(
@@ -98,7 +99,7 @@ $(document).ready(function() {
 							$.ajax({
 								type:"POST",
 								url:"actionHandler/ajax_managed_devices.jst",
-								data:{del:delVal},
+								data:{del:delVal,csrfp_token: token},
 								success:function(){
 									jHide();
 									window.location.reload();
@@ -139,12 +140,13 @@ $(document).ready(function() {
         }
 	}
 	$("#managed_devices_switch").change(function() {
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		var UMDStatus = $("#managed_devices_switch").radioswitch("getState").on ? "Enabled" : "Disabled";
 		jProgress($.i18n('This may take several seconds'), 60);
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_managed_devices.jst",
-			data:{set:"true",UMDStatus:UMDStatus},
+			data:{set:"true",UMDStatus:UMDStatus,csrfp_token: token},
 			success:function(results){
 				//jAlert(results);
 				jHide();
@@ -164,6 +166,7 @@ $(document).ready(function() {
 					// $("#blocked-devices").prop("disabled",true).addClass("disabled");
 					$('.module *').not(".radioswitch_cont, .radioswitch_cont *").addClass("disabled");
 					$("#allow_block_switch").radioswitch("doEnable", false);
+					location.reload();
 				} else {
 					// $("#allowed-devices").prop("disabled",false).removeClass("disabled");
 					// $("#blocked-devices").prop("disabled",false).removeClass("disabled");
@@ -185,11 +188,12 @@ $(document).ready(function() {
 		else
 			updateAllowedDevicesVisibility("block_all");
 		var AllowBlock = isAllowBlock ? "allow_all" : "block_all";
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		jProgress($.i18n('This may take several seconds'), 60);
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_managed_devices.jst",
-			data:{allow_block:"true",AllowBlock:AllowBlock},
+			data:{allow_block:"true",AllowBlock:AllowBlock,csrfp_token: token},
 			success:function(results){
 				//jAlert(results);
 				jHide();

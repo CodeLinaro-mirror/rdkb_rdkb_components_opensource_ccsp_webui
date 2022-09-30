@@ -364,12 +364,13 @@ function isIp4AddrRequired()
 		if (IsBlank("ip6_address_r")) {
 		    	ipv6addr = "x"; 
 		}
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		if($("#pageForm").valid()) {
 			jProgress($.i18n('This may take several seconds.'),60);
 			$.ajax({
 				type:"POST",
 				url:"actionHandler/ajax_port_forwarding.jst",
-				data:{add:"true",name:name,type:type,ip:ip,ipv6addr:ipv6addr,startport:startport,endport:endport},
+				data:{add:"true",name:name,type:type,ip:ip,ipv6addr:ipv6addr,startport:startport,endport:endport,csrfp_token: token},
 				dataType: "json",
 				success:function(results){
 					jHide();

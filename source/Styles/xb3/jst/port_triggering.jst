@@ -50,6 +50,7 @@ if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Port Triggering", "nav-port-triggering");
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#pt_switch").radioswitch({
 		id: "port-triggering-switch",
 		radio_name: "triggering",
@@ -79,7 +80,7 @@ $(document).ready(function() {
 						$.ajax({
 							type:"POST",
 							url:"actionHandler/ajax_port_triggering.jst",
-							data:{del:delVal},
+							data:{del:delVal,csrfp_token: token},
 							success:function(){
 								jHide();
 								window.location.reload();
@@ -128,7 +129,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_port_triggering.jst",
-			data:{set:"true",UPTRStatus:UPTRStatus},
+			data:{set:"true",UPTRStatus:UPTRStatus,csrfp_token: token},
 			success:function(){
 				jHide();
 				/*results=eval("("+result+")");
@@ -167,9 +168,10 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_port_triggering.jst",
-			data:{active:"true",isChecked:isChecked,id:id},
+			data:{active:"true",isChecked:isChecked,id:id,csrfp_token: token},
 			success:function(){
 				jHide();
+				window.location.href="port_triggering.jst";
 			},
 			error:function(){
 				jHide();

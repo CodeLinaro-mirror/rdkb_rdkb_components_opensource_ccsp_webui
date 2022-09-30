@@ -212,6 +212,7 @@ $(document).ready(function() {
 	});
 	$("#btn-save").click(function(){
 		if($("#pageForm").valid()) {
+			var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 			var name = $('#computer_name').val();
 			var mac = $('#mac_address').val();
 			var block = $('#always_switch').radioswitch("getState").on;
@@ -225,7 +226,7 @@ $(document).ready(function() {
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{edit:"true",ID:ID,name:name,mac:mac,block:block},
+						data:{edit:"true",ID:ID,name:name,mac:mac,block:block,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
               var status = JSON.parse(results).status;
@@ -279,7 +280,7 @@ $(document).ready(function() {
 					$.ajax({
 						type:"POST",
 						url:"actionHandler/ajax_managed_devices.jst",
-						data:{edit:"true",ID:ID,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days},
+						data:{edit:"true",ID:ID,name:name,mac:mac,block:block,startTime:startTime,endTime:endTime,days:days,csrfp_token: token},
 						success:function(results){
 							//jAlert(results);
 							var status = JSON.parse(results).status;

@@ -118,6 +118,7 @@ $(document).ready(function() {
 
     	var deviceInfo = '{"addResvIP": "true", "Comments": "'+ Comments +'", "hostName": "' + hostName + '", "macAddress": "' + macAddress + '", "reseverd_ipAddr": "' + reseverd_ipAddr + '"}';
         //alert( deviceInfo);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
         if($("#pageForm").valid()){
 	        var mac2bit = macAddress.substr(0,2); //it's a string type variable
 	        //if( 1 == (mac2bit & 1) ){
@@ -130,7 +131,7 @@ $(document).ready(function() {
 			$.ajax({
 				type: "POST",
 				url: "actionHandler/ajaxSet_add_device.jst",
-				data: { DeviceInfo: deviceInfo },
+				data: { DeviceInfo: deviceInfo,csrfp_token: token },
 				dataType: "json",
 				success: function(results){
 					jHide();

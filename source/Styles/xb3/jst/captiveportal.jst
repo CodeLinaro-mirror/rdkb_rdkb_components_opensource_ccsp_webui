@@ -19,10 +19,8 @@
 */
 ?>
 <?%
-/* FIXME
-include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
-//Initialise CSRFGuard library
-csrfprotector_rdkb::init(); */
+include('csrfprotector.jst');
+csrfProtector.init();
 ?>
 <?% include('includes/utility.jst'); ?>
 <?%
@@ -904,6 +902,7 @@ $(document).ready(function(){
 		return (str + '').replace(/[\\]/g, '\\$&').replace(/["]/g, '\\\$&').replace(/\u0000/g, '\\0');
 	}
 	function saveConfig(){
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		var network_name 	= addslashes($("#WiFi_Name").val());
 		var network_password 	= addslashes($("#WiFi_Password").val());
 		var network5_name 	= addslashes($("#WiFi5_Name").val());
@@ -918,7 +917,7 @@ $(document).ready(function(){
 		$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_wireless_network_configuration_redirection.jst",
-			data: { rediection_Info: jsConfig },
+			data: { rediection_Info: jsConfig,csrfp_token: token },
 			success: function (msg, status, jqXHR) {
 				//msg is the response
 				msg = JSON.parse(msg);

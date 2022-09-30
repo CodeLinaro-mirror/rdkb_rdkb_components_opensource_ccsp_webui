@@ -50,6 +50,7 @@ label{
 <script  type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Parental Control > Managed Sites", "nav-sites");
+    var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
     jQuery.validator.addMethod("url2", function(value, element, param) {
        if (value.indexOf('//www.') > 0) {
             value = value.replace("//www.","//");
@@ -86,16 +87,17 @@ $(document).ready(function() {
 			revertOrder: true,
 			state: val
 		}).change(function(){
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
     		var trustFlag = $(this).radioswitch("getState").on;
     		//alert(trustFlag);	
 			jProgress($.i18n('This may take several seconds'), 60);
 			$.ajax({                  
 				type: "POST",
 				url: "actionHandler/ajaxSet_trust_computer.jst",
-				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}' },
+				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}',csrfp_token: token},
 				success: function(){            
 					jHide();
-					//window.location.href = "managed_services.jst";
+					window.location.href = "managed_services.jst";
 				},
 				error: function(){
 					jHide();
@@ -163,7 +165,7 @@ $(document).ready(function() {
 				$.ajax({                   
 					type: "POST",
 					url: "actionHandler/ajaxSet_remove_blockedSite.jst",
-					data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}' },
+					data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}',csrfp_token: token },
 					success: function(){ 
 						jHide();           
 						window.location.href = "managed_sites.jst";
@@ -208,7 +210,7 @@ $("#managed_sites_switch").change(function() {
 						$.ajax({
 							type: "POST",
 							url: "actionHandler/ajaxSet_remove_blockedSite.jst",
-							data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}' },
+							data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}',csrfp_token: token },
 							success: function(){  
 								jHide();          
 								window.location.href = "managed_sites.jst";
@@ -228,10 +230,10 @@ $("#managed_sites_switch").change(function() {
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_enable_manageSite.jst",
-		data: { Enable: '{"Enable": "'+enable+'"}' },
+		data: { Enable: '{"Enable": "'+enable+'"}',csrfp_token: token },
 		success: function(){   
 			jHide();          
-			//window.location.href = "managed_sites.jst";
+			window.location.href = "managed_sites.jst";
 		},
 		error: function(){
 			jHide();
@@ -401,7 +403,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 					$.ajax({
 						type: "POST",
 						url: "actionHandler/ajaxSet_edit_blockedSite.jst",
-						data: { BlockInfo: blockInfo },
+						data: { BlockInfo: blockInfo,csrfp_token: token },
             success: function(result){            
               jHide();
               var status = JSON.parse(result).status;

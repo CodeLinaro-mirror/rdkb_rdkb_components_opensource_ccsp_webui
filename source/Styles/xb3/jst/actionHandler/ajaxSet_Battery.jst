@@ -26,7 +26,7 @@ if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {
         exit(0);
 }
 header("Content-Type: application/json");
-$infoArray = json_decode($_POST['batteryInfo'], true);
+$infoArray = json_decode($_GET['batteryInfo'], true);
 
 function discoverBattery() {
 

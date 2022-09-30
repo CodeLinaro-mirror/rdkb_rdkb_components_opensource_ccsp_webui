@@ -205,6 +205,7 @@ function adjust_acs_tb(tb_summary, th_array){
 	});
 }
 function ajaxDo(mode,timef){
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	switch(timef){
 		case "Today":
 			timef2="today";
@@ -223,9 +224,9 @@ function ajaxDo(mode,timef){
 	}
 	jProgress($.i18n('This may take several seconds.'),180);
 	$.ajax({
-		type:"POST",
+		type:"GET",
 		url:"actionHandler/ajax_troubleshooting_logs.jst",
-		data:{mode:mode,timef:timef},
+		data:{mode:mode,timef:timef,csrfp_token: token},
 		dataType:"json",
 		success:function(results){
 			jHide();

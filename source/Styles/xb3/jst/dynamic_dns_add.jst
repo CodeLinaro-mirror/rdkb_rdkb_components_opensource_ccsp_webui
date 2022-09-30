@@ -65,6 +65,7 @@ $(document).ready(function() {
 		}
 	});
 	$("#btn-saveloc").click(function() {
+		var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 		if($("#pageForm").valid()){
 	    	var sp = $("#Service_Provider1").val();
 			var spLC = sp.toLowerCase();
@@ -120,7 +121,7 @@ $(document).ready(function() {
 				$.ajax({
 					type:"POST",
 					url:"actionHandler/ajax_ddns.jst",
-					data:{add:"true",sp:sp,username:username,password:password,hostname:hostname},
+					data:{add:"true",sp:sp,username:username,password:password,hostname:hostname,csrfp_token: token},
 					success:function(results){
 						//jAlert(results);
 						jHide();

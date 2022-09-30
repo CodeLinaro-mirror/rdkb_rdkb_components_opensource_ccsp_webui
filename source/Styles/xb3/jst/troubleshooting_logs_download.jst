@@ -19,13 +19,6 @@
 */
 ?>
 <?%
-/*MROLLINS FIXME
-include_once __DIR__ .'/CSRF-Protector-PHP/libs/csrf/csrfprotector_rdkb.jst';
-//Initialise CSRFGuard library
-csrfprotector_rdkb::init();
-*/
-?>
-<?%
 include('includes/php.jst');
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {

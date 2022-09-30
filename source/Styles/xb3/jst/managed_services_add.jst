@@ -112,12 +112,13 @@ $(document).ready(function() {
 			var startPort = $('#start_port').val();
 			var endPort = $('#end_port').val();
 			var block = $("#always_switch").radioswitch("getState").on;
+			var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 			if(block) {
 				jProgress($.i18n('This may take several seconds'), 60);
 				$.ajax({
 					type:"POST",
 					url:"actionHandler/ajax_managed_services.jst",
-					data:{add:"true",service:service,protocol:protocol,startPort:startPort,endPort:endPort,block:block},
+					data:{add:"true",service:service,protocol:protocol,startPort:startPort,endPort:endPort,block:block,csrfp_token: token},
           success: function(result){            
             jHide();
             var status = JSON.parse(result).status;
@@ -174,7 +175,7 @@ $(document).ready(function() {
 				$.ajax({
 					type:"POST",
 					url:"actionHandler/ajax_managed_services.jst",
-					data:{add:"true",service:service,protocol:protocol,startPort:startPort,endPort:endPort,block:block,startTime:startTime,endTime:endTime,days:days},
+					data:{add:"true",service:service,protocol:protocol,startPort:startPort,endPort:endPort,block:block,startTime:startTime,endTime:endTime,days:days,csrfp_token: token},
           success: function(result){            
             jHide();
             var status = JSON.parse(result).status;

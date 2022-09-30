@@ -50,6 +50,7 @@ label{
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	gateway.page.init("Troubleshooting > Network Diagnostic Tools", "nav-diagnostic-tools");
 	$.validator.addMethod("url_no_http", function(value, element) {
 		//A valid URL per the URL spec.
@@ -213,9 +214,9 @@ $(document).ready(function() {
 			var count1=$("#count1").val();
 			jProgress($.i18n("This may take several seconds..."),120);
 			ajaxrequest=$.ajax({
-				type:"POST",
+				type:"GET",
 				url:"actionHandler/ajax_network_diagnostic_tools.jst",
-				data:{test_connectivity:"true",destination_address:destination_address,count1:count1},
+				data:{test_connectivity:"true",destination_address:destination_address,count1:count1,csrfp_token: token},
 				dataType:"json",
 				success:function(results){
 					jHide();
@@ -244,7 +245,7 @@ $(document).ready(function() {
 			var count2=$("#count2").val();
 			jProgress($.i18n("This may take several seconds..."),60);
 			ajaxrequest=$.ajax({
-				type:"POST",
+				type:"GET",
 				url:"actionHandler/ajax_network_diagnostic_tools.jst",
 				data:{check_ipv4:"true",destination_ipv4:destination_ipv4,count2:count2},
 				dataType:"json",
@@ -272,7 +273,7 @@ $(document).ready(function() {
 			var count3=$("#count3").val();
 			jProgress($.i18n("This may take several seconds..."),120);
 			ajaxrequest=$.ajax({
-				type:"POST",
+				type:"GET",
 				url:"actionHandler/ajax_network_diagnostic_tools.jst",
 				data:{check_ipv6:"true",destination_ipv6:destination_ipv6,count3:count3},
 				dataType:"json",
@@ -296,7 +297,7 @@ $(document).ready(function() {
 			jProgress($.i18n("This may take several seconds..."),120);
 			// if another var name, jprogress can't auto abort, but have to abort manually.
 			ajaxrequest = $.ajax({
-				type:"POST",
+				type:"GET",
 				url:"actionHandler/ajax_network_diagnostic_tools.jst",
 				data:{trace_ipv4:"true", trace_ipv4_dst:trace_ipv4_dst},
 				dataType:"json",
@@ -343,7 +344,7 @@ $(document).ready(function() {
 			jProgress($.i18n("This may take several seconds..."),120);
 			// if another var name, jprogress can't auto abort, but have to abort manually.
 			ajaxrequest = $.ajax({
-				type:"POST",
+				type:"GET",
 				url:"actionHandler/ajax_network_diagnostic_tools.jst",
 				data:{trace_ipv6:"true", trace_ipv6_dst:trace_ipv6_dst},
 				dataType:"json",

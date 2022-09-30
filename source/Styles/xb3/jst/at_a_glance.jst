@@ -115,6 +115,7 @@ $curr_IP = $_SERVER['REMOTE_ADDR'];
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
+var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 $(document).ready(function() {
 	gateway.page.init("Gateway > At a Glance", "nav-at-a-glance");
 	/*
@@ -156,7 +157,7 @@ $(document).ready(function() {
 		$.ajax({
 		type:"POST",
 		url:"actionHandler/ajax_at_a_glance.jst",
-		data:{Bridge:"true",isBridgeModel:isBridgeModelEnable},
+		data:{Bridge:"true",isBridgeModel:isBridgeModelEnable,csrfp_token: token},
 		success:function(){
 				// don't do jHide, with latest firmware, switch bridge will return before httpd restart, GUI reload at return will cause 500 error. So wait until http restored. 
 				var hCnt = setInterval(function(){
@@ -199,7 +200,7 @@ $(document).ready(function() {
 		$.ajax({
 			type:"POST",
 			url:"actionHandler/ajax_at_a_glance.jst",
-			data:{IGMP:"true",IGMPEnable:IGMPEnable},
+			data:{IGMP:"true",IGMPEnable:IGMPEnable,csrfp_token: token},
 			success:function(results){
 				jHide();
 				if(IGMPEnable!=results){
