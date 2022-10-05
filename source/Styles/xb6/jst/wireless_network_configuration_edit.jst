@@ -1119,7 +1119,7 @@ function setResetInfo(info) {
 			<input type="radio"  name="channel_bandwidth" value="20MHz" id="channel_bandwidth20" checked="checked" /><b>20</b>
 			<label for="channel_bandwidth" class="acs-hide"></label>
 			<input type="radio"  name="channel_bandwidth" value="40MHz" id="channel_bandwidth" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
-                <?% } else if($radio_band == "6" )
+		<?% } else if($radio_band == "6" )
 		{ ?>
 			<?%if (strpos($partnerId, "sky-") !== false){?>                        
 				<label for="channel_bandwidth203" id="wiremess18">Channel Bandwidth:</label>
@@ -1129,7 +1129,7 @@ function setResetInfo(info) {
 				<label for="channel_bandwidth5" class="acs-hide"></label>
 				<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
 				<label for="channel_bandwidth6" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b> 
+				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
 			<?%}else{?>
 				<label for="channel_bandwidth6">Channel Bandwidth:</label>
 				<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160MHz</b>
@@ -1143,7 +1143,9 @@ function setResetInfo(info) {
 				<label for="channel_bandwidth2" class="acs-hide"></label>
 				<input type="radio"  name="channel_bandwidth1" value="80MHz"  id="channel_bandwidth2" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
 				<label for="channel_bandwidth3" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth1" value="160MHz"  id="channel_bandwidth3" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
+				<?% if($DFS_Enable1=="true") { ?>
+					<input type="radio"  name="channel_bandwidth1" value="160MHz"  id="channel_bandwidth3" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
+				<?% } ?>
 			<?% } else{ ?>
 				<label for="channel_bandwidth1" class="acs-hide"></label>
 				<input type="radio"  name="channel_bandwidth1" value="40MHz"  id="channel_bandwidth1" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
