@@ -1027,7 +1027,7 @@ function setResetInfo(info) {
 				//zqiu: add "selected"
 			//zqiu: add "selected"
 				if ("5"==$radio_band){
-					if ((strstr($supported_mode, "ax")) && ($axEnable == "true")){
+					if (strstr($supported_mode, "ax")){
                                         	echo( '<option value="a,n,ac" '); echo( ("a,n,ac"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac</option>');
 						echo( '<option value="a,n,ac,ax" '); echo( ("a,n,ac,ax"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac/ax</option>');
 					}
@@ -1043,12 +1043,12 @@ function setResetInfo(info) {
 					}
 				}else if("6"==$radio_band)
 				{
-					if ((strstr($supported_mode, "ax"))&& ($axEnable == "true")){
+					if (strstr($supported_mode, "ax")){
                                         	echo( '<option value="ax" '); echo( ("ax"==$wireless_mode)? 'selected':''); echo('>802.11 ax</option>');
 					}
 				}
 				else {
-					if ((strstr($supported_mode, "ax"))&& ($axEnable == "true")){
+					if ((strstr($supported_mode, "ax")) && ($axEnable == "true")){
 						echo( '<option value="g,n" ');   echo( (  "g,n"==$wireless_mode)? 'selected':'');  echo('>802.11 g/n</option>');
 						echo( '<option value="g,n,ax" '); echo( ("g,n,ax"==$wireless_mode)? 'selected':''); echo('>802.11 g/n/ax</option>');
 					}
