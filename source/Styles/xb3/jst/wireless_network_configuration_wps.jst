@@ -51,7 +51,7 @@ if ("false" == getStr("Device.WiFi.Radio.1.Enable") && "false" == getStr("Device
 	exit(0);
 }
 // $ssids			= explode(",", getInstanceIds("Device.WiFi.SSID."));
-$ssids		=[1,2]/*p2j-array*/;	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
+//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
 $wps_enabled	= "false";
 $wps_pin	= "";
 $wps_method	= "PushButton";
@@ -78,6 +78,9 @@ $wifi_param = {
 	"SSIDAdvert2"	: "Device.WiFi.AccessPoint.2.SSIDAdvertisementEnabled" 
 	}/*p2j-array*/;
 $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
+$ssids = [];
+if ($wifi_value['Radio_Enable1'] == 'true') $ssids.push(1);
+if ($wifi_value['Radio_Enable2'] == 'true') $ssids.push(2);
 //get the first WPS enabled SSID, in principle all WPS should be enabled or disabled simultaneously
 for(var $keytmp in $ssids) { $i=$ssids[$keytmp];/*p2j-foreach*/
 	if ("true" == $wifi_value['WPS_Enable'+$i]){

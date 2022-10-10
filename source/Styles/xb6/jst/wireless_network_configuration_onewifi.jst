@@ -321,8 +321,11 @@ if(($OperatingChannelBandwidth == "6GHz") && (strpos($partnerId, "sky-") === fal
 $possible_channels3 = "5,37,69,101,133,165,197";
 /**********************get WPS status, manual-disabled or auto-disabled?*******************************/
 // $ssidsWPS			= explode(",", getInstanceIds("Device.WiFi.SSID."));
+//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
+$ssidsWPS = [];
+if ($radio_enable == 'true') $ssidsWPS.push(1);
+if ($radio_enable1 == 'true') $ssidsWPS.push(2);
 
-$ssidsWPS= explode(",", "1,2");	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
 $wps_enabled	= "false";
 $wps_pin		= "";
 $wps_method		= "PushButton";

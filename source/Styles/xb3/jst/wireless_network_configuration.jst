@@ -224,7 +224,10 @@ $feq_band                       = (typeof($feq_band)=="undefined") ? "2.4 GHz" :
 $feq_band1                      = (typeof($feq_band1)=="undefined") ? "5 GHz" : (strstr($feq_band1,"5G")) ? "5 GHz" : "2.4 GHz";
 /**********************get WPS status, manual-disabled or auto-disabled?*******************************/
 // $ssidsWPS			= explode(",", getInstanceIds("Device.WiFi.SSID."));
-$ssidsWPS			= explode(",", "1,2");	//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
+//Currently, only SSID.1(2.4G) and SSID.2(5G) are involved with WPS
+$ssidsWPS = [];
+if ($radio_enable == 'true') $ssidsWPS.push(1);
+if ($radio_enable1 == 'true') $ssidsWPS.push(2);
 $wps_enabled	= "false";
 $wps_pin		= "";
 $wps_method		= "PushButton";
