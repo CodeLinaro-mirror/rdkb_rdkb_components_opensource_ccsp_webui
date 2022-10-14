@@ -158,6 +158,31 @@ if($OperatingChannelBandwidth == "6GHz")
     if (strpos($partnerId, "sky-") !== false) {
         $MoCA = false;
     }
+//-----------------------WAN IPv6 Address - Start
+    $WANIPv6 = "";
+    $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+    if (strpos($partnerId, "sky-") !== false) {
+        $IPv6Adr = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+        $ids = explode(",", getInstanceIds($IPv6Adr+"IPv6Address."));
+        for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
+            $val = getStr($IPv6Adr+"IPv6Address."+$i+".IPAddress");
+            if (!strstr($val, "fe80::")){
+                $WANIPv6=$val;
+                break;
+            }else{$WANIPv6='';}
+        }
+    }
+    else {
+        $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+        $ids = explode(",", getInstanceIds($fistUSif+"IPv6Address."));
+        for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
+            $val = getStr($fistUSif+"IPv6Address."+$i+".IPAddress");
+                if (!strstr($val, "fe80::")){
+                $WANIPv6 = $val;
+            }
+        }
+    }
+//-----------------------WAN IPv6 Address - End
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -204,10 +229,8 @@ $(document).ready(function() {
   var local_v6 = "<?% echo( $ipv6_local_addr); ?>";
   var global_v6 = "<?% echo( $ipv6_global_addr); ?>";
   var ipv6_DNS = "<?% echo( $ipv6_DNS); ?>";
-  var wan_ipv6 = "<?% echo( $wan_ipv6_addr); ?>";
-  // console.log(local_v6.length);
-  // console.log(global_v6.length);
-  // console.log(ipv6_DNS.length);
+  var wan_ipv6 = "<?% echo( $wan_ipv6_addr); ?>"; // allowEthWan || autoWanEnable
+  var wan_v6 = "<?% echo( $WANIPv6); ?>"; // NetworkName > WAN IPv6 Address
   if(local_v6.length > ipv6_max_len){
     $('#local-v6-addr').removeClass('value').addClass('ipv6-style');
   }
@@ -219,6 +242,9 @@ $(document).ready(function() {
   }
   if(wan_ipv6.length > ipv6_max_len){
     $('#v6-wan').removeClass('value').addClass('ipv6-style');
+  }
+  if(wan_v6.length > ipv6_max_len){
+    $('#v6-wan-ip').removeClass('value').addClass('ipv6-style');
   }
 });
 </script>
@@ -233,9 +259,9 @@ width:80%;
 }
 </style>
 <?%
-  $NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
-  $allowEthWan= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.AllowEthernetWAN");
- $wan_enable= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
+    $NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
+    $allowEthWan= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.AllowEthernetWAN");
+    $wan_enable= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
 ?>
 <div id="content" style="margin-bottom:100px;">
 	<h1 id="connstathead">Gateway > Connection > Status</h1>
@@ -484,34 +510,9 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
         </div>
       
         <div class="form-row">
-              <span class="readonlyLabel" id="wanipv6add">WAN IPv6 Address:</span> <span class="ipv6-style">
-              <?%
-       $WANIPv6 = "";
-       $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-       if (strpos($partnerId, "sky-") !== false) {
-                $IPv6Adr = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
-                $ids = explode(",", getInstanceIds($IPv6Adr+"IPv6Address."));
-                for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
-                        $val = getStr($IPv6Adr+"IPv6Address."+$i+".IPAddress");
-                        if (!strstr($val, "fe80::")){
-                                $WANIPv6=$val;
-				break;
-                        }else{$WANIPv6='';}
-                }
-        }
-     else {
-       $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-       $ids = explode(",", getInstanceIds($fistUSif+"IPv6Address."));
-        for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
-                $val = getStr($fistUSif+"IPv6Address."+$i+".IPAddress");
-                if (!strstr($val, "fe80::")){
-                        $WANIPv6 = $val;
-                }
-        }
-    }
-                       echo($WANIPv6);
-              ?>
-             </span>
+            <span class="readonlyLabel" id="wanipv6add">WAN IPv6 Address:</span> <span id="v6-wan-ip" class="value">
+                <?% echo($WANIPv6); ?>
+            </span>
         </div>
     
         <div class="form-row odd">
