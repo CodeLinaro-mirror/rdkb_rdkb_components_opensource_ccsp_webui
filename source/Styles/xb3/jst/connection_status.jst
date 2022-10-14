@@ -452,9 +452,8 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
         <span class="readonlyLabel"><?% echo("Internet:");?></span>
               <?% 
               if($allowEthWan=="true" || $autoWanEnable=="true"){
-                $wanipv4_status = php_getstr("Device.DeviceInfo.X_COMCAST-COM_WAN_IP");
-                $wanipv6_status = php_getstr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
-                if( ($wanipv4_status!="0.0.0.0") || ($wanipv6_status!="")){
+		$status = php_getstr("Device.DeviceInfo.X_RDKCENTRAL-COM.InternetStatus");
+                if ( !strcasecmp($status, "true") ){
                     echo("<span class='value' id='act'>Active</span>");
                 }else{
                    echo("<span class='value' id='inact'>Inactive</span>"); 
