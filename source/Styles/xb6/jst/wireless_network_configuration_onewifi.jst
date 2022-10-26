@@ -491,7 +491,7 @@ function update_Wi_Fi_control_list(){
 	//jProgress('This may take several seconds...', 60);
 	$("#mac_admin_temp, #mac_admin").toggleExt();
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
 		data: { configInfo: jsConfig },
 		success: function(msg) {
@@ -1093,11 +1093,12 @@ setTimeout(function(){
 function set_config(jsConfig)
 {
 	// alert(jsConfig);
+        var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	jProgress($.i18n('This may take several seconds...'), 60);
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
 			setTimeout(function(){jHide();location.href="wireless_network_configuration.jst";}, 5000);
 		},
@@ -1379,6 +1380,7 @@ function pair_client()
 	var ssid_number	=	$("#wps_ssid").attr("value");
 	var pair_method =	$('[name="pair_method"]:checked').attr("value");
 	var pin_number	= $("#pin_number").attr("value").replace(/ |-/g,'');
+        var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsConfig = '{"ssid_number":"'+ssid_number+'", "pair_method":"'+pair_method+'", "pin_number":"'+pin_number
 					+'", "target":"'+"pair_client"+'"}';	
 	if ("PushButton"!=pair_method && !validChecksum($("#pin_number").attr("value")))
@@ -1390,7 +1392,7 @@ function pair_client()
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig ,csrfp_token: token },
 		success: function(msg) {
 			jHide();
 			alertLocale("WPS in Progress!");
@@ -1413,6 +1415,7 @@ function pair_cancel()
 {
 	var ssid_number		= $("#wps_ssid").attr("value");
 	var wps_enabled		= $("#wps_switch").radioswitch("getState").on;
+        var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var jsConfig = '{"ssid_number":"'+ssid_number+'", "target":"'+"pair_cancel"+'"}';	
 	if (!wps_enabled) {
 		alertLocale("Please enable WPS first!");
@@ -1427,7 +1430,7 @@ function pair_cancel()
 				$.ajax({
 					type: "POST",
 					url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-					data: { configInfo: jsConfig },
+					data: { configInfo: jsConfig,csrfp_token: token },
 					success: function(msg) {
 						jHide();
 						alertLocale("WPS progress is canceled!");
@@ -1457,7 +1460,7 @@ function steering_history() {
 	$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-			data: { configInfo: '{"band_steering_history": "true", "band_steering": "true"}' },
+			data: { configInfo: '{"band_steering_history": "true", "band_steering": "true"}',csrfp_token: token },
 			success: function(result) {
 				jHide();
 				bandHistory = result.split("\n");
@@ -1486,6 +1489,7 @@ function steering_history() {
 function saveBandSteeringSettings()
 {
 	jProgress($.i18n('This may take several seconds...'), 60);
+        var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	var bs_enable = $("#BS_enabled").prop("checked");
 	var UtilzThreshold1 = $("#UtilzThreshold1").val();
 	var RSSIThreshold1 = $("#RSSIThreshold1").val();
@@ -1500,7 +1504,7 @@ function saveBandSteeringSettings()
 	$.ajax({
 		type: "POST",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-		data: { configInfo: jsConfig },
+		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(result) {
 			jHide();
 			window.location.href = "wireless_network_configuration.jst";
