@@ -159,11 +159,12 @@ function sec2dhms($sec)
 	$wan_Interface_obj = "Device.IP.Interface.";
 	$wan_Interface_ids =  DmExtGetInstanceIds($wan_Interface_obj);
 	$wan_er_name = {};
+	$wan_interface_name = getStr($fistUSif+"Name");
 	for ($i= 1; $i< count($wan_Interface_ids);$i++){
 		$id = $wan_Interface_ids[$i];
 		$val_get = "Device.IP.Interface."+$i+".Name";
 		$wan_er_name[$id] = getStr($val_get);
-		if($wan_er_name[$id] == "erouter0"){
+		if($wan_er_name[$id] == $wan_interface_name){ //"erouter0"
 			$wan_ip = "Device.IP.Interface."+$i+".IPv4Address.1.IPAddress";
 			$wan_ip_val = getStr($wan_ip);
 			if (inet_pton($wan_ip_val)) {
@@ -432,7 +433,10 @@ function sec2dhms($sec)
 	<div class="form-row odd">
 		<span class="readonlyLabel" id="wanmac">WAN MAC:</span>
 		<span class="value">
-			<?% echo( strtoupper(getStr(getStr(getStr($fistUSif+"LowerLayers")+".LowerLayers")+".MACAddress"))); ?>
+			<?%
+				//echo( strtoupper(getStr(getStr(getStr($fistUSif+"LowerLayers")+".LowerLayers")+".MACAddress")));
+				echo(strtoupper(getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_MAC")));
+			?>
 		</span>
 	</div>
 	<div class="form-row div_mta_mac">
