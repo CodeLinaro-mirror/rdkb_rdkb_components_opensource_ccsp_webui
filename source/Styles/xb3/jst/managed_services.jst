@@ -84,7 +84,7 @@ $(document).ready(function() {
 				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}',csrfp_token: token },
 				success: function(){            
 					jHide();
-					//window.location.href = "managed_services.jst";
+					window.location.href = "managed_services.jst";
 				},
 				error: function(){
 					jHide();
