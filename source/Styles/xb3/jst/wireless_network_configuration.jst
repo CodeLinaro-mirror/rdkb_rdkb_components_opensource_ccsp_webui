@@ -367,7 +367,7 @@ function update_Wi_Fi_control_list(){
 	//jProgress('This may take several seconds...', 60);
 	$("#mac_admin_temp, #mac_admin").toggleExt();
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
 		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
