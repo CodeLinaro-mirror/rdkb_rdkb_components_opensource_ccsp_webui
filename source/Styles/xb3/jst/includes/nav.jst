@@ -230,10 +230,10 @@ if($advanced_tab) {
 				if ($_SESSION['rm'] == false || typeof($_SESSION['rm']) == "undefined")
 					echo('');
 				else
-					echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst">Remote Management</a></li>');
+					echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst" id="remloc">Remote Management</a></li>');
 			}
 			else {
-				echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst">Remote Management</a></li>');
+				echo( '<li class="nav-remote-management"><a role="menuitem"  href="remote_management.jst" id="remloc">Remote Management</a></li>');
 			}
 		}
 		echo( '<!--li class="nav-qos1"><a role="menuitem"  href="qos1.jst">QoS</a></li-->');
