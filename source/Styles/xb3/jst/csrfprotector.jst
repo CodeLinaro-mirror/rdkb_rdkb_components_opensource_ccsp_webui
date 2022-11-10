@@ -407,10 +407,12 @@ var csrfProtector = {
     "refreshToken" : function()
     {
         $token = csrfProtector.generateAuthToken();
+	$tokenReq = csrfProtector.getTokenFromRequest();
         // if (!isset($_SESSION[csrfProtector.$config['CSRFP_TOKEN']]) || !is_array($_SESSION[csrfProtector.$config['CSRFP_TOKEN']])){
         //     $_SESSION[csrfProtector.$config['CSRFP_TOKEN']] = [];
         //     }
         // set token to session for server side validation
+	$_SESSION[csrfProtector.$config['CSRFP_TOKEN']] = $tokenReq;
         if (!isset($_SESSION[csrfProtector.$config['CSRFP_TOKEN']]) || $_SESSION[csrfProtector.$config['CSRFP_TOKEN']] == "" ) {
           $_SESSION[csrfProtector.$config['CSRFP_TOKEN']] = $token;
         } else {
