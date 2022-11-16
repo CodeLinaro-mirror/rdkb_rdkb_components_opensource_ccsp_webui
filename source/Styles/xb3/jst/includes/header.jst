@@ -42,6 +42,10 @@ csrfProtector.init();
                 	$locale="it";
                 	$_SESSION['language'] = $locale;
        	 	}
+		else if(strstr($locale, 'GB')){
+			$locale="en_GB";
+			$_SESSION['language'] = $locale;
+		}
 	}
 	$url = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "" ;
 	$wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");

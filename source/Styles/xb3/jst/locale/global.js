@@ -1126,3 +1126,11 @@ jQuery(function() {
 		}
 	});
 });
+$.i18n().load( {
+	'en_GB': {
+		"Wi-Fi spectrum analyzer results has been saved to your local machine.":"Wi-Fi spectrum analyser results has been saved to your local machine.",
+		"Wi-Fi Spectrum Analyzer":"Wi-Fi Spectrum Analyser",
+		"Troubleshooting > Wi-Fi Spectrum Analyzer":"Troubleshooting > Wi-Fi Spectrum Analyser",
+		"Wi-Fi Spectrum Analyzer Data":"Wi-Fi Spectrum Analyser Data",
+	}
+});
