@@ -87,6 +87,12 @@ $local_ipv6 = $tmp1[0];
 $local_ipv6_arr = explode(':', $local_ipv6);
 $default_admin_ip= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.DefaultAdminIP");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+$ipv6_enb = "";
+$ula_enb = "";
+if(strpos($partnerId, "sky-") !== false){
+                                $ipv6_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6Enable");
+                                $ula_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6UlaEnable");
+}
 ?>
 <style type="text/css">
 label{
@@ -115,8 +121,8 @@ $(document).ready(function() {
 		ipv6_ula_check();
 	}
 	function ipv6_ula_check(){
-		var ipv6_enable_check = '<?% echo( getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6Enable"));?>';
-		var ula_enable_check = '<?% echo( getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6UlaEnable"));?>';
+		var ipv6_enable_check = '<?% echo( $ipv6_enb); ?>';
+                var ula_enable_check = '<?% echo( $ula_enb); ?>';
 		if(ipv6_enable_check == 'true'){
 			if(ula_enable_check == 'true'){
 				$("#ula_enable").attr('checked','checked');
