@@ -149,9 +149,9 @@ waitingDialog.show(a);
 	
      });
 
-     $('.modal-header').attr('style', 'text-align: left !important; font-size: 1.1em; font-weight: bold');
-     $('.modal-body').attr('style', 'text-align: left !important; margin: 6px !important; background-color:#ededed');
-     $('#popup_box').attr('style', 'padding: 8px 0 0 !important; margin: -5px 8px 8px 425px !important'); 
+     $('.modal-header').addClass('modalhead-style');
+     $('.modal-body').addClass('modalbody-style');
+     $('#popup_box').addClass('popup-style'); 
 
      }, b*1000);
 

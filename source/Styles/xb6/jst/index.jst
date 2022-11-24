@@ -237,22 +237,6 @@ $logo = "cmn/syndication/img/"+$msoLogo;
   <script src="locale/jquery.i18n.emitter.js"></script>
   <script src="locale/jquery.i18n.emitter.bidi.js"></script>
    <script src="locale/global.js"></script> <!-- add this -->
-	<style>
-		#div-skip-to {
-			position:relative;
-			left: 150px;
-			top: -300px;
-		}
-		#div-skip-to a {
-			position: absolute;
-			top: 0;
-		}
-		#div-skip-to a:active, #div-skip-to a:focus {
-			top: 300px;
-			color: #0000FF;
-			/*background-color: #b3d4fc;*/
-		}
-	</style>
 </head>
 <body>
 	<!--Main Container - Centers Everything-->
@@ -261,7 +245,7 @@ $logo = "cmn/syndication/img/"+$msoLogo;
 		<div id="header">
 			<h2 id="logo"><?% echo( "<img src='"+$logo+"' alt='"+$title+"'  title='"+$title+"' />"); ?></h2>
 		</div> <!-- end #header -->
-		<div id='div-skip-to' style="display: none;">
+		<div id='div-skip-to' class="acs-hide">
 			<a id="skip-link" name="skip-link" href="#content">Skip to content</a>
 		</div>
 		<!--Main Content-->
@@ -279,8 +263,8 @@ if($webuiIsEnabled == "false"){
 ?>
 <div  id="content">
         <div  id=forwarding-items>
-                <div class="module data" style="width: 717px; margin: 89px">
-                        <div id="content" style="text-align: center;">
+                <div class="module data content-div">
+                        <div id="content" class="description">
                                 <br>
 				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><span id="index_mess">To manage your gateway settings and other features, please download the</span> <?%echo(getBrandProductName());?> <span id="wifimessmode1"> app.</span><br></h3>
                                  <br>
@@ -291,24 +275,24 @@ if($webuiIsEnabled == "false"){
 <?% } else { ?>
 <!--div id="nav"-->
 <h1 id="index_header">Gateway > Login</h1>
-<div style="float: left; margin: 0 20px 20px 0; width: 60%; height:290px;background:white;">
+<div class="index_div">
 	<form action="check.jst" method="post" id="pageForm"  onsubmit="return f();">
 	<div class="form-row">
 		<p id="index_helptext">Please login to view and manage your Gateway settings.</p>
 	</div>
 	<div>
-		<table style="background:white; text-align:center;">
+		<table class="index_table">
 			<tr>
 				<td><label for="username"><b><div id="username_label">Username:</div></b></label></td>
-				<td><input type="text"     id="username" name="username" style="width: 250px;" class="text" autocomplete="off" /></td>
+				<td><input type="text"     id="username" name="username" class="login_width text" autocomplete="off" /></td>
 			</tr>
 			<tr>
 				<td><label for="password"><b>Password:</b></label></td>
-				<td><input type="password" id="password" name="password" style="width: 250px;" class="text" autocomplete="off" /></td>
+				<td><input type="password" id="password" name="password" class="login_width text" autocomplete="off" /></td>
 			</tr>
 		</table>
 	</div>
-	<div class="form-btn"  style="margin-top: 25px;text-align:center;">
+	<div class="form-btn"  id="login_btn">
 		<input type="submit" class="btn" value="Login" />
 	</div>
 <input type="hidden" name="locale" id="locale" value="<?% echo($locale); ?>">

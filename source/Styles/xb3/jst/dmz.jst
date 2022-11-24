@@ -24,10 +24,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-	label{	margin-right: 10px !important;}
-	.form-row input.ipv6-input {width: 35px;}
-</style>
 <?%
 $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
@@ -81,6 +77,7 @@ if (strpos($partnersId, "sky-") !== false) {
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Advanced > DMZ", "nav-dmz");
+	$("label").addClass("label_style");
 	var jsEnableDMZ = <?% echo( $enableDMZ );?>;
 	var jsHost = "<?% echo( $host );?>".split(".");
 	var jsHostv6 = "<?% echo( $hostv6); ?>";
@@ -367,7 +364,7 @@ populate_IPv6();
 	<h1 id="advdmzhead1">Advanced > DMZ</h1>
 	<div  id=dmz-items>
 		<div class="module data">
-			<div id="content" style="text-align: center;">
+			<div id="content" class="description">
 				<br>
 				<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="downmess">Please download the </span><?% echo(getBrandProductName()); ?><span id="sooninfoapp"> app</span><span id="<?% echo($idadv2); ?>"> to set up DMZ, among many other features and settings.</span></h3>
 				<br>

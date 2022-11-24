@@ -155,7 +155,7 @@ setTimeout(function(){
 				}
 			}, 1000);
 			// use jAlert instead of alert, or it will not auto log out untill OK pressed!
-			jAlert($.i18n('Press <b>OK</b> to continue session. Otherwise you will be logged out in')+' <span id="count_down" style="font-size: 200%; color: red;">'+ cnt+'</span> '+ $.i18n("seconds!")
+			jAlert($.i18n('Press <b>OK</b> to continue session. Otherwise you will be logged out in')+' <span id="count_down" class="count_down_style" >'+ cnt+'</span> '+ $.i18n("seconds!")
 			, $.i18n('You are being logged out due to inactivity!')
 			, function(){
 				clearInterval(h_cntd);
@@ -201,18 +201,12 @@ setTimeout(function(){
 	});
 }, 100);
 </script>
-<style>
-#status a:link, #status a:visited {
-	text-decoration: none;
-	color: #808080;
-}
-</style>
 <ul id="userToolbar" class="on">
 	<li class="first-child"><span id="hiloc">Hi </span><?% echo($_SESSION["loginuser"]); ?></li>
-	<li style="list-style:none outside none; margin-left:0">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="home_loggedout.jst" tabindex="0" id="logout">Logout</a></li>
+	<li class="toolbar_style">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="home_loggedout.jst" tabindex="0" id="logout">Logout</a></li>
 	<?%
 		if($_SESSION["loginuser"] == "admin")
-		echo( '<li style="list-style:none outside none; margin-left:0">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="password_change.jst" tabindex="0" id="chPass">Change Password</a></li>');
+		echo( '<li class="toolbar_style">&nbsp;&nbsp;&#8226;&nbsp;&nbsp;<a href="password_change.jst" tabindex="0" id="chPass">Change Password</a></li>');
 	?>
 </ul>
 <ul id="status">

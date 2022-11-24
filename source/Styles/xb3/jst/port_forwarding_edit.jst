@@ -77,17 +77,10 @@ $prefix_arr = explode('::/', getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix")
 $v6_begin_addr = "0000:0000:0000:0001";
 $v6_end_addr = "ffff:ffff:ffff:fffe";
 ?>
-<style type="text/css">
-label{
-	margin-right: 10px !important;
-}
-.form-row input.ipv6-input {
-	width: 35px;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Port Forwarding > Add Service", "nav-port-forwarding");
+    $("label").addClass("port_label");
     $('#service_name').focus();
     var jsNetMask = "<?% echo( $LanSubnetMask); ?>";
     var beginAddr	= "<?% echo( $beginAddr); ?>";
@@ -464,7 +457,7 @@ update_service_field();
 <div  id="content">
 	<h1 id="portfwdedthead">Advanced > Port Forwarding > Edit Service</h1>
 	<div  class="module forms">
-		<div id="content" style="text-align: center;">
+		<div id="content" class="description">
 			<br>
 			<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="downmess">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="<?% echo($idadv2); ?>"> to set up port forwards, among many other features and settings.</span></h3>
 			<br>

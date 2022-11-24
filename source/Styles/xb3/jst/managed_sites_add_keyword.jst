@@ -34,14 +34,10 @@
         }
 ?>
 
-<style>
-label {
-    margin-right: 10px !important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Sites > Add Blocked Keyword", "nav-sites");
+    $("label").addClass("label_style");
 	$("#always_switch").radioswitch({
 		id: "always-switch",
 		radio_name: "block",

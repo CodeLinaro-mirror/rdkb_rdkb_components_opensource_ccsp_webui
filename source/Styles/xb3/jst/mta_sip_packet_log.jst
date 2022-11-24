@@ -64,7 +64,7 @@ function decodeHTMLEntities (text) {
 							return;
 						}
 						else {
-							document.getElementById('event').innerHTML='<h2 id="mtasiplogmess1">MTA SIP Packet Log</h2><table summary="This table shows SIP Packet Log" id="event_logs_today" class="data" style="word-break:break-all"><thead><th id="sip_value">Description</th><th width="111" id="sip_time">Time</th></thead><tbody></tbody><tfoot><tr class="acs-hide"><td headers="sip_value">null</td><td headers="sip_time">null</td></tr></tfoot></table>';
+							document.getElementById('event').innerHTML='<h2 id="mtasiplogmess1">MTA SIP Packet Log</h2><table summary="This table shows SIP Packet Log" id="event_logs_today" class="data" class="mtaTable"><thead><th id="sip_value">Description</th><th width="111" id="sip_time">Time</th></thead><tbody></tbody><tfoot><tr class="acs-hide"><td headers="sip_value">null</td><td headers="sip_time">null</td></tr></tfoot></table>';
 						}
 						$.each(results,function(key,value) {
 							$("#event_logs_today > tbody").append('<tr class="'+trClass+'"><td headers="sip_value">'+value.Des+'</td><td headers="sip_time">'+value.time+'</td></tr>');
@@ -100,7 +100,7 @@ function decodeHTMLEntities (text) {
 		</div>
 	</div> <!-- end .module -->
 	<div class="form-btn">
-		<input id="showlogs" type="button" value="REFRESH" class="btn" style="position:relative;top:0px;left:300px;"/>
+		<input id="showlogs" type="button" value="REFRESH" class="btn mtaRefresh" />
 	</div>
 </div><!-- end #content -->
 <?% include('includes/footer.jst'); ?>

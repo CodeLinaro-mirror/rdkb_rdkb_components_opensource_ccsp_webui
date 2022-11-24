@@ -78,567 +78,9 @@ csrfProtector.init();
 		<meta name="author" content="">
 		<title><?% echo( $lang["captivePortal_Title"]); ?></title>
 		<link rel="stylesheet" href="cmn/css/styles.css">
+		<link rel="stylesheet" href="cmn/css/cp.css">
 	</head>
 <!-- for Dual Band Network -->
-<style>
-
-/*message css */
-
-media screen and (max-width: 860px) and (min-width: 481px) {
-
-        #phoneNumberContainer{
-                z-index: 1;
-        }
-
-        input[type='text']::placeholder{
-                color: rgba(255,255,255,.5);
-        }
-
-        .container {
-
-           /*  margin-left: 93% !important; */
-            position: absolute !important;
-        }
-
-        input::-webkit-input-placeholder {
-
-            opacity: 1;
-
-        }
-
-        .navigationButton{
-                display: block;
-        }
-
-         #button_previous_01,#button_next_01 {
-
-            margin-right: auto !important;
-            margin-left: auto !important;
-            display: block !important;
-            margin-top: 10px;
-        }
-
-        #agreementContainer .requirements{
-
-            top: -45px !important;
-            left: 82% !important;
-
-        }
-
-        .container .requirements .arrow{
-            margin-left:0px !important;
-            top:-18px !important;
-            border-color: transparent transparent #39464d transparent !important;
-            border-width: 8.5px 9px 8.5px 9px !important;       
-        }
-
-        .container .requirements{
-            left: 85% !important;
-            top: 70px;
-            font-size: 12px;
-            width: 204px !important;
-        }
-
-        #phoneNumberContainer .requirements{
-            top: -11px !important;
-            left: 47% !important;
-        }
-
-}
-
-
-/*message css */
-
-
-/* RDKB-29694 changes */
-
-
-@media only screen
- and (max-device-width: 480px){
-
-
-        #WiFi_Name_Field, #password_field {
-
-                    display: block;
-                    width: 90vw;
-                    margin: auto;
-                    background-color: rgba(255,255,255,.15);
-        }
-
-
-        #WiFi_Name, #WiFi_Password{
-                background: none;
-                outline: none;
-                font-size: 15px;
-                margin-top: 0px;
-        }
-
-        #WiFi_Name{
-                width: 241px;
-                margin-left:-24px;
-        }
-
-        #WiFi_Password{
-                width:203px;
-                margin-left:-57px;
-        }
-
-        #showPass {
-                 margin: -36px 0 0 57% !important;
-        }
-
-}
-
-
-@media only screen
- and (min-width: 481px){
-
-    #WiFi_Name_Field{
-        display: inline-block;
-        width: 357px;
-        height: 56px;
-        background-color: rgba(255,255,255,.15);
-}
-
-#password_field{
-        display: inline-block;
-        width: 357px;
-        height: 56px;
-        background-color: rgba(255,255,255,.15);
-        margin-top: 28px;
-        margin-left: -12px;
-}
-
-
-
-#WiFi_Name{
-    outline: none;
-    background: none;
-    margin-left: -51px;
-    width: 287px;
-    margin-top: 0px;
-}
-
- #WiFi_Password{
-    background: none;
-    margin-top: 0px;
-    margin-left: -78px;
-    width: 256px;
-    outline: none;
-}
-
-}
-
-
-@media only screen
- and (min-width: 481px) and (max-width: 1024px) {
-
-#PasswordContainer .requirements{
-    top: 105px;
-    left: 150px;
-}
-
-#NameContainer .requirements{
-    left: 153px;
-    top:104px;
-}
-
-
-#WiFi_Name_Field{
-    margin-top: 12px;
-    margin-bottom: 20px ;
-}
-
-
-
-#password_field{
-    display: inline-block;
-    width: 357px;
-    height: 56px;
-    background-color: rgba(255,255,255,.15);
-    margin-top: 12px;
-    margin-left: -9%;
-}
-
-
- #phoneNumberContainer{
-    z-index: 1;
-}
-
-input[type='text']::placeholder{
-    color: rgba(255,255,255,.5);
-}
-
-
-input::-webkit-input-placeholder {
-  opacity: 1 !important;
-}
-
-.navigationButton{
-    display: block;
-}
-
-.access-box  div{
-    float: none !important;
-}
-
-.access-box  p{
-    width: 100% !important;
-}
-
-
- #phoneNumberContainer .requirements{
-        top: -16px !important;
-        left: 137px !important;
- }
-
-
-p {
-    display: block !important;
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    font-size: 12px !important;
-    width: 100%;
-    text-align: center !important;
-
-}
-
- #button_previous_01,#button_next_01 {
-    margin-right: auto !important;
-    margin-left: auto !important;
-    display: block !important;
-
- }
-
-.container .requirements .arrow{
-    margin-left:0px !important;
-    top:-18px !important;
-    border-color: transparent transparent #39464d transparent !important;
-    border-width: 8.5px 9px 8.5px 9px !important;
-}
-
-.container {
-    position: absolute !important;
-}
-
-
-#agreementContainer .requirements{
-    top: 6px !important;
-    left: 185px !important;
-}
-
-
-
-#passwordIndicator{
-    margin-top: 13px;
-}
-
-.progress-bg{
-    margin: 0px;
-    margin: auto;
-}
-
-
-}
-
-
-
-/*RDKB-29694 changes */
-
-
-
-
-#WiFi_Password_01,#WiFi_Name_01,#WiFi_Name_02
-,#WiFi_Password_02,#WiFi_Name_04,#WiFi_Password_04,#WiFi_Password_05,
-#WiFi_Name_05{
-        white-space: pre;
-}
-
-@media only screen
- and (max-device-width: 600px){
-#topbar,#set_up > p,#set_up{
-        width: 100% !important;
-}
-}
-@media only screen
- and (max-device-width: 656px){
-
-.portal, #personalize > p {
-    width: 100% !important;
-   }
-}
-
-@media only screen
- and (max-device-width: 420px){
-  .rightbar{
-         right: 0px !important;
-  }
-}
-
-/* for mobiles*/
-@media only screen
- and (max-device-width: 480px){
-
-
-/*old changes*/
-
-#phoneNumberContainer{
-    z-index: 1;
-}
-
-input[type='text']::placeholder{
-    color: rgba(255,255,255,.5);
-}
-
-
-input::-webkit-input-placeholder {
-    opacity: 1 !important;
-}
-
-.navigationButton{
-    display: block;
-}
-  
-.access-box  div{
-    float: none !important;
- }
-
-.access-box  p{
-    width: 100% !important;
-}
-
-
- #phoneNumberContainer .requirements{
-        top: -11px !important;
- }
-
-/*old changes*/
-
-
-#phoneNumberContainer{
-    z-index: 1;
-}
-
-input[type='text']::placeholder{
-    color: rgba(255,255,255,.5);
-}
-
-
-input::-webkit-input-placeholder {
-  opacity: 1 !important;
-}
-
-.navigationButton{
-    display: block;
-}
-
-.access-box  div{
-    float: none !important;
- }
-
-.access-box  p{
-        width: 100% !important;
-}
-
-
- #phoneNumberContainer .requirements{
-        top: -11px !important;
- }
-
-
-
-p {
-    display: block !important;
-    margin-right: 0 !important;
-    margin-left: 0 !important;
-    font-size: 12px !important;
-    width: 100%;
-    text-align: center !important;
-
-}
-
-
-
-  #show5Pass{
-
-        margin: -36px 0 0 141px !important;
-  }
-
-#showDual{
-    margin-right: auto !important;
-    margin-left: auto !important;
-}
-
-.check-copy{
-    margin-right: auto !important;
-    margin-left: auto !important;
-    text-align: unset !important;
-}
-
- #button_previous_01,#button_next_01 {
-    margin-right: auto !important;
-    margin-left: auto !important;
-    display: block !important;
- }
-
-.password-text{
-    margin-left: 10% !important;
-    text-align: left !important;
-    width: fit-content;
-}
-
-.progress-bg{
-    margin-left: auto !important;
-    margin-right: auto !important;
-    width: 80% !important;
-}
-
-
-
-input[type='text'].error{
-    background-position: 96% !important;
-}
-
-input[type='text'].success{
-    background-position: 96% !important;
-}
-
-.container .requirements .arrow{
-    margin-left:0px !important;
-    top:-18px !important;
-    border-color: transparent transparent #39464d transparent !important;
-    border-width: 8.5px 9px 8.5px 9px !important;
-}
-
-
-.container .requirements {
-    left: 30% !important;
-    top: 94px;
-    font-size: 10px;
-    width: 204px;
-}
-
-
-.container {
-    position: absolute !important;
-}
-
-
-#phoneNumber{
-        width: 80% !important;
-}
-
-#agreementContainer .requirements{
-    top: -45px !important;
-}
-
-}
-
-
-#agreementContainer .requirements{
-    top: -116px;
-    left: 352px;
-
-}
-
-.confirm-text{
-    font-family: 'xfinSansLt';
-    font-size: 14px;
-    line-height: 24px;
-    color: #fff;
-    -webkit-font-smoothing: antialiased;
-}
-
-.left-settings  {
-    padding: 10px 30px 0px 0px;
-    text-align: right;
-    font-family: 'xfinSansLt';
-    font-size: 14px;
-    line-height: 24px;
-    color: #888;
-    -webkit-font-smoothing: antialiased;
-}
-
-svg.defs-only {
-    display: block;
-    position: absolute;
-    height: 0;
-    width: 0;
-    margin: 0;
-    padding: 0;
-    border: none;
-    overflow: hidden;
-}
-
-.rightbar {
-    position: absolute;
-    top: 35px;
-    right: 20px;
-    font-family: 'xfinSansXtraLt';
-}
-
-
-#dropdown_initial_state {
-    font-size: 16px;
-    border-radius: 0px;
-    outline: none;
-    width: 110px;
-    height: 40px;
-    font-family: inherit;
-    margin: 0;
-    overflow: hidden;
-}
-
-#dropdown_active_state {
-    font-size: 16px;
-    border-radius: 0px;
-    outline: none;
-    width: 150px;
-    height: 81px;
-    color: white;
-    font-family: inherit;
-    margin: 0;
-    overflow: hidden;
-    background-color: #445159;
-    -webkit-padding-start: 0px;
-    text-align: right;
-}
-
-ele{
-    color: white;
-    text-decoration: none;
-    display: block;
-    -webkit-font-smoothing: initial;
-    padding: 0px 20px;
-    line-height: 40px;
-    border-bottom: 1px solid black;
-    text-align: left;
-}
-
-
-ili{
-  position: absolute;
-  top: 10;
-  right: 20;
-  border: solid white;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 3px;
-}
-
-.down {
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-}
-
-.up {
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-    top: 15px;
-    right: 20px;
-}
-
-</style>
 <?%
 	// should we allow to Configure WiFi
 	// redirection logic - uncomment the code below while checking in
@@ -802,16 +244,16 @@ ili{
 	*/
 	$MyAccountAppSupport = ($personalization_value['MyAccountAppSupport'] == 'true');
 	$MyAccountAppBox = '<div class="access-box">';
-	$MyAccountAppBox +=	'<div style="float: left; padding-bottom: 50px;">';
+	$MyAccountAppBox +=	'<div class="captive_box">';
 	$MyAccountAppBox +=	'<a href="'+$personalization_value['PartnerHelpLink']+'">';
-	$MyAccountAppBox +=	'<img class="img-hover" src="cmn/img/xfinity_My_Account.png" style="margin: 10px 20px 0 20px;" height="100px"/>';
+	$MyAccountAppBox +=	'<img class="img-hover captive_img" src="cmn/img/xfinity_My_Account.png" height="100px"/>';
 	$MyAccountAppBox +=	'</a>';
 	$MyAccountAppBox +=	'</div>';
 	$MyAccountAppBox +=	'<div>';
-	$MyAccountAppBox +=	'<p style="margin: 10px 0 0 0; text-align: left; width: 380px; font-size: large;">';
+	$MyAccountAppBox +=	'<p class="captive_para">';
 	$MyAccountAppBox +=	'Want to change your settings at any time?';
 	$MyAccountAppBox +=	'</p>';
-	$MyAccountAppBox +=	'<p style="margin: 10px 0 0 0; text-align: left; width: 400px;">';
+	$MyAccountAppBox +=	'<p class="captive_para2">';
 	$MyAccountAppBox +=	'Download the XFINITY My Account app to access these settings and other features of your service.';
 	$MyAccountAppBox +=	'</p>';
 	$MyAccountAppBox +=	'</div>';
@@ -1514,12 +956,12 @@ $("#f_i_option1").click(function(){
 		<div id="topbar">
 			<!-- XFINITY logo placement -->
 			 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-                        <svg viewBox="0 0 100 47"  height="60" style="margin-top: 20px;" style="text-align:right;">
+                        <svg viewBox="0 0 100 47"  height="60" class="captive_logo">
 <?%
     //PartnerId = comcast cox rogers shaw
       $logo="cmn/syndication/img/"+$personalization_value['captivePortal_MSOLogo'];
 	  if($PartnerId == 'comcast'){
-                //        echo ('<svg viewBox="0 0 100 47"  height="60" style="margin-top: 20px;" style="text-align:right;">');
+                //        echo ('<svg viewBox="0 0 100 47"  height="60" class="captive_logo">');
                 //        include($logo);
 ?>
  <use xlink:href="#logo"  transform="translate(1.000000, 7.000000)"/>
@@ -1547,7 +989,7 @@ $("#f_i_option1").click(function(){
                                  <ul id="dropdown_initial_state">\
  				<a href = "captiveportal.jst?lang='); echo(  $lang['lang']); echo( '"> <ele id="f_i_option1">'); echo( $lang["option1"]); echo( '<ili class="down"></ili></ele></a>\
                                 </ul>\
-                                 <ul id="dropdown_active_state" style="display:none;">\
+                                 <ul id="dropdown_active_state" class="hidden">\
                                 <a href = "captiveportal.jst?lang='); echo(  $lang['lang']); echo( '">  <ele id="f_a_option1">'); echo(  $lang["option1"]); echo( '<ili class="up"></ili></ele></a>\
                                 <a href = "captiveportal.jst?lang='); echo(  $lang['otherlang']); echo( '">  <ele id="f_a_option2">'); echo( $lang["option2"]); echo( '</ele></a>\
                                 </ul>\
@@ -1560,7 +1002,7 @@ $("#f_i_option1").click(function(){
 			<br><br><br>
 			<img src="cmn/img/progress.gif" height="75" width="75"/>
 		</div>
-		<div id="set_up" style="display: none;" class="portal">
+		<div id="set_up" class="portal hidden">
 			<h1><?% echo( $lang["captivePortal_WelcomeMessage"]); ?></h1>
 			<hr>
 			<p>
@@ -1573,70 +1015,70 @@ $("#f_i_option1").click(function(){
 			</div>
 			<br><br>
 		</div>
-		<div id="personalize" style="display: none;" class="portal">
+		<div id="personalize" class="portal hidden">
 			<br>
-			<h1 style="margin: 20px auto 0 auto;">
+			<h1  class="captive_personalize">
 			 <?% echo( $lang["create_wifi"]); ?>
 			</h1>
-			<p style="width: 500px;">
+			<p class="captive_personalize2">
 			 <?% echo( $lang["this_step_2"]); ?>
 			</p>
 			<hr>
 				
-				<div id="NameContainer" class="container" style="display: none;">
+				<div id="NameContainer" class="container hidden">
 					<div class="requirements">
 						<div id="NameMessageTop" class="top"> <?% echo( $lang["lets_try_that"]); ?></div>
 						<div id="NameMessageBottom" class="bottom"> <?% echo( $lang["choose_a_different"]); ?></div>
 						<div class="arrow"></div>
 					</div>
 				</div>
-				<p style="display:inline; margin: 1px 40px 0 0; text-align: right;"><?% echo( $lang["wifi_name"]); ?></p>
+				<p class="captive_name"><?% echo( $lang["wifi_name"]); ?></p>
 				<span id="WiFi_Name_Field" class="" >
 					<input style="/*display:inline; margin: 4px 0 0 -8px;*/" id="WiFi_Name" type="text" placeholder="<?% echo( $lang["exampleaccounttext"]); ?>" maxlength="32" class="">
 				</span>	
 				<br>
-				<div id="PasswordContainer" class="container" style="display: none;">
+				<div id="PasswordContainer" class="container hidden">
 					<div class="requirements">
 						<div id="PasswordMessageTop" class="top"><?% echo( $lang["lets_try_that"]); ?></div>
 						<div id="PasswordMessageBottom" class="bottom"> <?% echo( $lang["choose_a_different"]); ?></div>
 						<div class="arrow"></div>
 					</div>
 				</div>
-				<p style="display:inline; margin: 1px 40px 0 -60px; text-align: right;"><?% echo( $lang["wifi_password"]); ?></p>
+				<p class="captive_pass"><?% echo( $lang["wifi_password"]); ?></p>
 				<span style="/*display:inline; margin: 4px 0 0 -26px;*/" id="password_field"><input id="WiFi_Password" type="text" placeholder="<?% echo( $lang["passwordtext"]); ?>" maxlength="64" class="" autocorrect="off" autocapitalize="off"></span>
-				<div id="showPass" style="display:inline-table; margin: 4px 0 0 -90px;">
-					<a href="javascript:void(0)" style="white-space: pre;"><?% echo( $lang["hide"]); ?></a>
+				<div id="showPass" class="captive_showpass">
+					<a href="javascript:void(0)" class="captive_whitespace"><?% echo( $lang["hide"]); ?></a>
 			    </div>
-				<div id="passwordIndicator" style="display: none;">
+				<div id="passwordIndicator" class="hidden">
 					<div class="progress-bg"><div id="passwordStrength"></div></div>
 					<p id="passwordInfo" class="password-text"></p>
 				</div>
 				<div name="dualBand" id="showDualConfig">
 				<br>
-					<p style="margin: 10px 40px 0 -10px;"><?% echo( $lang["5network"]); ?></p>
-					<div id="NameContainer5" class="container" style="display: none;">
+					<p class="captive_net"><?% echo( $lang["5network"]); ?></p>
+					<div id="NameContainer5" class="container hidden">
 						<div class="requirements">
 							<div id="NameMessageTop5" class="top"><?% echo( $lang["lets_try_that"]); ?></div>
 							<div id="NameMessageBottom5" class="bottom"><?% echo( $lang["choose_a_different"]); ?></div>
 							<div class="arrow"></div>
 						</div>
 					</div>
-					<p style="display:inline; margin: 1px 40px 0 0; text-align: right;"><?% echo( $lang["wifi_name"]); ?></p>
-					<input style="display:inline; margin: 4px 0 0 -8px;" id="WiFi5_Name" type="text" placeholder="<?% echo( $lang["exampleaccounttext"]); ?>" maxlength="32" class="">
+					<p class="captive_name"><?% echo( $lang["wifi_name"]); ?></p>
+					<input class="captive_example" id="WiFi5_Name" type="text" placeholder="<?% echo( $lang["exampleaccounttext"]); ?>" maxlength="32" class="">
 					<br>
-					<div id="PasswordContainer5" class="container" style="display: none;">
+					<div id="PasswordContainer5" class="container hidden">
 						<div class="requirements">
 							<div id="PasswordMessageTop5" class="top"><?% echo( $lang["lets_try_that"]); ?></div>
 							<div id="PasswordMessageBottom5" class="bottom"><?% echo( $lang["choose_a_different"]); ?></div>
 							<div class="arrow"></div>
 						</div>
 					</div>
-					<p style="display:inline; margin: 1px 40px 0 -60px; text-align: right;"><?% echo( $lang["wifi_password"]); ?></p>
-					<span style="display:inline; margin: 4px 0 0 -26px;" id="password5_field"><input id="WiFi5_Password" type="text" placeholder="<?% echo( $lang["passwordtext"]); ?>" maxlength="64" class="" autocorrect="off" autocapitalize="off" ></span>
-					<div id="show5Pass" style="display:inline-table; margin: 4px 0 0 -90px;">
-						<a href="javascript:void(0)" style="white-space: pre;"><?% echo( $lang["hide"]); ?> </a>
+					<p class="captive_pass"><?% echo( $lang["wifi_password"]); ?></p>
+					<span class="captive_pwdfield" id="password5_field"><input id="WiFi5_Password" type="text" placeholder="<?% echo( $lang["passwordtext"]); ?>" maxlength="64" class="" autocorrect="off" autocapitalize="off" ></span>
+					<div id="show5Pass" class="captive_showpass">
+						<a href="javascript:void(0)" class="captive_whitespace"><?% echo( $lang["hide"]); ?> </a>
 				    </div>
-					<div id="passwordIndicator5" style="display: none;">
+					<div id="passwordIndicator5 hidden">
 						<div class="progress-bg"><div id="passwordStrength5"></div></div>
 						<p id="passwordInfo5" class="password-text"></p>
 					</div>
@@ -1645,11 +1087,11 @@ $("#f_i_option1").click(function(){
 			<br>
 			<br><br>
 			<div>
-				<button id="button_next" style="text-align: center; width: 215px; display: none;"><?% echo( $lang["next"]); ?></button>
+				<button id="button_next" class="captive_btn"><?% echo( $lang["next"]); ?></button>
 			</div>
 			<br><br>
 		</div>
-		<div id="confirm" style="display: none;" class="portal">
+		<div id="confirm"  class="portal hidden">
 			<h1><?% echo( $lang["confirm_settings"]); ?></h1>
 			<hr>
 			<table align="center" border="0">
@@ -1667,7 +1109,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi_Password_01" ></td>
 					<td class="final-settings" id="WiFi_Password_pass_01" ></td>
 					<td id="showPass01">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;"><?% echo( $lang["hide"]); ?> </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden"><?% echo( $lang["hide"]); ?> </a>
 				    </td>
 				</tr>
 				<tr>
@@ -1687,21 +1129,21 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi5_Password_01" ></td>
 					<td class="final-settings" id="WiFi5_Password_pass_01" ></td>
 					<td id="show5Pass01">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;"><?% echo( $lang["hide"]); ?></a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden"><?% echo( $lang["hide"]); ?></a>
 				    </td>
 				</tr>
 			</table>
 			<hr>
 			<?% $SMSsupport = ($personalization_value["SMSsupport"] == 'true') ? 'block' : 'none' ; ?>
 			<div style="display: <?% echo( $SMSsupport); ?>">
-				<p style="text-align: left; margin: 13px 0 0 115px;">
+				<p class="captive_self_text">
 				<?% echo( $lang["send_ur_self_text"]); ?>
 				</p>
 				<div id="text_sms" style="display: <?% echo( $SMSsupport); ?>">
-					<p style="text-align: left; margin: 27px 0 0 115px;"><?% echo( $lang["your_mobile_number"]); ?></p>
+					<p class="captive_mobilenum"><?% echo( $lang["your_mobile_number"]); ?></p>
 					<input id="phoneNumber" type="text" placeholder="1(  )  -  " class="">
-					<div id="phoneNumberContainer" class="container" style="margin: 20px 30% auto auto; display: none;">
-						<div class="requirements" style="top: -118px; left: 335px;">
+					<div id="phoneNumberContainer" class="container captive_margin hidden">
+						<div class="requirements captive_text">
 							<div id="phoneNumberMessageTop" class="top">Text (SMS)</div>
 							<div id="phoneNumberMessageBottom" class="bottom">Texts are not encrypted. You can always view Wi-Fi name/password under My Account instead.</div>
 							<div class="arrow"></div>
@@ -1711,14 +1153,14 @@ $("#f_i_option1").click(function(){
 				</div>
 				<div id="concent_check" class="checkbox">
 					<input id="concent" type="checkbox" name="concent">
-					<label for="concent" class="insertBox" style="margin: -40px 10px 0 15px;"></label>
-					<div class="check-copy" style="text-align: left; color: #888;">
+					<label for="concent" class="insertBox captive_insertBox"></label>
+					<div class="check-copy captive_copy">
 							<?% echo( $lang["agree_to_receive_text"]); ?>
 							<br/>
 						</div>
 				</div>
-				<div id="agreementContainer" class="container" style="margin: 20px 30% auto auto; display: none;">
-					<div class="requirements" style="top: -109px; left: 337px;">
+				<div id="agreementContainer" class="container hidden captive_margin">
+					<div class="requirements captive_mess">
 						<div id="agreementMessageTop" class="top">Confirmation</div>
 						<div id="agreementMessageBottom" class="bottom">Please confirm your agreement to receive a text message.</div>
 						<div class="arrow"></div>
@@ -1732,7 +1174,7 @@ $("#f_i_option1").click(function(){
 			</div>
 			<br><br>
 		</div>
-		<div id="setup" style="display: none;" class="portal">
+		<div id="setup"  class="portal hidden">
 			<h1><?% echo( $lang["join_wifi"]); ?></h1>
 			<p><?% echo( $lang["will_begin_broadcasting"]); ?>.<br>
 			</p>
@@ -1751,7 +1193,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi_Password_02" ></td>
 					<td class="final-settings" id="WiFi_Password_pass_02" ></td>
 					<td id="showPass02">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 				<tr>
@@ -1770,7 +1212,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi5_Password_02" ></td>
 					<td class="final-settings" id="WiFi5_Password_pass_02" ></td>
 					<td id="show5Pass02">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 			</table>
@@ -1778,7 +1220,7 @@ $("#f_i_option1").click(function(){
 			<?% if($MyAccountAppSupport) echo( $MyAccountAppBox); ?>
 			<br><br>
 		</div>
-		<div id="complete" style="display: none;" class="portal">
+		<div id="complete"  class="portal hidden">
 			<h1><?% echo( $lang["nearly_complete"]); ?></h1>
 			<img src="cmn/img/progress.gif" height="75" width="75"/>
 			<div class="link_example">
@@ -1800,7 +1242,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi_Password_04" ></td>
 					<td class="final-settings" id="WiFi_Password_pass_04" ></td>
 					<td id="showPass03">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 				<tr>
@@ -1819,7 +1261,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi5_Password_04" ></td>
 					<td class="final-settings" id="WiFi5_Password_pass_04" ></td>
 					<td id="show5Pass03">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 			</table>
@@ -1827,7 +1269,7 @@ $("#f_i_option1").click(function(){
 			<?% if($MyAccountAppSupport) echo( $MyAccountAppBox); ?>
 			<br><br>
 		</div>
-		<div id="ready" style="display: none;" class="portal">
+		<div id="ready"  class="portal hidden">
 			<h1><?% echo( $lang["wifi_ready"]); ?></h1>
 			<img src="cmn/img/success_lg.png"/>
 			<div class="link_example">
@@ -1849,7 +1291,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi_Password_05" ></td>
 					<td class="final-settings" id="WiFi_Password_pass_05" ></td>
 					<td id="showPass04">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 				<tr>
@@ -1868,7 +1310,7 @@ $("#f_i_option1").click(function(){
 					<td class="final-settings" id="WiFi5_Password_05" ></td>
 					<td class="final-settings" id="WiFi5_Password_pass_05" ></td>
 					<td id="show5Pass04">
-						<a href="javascript:void(0)" style="white-space: pre; display: none;">Hide </a>
+						<a href="javascript:void(0)" class="captive_whitespace hidden">Hide </a>
 				    </td>
 				</tr>
 			</table>

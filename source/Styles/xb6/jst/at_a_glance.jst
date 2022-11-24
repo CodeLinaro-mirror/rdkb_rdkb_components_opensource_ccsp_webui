@@ -313,31 +313,31 @@ function popUp(URL) {
 						$wifi_passkey = $wifi_60_passkey;	
 						}
 					}
-					$width_pass = strlen($wifi_passkey)>50?' style="width: 145px;"':'';
+					$width_pass = strlen($wifi_passkey)>50?' class="pass_width"':'';
 					echo( '<div class="form-row even">');
 						echo( '<div class="form-row even">');
-							echo( '<span class="readonlyLabel" id="wifissid" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi SSID:</span>');
-							echo( '<span class="value" style="white-space: pre;">');echo( $wifi_ssid);echo( '</span>');
+							echo( '<span class="readonlyLabel white_space" id="wifissid"'); echo( $width_pass); echo( '>Wi-Fi SSID:</span>');
+							echo( '<span class="value white_space">');echo( $wifi_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_sec_mode ) {
 							echo( '<div class="form-row even">');
-								echo( '<span class="readonlyLabel" id="wifipass" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi Passkey:</span>');
-								echo( '<span class="value" style="white-space: pre;">');echo( $wifi_passkey);echo( '</span>');
+								echo( '<span class="readonlyLabel white_space" id="wifipass"'); echo( $width_pass); echo( '>Wi-Fi Passkey:</span>');
+								echo( '<span class="value white_space">');echo( $wifi_passkey);echo( '</span>');
 							echo( '</div>');
 						}
 					echo( '</div>');
 				} else {
                     if ("true" == $wifi_24_enabled && "true" == $wifi_24_radio){
-					$width_pass = strlen($wifi_24_passkey)>50 || strlen($wifi_50_passkey)>50 ?' style="width: 145px;"':'';
+					$width_pass = strlen($wifi_24_passkey)>50 || strlen($wifi_50_passkey)>50 ?' class="pass_width"':'';
 					echo( '<div class="form-row even">');
 						echo( '<div class="form-row even">');
-							echo( '<span class="readonlyLabel" id="wifissid24" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi SSID (2.4 GHz):</span>');
-							echo( '<span class="value" style="white-space: pre;">');echo( $wifi_24_ssid);echo( '</span>');
+							echo( '<span class="readonlyLabel white_space" id="wifissid24"'); echo( $width_pass); echo( '>Wi-Fi SSID (2.4 GHz):</span>');
+							echo( '<span class="value white_space">');echo( $wifi_24_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_24_secmode) {
 							echo( '<div class="form-row even">');
-								echo( '<span class="readonlyLabel" id="wifipasskey24" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi Passkey (2.4 GHz):</span>');
-								echo( '<span class="value" style="white-space: pre;">');echo( $wifi_24_passkey);echo( '</span>');
+								echo( '<span class="readonlyLabel white_space" id="wifipasskey24"'); echo( $width_pass); echo( '>Wi-Fi Passkey (2.4 GHz):</span>');
+								echo( '<span class="value white_space">');echo( $wifi_24_passkey);echo( '</span>');
 							echo( '</div>');
 						}
 					echo( '</div>');
@@ -345,13 +345,13 @@ function popUp(URL) {
                     if ("true" == $wifi_50_enabled && "true" == $wifi_50_radio){
 					echo( '<div class="form-row odd">');
 						echo( '<div class="form-row odd">');
-							echo( '<span class="readonlyLabel" id="wifissid5" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi SSID (5 GHz):</span>');
-							echo( '<span class="value" style="white-space: pre;">');echo( $wifi_50_ssid);echo( '</span>');
+							echo( '<span class="readonlyLabel white_space" id="wifissid5"'); echo( $width_pass); echo( '>Wi-Fi SSID (5 GHz):</span>');
+							echo( '<span class="value white_space">');echo( $wifi_50_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_50_secmode) { 
 							echo( '<div class="form-row odd">');
-								echo( '<span class="readonlyLabel" id="wifipasskey5" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi Passkey (5 GHz):</span>');
-								echo( '<span class="value" style="white-space: pre;">');echo( $wifi_50_passkey);echo( '</span>');
+								echo( '<span class="readonlyLabel white_space" id="wifipasskey5"'); echo( $width_pass); echo( '>Wi-Fi Passkey (5 GHz):</span>');
+								echo( '<span class="value white_space">');echo( $wifi_50_passkey);echo( '</span>');
 							echo( '</div>');
 						}
 					echo( '</div>');
@@ -361,13 +361,13 @@ function popUp(URL) {
                     	if ("true" == $wifi_60_enabled && "true" == $wifi_60_radio){
 					echo( '<div class="form-row ">');
 						echo( '<div class="form-row">');
-							echo( '<span class="readonlyLabel" id="wifissid6" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi SSID (6 GHz):</span>');
-							echo( '<span class="value" style="white-space: pre;">');echo( $wifi_60_ssid);echo( '</span>');
+							echo( '<span class="readonlyLabel white_space" id="wifissid6" '); echo( $width_pass); echo( '>Wi-Fi SSID (6 GHz):</span>');
+							echo( '<span class="value white_space">');echo( $wifi_60_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_60_secmode) { 
 							echo( '<div class="form-row odd">');
-								echo( '<span class="readonlyLabel" id="wifipasskey6" style="white-space: pre;"'); echo( $width_pass); echo( '>Wi-Fi Passkey (6 GHz):</span>');
-								echo( '<span class="value" style="white-space: pre;">');echo( $wifi_60_passkey);echo( '</span>');
+								echo( '<span class="readonlyLabel white_space" id="wifipasskey6"'); echo( $width_pass); echo( '>Wi-Fi Passkey (6 GHz):</span>');
+								echo( '<span class="value white_space">');echo( $wifi_60_passkey);echo( '</span>');
 							echo( '</div>');
 						}
 					echo( '</div>');
@@ -467,7 +467,7 @@ function popUp(URL) {
 					$voice_state ='Disconnected';
 				}
 				echo ("<div class='form-row '>");
-				echo("<span class='readonlyLabel' style='white-space: pre;' id='ataglanmess2'>Voice: </span> <span class='value' id="+$idVoice+" style='white-space: pre;'>");echo($voice_state);echo("</span></div>");
+				echo("<span class='readonlyLabel white_space' id='ataglanmess2'>Voice: </span> <span class='value white_space' id="+$idVoice+">");echo($voice_state);echo("</span></div>");
 			}
 			?>
 			<div class="form-row odd">

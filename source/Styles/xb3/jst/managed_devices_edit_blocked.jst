@@ -94,12 +94,6 @@ if($locale=="it" || $locale=="en_GB"){
 	($blockStatus == "") && ($blockStatus = "true");
 ?>
 
-<style>
-label{
-        margin-right: 10px !important;
-                }
-</style>
-
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Parental Control > Managed Devices > Add Blocked Device", "nav-devices");
@@ -314,7 +308,7 @@ $(document).ready(function() {
 <div id="content">
 	<h1 id="editbldevmess3">Parental Control > Managed Devices > Edit Blocked Device</h1>
 	<div class="module forms enable">
-		<div id="content" style="text-align: center;">
+		<div id="content" class="description">
 			<br>
 			<h3><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="<?% echo($downmess1); ?>">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="mandevmess"> to enable parental controls for devices connected</span><span id="mandevmessnew"> to your home network, among many other features and settings.</span></h3>
 			<br>

@@ -195,7 +195,7 @@ function setResetInfo(info) {
 			}
 			else if(JSON.parse(data).wifi) {
 				var cnt = 90;
-				jProgress($.i18n('Restarting Wi-Fi radios. This may take up to ') +"<span id=\"count_down\" style=\"font-weight:bold\">"+ cnt +"</span>"+ $.i18n(" seconds..."),120);
+				jProgress($.i18n('Restarting Wi-Fi radios. This may take up to ') +"<span id=\"count_down\" class=\"restore_cnt\">"+ cnt +"</span>"+ $.i18n(" seconds..."),120);
 				var h_cntd  = setInterval(function(){
 					$("#count_down").text(--cnt);
 					if (cnt<=0) {
@@ -240,27 +240,27 @@ function checkForRebooting() {
 	<div class="module forms" id="restore">
 		<h2 id="restoremsg1">Reset / Restore Gateway</h2>
 		<div id="div1" class="form-row odd">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn1" title="Reset the Gateway" style="text-transform : none;">RESET</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn1" title="Reset the Gateway">RESET</a></span> 
 			<span class="value" id="restoremsg3">Press \"Reset\" button to restart the gateway.</span>
 		</div>
 		<div id="div2" class="form-row">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn2" title="Reset Wi-Fi Module" style="text-transform : none;">RESET Wi-Fi MODULE</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn2" title="Reset Wi-Fi Module">RESET Wi-Fi MODULE</a></span> 
 			<span class="value" id="restoremsg5">Press \"Reset Wi-Fi Module\" to restart just the Wi-Fi Module only.</span>
 		</div>
 		<div id="div3" class="form-row odd">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn3" title="Reset the Wi-Fi Gateway" style="text-transform : none;">RESET Wi-Fi ROUTER</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn3" title="Reset the Wi-Fi Gateway">RESET Wi-Fi ROUTER</a></span> 
 			<span class="value" id="restoremsg6">Press \"Reset Wi-Fi Router\" to restart Wi-Fi and Router modules.</span>
 		</div>
 		<div id="div4" class="form-row">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn4" title="Restore manufacturer defaults for Wi-Fi Only" style="text-transform : none;">RESTORE Wi-Fi SETTINGS</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn4" title="Restore manufacturer defaults for Wi-Fi Only">RESTORE Wi-Fi SETTINGS</a></span> 
 			<span class="value" id="restoremsg7">Press "Restore Wi-Fi Settings" to activate your Gateway Default Settings for Wi-Fi only. Only your Wi-Fi settings will be lost.</span>
 		</div>
 		<div id="div6" class="form-row odd">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn6" title="Reset Password" style="text-transform : none;">RESET PASSWORD</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn6" title="Reset Password" >RESET PASSWORD</a></span> 
 			<span class="value" id="restoremsgadmin">Press "Reset Password" to reset User Admin tool password to factory default</span>
 		</div>
 		<div id="div5" class="form-row">
-			<span class="readonlyLabel"><a href="#" class="btn" id="btn5" title="Restore Factory settings" style="text-transform : none;">RESTORE FACTORY SETTINGS</a></span> 
+			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn5" title="Restore Factory settings">RESTORE FACTORY SETTINGS</a></span> 
 			<span class="value" id="restoremsg9">Press "Restore Factory Settings" to activate your Gateway Default Settings. All your previous settings will be lost.</span>
 		</div>
 	</div> <!-- end .module -->

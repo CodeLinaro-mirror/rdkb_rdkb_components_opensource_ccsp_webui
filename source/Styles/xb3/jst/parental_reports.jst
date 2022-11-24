@@ -365,7 +365,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="site_report_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="site_report_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col"  colspan="3" id="parrepmess13">Reports from Yesterday</td>
@@ -374,7 +374,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="site_report_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="site_report_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col"  colspan="3" id="parrepmess14">Reports from Last week</td>
@@ -383,7 +383,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="site_report_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="site_report_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col"  colspan="3" id="parrepmess15">Reports from Last month</td>
@@ -392,7 +392,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="site_report_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="site_report_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col"  colspan="3" id="parrepmess16">Reports from Last 90 days</td>
@@ -406,9 +406,9 @@ function ajaxDo(mode,timef){
 			<input type="submit" id="input-download" value="Download" class="btn alt downloadbtn"/>
 		</div>
 	</div> <!-- end .module -->
-	<div class="module forms data" id="service" style="display:none">
+	<div class="module forms data hidden" id="service">
 		<h2 id="parrepmess17">Managed Services Reports</h2>
-		<table id="service_report_today" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="service_report_today" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col"  colspan="3" id="parrepmess12">Reports for Today</td>
@@ -417,7 +417,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="service_report_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="service_report_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" colspan="3" id="parrepmess13">Reports from Yesterday</td>
@@ -426,7 +426,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="service_report_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="service_report_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" colspan="3" id="parrepmess14">Reports from Last week</td>
@@ -435,7 +435,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="service_report_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="service_report_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col"  colspan="3" id="parrepmess15">Reports from Last month</td>
@@ -444,7 +444,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="service_report_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="service_report_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" colspan="3" id="parrepmess16">Reports from Last 90 days</td>
@@ -458,10 +458,10 @@ function ajaxDo(mode,timef){
 			<input type="submit" id="input-download" value="Download" class="btn alt downloadbtn"/>
 		</div>
 	</div> <!-- end .module -->
-	<div class="module forms data" id="all" style="display:none">
+	<div class="module forms data hidden" id="all">
 		<h2 id="parrepmess18">All Reports</h2>
-		<table id="all_report_today" cellpadding="0" cellspacing="0" class="data" style="display:none">
-			<thead>
+		<table id="all_report_today" cellpadding="0" cellspacing="0" class="data hidden" >
+		<thead>
 				<tr>
 					<td  class="acs-th" scope="col"  colspan="3" id="parrepmess12">Reports for Today</td>
 				</tr>
@@ -469,7 +469,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="all_report_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="all_report_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col"  colspan="3" id="parrepmess13">Reports from Yesterday</td>
@@ -478,7 +478,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="all_report_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="all_report_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" colspan="3" id="parrepmess14">Reports from Last week</td>
@@ -487,7 +487,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="all_report_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="all_report_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" colspan="3" id="parrepmess15">Reports from Last month</td>
@@ -496,7 +496,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="all_report_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="all_report_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col"  colspan="3" id="parrepmess16">Reports from Last 90 days</td>
@@ -510,9 +510,9 @@ function ajaxDo(mode,timef){
 			<input type="submit" id="input-download" value="Download" class="btn alt downloadbtn"/>
 		</div>
 	</div> <!-- end .module -->
-	<div class="module forms data" id="device" style="display:none">
+	<div class="module forms data hidden" id="device">
 		<h2 id="parrepmess19">Managed Devices Reports</h2>
-		<table id="device_report_today" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="device_report_today" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" id="firewall_time_today" colspan="2" >Reports for Today</td>
@@ -521,7 +521,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="device_report_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="device_report_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td  class="acs-th" scope="col" id="firewall_time_yesterday" colspan="2" >Reports from Yesterday</td>
@@ -530,7 +530,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="device_report_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="device_report_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th"  scope="col" id="firewall_time_lweek" colspan="2">Reports from Last Week</td>
@@ -539,7 +539,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="device_report_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="device_report_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th"  scope="col" id="firewall_time_lmonth" colspan="2">Reports from Last Month</td>
@@ -548,7 +548,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="device_report_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="device_report_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th"  scope="col" id="firewall_time_l90days" colspan="2" >Reports from Last 90 days</td>

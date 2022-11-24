@@ -61,20 +61,10 @@
 	$currentOpMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.CurrentOperationalMode");
 	$autownStatus = (strtolower($currentOpMode)=="ethernet" && $autowan_status=="Down") ? "true" : "false";
 ?>
-<style type="text/css">
-label{
-	margin-right: 10px !important;
-}
-.rs_radiolist li.rs_radio_off.rs_selected {
-	background: #92c700;
-	border: solid 1px #6da006;
-	color: #fff;
-	text-shadow: 0 1px 1px #5a9007;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Gateway > Connection > WAN Network", "nav-wan-network");
+	$("label").addClass("label_wan");
 	$("#wan_switch").radioswitch({
 		id: "wan-switch",
 		radio_name: "wan_network",

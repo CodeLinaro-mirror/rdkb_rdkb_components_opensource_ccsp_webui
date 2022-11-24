@@ -24,11 +24,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-#content {
-	display: none;
-}
-</style>
 <?%
 	$NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
 	$wanType = get_wan_type();
@@ -69,7 +64,7 @@ $(document).ready(function() {
 		$(".div_dsl").remove();
 	}
 	// now we can show target content
-	$("#content").show();
+	$("#content_network").css('display', 'inline-block');
 });
 </script>
 <?%
@@ -266,7 +261,7 @@ function sec2dhms($sec)
 		}
 	}
 ?>
-<div id="content">
+<div id="content_network">
 <h1><label id="network_header">Gateway > Connection ></label> <?% echo($Connection_values[0]['StatusTitle']); ?></h1>
 <div id="educational-tip">
 	<p class="tip"><?% echo( $Connection_values[0]['MSOinfo']); ?></p>
@@ -851,39 +846,39 @@ if ($wanType == "DSL") {
 <div class="module forms">
 	<h2 id="<?% echo($iddslcab);?>" ><?% echo ($modemType);?></h2>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333" id="hwver">HW Version:</span>
+		<span class="readonlyLabel networkColor" id="hwver">HW Version:</span>
 		<span class="value"><?% echo( $device_value['HardwareVersion']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333" id="vend">Vendor:</span>
+		<span class="readonlyLabel networkColor" id="vend">Vendor:</span>
 		<span class="value"><?% echo( $device_value['Manufacturer']);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333" id="bootver">BOOT Version:</span>
+		<span class="readonlyLabel networkColor" id="bootver">BOOT Version:</span>
 		<span class="value"><?% echo( $device_value['BootloaderVersion']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333" id="netsetmess23">Core Version:</span>
+		<span class="readonlyLabel networkColor" id="netsetmess23">Core Version:</span>
 		<span class="value"><?% echo( $CM_value["CoreVersion"]);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333" id="mod">Model:</span>
+		<span class="readonlyLabel networkColor" id="mod">Model:</span>
 		<span class="value"><?% echo( $device_value['ModelName']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333" id="prodtype">Product Type:</span>
+		<span class="readonlyLabel networkColor" id="prodtype">Product Type:</span>
 		<span class="value"><?% echo( $device_value['ProductClass']);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333" id="netsetmess24">Flash Part:</span>
+		<span class="readonlyLabel networkColor" id="netsetmess24">Flash Part:</span>
 		<span class="value"><?% echo( $device_value['Hardware']);?> MB</span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333" id="downver">Download Version:</span>
+		<span class="readonlyLabel networkColor" id="downver">Download Version:</span>
 		<span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333" id="sernum">Serial Number:</span>
+		<span class="readonlyLabel networkColor" id="sernum">Serial Number:</span>
 		<span class="value"><?% echo( $device_value['SerialNumber']);?></span>
 	</div>
 </div>
@@ -906,38 +901,38 @@ for ($i=1, $j=1; $i<count($ds_ids); $i++)
 	$ds_tab[$i]['LockStatus']		= $ds_val[$j++][1];
 }
 ?>
-<div class="module div_down" style="overflow:auto">
+<div class="module div_down netFlow" >
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<td class="row-label acs-th"><div style="width: 100px" id="dsx_ds">Downstream</div></td>
+			<td class="row-label acs-th"><div class="netWidth" id="dsx_ds">Downstream</div></td>
 			<td class="row-label acs-th" colspan="<?% echo( count($ds_ids));?>" id="netsetmess25">Channel Bonding Value</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="">
 			<th class="row-label " id="netwsetindex1">Index</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$i+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$i+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess26">Lock Status</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['LockStatus']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['LockStatus']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess27">Frequency</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['Frequency']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['Frequency']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">SNR</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['SNRLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['SNRLevel']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess28">Power Level</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['PowerLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['PowerLevel']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess29">Modulation</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['Modulation']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['Modulation']+'</div></td>');?>
 		</tr>
 	</tbody>
 	</table>
@@ -959,42 +954,42 @@ for ($i=1, $j=1; $i<count($us_ids); $i++)
 	$us_tab[$i]['LockStatus']		= $us_val[$j++][1];
 }
 ?>
-<div class="module div_up" style="overflow:auto">
+<div class="module div_up netFlow" >
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<td class="row-label acs-th"><div style="width: 100px" id="dsx_us">Upstream</div></td>
+			<td class="row-label acs-th"><div class="netWidth" id="dsx_us">Upstream</div></td>
 			<td class="row-label acs-th" colspan="<?% echo( count($us_ids));?>" id="netsetmess25">Channel Bonding Value</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="">
 			<th class="row-label " id="netwsetindex">Index</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$i+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$i+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess26">Lock Status</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['LockStatus']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['LockStatus']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess27">Frequency</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['Frequency']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['Frequency']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess30">Symbol Rate</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['SymbolRate']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['SymbolRate']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess28">Power Level</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['PowerLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['PowerLevel']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess29">Modulation</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['Modulation']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['Modulation']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess31">Channel Type</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['ChannelType']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['ChannelType']+'</div></td>');?>
 		</tr>
 	</tbody>
 	</table>
@@ -1012,7 +1007,7 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
         $ec_tab[$i]['UncorrectableCodewords']            = $ec_val[$j++][1];
 }
 ?>
-<div class="module div_code" style="overflow:auto">
+<div class="module div_code netFlow">
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
@@ -1022,15 +1017,15 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	<tbody>
 		<tr class="">
 			<th class="row-label " id="netsetmess33">Unerrored Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UnerroredCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div  class="netWidth">'+$ec_tab[$i]['UnerroredCodewords']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label " id="netsetmess34">Correctable Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['CorrectableCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ec_tab[$i]['CorrectableCodewords']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label " id="netsetmess36">Uncorrectable Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UncorrectableCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ec_tab[$i]['UncorrectableCodewords']+'</div></td>');?>
 		</tr>
 	</tbody>
 	</table>
@@ -1038,16 +1033,16 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 <div class="module forms div_dsl">
 	<h2 id="netsetmess39">Modem Stats</h2>
  	<div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="netsetmess40">Modem Status:</span>
+		<span class="readonlyLabel" class="netAlign networkColor" id="netsetmess40">Modem Status:</span>
 		<span class="value" id="<?% echo($idconn); ?>"><?% echo($Wan_Port_Status);?></span>
  	</div>
      <?% if(strpos($partnerId, "sky-") === false){ ?>
  	<div class="form-row odd">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="netsetmess41">DownStream Connection Speed:</span>
+		<span class="readonlyLabel" class="netAlign networkColor" id="netsetmess41">DownStream Connection Speed:</span>
 		<span class="value"><?% echo ($modem_downstream);?></span>
  	</div>
 	<div class="form-row ">
- 		<span class="readonlyLabel" style="text-align:left; color:#333333" id="netsetmess42">UpStream Connection Speed:</span>
+ 		<span class="readonlyLabel" class="netAlign networkColor" id="netsetmess42">UpStream Connection Speed:</span>
 		<span class="value"><?% echo ($modem_upstream);?></span>
 	</div>
      <?% } ?>
@@ -1070,7 +1065,7 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 <div class="module forms div_dsl">
 	<h2 id="netsetmess43">WAN Port</h2>
  	<div class="form-row">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="netsetmess44">Port Detail:</span>
+		<span class="readonlyLabel" class="netAlign networkColor" id="netsetmess44">Port Detail:</span>
 		<span class="value" id="<?% echo($idwanconn); ?>"><?% echo ($wan_port_value); ?></span>
 	</div>
 </div>

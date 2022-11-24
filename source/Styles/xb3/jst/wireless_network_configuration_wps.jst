@@ -25,11 +25,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style>
-#wirewpsmess4{
-margin-right : 35px;
-}
-</style>
 <script type="text/javascript">
 function alertLoc(msg){
         var locale=$('#loc').val();
@@ -259,13 +254,13 @@ $(document).ready(function() {
 	$("#pin_switch").trigger("change", [true]);
 	if ("false"=="<?% echo( $wps_config);?>"){
 		$(".wps_config").html('<h2>Add Wi-Fi Client (WPS)</h2>'
-		+'<p style="color:red;font-size:130%;font-style:bold;" id="wpsmsg1">WPS function is disabled and can not be enabled now!</p>'
-		+'<p style="color: #838c91;" id="wpsmsg2">You can take these steps to enable WPS:</p>'
-		+'<p style="color: #838c91;" id="wpsmsg3">(1) Enable at least one private Wi-Fi interface</p>'
-		+'<p style="color: #838c91;" id="wpsmsg4">(2) Its security mode is not WEP/WPA-TKIP/WPA2-TKIP</p>'
-		+'<p style="color: #838c91;" id="wpsmsg5">(3) Its network name is not hidden</p>'
-		+'<!--p style="color: #838c91;" id="wpsmsg6">(4) Its MAC filter function is not enabled</p-->'
-		+'<p style="color: #838c91;" id="wpsmsg7">Then please refresh(or back to) this page and try again.</p>');
+		+'<p class="wpsmess" id="wpsmsg1">WPS function is disabled and can not be enabled now!</p>'
+		+'<p class="wpscolor" id="wpsmsg2">You can take these steps to enable WPS:</p>'
+		+'<p class="wpscolor" id="wpsmsg3">(1) Enable at least one private Wi-Fi interface</p>'
+		+'<p class="wpscolor" id="wpsmsg4">(2) Its security mode is not WEP/WPA-TKIP/WPA2-TKIP</p>'
+		+'<p class="wpscolor" id="wpsmsg5">(3) Its network name is not hidden</p>'
+		+'<!--p class="wpscolor" id="wpsmsg6">(4) Its MAC filter function is not enabled</p-->'
+		+'<p class="wpscolor" id="wpsmsg7">Then please refresh(or back to) this page and try again.</p>');
 		return;
 		$(".wps_config *").not(".radioswitch_cont, .radioswitch_cont *").off("click").prop("disabled", true).addClass("disabled").removeClass("selected");
 		$(".wps_config .radioswitch_cont").radioswitch("doEnable", false);
@@ -283,7 +278,7 @@ $(document).ready(function() {
 	<form method="post" id="wps_form">
 		<div class="module forms enable wps_config">
 			<h2 id="wirewpsmess1">Add Wi-Fi Client (WPS)</h2>
-			<div class="form-row" style="display: none;">
+			<div class="form-row hidden">
 				<label for="ssid">SSID:</label>
 				<select name="ssid" id="wps_ssid">
 					<option value="<?% echo( $f_e_ssid); ?>" selected="selected"><?% echo( $f_e_ssid); ?></option>

@@ -86,13 +86,14 @@ function spanTable($rows, startIdx, endIdx){
 				        tr.append("<td headers='band_id' class='band_id'>" + $.i18n(Radio_val) + "</td>");
 				        tr.append("<td headers='channel_number' class='channel_number'>" + spec_values["Channel"]+ "</td>");
 				        tr.append("<td headers='mac_id' class='mac_id'>" + spec_values["BSSID"]+ "</td>");
-						tr.append("<td headers='ssid_name' class='ssid_name' style='white-space: pre;'>" + spec_values["SSID"]+ "</td>");
+						tr.append("<td headers='ssid_name' class='ssid_name white_space' >" + spec_values["SSID"]+ "</td>");
 				        tr.append("<td headers='Signal_level' class='Signal_level'>" + spec_values["SignalStrength"]+" dBm"+ "</td>");
 				        tr.append("<td headers='mode' class='mode'>" + spec_values["SupportedStandards"]+ "</td>");
 				        tr.append("<td headers='security' class='security'>" + spec_values["SecurityModeEnabled"]+ "</td>");
 				        tr.append("<td headers='max_rate' class='max_rate'>" + spec_values["SupportedDataTransferRates"]+ "</td>");
 					}
 					spanTable($('#spec_capture_table tr:has(td)'),0,2);
+					$("table").find("td").addClass("wifi_table");
 					$('#spec_capture_table .deleted').remove();
 					$("#start_scan").show();
 					$("#save_result").show();
@@ -157,8 +158,8 @@ $ForceDisable = '<?% echo( $ForceDisable); ?>';
 <h1 id="wifispechead">Troubleshooting > Wi-Fi Spectrum Analyzer</h1>
 	<?%
 	if($ForceDisable == "true") {
-		echo('<div class= "error" style="text-align: center;" >\
-                             <h3 style="width:92%">WiFi is configured to be disabled</h3>\
+		echo('<div class= "error description" >\
+                             <h3 class="connect_width">WiFi is configured to be disabled</h3>\
 			</div>');
 	}
 	?>
@@ -166,12 +167,12 @@ $ForceDisable = '<?% echo( $ForceDisable); ?>';
 		<div>
 			<input type="button" class="btn" value="Start Scan" id = "start_scan"/>
 			<span id="scan_status"></span>
-			<input type="button" class="btn button" value="Save Result" id = "save_result" style="top: 8px;"/>
+			<input type="button" class="btn button wifi_save" value="Save Result" id = "save_result"/>
 		</div>
 	</div>
 	<div id="table_WSA" class="module data spectrum_analyzer">
 		<h2 id="wifispeclochead">Wi-Fi Spectrum Analyzer Data</h2>
-		<div style="overflow: auto;">
+		<div class="wifi_overflow">
 			<table class="data" summary="Wi-Fi Spectrum Analyzer" id="spec_capture_table">
 				<tr>
 					<th id="band_id">Band</th>

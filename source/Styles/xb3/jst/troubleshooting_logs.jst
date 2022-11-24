@@ -301,7 +301,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 			</tbody>
 		</table>
-		<table id="system_logs_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="system_logs_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 				<td class="acs-th" scope="col" colspan="3" id="trblmess7">All logs from Yesterday</td>
@@ -310,7 +310,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 			</tbody>
 		</table>
-		<table id="system_logs_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="system_logs_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 				<td class="acs-th" scope="col" colspan="3" id="trblmess8">All logs from Last Week</td>
@@ -319,7 +319,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 			</tbody>
 		</table>
-		<table id="system_logs_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="system_logs_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 				<td class="acs-th" scope="col" colspan="3" id="trblmess9">All logs from Last Month</td>
@@ -328,7 +328,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="system_logs_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="system_logs_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 				<td class="acs-th" scope="col" colspan="3" id="trblmess10">All logs for Last 90 Days</td>
@@ -342,9 +342,9 @@ function ajaxDo(mode,timef){
 			<input type="submit" id="input-download" value="Download" class="btn alt downloadbtn"/>
 		</div>
 	</div> <!-- end .module -->
-	<div class="module forms data" id="event" style="display:none">
+	<div class="module forms data hidden" id="event">
 		<h2 id="trblmess5">Event Logs</h2>
-		<table id="event_logs_today" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="event_logs_today" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 				<td class="acs-th" scope="col" colspan="3" id="trblmess6">All logs for Today</td>
@@ -353,7 +353,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="event_logs_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="event_logs_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 				<thead>
 					<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess7">All logs from Yesterday</td>
@@ -362,7 +362,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 				</tbody>
 		</table>
-		<table id="event_logs_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="event_logs_week" cellpadding="0" cellspacing="0" class="data hidden">
 				<thead>
 					<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess8">All logs from Last Week</td>
@@ -371,7 +371,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 				</tbody>
 		</table>
-		<table id="event_logs_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="event_logs_month" cellpadding="0" cellspacing="0" class="data hidden">
 				<thead>
 					<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess9">All logs from Last Month</td>
@@ -380,7 +380,7 @@ function ajaxDo(mode,timef){
 				<tbody>
 				</tbody>
 		</table>
-		<table id="event_logs_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="event_logs_last" cellpadding="0" cellspacing="0" class="data hidden">
 				<thead>
 					<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess10">All logs for Last 90 Days</td>
@@ -395,9 +395,9 @@ function ajaxDo(mode,timef){
 			<!--a  id="download_event_logs" href="#" class="btn alt">Download</a-->
 		</div>
 	</div> <!-- end .module -->
-	<div class="module forms data" id="firewall" style="display:none">
+	<div class="module forms data hidden" id="firewall" >
 		<h2 id="trblmess4">Firewall Logs</h2>
-		<table id="firewall_logs_today" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="firewall_logs_today" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess6">All logs for Today</td>
@@ -406,7 +406,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="firewall_logs_yesterday" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="firewall_logs_yesterday" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess7">All logs from Yesterday</td>
@@ -415,7 +415,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="firewall_logs_week" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="firewall_logs_week" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess8">All logs from Last Week</td>
@@ -424,7 +424,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="firewall_logs_month" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="firewall_logs_month" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess9">All logs from Last Month</td>
@@ -433,7 +433,7 @@ function ajaxDo(mode,timef){
 			<tbody>
 			</tbody>
 		</table>
-		<table id="firewall_logs_last" cellpadding="0" cellspacing="0" class="data" style="display:none">
+		<table id="firewall_logs_last" cellpadding="0" cellspacing="0" class="data hidden">
 			<thead>
 				<tr>
 					<td class="acs-th" scope="col" colspan="3" id="trblmess10">All logs for Last 90 Days</td>

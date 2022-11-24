@@ -94,14 +94,6 @@ if(strpos($partnerId, "sky-") !== false){
                                 $ula_enb = getStr("Device.X_RDKCENTRAL-COM_DeviceControl.LanManagementEntry.LanIpv6UlaEnable");
 }
 ?>
-<style type="text/css">
-label{
-	margin-right: 10px !important;
-}
-.form-row input.ipv6-input {
-	width: 34px;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Gateway > Connection > Local IP Configuration", "nav-local-ip-network");
@@ -109,6 +101,7 @@ $(document).ready(function() {
 	** view management: if admin login, pop up alert msg if change gw ip addr
 	*/
 	var login_user = "<?% echo( $_SESSION["loginuser"]); ?>";
+	$("label").addClass("local_label");
     //console.log(login_user);
 	var jsGwIP = "<?% echo( $LanGwIP); ?>";
 	var jsLeaseTime = "<?% echo( $DHCPTime); ?>";
@@ -1234,40 +1227,40 @@ setIPv6configuration(IPv6Config);
     		 <h2>IPv6</h2>
     	   <div class="form-row odd">
 				<label for="LLGA_1" id="localipmess4">Link-Local Gateway Address:</label>
-				<input type="text"  class="ipv6-input" size="2" maxlength="2"  id="LLGA_1" name="LLGA_1" disabled="disabled" value="fe80"/>
+				<input type="text"  class="ipv6-input-local" size="2" maxlength="2"  id="LLGA_1" name="LLGA_1" disabled="disabled" value="fe80"/>
 				<label for="LLGA_2" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_2" name="LLGA_2"  disabled="disabled" value="0"/>
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_2" name="LLGA_2"  disabled="disabled" value="0"/>
 	    	    <label for="LLGA_3" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_3" name="LLGA_3" disabled="disabled" value="0"/>
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_3" name="LLGA_3" disabled="disabled" value="0"/>
 	    	    <label for="LLGA_4" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_4" name="LLGA_4" disabled="disabled" value="0"/>
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_4" name="LLGA_4" disabled="disabled" value="0"/>
 	    	    <label for="LLGA_5" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_5" name="LLGA_5" disabled="disabled" value="<?% echo( $local_ipv6_arr[0]); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_5" name="LLGA_5" disabled="disabled" value="<?% echo( $local_ipv6_arr[0]); ?>" />
 	    	    <label for="LLGA_6" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_6" name="LLGA_6" disabled="disabled" value="<?% echo( $local_ipv6_arr[1]); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_6" name="LLGA_6" disabled="disabled" value="<?% echo( $local_ipv6_arr[1]); ?>" />
 	    	    <label for="LLGA_7" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_7" name="LLGA_7" disabled="disabled" value="<?% echo( $local_ipv6_arr[2]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_7" name="LLGA_7" disabled="disabled" value="<?% echo( $local_ipv6_arr[2]); ?>" />
 	    	    <label for="LLGA_8" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="2" id="LLGA_8" name="LLGA_8" disabled="disabled" value="<?% echo( $local_ipv6_arr[3]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="2" id="LLGA_8" name="LLGA_8" disabled="disabled" value="<?% echo( $local_ipv6_arr[3]); ?>" />
 				<br/>
 				</div> 
 				<div class="form-row ">
 				<label for="GGA_1" id="localipmess5">Global Gateway Address:</label>
-				<input type="text"  class="ipv6-input" size="2" maxlength="4"  id="GGA_1" name="GGA_1" disabled="disabled" >
+				<input type="text"  class="ipv6-input-local" size="2" maxlength="4"  id="GGA_1" name="GGA_1" disabled="disabled" >
 	    	    <label for="GGA_2" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_2" name="GGA_2" disabled="disabled" >
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_2" name="GGA_2" disabled="disabled" >
 	    	    <label for="GGA_3" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_3" name="GGA_3" disabled="disabled" >
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_3" name="GGA_3" disabled="disabled" >
 	    	    <label for="GGA_4" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_4" name="GGA_4" disabled="disabled" > 
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_4" name="GGA_4" disabled="disabled" > 
 	    	    <label for="GGA_5" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_5" name="GGA_5" disabled="disabled" >
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_5" name="GGA_5" disabled="disabled" >
 	    	    <label for="GGA_6" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_6" name="GGA_6" disabled="disabled" >
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_6" name="GGA_6" disabled="disabled" >
 	    	    <label for="GGA_7" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_7" name="GGA_7" disabled="disabled" >
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_7" name="GGA_7" disabled="disabled" >
 	    	    <label for="GGA_8" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="GGA_8" name="GGA_8" disabled="disabled" >
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="GGA_8" name="GGA_8" disabled="disabled" >
 				<br/>
 				</div>
 			<div class="form-row odd">	<p><strong id="localipmess6">LAN IPv6 Address Assignment</strong></p></div>
@@ -1290,23 +1283,23 @@ setIPv6configuration(IPv6Config);
 			      $v6_beg_add_arr = explode(':', $v6_begin_addr);
 			    ?>
 				<label for="DBA_1"  id="localipmess9">DHCPv6 Beginning Address:</label>
-				<input type="text"  class="ipv6-input" size="2" maxlength="4"  id="DBA_1" name="DBA_1" disabled="disabled" value="<?% echo( $ipv6_prefix_arr[0]); ?>" />
+				<input type="text"  class="ipv6-input-local" size="2" maxlength="4"  id="DBA_1" name="DBA_1" disabled="disabled" value="<?% echo( $ipv6_prefix_arr[0]); ?>" />
 	    	    <label for="DBA_2" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_2" name="DBA_2" disabled="disabled" value="<?% if($ipa_size > 1) echo( $ipv6_prefix_arr[1]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_2" name="DBA_2" disabled="disabled" value="<?% if($ipa_size > 1) echo( $ipv6_prefix_arr[1]); else echo( "0"); ?>" />
 	    	    <label for="DBA_3" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_3" name="DBA_3" disabled="disabled" value="<?% if($ipa_size > 2) echo( $ipv6_prefix_arr[2]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_3" name="DBA_3" disabled="disabled" value="<?% if($ipa_size > 2) echo( $ipv6_prefix_arr[2]); else echo( "0"); ?>" />
 	    	    <label for="DBA_4" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_4" name="DBA_4" disabled="disabled" value="<?% if($ipa_size > 3) echo( $ipv6_prefix_arr[3]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_4" name="DBA_4" disabled="disabled" value="<?% if($ipa_size > 3) echo( $ipv6_prefix_arr[3]); else echo( "0"); ?>" />
 	    	    <label for="DBA_5" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_5" name="DBA_5" disabled="disabled" value="<?% echo( $v6_beg_add_arr[0]); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_5" name="DBA_5" disabled="disabled" value="<?% echo( $v6_beg_add_arr[0]); ?>" />
 	    	    <label for="DBA_6" class="acs-hide"></label>
-        	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_6" name="DBA_6" disabled="disabled" value="<?% echo( $v6_beg_add_arr[1]); ?>" />
+        	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_6" name="DBA_6" disabled="disabled" value="<?% echo( $v6_beg_add_arr[1]); ?>" />
 	    	    <label for="DBA_7" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_7" name="DBA_7" disabled="disabled" value="<?% echo( $v6_beg_add_arr[2]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_7" name="DBA_7" disabled="disabled" value="<?% echo( $v6_beg_add_arr[2]); ?>" />
 	    	    <label for="DBA_8" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_8" name="DBA_8" disabled="disabled" value="<?% echo( $v6_beg_add_arr[3]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_8" name="DBA_8" disabled="disabled" value="<?% echo( $v6_beg_add_arr[3]); ?>" />
 	    	    <label for="DBA_9" class="acs-hide"></label>
-					/<input type="text" class="ipv6-input" size="2" maxlength="4" id="DBA_9" name="DBA_9" disabled="disabled" value="64"/>
+					/<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DBA_9" name="DBA_9" disabled="disabled" value="64"/>
 				<br/>
 				</div> 		
     	   <div class="form-row ">
@@ -1315,23 +1308,23 @@ setIPv6configuration(IPv6Config);
 			      $v6_end_add_arr = explode(':', $v6_end_addr);
 			    ?>	
 				<label for="DEA_1"  id="localipmess10">DHCPv6 Ending Address:</label>
-				<input type="text"  class="ipv6-input" size="2" maxlength="4"  id="DEA_1" name="DEA_1" disabled="disabled" value="<?% echo( $ipv6_prefix_arr[0]); ?>" />
+				<input type="text"  class="ipv6-input-local" size="2" maxlength="4"  id="DEA_1" name="DEA_1" disabled="disabled" value="<?% echo( $ipv6_prefix_arr[0]); ?>" />
 	    	    <label for="DEA_2" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_2" name="DEA_2" disabled="disabled" value="<?% if($ipa_size > 1) echo( $ipv6_prefix_arr[1]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_2" name="DEA_2" disabled="disabled" value="<?% if($ipa_size > 1) echo( $ipv6_prefix_arr[1]); else echo( "0"); ?>" />
 	    	    <label for="DEA_3" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_3" name="DEA_3" disabled="disabled" value="<?% if($ipa_size > 2) echo( $ipv6_prefix_arr[2]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_3" name="DEA_3" disabled="disabled" value="<?% if($ipa_size > 2) echo( $ipv6_prefix_arr[2]); else echo( "0"); ?>" />
 	    	    <label for="DEA_4" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_4" name="DEA_4" disabled="disabled" value="<?% if($ipa_size > 3) echo( $ipv6_prefix_arr[3]); else echo( "0"); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_4" name="DEA_4" disabled="disabled" value="<?% if($ipa_size > 3) echo( $ipv6_prefix_arr[3]); else echo( "0"); ?>" />
 	    	    <label for="DEA_5" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_5" name="DEA_5" disabled="disabled" value="<?% echo( $v6_end_add_arr[0]); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_5" name="DEA_5" disabled="disabled" value="<?% echo( $v6_end_add_arr[0]); ?>" />
 	    	    <label for="DEA_6" class="acs-hide"></label>
-	    	        :<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_6" name="DEA_6" disabled="disabled" value="<?% echo( $v6_end_add_arr[1]); ?>" />
+	    	        :<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_6" name="DEA_6" disabled="disabled" value="<?% echo( $v6_end_add_arr[1]); ?>" />
 	    	    <label for="DEA_7" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_7" name="DEA_7" disabled="disabled" value="<?% echo( $v6_end_add_arr[2]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_7" name="DEA_7" disabled="disabled" value="<?% echo( $v6_end_add_arr[2]); ?>" />
 	    	    <label for="DEA_8" class="acs-hide"></label>
-					:<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_8" name="DEA_8" disabled="disabled" value="<?% echo( $v6_end_add_arr[3]); ?>" />
+					:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_8" name="DEA_8" disabled="disabled" value="<?% echo( $v6_end_add_arr[3]); ?>" />
 	    	    <label for="DEA_9" class="acs-hide"></label>
-					/<input type="text" class="ipv6-input" size="2" maxlength="4" id="DEA_9" name="DEA_9" disabled="disabled" value="64"/>
+					/<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="DEA_9" name="DEA_9" disabled="disabled" value="64"/>
 				<br/>
 				</div> 		
 		<?%
@@ -1362,15 +1355,15 @@ setIPv6configuration(IPv6Config);
 		</div>
 			<div class="form-row odd">
 	    			<label for="ULA" id="locipmess3">ULA Prefix:</label>
-				<input type="text"  class="ipv6-input" size="2" maxlength="4"  id="ULA_1" name="ULA_1"  value="<?% if($ula_size > 1) echo( $ula_v6_prefix_arr[0]); else echo( "0"); ?>" />
+				<input type="text"  class="ipv6-input-local" size="2" maxlength="4"  id="ULA_1" name="ULA_1"  value="<?% if($ula_size > 1) echo( $ula_v6_prefix_arr[0]); else echo( "0"); ?>" />
 				<label for="ULA_2" class="acs-hide"></label>
-				:<input type="text" class="ipv6-input" size="2" maxlength="4" id="ULA_2" name="ULA_2"  value="<?% if($ula_size > 1) echo( $ula_v6_prefix_arr[1]); else echo( "0"); ?>" />
+				:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="ULA_2" name="ULA_2"  value="<?% if($ula_size > 1) echo( $ula_v6_prefix_arr[1]); else echo( "0"); ?>" />
 				<label for="ULA_3" class="acs-hide"></label>
-				:<input type="text" class="ipv6-input" size="2" maxlength="4" id="ULA_3" name="ULA_3"  value="<?% if($ula_size > 2) echo( $ula_v6_prefix_arr[2]); else echo( "0"); ?>" />
+				:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="ULA_3" name="ULA_3"  value="<?% if($ula_size > 2) echo( $ula_v6_prefix_arr[2]); else echo( "0"); ?>" />
 				<label for="ULA_4" class="acs-hide"></label>
-				:<input type="text" class="ipv6-input" size="2" maxlength="4" id="ULA_4" name="ULA_4"  value="<?% if($ula_size > 3) echo( $ula_v6_prefix_arr[3]); else echo( "0"); ?>" />
+				:<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="ULA_4" name="ULA_4"  value="<?% if($ula_size > 3) echo( $ula_v6_prefix_arr[3]); else echo( "0"); ?>" />
 				<label for="ULA_9" class="acs-hide"></label>
-				::&nbsp;/<input type="text" class="ipv6-input" size="2" maxlength="4" id="ULA_9" name="ULA_9" disabled="disabled" value="64"/>
+				::&nbsp;/<input type="text" class="ipv6-input-local" size="2" maxlength="4" id="ULA_9" name="ULA_9" disabled="disabled" value="64"/>
 			</div>
 		</div>
 	<?% } ?>

@@ -68,17 +68,10 @@ if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
         $jsMapEnable = "true";
 }
 ?>
-<style type="text/css">
-.ipv6-input{
-	width: 35px;
-}
-label{
-	margin-right: 10px !important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Advanced > Remote Management", "nav-remote-management");
+	$("label").addClass("label_style");
 	var HTTP = <?% echo( ($http_mode === 'true' ? "true" : "false")); ?>;
 	var HTTPPORT = "<?% echo( $http_port);?>";
 	var HTTPS = <?% echo( ($https_mode === 'true' ? "true" : "false")); ?>;
@@ -760,16 +753,18 @@ function remote_access_block(){
 	<form method="" id="pageForm" action="">
 	<div class="module forms">
 		<h2 id="remloc1">Remote Management</h2>
-		<div class="form-row" <?% if ($removeHttpRM) { echo('style="display: none;"'); } ?> >
+	<?% if (!$removeHttpRM) { ?>
+		<div class="form-row" >
 			<label for="http">HTTP: <input type="text" value="" name="http"  maxlength="5" size=7 id="http" /></label>
 			<span id="http_switch"></span>
 		</div>
+	<?% } ?>
 		<div class="form-row ">
 			<label for="https">HTTPS: <input type="text" value="" name="https" maxlength="5" size=7 id="https" /></label>
 			<span id="https_switch"></span>
         </div>
 		<div class="form-row">
-			<p style="position:relative; left:60px"><strong>
+			<p class="remote_https"><strong>
 			<?%
 			/*	$client_ip = $_SERVER["REMOTE_ADDR"];			// $client_ip="::ffff:10.0.0.101";			
 				if (strpos($client_ip, ".")){
@@ -821,9 +816,9 @@ function remote_access_block(){
 			</strong></p>
 		</div>
 	<?% if (!$removeHttpRM) { ?>
-		<p  id="message_note" style="position:relative; left:40px" class="error">Please enable HTTP or HTTPS to configure Remote Access Allowed From.</p>
+		<p  id="message_note" class="remote_enable error">Please enable HTTP or HTTPS to configure Remote Access Allowed From.</p>
 	<?% } else { ?>
-		<p  id="message_note2" style="position:relative; left:40px" class="error">Please enable HTTPS to configure Remote Access Allowed From.</p>
+		<p  id="message_note2" class="remote_enable error">Please enable HTTPS to configure Remote Access Allowed From.</p>
 	<?% } ?>
 	</div> <!-- end .module -->
 	<div class="module forms">

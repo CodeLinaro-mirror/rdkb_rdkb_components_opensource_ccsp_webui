@@ -42,18 +42,11 @@
 	$RIPEntry = KeyExtGet("Device.Routing.RIP.", $RIP_param);
 	$jsRIPEntry = json_encode($RIPEntry);
 ?>
-<style type="text/css">
-label{
-	margin-right: 10px !important;
-}
-#authentication_key {
-	width: 125px;
-}
-</style>
 <script type="text/javascript">
 var jsRIPEntry = <?% echo( $jsRIPEntry); ?>;
 $(document).ready(function() {
     gateway.page.init("Advanced > Routing", "nav-routing");
+    $("label").addClass("label_routing");
     var $interface_name  = $('#interface_name');
 	var $send_version    = $('#send_version');
 	var $receive_version = $('#receive_version');

@@ -33,14 +33,10 @@
                 exit(0);
         }
 ?>
-<style>
-label{
-	margin-right: 10px !important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Sites > Add Blocked Domain", "nav-sites");
+    $("label").addClass("label_style");
     jQuery.validator.addMethod("url2", function(value, element, param) {
         if (value.indexOf('//www.') > 0) {
             value = value.replace("//www.","//");

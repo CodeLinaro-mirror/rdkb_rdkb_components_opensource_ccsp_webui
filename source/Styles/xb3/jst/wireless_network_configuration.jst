@@ -347,14 +347,6 @@ $dfsEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable");
 $dfsAtBootup= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp.Enable");
 $modelName= getStr("Device.DeviceInfo.ModelName");
 ?>
-<style>
-.forms .readonlyLabel {
-	margin: 4px 40px;
-}
-#content {
-	display: none;
-}
-</style>
 <script type="text/javascript">
 var G_radio_enable	= <?% echo( ($radio_enable === "true" ? "true" : "false")); ?>;
 var G_radio_enable1	= <?% echo( ($radio_enable1 === "true" ? "true" : "false")); ?>;
@@ -774,7 +766,7 @@ $(document).ready(function() {
 	if ("false"=="<?% echo( $wps_config);?>"){
 	/*
 		$(".wps_config").html('<h2>Wi-Fi Client Setup Configuration(WPS)</h2>\
-		<p style="color:red;font-size:130%;font-style:bold;">WPS function is disabled and can not be enabled now!</p>\
+		<p class="wps_mess">WPS function is disabled and can not be enabled now!</p>\
 		<p>You can take these steps to enable WPS:</p>\
 		<p/>(1) enable at least one private Wi-Fi interface</p>\
 		<p/>(2) its security mode is not WEP/WPA-TKIP/WPA2-TKIP</p>\
@@ -1221,7 +1213,7 @@ function showSteeringHistoryDialog() {
 		$.virtualDialog({
 			title: $.i18n("Band Steering History"),
 			content: $("#band_steering_history_content"),
-			footer: '<input id="pop_button" type="button" value='+$.i18n("Close")+' style="float: right;" />',
+			footer: '<input id="pop_button" type="button" value='+$.i18n("Close")+'  class="wifi_btn"/>',
 			width: "600px"
 		});
 		$("#pop_button").off("click").on("click", function(){
@@ -1295,18 +1287,18 @@ function saveBandSteeringSettings()
 	<p class="tip" id="wifitip1">Manage your Wi-Fi connection settings.</p>
 	<p class="hidden" id="wifitip2">Click <strong>EDIT</strong> next to the Network Name you\'d like to modify its Wi-Fi network settings: Network Name (SSID), Mode, Security Mode, Channel, Network Password (Key), and Broadcasting feature.</p>
 	<p class="hidden" id="wifitip3"><strong>MAC Filter Setting</strong> is specific to each Network Name (SSID). Select a MAC Filtering Mode.</p>
-	<span class="hidden" style="position:relative; top:-15px ; left: 2px;"><ul style="margin: 1.3em; "><li type="disc" id="wifitip4" >Allow- All (Default): All wireless client stations can connect to the Gateway; no MAC filtering rules.</li>
+	<span class="hidden wifi_manage"><ul class="wifi_ul"><li type="disc" id="wifitip4" >Allow- All (Default): All wireless client stations can connect to the Gateway; no MAC filtering rules.</li>
 	<li type="disc" id="wifitip5">Allow: Only the devices in the \"Wireless Control List\" are allowed to connect to the Gateway.</li>
 	<li type="disc" id="wifitip6">Deny: Wireless devices in the \"Wireless Control List\" are not allowed to connect to the Gateway.</li></ul></span>
-	<p class="hidden" style="position:relative; top:-20px ; left: 2px;" id="wifitip7"><strong>Wireless Control List:</strong> Displays the wireless devices (by Network Name and MAC Address) that were manually added or auto-learned.</p>
-	<p class="hidden" style="position:relative; top:-20px ; left: 2px;" id="wifitip8"><strong>Auto-Learned Wireless Devices</strong> are currently connected to the Gateway. </p>
-	<p class="hidden" style="position:relative; top:-20px ; left: 2px;" id="wifitip9"><strong>Manually-Added Wireless Devices:</strong> Enter a unique name and MAC address for the wireless device you want to manually add, then click <strong>ADD.</strong> </p>
+	<p class="hidden wifi_tip" id="wifitip7"><strong>Wireless Control List:</strong> Displays the wireless devices (by Network Name and MAC Address) that were manually added or auto-learned.</p>
+	<p class="hidden wifi_tip" id="wifitip8"><strong>Auto-Learned Wireless Devices</strong> are currently connected to the Gateway. </p>
+	<p class="hidden wifi_tip" id="wifitip9"><strong>Manually-Added Wireless Devices:</strong> Enter a unique name and MAC address for the wireless device you want to manually add, then click <strong>ADD.</strong> </p>
 </div>
 	<?%
 	if($ForceDisable == "true") {
 	?>
-		<div class= "error" style="text-align: center;" >
-                             <h3 style="width:92%">WiFi is configured to be disabled</h3>
+		<div class= "error description">
+                             <h3 class="wifi_width">WiFi is configured to be disabled</h3>
 		</div>
 	<?%
 	}
@@ -1335,7 +1327,7 @@ function saveBandSteeringSettings()
 		<th id="private-Blank" class="edit" width="10%">&nbsp;</th>
 	</tr>
 	<tr class="form-row odd">
-		<td headers="private-Name"><b><font color="black" style="white-space: pre-wrap;overflow-wrap: break-word;"><?% echo( $network_name); ?></font></b></td>
+		<td headers="private-Name"><b><font color="black" class="wifi_ntwrk"><?% echo( $network_name); ?></font></b></td>
 		<td headers="private-Frequency" id="newradioband24"><?% echo( $feq_band); ?></td>
 		<td headers="private-MAC"><?% echo( $mac_address); ?>   </td>
 		<?%
@@ -1354,7 +1346,7 @@ function saveBandSteeringSettings()
 		<td headers="private-Blank"><a href="wireless_network_configuration_edit.jst?id=1" class="btn" id="wifieditbutt1">Edit</a></td>
 	</tr>
 	<tr class="form-row">
-		<td headers="private-Name"><b><font color="black" style="white-space: pre-wrap;overflow-wrap: break-word;"><?% echo( $network_name1); ?></font></b></td>
+		<td headers="private-Name"><b><font color="black" class="wifi_ntwrk"><?% echo( $network_name1); ?></font></b></td>
 		<td headers="private-Frequency"><?% echo( $feq_band1); ?></td>
 		<td headers="private-MAC"><?% echo( $mac_address1); ?>   </td>
 		<?%
@@ -1373,7 +1365,7 @@ function saveBandSteeringSettings()
 		<td headers="private-Blank"><a href="wireless_network_configuration_edit.jst?id=2" class="btn" id="wifieditbutt2">Edit</a></td>
 	</tr>
 	</table>
-	<div class="btn-group" style="display: none;">
+	<div class="btn-group hidden" >
 		<a id="add_wps_client" href="wireless_network_configuration_wps.jst" class="btn">Add Wi-Fi Protected Setup (WPS) Client</a>
 	</div>
 </div> <!-- end .module -->
@@ -1414,7 +1406,7 @@ function saveBandSteeringSettings()
 		for ($j=0; $j<count($other_v); $j++)
 		{
 			echo( '<tr class="'+(($odd=!$odd)?"odd":"even")+'">');
-			echo( 	'<td headers="other-Name"><b><font color="black" style="white-space: pre-wrap;">'+$other_v[$j]['ssid']+'</font></b> </td>');
+			echo( 	'<td headers="other-Name"><b><font color="black" class="wifi_whitespace">'+$other_v[$j]['ssid']+'</font></b> </td>');
 			echo( 	'<td headers="other-Frequency">'+$other_v[$j]['freq']+'</td>');
 			echo( 	'<td headers="other-MAC">'+$other_v[$j]['bssid']+'</td>');
 			echo( 	'<td headers="other-Security">'+$other_v[$j]['secur']+'</td>');
@@ -1423,7 +1415,7 @@ function saveBandSteeringSettings()
 		?>
 		</tbody>
 	</table>
-	<div id="no_other_wifi" style="display: none;">
+	<div id="no_other_wifi" class="hidden">
 		<p id="wiremess4">There are no valid Other Wi-Fi found!</p>
 	</div>
 </div>
@@ -1466,7 +1458,7 @@ function saveBandSteeringSettings()
 		for ($j=0; $j<count($public_v); $j++)
 		{
 			echo( '<tr class="'+(($odd=!$odd)?"odd":"even")+'">');
-			echo( 	'<td headers="public-Name" style="overflow-wrap: break-word;"><b><font color="black" style="white-space: pre-wrap;">'+$public_v[$j]['ssid']+'</font></b> </td>');
+			echo( 	'<td headers="public-Name" class="wifi_ntwrk"><b><font color="black" class="wifi_whitespace">'+$public_v[$j]['ssid']+'</font></b> </td>');
 			echo( 	'<td headers="public-Frequency">'+$public_v[$j]['freq']+'</td>');
 			echo( 	'<td headers="public-MAC">'+$public_v[$j]['bssid']+'</td>');
 			echo( 	'<td headers="public-Security">'+$public_v[$j]['secur']+'</td>');
@@ -1475,7 +1467,7 @@ function saveBandSteeringSettings()
 		?>
 		</tbody>
 	</table>
-	<div id="no_public_wifi" style="display: none;">
+	<div id="no_public_wifi hidden">
 		<p id="wiremess6">There is no valid public Wi-Fi found!</p>
 	</div>
 </div>
@@ -1567,76 +1559,76 @@ function saveBandSteeringSettings()
 		<label for="reverse_enabled" class="acs-hide"></label>
 		<input type="radio"  name="Reverse_Direction_Grant" value="enabled"  id="reverse_enabled" <?% if ("true"==$reverse_enabled) echo( 'checked="checked"');?> /><b id="enaloc">Enable</b>
 	</div>
-	<div class="form-row" id="Ext1" style="display:none;">
+	<div class="form-row hidden" id="Ext1" >
 		<label for="Extension_Channel1" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel1">
 		<option value="AboveControlChannel" selected="selected" id="wiremess21">2442MHz(Channel5)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext2" style="display:none;">
+	<div class="form-row hidden" id="Ext2">
 		<label for="Extension_Channel2" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel2">
 		<option value="AboveControlChannel" selected="selected" id="wiremess22">2447MHz(Channel6)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext3" style="display:none;">
+	<div class="form-row hidden" id="Ext3">
 		<label for="Extension_Channel3" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel3">
 		<option value="AboveControlChannel" selected="selected" id="wiremess23">2452MHz(Channel7)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext4" style="display:none;">
+	<div class="form-row hidden" id="Ext4">
 		<label for="Extension_Channel4" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel4">
 		<option value="AboveControlChannel" selected="selected" id="wiremess24">2457MHz(Channel8)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext5" style="display:none;">
+	<div class="form-row hidden" id="Ext5">
 		<label for="Extension_Channel5" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel5">
 		<option value="AboveControlChannel" id="wiremess25" <?% if ("AboveControlChannel"==$ext_channel) echo( 'selected="selected"');?>2462MHz(Channel9)</option>
 		<option value="BelowControlChannel" <?% if ("BelowControlChannel"==$ext_channel) echo( 'selected="selected"');?> id="wiremess26" >2437MHz(Channel1)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext6" style="display:none;">
+	<div class="form-row hidden" id="Ext6" >
 		<label for="Extension_Channel6" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel6">
 		<option value="AboveControlChannel" <?% if ("AboveControlChannel"==$ext_channel) echo( 'selected="selected"');?> id="wiremess27" >2467MHz(Channel10)</option>
 		<option value="BelowControlChannel" <?% if ("BelowControlChannel"==$ext_channel) echo( 'selected="selected"');?> id="wiremess28" >2427MHz(Channel2)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext7" style="display:none;">
+	<div class="form-row hidden " id="Ext7">
 		<label for="Extension_Channel7" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel7">
 		<option value="AboveControlChannel" <?% if ("AboveControlChannel"==$ext_channel) echo( 'selected="selected"');?> id="wiremess29" >2472MHz(Channel11)</option>
 		<option value="BelowControlChannel" <?% if ("BelowControlChannel"==$ext_channel) echo( 'selected="selected"');?> id="wiremess30" >2432MHz(Channel3)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext8" style="display:none;">
+	<div class="form-row hidden" id="Ext8" >
 		<label for="Extension_Channel8" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel8">
 		<option value="BelowControlChannel" selected="selected" id="wiremess31">2437MHz(Channel4)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext9" style="display:none;">
+	<div class="form-row hidden" id="Ext9" >
 		<label for="Extension_Channel9" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel9">
 		<option value="BelowControlChannel" selected="selected" id="wiremess211">2442MHz(Channel5)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext10" style="display:none;">
+	<div class="form-row hidden" id="Ext10" >
 		<label for="Extension_Channel10" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel10">
 		<option value="BelowControlChannel" selected="selected" id="wiremess221">2447MHz(Channel6)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext11" style="display:none;">
+	<div class="form-row hidden" id="Ext11" >
 		<label for="Extension_Channel11" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel11">
 		<option value="BelowControlChannel" selected="selected" id="wiremess231">2452MHz(Channel7)</option>
 		</select>
 	</div>
-	<div class="form-row" id="Ext0" style="">
+	<div class="form-row" id="Ext0" >
 		<label for="Extension_Channel0" id="wiremess20">Extension Channel:</label>
 		<select name="Extension_Channel" id="Extension_Channel0">
 		<option value="Auto" selected="selected" id="wiremess14">Auto</option>
@@ -1648,7 +1640,7 @@ function saveBandSteeringSettings()
 		<label for="MSDU_enabled" class="acs-hide"></label>
 		<input type="radio"  name="Aggregation_MSDU(A-MSDU)" value="enabled"  id="MSDU_enabled" <?% if ("true"==$MSDU_enabled) echo( 'checked="checked"');?> /><b id="enaloc">Enable</b>
 	</div>
-	<div class="form-row">
+	<div class="form-row ">
 		<label for="Auto_Block_Ack_disabled" id="wiremess33">Auto Block Ack:</label>
 		<input type="radio"  name="Auto_Block_Ack" value="disabled"  id="Auto_Block_Ack_disabled" checked="checked" /><b id="disloc">Disable</b>
 		<label for="blockACK_enabled" class="acs-hide"></label>
@@ -1756,7 +1748,7 @@ function saveBandSteeringSettings()
 </div>
 <div class="module data data div_radio_setting">
 	<h2 id="wiremess39">5 GHz Wireless Advanced Setting</h2><br/>
-	<div class="form-row odd" style="display:none;">
+	<div class="form-row odd hidden">
 		<label for="BG_protection_mode1" id="wiremess13">BG Protection Mode:</label>
 		<select name="BG_protection_mode1" id="BG_protection_mode1">
 			<option value="Auto" selected="selected" id="wiremess14">Auto</option>
@@ -1920,7 +1912,7 @@ function saveBandSteeringSettings()
 		<label for="BS_Logging"><span id="wiremess45">Physical Rate Threshold(</span><?% echo ($radioband2 + "GHz):"); ?></label>
 		<input type="text" id="PhyRateThreshold2" value="<?% echo($PhyRateThreshold2); ?>"/>
 	</div>
-	<div class="form-row " id="band_steering_history_content" class="content_message" style="display: none;">
+	<div class="form-row content_message hidden" id="band_steering_history_content"> 
 
 		<table class="data" id="table_band_steering" >
 		<tr>
@@ -1940,7 +1932,7 @@ function saveBandSteeringSettings()
 		</div>
 	</div>
 </div>
-<div class="module data" id="mac_admin_temp" style="display: none;">
+<div class="module data hidden" id="mac_admin_temp" >
 	<h2 id="wiremess46">MAC Filter Setting</h2>
 	<div>
 		<p id="jprogmess1">This may take several seconds...</p>
@@ -2079,30 +2071,30 @@ function saveBandSteeringSettings()
 			<option value="2" ><?% /*echo($network_name1);*/?></option>
 		</select>
 	</div-->
-	<div class="form-row" style="display: none;">
+	<div class="form-row hiddden" >
 		<label for="wps_ssid">SSID:</label>
 		<select name="ssid" id="wps_ssid">
 			<option value="<?% echo($f_e_ssid); ?>" selected="selected"><?% echo($f_e_ssid); ?></option>
 		</select>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel label">WPS:</span>
+		<span class="readonlyLabel wifireadonlyLabel label">WPS:</span>
 		<span id="wps_switch"></span>
 	</div>
 	<!--div class="form-row ">
-		<span class="readonlyLabel">Security:</span> 
+		<span class="readonlyLabel wifireadonlyLabel">Security:</span> 
 		<span class="value" id="wps_security"></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel">Encryption:</span>
+		<span class="readonlyLabel wifireadonlyLabel">Encryption:</span>
 		<span class="value" id="wps_encryption"></span>
 	</div-->
 	<div class="form-row ">
-		<span class="readonlyLabel">AP PIN:</span> 
+		<span class="readonlyLabel wifireadonlyLabel">AP PIN:</span> 
 		<span class="value" id="wps_pin">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?% echo($wps_pin); ?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel label" id="wiremess54">WPS Pin Method:</span>
+		<span class="readonlyLabel wifireadonlyLabel label" id="wiremess54">WPS Pin Method:</span>
 		<span id="pin_switch"></span>
 	</div>
 </div>
@@ -2132,7 +2124,7 @@ function saveBandSteeringSettings()
 	</div>
 	<div class="form-btn">
 	<label for="wps_pair" class="acs-hide"></label>
-		<input id="wps_pair_btn"   name="wps_pair_btn"   type="submit" style="text-transform : none;" value="PAIR WITH MY Wi-Fi CLIENT" class="btn" size="3" />
+		<input id="wps_pair_btn"   name="wps_pair_btn"   type="submit"  value="PAIR WITH MY Wi-Fi CLIENT" class="btn restore_style" size="3" />
 		<label for="wps_cancel" class="acs-hide"></label>
 		<input id="wps_cancel" name="wps_cancel" type="button" value="Cancel" class="btn" onclick="pair_cancel()"/>
 	</div>

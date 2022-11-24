@@ -30,16 +30,10 @@
 		$HPEnable = 'true';
 	}*/
 ?>
-<style>
-
-	table td {
-		white-space: pre-wrap;
-                overflow-wrap: break-word;
-	}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > HS Port Forwarding", "nav-HS-port-forwarding");
+	$("table").find("td").addClass("hs_port");
         var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#hspf_switch").radioswitch({
 		id: "hs-forwarding-switch",

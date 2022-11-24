@@ -42,14 +42,11 @@ if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 <style>
 
 	td:not(.edit) {word-break: break-all;}
-	table td {
-		white-space: pre-wrap;
-                overflow-wrap: break-word;
-	}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Port Triggering", "nav-port-triggering");
+	$("table.data").find("td").addClass("port_table");
 	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#pt_switch").radioswitch({
 		id: "port-triggering-switch",

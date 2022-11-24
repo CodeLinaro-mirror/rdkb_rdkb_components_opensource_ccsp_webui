@@ -31,14 +31,10 @@ if($enableMS == "false"){
                 exit(0);
 }
 ?>
-<style>
-label{
-margin-right:10px !important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Services > Add Blocked Service", "nav-services");
+    $("label").addClass("label_style");
     $('#user_defined_service').focus();
 	$("#always_switch").radioswitch({
 		id: "always-switch",

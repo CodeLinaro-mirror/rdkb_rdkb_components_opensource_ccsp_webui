@@ -24,34 +24,12 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-.gateway_address{
-	width: 31px;
-}
-label{
-	margin-right: 10px !important;
-}
-#pageForm3 span, #pageForm3 label, #pageForm4 label{
-	width: 100px;
-}
-
-.traceError{
-	width: 350px;
-}
-
-.noError{
-	width: 554px;
-	height:250px;
-}
-
-#vpop_container{ 
-  	top: 126px !important;
-}  
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
 	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
+	$("label").addClass("label_style");
 	gateway.page.init("Troubleshooting > Network Diagnostic Tools", "nav-diagnostic-tools");
+	$('#traceroute_dialog').hide();
 	$.validator.addMethod("url_no_http", function(value, element) {
 		//A valid URL per the URL spec.
 		return this.optional(element)||/^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$/.test(value);
@@ -384,7 +362,7 @@ function showTracerouteDialog(width) {
 	$.virtualDialog({
 		title: $.i18n("Traceroute Tool"),
 		content: $("#traceroute_dialog"),
-		footer: '<input id="pop_button" type="button" value='+$.i18n("Close")+' style="float: right;" />',
+		footer: '<input id="pop_button" type="button" value='+$.i18n("Close")+' class="diag_float" />',
 		width: width
 	});
 	$("#pop_button").off("click").on("click", function(){
@@ -530,7 +508,7 @@ function checkTraceError(traceResults){
 					<input type="text" maxlength="3" id="trace_ipv4_address_3" name="ipv4_address_3" class="gateway_address" value="" />.
 				<label for="trace_ipv4_address_4"  class="acs-hide"></label>
 					<input type="text" maxlength="3" id="trace_ipv4_address_4" name="ipv4_address_4" class="gateway_address" value="" />
-				<input id="trace_ipv4" name="trace_ipv4" type="button" value="Start Traceroute" class="btn" style="float: right;" />
+				<input id="trace_ipv4" name="trace_ipv4" type="button" value="Start Traceroute" class="btn diag_float"  />
 			</div>	
 			<div class="form-row odd">
 				<label for="trace_ipv6_address_1" id="netdiagmess13">IPv6 Address:</label>
@@ -549,15 +527,15 @@ function checkTraceError(traceResults){
 				<input type="text" class="gateway_address" name="ipv6_address_7" id="trace_ipv6_address_7" maxlength="4" value="">:
 				<label for="trace_ipv6_address_8"  class="acs-hide"></label>
 				<input type="text" class="gateway_address" name="ipv6_address_8" id="trace_ipv6_address_8" maxlength="4" value="">
-				<input id="trace_ipv6" name="trace_ipv6" type="button" value="Start Traceroute" class="btn" style="float: right;" />
+				<input id="trace_ipv6" name="trace_ipv6" type="button" value="Start Traceroute" class="btn diag_float" />
 	   		</div>			
 	</div> <!-- end .module -->	
 	</form>
 </div><!-- end #content -->
-<div id="traceroute_dialog" class="content_message" style="display: none;">
+<div id="traceroute_dialog" class="content_message" >
 	<p id="netdiagmess15">Traceroute Results:</p>
 	<label for="pop_trace" class="acs-hide"></label>
-	<textarea id="pop_trace" name="pop_trace" readonly="readonly" style="resize: none;">Loading...
+	<textarea id="pop_trace" class="popTrace" name="pop_trace" readonly="readonly">Loading...
 	</textarea>
 </div>
 <?% include('includes/footer.jst'); ?>

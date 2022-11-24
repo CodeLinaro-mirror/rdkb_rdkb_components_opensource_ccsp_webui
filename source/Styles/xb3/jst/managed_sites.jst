@@ -37,19 +37,12 @@ $isManageEnabled = getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.Ena
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 	if($partnerId=="cox") die();
 ?>
-<style>
-table.data th,table.data td {
-        padding: 8px 20px;
-}
-
-label{
-	margin-right: 10px !important;
-}
-
-</style>
 <script  type="text/javascript">
 $(document).ready(function() {
 	gateway.page.init("Parental Control > Managed Sites", "nav-sites");
+	$("table.data").find("th").css({"padding":"8px 20px"});
+        $("table.data").find("td").css({"padding":"8px 20px"});
+	$("label").addClass("label_style");
     var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
     jQuery.validator.addMethod("url2", function(value, element, param) {
        if (value.indexOf('//www.') > 0) {
@@ -668,7 +661,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 						<td headers='number' class=\"row-label alt\">" +$k+ "</td>\
 						<td headers='device-name' id='HostName-" +$k+ "' >" +$Host[$i.toString()]['HostName']+ "</td>\
 						<td headers='IP' id='IPAddress-" +$k+ "' >" +$Host[$i.toString()]['IPShow']+ "</td>\
-						<td headers='trusted-or-not' style='min-width: 92px;'>\
+						<td headers='trusted-or-not' class='managed_site_table'>\
 						<span id=\"trusted_user_"+$k+"\" switch-val=\""+( $Host[$i.toString()]['Trusted'] == 'true' ? "on" : "off" )+"\"></span>\
 						</td>\
 						</tr>\
@@ -834,7 +827,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
 	}
     for($i=0; $i<$URLNums; $i++){
      //generate edit blocked URL part
-    	echo( "<div id=\"edit-" + $blockedSitesURL[$i.toString()]['InstanceID'] + "\" class=\"edit-URL content\" style='display:none'>\
+    	echo( "<div id=\"edit-" + $blockedSitesURL[$i.toString()]['InstanceID'] + "\" class=\"edit-URL content hidden\">\
     	<h1 id=\"manstmess11\">Parental Control > Managed Sites > Edit Blocked Site</h1>\
       <form id=\"pageForm-" + $blockedSitesURL[$i.toString()]['InstanceID'] + "\" class=\"pageForm\">\
 	    <div class=\"module\">\
@@ -853,7 +846,7 @@ $.validator.addMethod("no_space", function(value, element, param) {
     }
     for($i=0; $i<$KeywordNums; $i++){
      //generate edit blocked Keyword part 
-    	echo( "<div id=\"edit-" + $blockedSitesKeyWord[$i.toString()]['InstanceID'] + "\" class=\"edit-Keyword content\" style='display:none'>\
+    	echo( "<div id=\"edit-" + $blockedSitesKeyWord[$i.toString()]['InstanceID'] + "\" class=\"edit-Keyword content\" class='hidden'>\
     	<h1 id=\"manstmess13\">Parental Control > Managed Sites > Edit Blocked Keyword</h1>\
       <form id=\"pageForm-" + $blockedSitesKeyWord[$i.toString()]['InstanceID'] + "\" class=\"pageForm\">\
 	    <div class=\"module\">\

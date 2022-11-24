@@ -47,15 +47,10 @@ if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 ("" == $timeToLive) && ($timeToLive = "false");
 ("" == $enableZero) && ($enableZero = "false");
 ?>
-<style>
-label{
-        margin-right:10px !important;
-}
-</style>
-
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Device Discovery", "nav-device-discovery");
+    $("label").addClass("deviceDiscovery_label");
 /*start by licha*/
 var jsEnableUPnP = <?% echo( $enableUPnP );?>;
 var jsAdPeriod = <?% echo( $adPeriod );?>;

@@ -315,25 +315,6 @@ csrfProtector.init();
   <script src="./locale/jquery.i18n.emitter.js"></script>
   <script src="./locale/jquery.i18n.emitter.bidi.js"></script>
   <script src="./locale/global.js?t=<?% echo(getRoundedTime()); ?>"></script> <!-- add this -->
-	<style>
-	#div-skip-to {
-		position:relative;
-		left: 150px;
-		top: -300px;
-	}
-	#div-skip-to a {
-		position: absolute;
-		top: 0;
-	}
-	#div-skip-to a:active, #div-skip-to a:focus {
-		top: 300px;
-		color: #0000FF;		
-		/*background-color: #b3d4fc;*/
-	}
-	table .delete, table .edit{
-                width:60px;
-        }
-	</style>	
 <script type="text/javascript">
 function alertLoc(msg){
         var locale=$('#loc').val();
@@ -664,13 +645,13 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
 		<div id="header">
 			<?%
 				if($lanMode != "router")
-					echo( '<p id="bridmess" style="margin: 0">The Device is currently in Bridge Mode.</p>');
+					echo( '<p id="bridmess" class="bridmar">The Device is currently in Bridge Mode.</p>');
 				else
-					echo( '<p style="margin: 0">&nbsp;</p>');
+					echo( '<p class="bridmar">&nbsp;</p>');
 			?>
-			<h2 id="logo" style="margin-top: 10px"><?% echo( "<img src='"+$logo+"' alt='"+$title+"'  title='"+$title+"' />"); ?></h2>
+			<h2 id="logo" class="logo_title"><?% echo( "<img src='"+$logo+"' alt='"+$title+"'  title='"+$title+"' />"); ?></h2>
 		</div> <!-- end #header -->
-		<div id='div-skip-to' style="display: none;">
+		<div id='div-skip-to' class="acs-hide">
 			<a id="skip-link" name="skip-link" href="#content">Skip to content</a>
 		</div>
 <input type="hidden" name="locale" id="locale" value="<?% echo($locale); ?>">

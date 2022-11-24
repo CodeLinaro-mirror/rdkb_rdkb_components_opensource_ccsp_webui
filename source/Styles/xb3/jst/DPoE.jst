@@ -24,11 +24,6 @@
         <?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-#content {
-        display: none;
-}
-</style>
 <?%
         $NetworkName = "";
         $NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
@@ -377,35 +372,35 @@ $device_value["MFI_Date"]                                       = getStr("Device
 <div class="module forms">
 	<h2 id="dpoemod">DPoE Modem Info</h2>
         <div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="hwver">HW Version:</span>
+		<span class="readonlyLabel"  id="hwver">HW Version:</span>
                 <span class="value"><?% echo( $device_value['HardwareVersion']);?></span>
         </div>
         <div class="form-row odd">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="vend">Vendor:</span>
+		<span class="readonlyLabel"  id="vend">Vendor:</span>
                 <span class="value"><?% echo( $device_value['Manufacturer']);?></span>
         </div>
         <div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333">BOOT Version:</span>
+		<span class="readonlyLabel" >BOOT Version:</span>
                 <span class="value"><?% echo( $device_value['BootloaderVersion']);?></span>
         </div>
         <div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="mod">Model:</span>
+		<span class="readonlyLabel"  id="mod">Model:</span>
                 <span class="value"><?% echo( $device_value['ModelName']);?></span>
         </div>
         <div class="form-row odd">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="prodtype">Product Type:</span>
+		<span class="readonlyLabel"  id="prodtype">Product Type:</span>
                 <span class="value"><?% echo( $device_value['ProductClass']);?></span>
         </div>
         <div class="form-row odd">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="downver">Download Version:</span>
+		<span class="readonlyLabel"  id="downver">Download Version:</span>
                 <span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
         </div>
         <div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="sernum">Serial Number:</span>
+		<span class="readonlyLabel"  id="sernum">Serial Number:</span>
                 <span class="value"><?% echo( $device_value['SerialNumber']);?></span>
         </div>
         <div class="form-row ">
-		<span class="readonlyLabel" style="text-align:left; color:#333333" id="mandate">Manufacturer Date:</span>
+		<span class="readonlyLabel"  id="mandate">Manufacturer Date:</span>
                 <span class="value"><?% echo( $device_value['MFI_Date']); ?></span>
         </div>
 </div>
@@ -590,7 +585,7 @@ $DPoE_param = {
                         <span class="value"><?% echo( $DPoE_value['OPBC_dnPacketBuffer']); ?></span>
                 </div>
         </div>
-        <div class="module" style="overflow:auto">
+        <div class="module" >
 		<h2 style="width:280%">DPoE Llid Forwarding State</h2>
                 <table class="data">
                 <tbody>

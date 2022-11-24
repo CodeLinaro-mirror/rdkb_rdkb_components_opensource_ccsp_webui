@@ -288,12 +288,13 @@ else
             $return_status = setStr("Device.Users.User.3.X_RDKCENTRAL-COM_ComparePassword",$_POST["password"],true);
             sleep(1);
             $passVal= getStr("Device.Users.User.3.X_RDKCENTRAL-COM_ComparePassword");
+
             if(!$return_status)
             {
                 LogStr( " : Password FAILED" );
                 $passVal = "Invalid_PWD";
             }
-            if ( !innerIP($client_ip) && (($iface != "rg_ip" || $iface != "eth_ip" )) && ($iface != "rm_ip") && ($iface != "docsis_ip") )
+           if ( !innerIP($client_ip) && (($iface != "rg_ip" || $iface != "eth_ip" )) && ($iface != "rm_ip") && ($iface != "docsis_ip") )
             {
                 LogStr( " : Interface check FAILED" );
                 if($passLockEnable == "true"){

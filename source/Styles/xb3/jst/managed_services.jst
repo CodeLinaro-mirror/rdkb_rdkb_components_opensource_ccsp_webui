@@ -39,11 +39,6 @@ $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 //add by shunjie
 ("" == $enableMS) && ($enableMS = "false");
 ?>
-<style>
-table#blocked-services .services {
-    width: 9%;
-}
-</style>
 <script  type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Parental Control > Managed Services", "nav-services");
@@ -223,10 +218,10 @@ function getTitle(val){
 	    <tr>
             <th id='service-number' class="number"></th>
             <th id='service-name1' class="services">Services</th>
-	    	<th id='protocol-type' style="width:10%" class="type">TCP/UDP</th>
+	    	<th id='protocol-type' class="type service_protocol">TCP/UDP</th>
             <th id='start-port' class="port">Starting Port</th>
             <th id='end-port' class="port">Ending Port</th>
-            <th id='effect-time' class="when" style="width:23%">When</th>
+            <th id='effect-time' class="when service_effecttime" >When</th>
             <th id='edit-button' class="edit">&nbsp;</th>
             <th id='delete-button' class="delete">&nbsp;</th>
 	    </tr>
@@ -285,7 +280,7 @@ function getTitle(val){
 						<td headers='start-port'>"+$value["StartPort"]+"</td>\
 						<td headers='end-port'>"+$value["EndPort"]+"</td>\
 						<td headers='effect-time' id="+$idval+">"+$blockStatus+"</td>\
-						<td headers='edit-button' class=\"edit\"><a style='padding: 4px 10px' tabindex='0' href=\"managed_services_edit.jst?id="+$i+"\" class=\"btn\"  id=\"edit_"+$i+"\">Edit</a></td>\
+						<td headers='edit-button' class=\"edit\"><a tabindex='0' href=\"managed_services_edit.jst?id="+$i+"\" class=\"btn service_editbtn\"  id=\"edit_"+$i+"\">Edit</a></td>\
 						<td headers='delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_managed_services.jst?del="+$i+"\" class=\"btn confirm\" onmouseover=getTitle("+$j+") id=\"deleteservice_"+$j+"\">x</a></td>\
 					</tr>");
 					}
@@ -375,7 +370,7 @@ function getTitle(val){
 						<td headers='number' class=\"row-label alt\">" +$k+ "</td>\
 						<td headers='device-name'  id='HostName-" +$k+ "' >" +$Host[$i.toString()]['HostName']+ "</td>\
 						<td headers='IP'  id='IPAddress-" +$k+ "' >" +$Host[$i.toString()]['IPShow']+ "</td>\
-						<td headers='trusted-or-not' style='min-width: 92px;'>\
+						<td headers='trusted-or-not' class='service_trusted'>\
 							<span id=\"trusted_user_"+$k+"\" switch-val=\""+( $Host[$i.toString()]['Trusted'] == 'true' ? "on" : "off" )+"\"></span>\
 						</td>\
 						</tr>\

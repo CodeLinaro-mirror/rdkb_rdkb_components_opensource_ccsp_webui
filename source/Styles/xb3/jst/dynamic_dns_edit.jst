@@ -40,18 +40,10 @@
 	$password = $dns_value["password"];
 	$hostname = $dns_value["hostname"];
 ?>
-<style>
-        label{
-margin-right: 10px !important;
-}
-
-label[for="Service_Provider"]{
-margin-left: -8px;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Dynamic DNS", "nav-Dynamic-dns");
+	$("label").addClass("label_style");
 	jQuery.validator.addMethod("noSpace", function(value, element) { 
 		return value.indexOf(" ") < 0 && value != ""; 
 	}, $.i18n('Spaces are not allowed'));   
@@ -104,14 +96,6 @@ $(document).ready(function() {
 	// If Enable UPnP is not checked, disable the next two form fields
     $("#btn-saveloc").click(function() {
     	if($("#pageForm").valid()){
-	    	var sp = $("#Service_Provider1").val();
-			var spLC = sp.toLowerCase();
-			var username = $("#User_name").val();
-			var password = $("#Password").val();
-			var hostnames = document.getElementsByName("Host_Name");
-			var hostname = hostnames[0].value;
-			var hostArray=[];
-			hostArray[0]=hostnames[0].value;
 			for(var i=1;i<hostnames.length;i++) {
 				if(hostnames[i].value==""){
 					alertLocale("Please enter HostName.");
@@ -230,8 +214,8 @@ button.onclick=add1
 		<div class="module forms">
 			<h2 id="dyndnshead2">Dynamic DNS</h2>
 			<div class="form-row " id="Service_Provider" >
-				<div class="form-row "  style="float:left">
-					<label for="Service_Provider" id="servprov">Service Provider:</label>
+				<div class="form-row dns_float">
+					<label for="Service_Provider" class="dns_edit" id="servprov">Service Provider:</label>
 					<!--input type="text" value="dyndns.org" id="Service_Provider1"  name="Service_Provider" /-->
 					<select name="Service_Provider1" id="Service_Provider1">
 					<?%

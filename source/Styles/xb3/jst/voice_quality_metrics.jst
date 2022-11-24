@@ -43,8 +43,8 @@ if (isset($_GET['line']))
 	else die();
 }
 ?>
-<div id="pop_mask" style="z-index:100; position: fixed; height: 100%; width: 100%;">
-<img style="position: fixed; left: 50%; top: 16%;" src="./cmn/img/loading.gif"  alt="Loading..."/><br>
+<div id="pop_mask" class="VQM_div">
+<img class="VQM_img" src="./cmn/img/loading.gif"  alt="Loading..."/><br>
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -102,8 +102,8 @@ $(document).ready(function() {
 	<div id="educational-tip">
 		<p class="tip">This page displays the voice quality metrics of your Telephone lines.</p>
 	</div>
-	<div class="module data" style="margin-left:px">
-		<table  id="radius_tab" style="font-size:11px;">
+	<div class="module data VQM_module">
+		<table  id="radius_tab" class="VQM_table">
 		<tr>
 		<td>Line Number</td>
 		<td>
@@ -133,8 +133,8 @@ $(document).ready(function() {
 		</td>
 		</tr>
 		</table>
-		<div name="show_hide" id="msg_no_data1" style="display:none"><br/>There is no data to display for Line 1.</div>
-		<div name="show_hide" id="msg_no_data2" style="display:none"><br/>There is no data to display for Line 2.</div>
+		<div name="show_hide" id="msg_no_data1" class="hidden"><br/>There is no data to display for Line 1.</div>
+		<div name="show_hide" id="msg_no_data2" class="hidden"><br/>There is no data to display for Line 2.</div>
 	</div>
 <?%
 $locale = []/*p2j-array*/;
@@ -352,14 +352,14 @@ if ("display" == $action)
 // for ($n=0; $n<count($line); $n++)
 if (count($call) && ("display" == $action))
 {
-	echo( '<div name="show_hide" class="module data" style="display:none;overflow:auto" id="table'+$line+'">');
+	echo( '<div name="show_hide" class="module data VQM_showhide" id="table'+$line+'">');
 	echo( '<table class="data">');
 		echo( '<tr>');
-		echo( '<th><div style="width: 150px">Call Number</div></th>');
+		echo( '<th><div class="VQM_width">Call Number</div></th>');
 		for ($i=0; $i<count($call); $i++)
 		{
-			echo( '<th><div style="width: 150px">'+($i+1)+'(Local)</div></th>');
-			echo( '<th><div style="width: 150px">'+($i+1)+'(Remote)</div></th>');
+			echo( '<th><div class="VQM_width">'+($i+1)+'(Local)</div></th>');
+			echo( '<th><div class="VQM_width">'+($i+1)+'(Remote)</div></th>');
 		}
 		echo( '</tr>');
 		for ($i=0; $i<count($metric); $i++)
@@ -368,8 +368,8 @@ if (count($call) && ("display" == $action))
 			echo( '<td>'+$metric[$i]+':</td>');
 			for ($j=0; $j<count($call); $j++)
 			{
-				echo( '<td class="odd"><div style="width: 150px">'+$locale[$j][$i]+'</div></td>');
-				echo( '<td class="odd"><div style="width: 150px">'+$remote[$j][$i]+'</div></td>');
+				echo( '<td class="odd"><div class="VQM_width">'+$locale[$j][$i]+'</div></td>');
+				echo( '<td class="odd"><div class="VQM_width">'+$remote[$j][$i]+'</div></td>');
 			}
 			echo( '</tr>');
 		}			
@@ -377,7 +377,7 @@ if (count($call) && ("display" == $action))
 	echo( '</div>');
 	for ($i=0; $i<count($call); $i++)
 	{
-		echo( '<div name="show_hide" class="module forms" id="line'+$line+'call'+($i+1)+'" style="display:none">');
+		echo( '<div name="show_hide" class="module forms hidden" id="line'+$line+'call'+($i+1)+'" >');
 		echo( '<h2>Call '+($i+1)+': Call End Time: '+$locale[$i][0]+'</h2>');
 		$odd = true;
 		for ($j=1; $j<=37; $j++)

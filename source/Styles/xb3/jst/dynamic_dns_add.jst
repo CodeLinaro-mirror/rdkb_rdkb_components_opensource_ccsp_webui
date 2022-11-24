@@ -25,14 +25,10 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style>
-        label{
-margin-right: 10px !important;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function() {
     gateway.page.init("Advanced > Dynamic DNS", "nav-Dynamic-dns");
+	$("label").addClass("label_style");
 	$('#Service_Provider1').focus();
 	jQuery.validator.addMethod("noSpace", function(value, element) { 
 		return value.indexOf(" ") < 0 && value != ""; 

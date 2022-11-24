@@ -52,18 +52,12 @@ if($locale=="it" || $locale=="en_GB"){
 	$downmess1 = "downmess1";
 }
 ?>
-<style>
-table a:link, table a:visited {
-	text-decoration: none;
-	color: #808080;
-}
-</style>
 
 <div id="content"  class="cnt-device-main">
 	<h1 id="connhead">Connected Devices > Devices</h1>
 <?% if($CloudUIEnable == "true"){ ?>
 	<div id="educational-tip">
-		<h3 style="text-align: justify;"><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="<?% echo($downmess1); ?>">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="connhom2"> to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.</span>
+		<h3 class="connectMess"><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="<?% echo($downmess1); ?>">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="connhom2"> to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.</span>
  </h3>
 	</div>		
 <?% } else { ?>
@@ -77,10 +71,10 @@ table a:link, table a:visited {
 <?% } ?>
 	<div id='online-private' class="module data">
         <h2 id='online-table-cap'>Online Devices-Private Network</h2>
-		<table   class="data"  summary="This table displays Online Devices connected to priviate network">
+		<table   class="data connected_dev"  summary="This table displays Online Devices connected to priviate network">
 		    <tr>
-		        <th id="host-name" style="width:25%">Host Name</th>
-		        <th id="dhcp-or-reserved" style="width:21%">DHCP/Reserved IP</th>
+		        <th id="host-name" class="condev_host">Host Name</th>
+		        <th id="dhcp-or-reserved" class="condev_ip">DHCP/Reserved IP</th>
 		        <th id="rssi-level" >RSSI Level</th>
 		        <th id="connection-type" >Connection</th>
 		        <th id="edit-button">&nbsp;</th>
@@ -745,9 +739,9 @@ function getTitle(val){
 	</div> <!-- end .module -->
 	<div id='offline-private' class="module forms data">
     <h2 id='offline-table-cap'>Offline Devices-Private Network</h2>
-		<table   class="data" summary="this table display off line devices for private network">
+		<table   class="data connected_dev" summary="this table display off line devices for private network">
 		    <tr>
-		        <th id="offline-device-host-name" style="width:30%">Host Name</th>
+		        <th id="offline-device-host-name" class="condev_host2">Host Name</th>
 		        <th id="offline-device-dhcp-reserve">DHCP/Reserved IP</th>
 		        <th id="offline-device-conncection">Connection</th>
 			<th id="offline-edit-button">&nbsp;</th>
@@ -850,9 +844,9 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 	?>
 	<?%
 		if($loginuser=="mso"){
-			echo( '<div  class="module forms data div-xhs-network" style="position:relative; top:10px; ">');
-		      	echo( '<h2  style="white-space: pre;">Online Devices-XHS '+$xhsSSIDName+' SSID</h2>');
-		      	echo( '<table   class="data" summary="this table displays online devices connected to Home security SSID">');
+			echo( '<div  class="module forms data div-xhs-network condev_div">');
+		      	echo( '<h2  class="white_space">Online Devices-XHS '+$xhsSSIDName+' SSID</h2>');
+		      	echo( '<table   class="data connected_dev" summary="this table displays online devices connected to Home security SSID">');
 		      		echo( '<tr>');
 		      			echo( '<th id="XHS-host-name" width="30%">Host Name</th>');
 		      			echo( '<th id="XHS-ipv4-address" width="25%">IPv4 Address</th>');
@@ -959,9 +953,9 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 			echo( '</tfoot>');
    		echo( '</table>');
    	echo( '</div> <!-- end .module -->');
-	echo( '<div  class="module forms data div-xhs-network" style="position:relative; top:10px; ">');
-      	echo( '<h2 style="white-space: pre;"><span id="offdevxhs">Offline Devices-XHS</span>'+$xhsSSIDName+'<span id="offlinessid"> SSID</span></h2>');
-      	echo( '<table   class="data" summary="this table displays offline devices connected to Home security SSID">');
+	echo( '<div  class="module forms data div-xhs-network condev_div">');
+      	echo( '<h2 class="white_space"><span id="offdevxhs">Offline Devices-XHS</span>'+$xhsSSIDName+'<span id="offlinessid"> SSID</span></h2>');
+      	echo( '<table   class="data connected_dev" summary="this table displays offline devices connected to Home security SSID">');
       		echo( '<tr>');
       			echo( '<th id="offXHS-host-name" width="">Host Name</th>');
       			echo( '<th id="offXHS-ipv4-address" width="">IPV4 Address</th>');
@@ -1015,9 +1009,9 @@ else if($offlinePrivateNetworkHost[$x.toString()]['Connection']=="Ethernet"){pri
 			//$Hotspot_SSID_clientsNum = getStr("Device.X_COMCAST-COM_GRE.Tunnel.1.SSID.1.AssociatedDeviceNumberOfEntries");
 			return $Hotspot_SSID_clients;
 		}
-		echo( '<div  class="module forms data div-pub-network" style="position:relative; top:10px; ">');
+		echo( '<div  class="module forms data div-pub-network condev_div">');
     	        echo( '<h2 id="ondevpub">Online Devices - Public Wi-Fi SSID</h2>');
-                echo( '<table   class="data" summary="this table displays online devices connected to Public Wi-Fi SSID">');
+                echo( '<table   class="data connected_dev" summary="this table displays online devices connected to Public Wi-Fi SSID">');
       		echo( '<tr>');
       		echo( '<th id="xfinitywifi-host-name" width="30%">Host Name</th>');
       		echo( '<th id="xfinitywifi-ipv4-address" width="30%">IPV4 Address</th>');
@@ -1124,7 +1118,7 @@ for ($i=0; $i < $onlinePrivateNetworkHost['hostNum']; $i++) {
 		unknowid ="5_G";
 	}else if($onlinePrivateNetworkHost[$i.toString()]['Connection']=="Ethernet"){unknowid ="ethcon";}
 	echo( "\
-        <div id=\"edit-device-" +$ID+ "\"  class=\"edit-device content \" style='display:none'>\
+        <div id=\"edit-device-" +$ID+ "\"  class=\"edit-device content \" class='hidden'>\
 		    <h1 id=\"conndevedithead\">Connected Devices > Devices > Edit Device</h1>\
 		    <div  class=\"educational-tip-edit\">\
 				<p  class=\"tip\" id='chipadd'>Change the IP address assignment method for Online Devices.</p>\
@@ -1144,7 +1138,7 @@ for ($i=0; $i < $onlinePrivateNetworkHost['hostNum']; $i++) {
         		<span  class=\"value\" id="+unknowid+">" + $onlinePrivateNetworkHost[$i.toString()]['Connection'] + "</span>\
 			</div>\
 			<div  class=\"form-row\">\
-				<label for=\"ip\" style='margin:4px 5px 0 0;' id='confloc'>Configuration:</label>\
+				<label for=\"ip\" class='condev_config' id='confloc'>Configuration:</label>\
 				<input type=\"radio\" name=\"ip\" value=\"" +$AddrSrc+ "\" " +( ($AddrSrc == "DHCP") ? "checked='checked'" : '' )+ " class=\"ip_dchp\" id=\"ip_dhcp-" +$ID+ "\" />\
 				<label  class=\"radio\" for=\"ip_dhcp-" +$ID+ "\">DHCP</label>\
 				<br/>\
@@ -1198,7 +1192,7 @@ for ($i=0; $i < $offlinePrivateNetworkHost['hostNum']; $i++) {
 		unknowid ="5_G";
 	}else{unknowid ="ethcon";}
         echo("\
-        <div id=\"offline-edit-device-" +$ID+ "\"  class=\"edit-device content \" style='display:none'>\
+        <div id=\"offline-edit-device-" +$ID+ "\"  class=\"edit-device content \" class='hidden'>\
                     <h1 id=\"conndevedithead1\">Connected Devices > Devices > Edit Device</h1>\
                     <div  class=\"educational-tip-edit\">\
                                 <p  class=\"tip\" id=\"conndeveditoffmess1\">Change the IP address assignment method for Offline Devices</p> \
@@ -1218,7 +1212,7 @@ for ($i=0; $i < $offlinePrivateNetworkHost['hostNum']; $i++) {
                         <span  class=\"value\" id="+unknowid+">" + $offlinePrivateNetworkHost[$i.toString()]['Connection'] + "</span> \
                         </div>\
                         <div  class=\"form-row\">\
-                                <label for=\"ip\" style='margin:4px 5px 0 0;'  id='confloc'>Configuration:</label>\
+                                <label for=\"ip\" class='condev_config'  id='confloc'>Configuration:</label>\
                                 <input type=\"radio\" name=\"ip\" value=\"" +$AddrSrc+ "\" " +( ($AddrSrc == "DHCP") ? "checked='checked'" : '' )+ " class=\"ip_dchp\" id=\"ip_dhcp-" +$ID+ "\" />\
                                 <label  class=\"radio\" for=\"ip_dhcp-" +$ID+ "\">DHCP</label>\
                                 <br/>\

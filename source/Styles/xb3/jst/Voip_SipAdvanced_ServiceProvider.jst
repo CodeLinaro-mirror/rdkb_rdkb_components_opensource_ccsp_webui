@@ -24,11 +24,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-#content {
-	display: none;
-}
-</style>
 <?%
 	//DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
@@ -93,7 +88,7 @@
 		<div class="form-row form-btn">
 				<input type="button" id='SIP_Start' name="Start" value='Start SIP Client' class ='btn sip_btn'/>
 				<input type="button" id='SIP_Stop' name="Stop" value='Stop SIP Client' class ='btn sip_btn'/>
-				<span style='float:right'>
+				<span id="voip">
 					<input type="button" id='SIP_Apply' name="SIP_auth_pwd" value='Apply' class ='btn' />
 				</span>
 			</div>

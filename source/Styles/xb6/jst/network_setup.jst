@@ -24,11 +24,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-#content {
-	display: none;
-}
-</style>
 <?%
 	$NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
 	$mapT ="";
@@ -643,35 +638,35 @@ $device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.Addition
 <div class="module forms">
 	<h2>Cable Modem</h2>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333">HW Version:</span>
+		<span class="readonlyLabel networkColor">HW Version:</span>
 		<span class="value"><?% echo( $device_value['HardwareVersion']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333">Vendor:</span>
+		<span class="readonlyLabel networkColor">Vendor:</span>
 		<span class="value"><?% echo( $device_value['Manufacturer']);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333">BOOT Version:</span>
+		<span class="readonlyLabel networkColor">BOOT Version:</span>
 		<span class="value"><?% echo( $device_value['BootloaderVersion']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333">Core Version:</span>
+		<span class="readonlyLabel networkColor">Core Version:</span>
 		<span class="value"><?% echo( $CM_value["CoreVersion"]);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333">Model:</span>
+		<span class="readonlyLabel networkColor">Model:</span>
 		<span class="value"><?% echo( $device_value['ModelName']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333">Product Type:</span>
+		<span class="readonlyLabel networkColor">Product Type:</span>
 		<span class="value"><?% echo( $device_value['ProductClass']);?></span>
 	</div>
 	<div class="form-row ">
-		<span class="readonlyLabel" style="color:#333333">Flash Part:</span>
+		<span class="readonlyLabel networkColor">Flash Part:</span>
 		<span class="value"><?% echo( $device_value['Hardware']);?> MB</span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel" style="color:#333333">Download Version:</span>
+		<span class="readonlyLabel networkColor">Download Version:</span>
 		<span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
 	</div>
 </div>
@@ -753,49 +748,49 @@ for($i=1;$i<$ds_tab.length;$i++){
 
 ?>
 
-<div class="module" style="overflow:auto">
+<div class="module netFlow">
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<td class="row-label acs-th"><div style="width: 100px">Downstream</div></td>
+			<td class="row-label acs-th"><div class="netWidth">Downstream</div></td>
 			<td class="row-label acs-th" colspan="<?% echo( count($ds_ids));?>">Channel Bonding Value</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="">
 			<th class="row-label ">Channel ID</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
-                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width:100px">'+$ds_ofdm_tab[$j]['ChannelID']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
+                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div class="netWidth">'+$ds_ofdm_tab[$j]['ChannelID']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Lock Status</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['LockStatus']+'</div></td>');?>
-                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width: 100px">'+$ds_ofdm_tab[$j]['LockStatus']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['LockStatus']+'</div></td>');?>
+                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div class="netWidth">'+$ds_ofdm_tab[$j]['LockStatus']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Frequency</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['Frequency']+'</div></td>');?>
-                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width: 100px">'+$ds_ofdm_tab[$j]['PlcFreq']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['Frequency']+'</div></td>');?>
+                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div class="netWidth">'+$ds_ofdm_tab[$j]['PlcFreq']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">SNR</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['SNRLevel']+'</div></td>');?>
-                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width: 100px">'+$ds_ofdm_tab[$j]['SNRLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['SNRLevel']+'</div></td>');?>
+                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div class="netWidth">'+$ds_ofdm_tab[$j]['SNRLevel']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Power Level</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['PowerLevel']+'</div></td>');?>
-                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width: 100px">'+$ds_ofdm_tab[$j]['PowerLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['PowerLevel']+'</div></td>');?>
+                        <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div class="netWidth">'+$ds_ofdm_tab[$j]['PowerLevel']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Modulation</td>
-			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['Modulation']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['Modulation']+'</div></td>');?>
                         <?%
                             for ($j=1; $j<count($ds_ofdm_ids); $j++) {
                                 if($ds_ofdm_tab[$j]['LockStatus'] == 'Locked') {
-                                    echo( '<td><div style="width: 100px">OFDM</div></td>');
+                                    echo( '<td><div class="netWidth">OFDM</div></td>');
                                 } else {
-                                    echo( '<td><div style="width: 100px">UNSUPPORTED</div></td>');
+                                    echo( '<td><div class="netWidth">UNSUPPORTED</div></td>');
                                 }
                             }
                         ?>
@@ -821,42 +816,42 @@ for ($i=1, $j=1; $i<count($us_ids); $i++)
 	$us_tab[$i]['LockStatus']		= $us_val[$j++][1];
 }
 ?>
-<div class="module" style="overflow:auto">
+<div class="module netFlow">
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
-			<td class="row-label acs-th"><div style="width: 100px">Upstream</div></td>
+			<td class="row-label acs-th"><div class="netWidth">Upstream</div></td>
 			<td class="row-label acs-th" colspan="<?% echo( count($us_ids));?>">Channel Bonding Value</td>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="">
 			<th class="row-label ">Channel ID</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['ChannelID']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['ChannelID']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Lock Status</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['LockStatus']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['LockStatus']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Frequency</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['Frequency']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['Frequency']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Symbol Rate</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['SymbolRate']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['SymbolRate']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Power Level</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['PowerLevel']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['PowerLevel']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Modulation</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['Modulation']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['Modulation']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Channel Type</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['ChannelType']+'</div></td>');?>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div class="netWidth">'+$us_tab[$i]['ChannelType']+'</div></td>');?>
 		</tr>
 	</tbody>
 	</table>
@@ -891,7 +886,7 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
         $ec_tab[$i]['UncorrectableCodewords']            = $ec_val[$j++][1];
 }
 ?>
-<div class="module" style="overflow:auto">
+<div class="module netFlow">
 	<table class="data" cellspacing="0" cellpadding="0">
 	<thead>
 		<tr>
@@ -901,19 +896,19 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	<tbody>
 		<tr class="">
 	    <th class="row-label ">Channel ID</td>
-	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
+	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
 	</tr>
 	<tr class="odd">
 			<th class="row-label ">Unerrored Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UnerroredCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ec_tab[$i]['UnerroredCodewords']+'</div></td>');?>
 		</tr>
 		<tr class="">
 			<th class="row-label ">Correctable Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['CorrectableCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ec_tab[$i]['CorrectableCodewords']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Uncorrectable Codewords</td>
-			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ec_tab[$i]['UncorrectableCodewords']+'</div></td>');?>
+			<?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ec_tab[$i]['UncorrectableCodewords']+'</div></td>');?>
 		</tr>
 	</tbody>
 	</table>

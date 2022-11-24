@@ -24,11 +24,6 @@
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<style type="text/css">
-#content {
-	display: none;
-}
-</style>
 <?%
     //DM's get for VOICE SIP BASIC SERVICE PROVIDER 0 page
 	function Dm_data_get(){
@@ -130,7 +125,7 @@
 				<label for="SIP_registrar_port">SIP Registrar Port :</label>
 				<input type="number" id='SIP_registrar_port' name="SIP_registrar_port" value='' class ='text'/>
 			</div>
-			<h2 style='margin-top:10px'>SIP Account</h2>
+			<h2 id="voip_margin">SIP Account</h2>
 			<div class="form-row odd ">
 				<label for="SIP_acc_enabled">Account Enabled :</label>
 				<input type="checkbox" id='SIP_acc_enabled' name="SIP_acc_enabled" />
@@ -167,7 +162,7 @@ Similarly for 'Use SIP Registrar' and the two fields below.<br/><br/>The <b>Pass
 		<div class="form-row form-btn">
 				<input type="button" id='SIP_Start' name="Start" value='Start SIP Client' class ='btn sip_btn'/>
 				<input type="button" id='SIP_Stop' name="Stop" value='Stop SIP Client' class ='btn sip_btn'/>
-				<span style='float:right'>
+				<span id="voip">
 					<input type="button" id='SIP_Apply' name="SIP_auth_pwd" value='Apply' class ='btn' />
 				</span>
 			</div>
