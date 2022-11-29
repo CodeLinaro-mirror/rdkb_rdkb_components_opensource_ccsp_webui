@@ -19,7 +19,7 @@
 <?%
 session_start();
 $isManageEnabled = getStr("Device.X_Comcast_com_ParentalControl.ManagedSites.Enable");
-if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $isManageEnabled == "false") {
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $isManageEnabled == "false" || $_SESSION["loginuser"] == undefined ) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
 	exit(0);
 }

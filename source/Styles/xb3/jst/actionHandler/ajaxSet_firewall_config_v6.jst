@@ -18,7 +18,7 @@
 <?%
 session_start();
 $modelName = getStr("Device.DeviceInfo.ModelName");
-if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false) {
+if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined) {
 	echo( '<script type="text/javascript">alert("Please Login First!"); location.href="../index.jst";</script>');
 	exit(0);
 }
