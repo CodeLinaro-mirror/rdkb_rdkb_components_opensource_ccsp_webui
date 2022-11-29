@@ -329,7 +329,7 @@ $(document).ready(function() {
 	}).trigger("change");
 	$("#broadcastSSID").change(function() {
 		var ssid_number			= "<?% echo( $id); ?>";
-		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number || "17"==ssid_number))
+		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number ))
 		{
 			jConfirm(
 				$.i18n("WARNING:<br/> Disabling Broadcast Network Name (SSID) will disable Wi-Fi Protected Setup (WPS) functionality. Are you sure you want to change?")
