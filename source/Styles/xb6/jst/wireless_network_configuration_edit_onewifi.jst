@@ -256,10 +256,13 @@ function showDialog() {
 		$("#pop_dialog").find("[value='WPA2_PSK_AES']").prop("checked", true);
 	$("#pop_ok").off("click").on("click", function(){
 		var popSec = $("#pop_dialog [name='path']:checked").val();
-		$("#security").find("[value^='WEP'],[value='None']").remove();
+		$("#security").find("[value^='WEP'],[value='None'],[value='WPA3-Personal Only']").remove();
 		if ("None" == popSec) {
 			$("#security").prepend('<option value="None" title=$.i18n("Open networks do not have a password.") >'+$.i18n("Open (risky)")+'</option>');
 		}
+		else if ("WPA3-Personal Only" == popSec) {
+                        $("#security").prepend('<option value="WPA3-Personal Only"  >'+$.i18n("WPA3-Personal Only")+'</option>');
+                }
 		else if ("WEP_64" == popSec) {
 			$("#security").prepend('<option value="WEP_64" title='+$.i18n("WEP  64 requires a  5 ASCII character or  10 hex character password. Hex means only the following characters can be used: ABCDEF0123456789.")+'>'+$.i18n("WEP 64 (risky)")+'</option>');
 		}
@@ -1193,8 +1196,9 @@ function setResetInfo(info) {
 		if($WPA3_enable == "true"){
 		?>
 		<input name="path" id="path7" type="radio" value="WPA3-Personal Transition"><b>WPA3-Personal Transition (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. </span><br> 
+		<input name="path" id="path8" type="radio" value="WPA3-Personal Only"><b >WPA3-Personal Only</b><br>
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" ><b>WPA2-PSK (AES) </b><br>
-		 <?%
+		<?%
                 }else{
 		?>
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" checked="checked"><b>WPA2-PSK (AES) (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. Older Wi-Fi devices which doesn't support WPA2 and AES encryption will be unable to connect to your Wi-Fi network in this mode.</span><br>
