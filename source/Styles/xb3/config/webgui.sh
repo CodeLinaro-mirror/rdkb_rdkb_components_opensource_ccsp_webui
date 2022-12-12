@@ -90,6 +90,7 @@ if [ "x$BOX_TYPE" != "xHUB4" ]; then
 fi
 REVERT_FLAG="/nvram/reverted"
 LIGHTTPD_CONF="/etc/lighttpd.conf"
+LIGHTTPD_CONF_TXT="/tmp/lighttpdconfig.txt"
 FILE_LOCK="/tmp/webgui.lock"
 MAX_RETRY_COUNT=10
 webgui_count=0
@@ -358,4 +359,11 @@ if [[ $MANUFACTURE == SKY* ]]
 then
 	rm -rf /tmp/.webui
 	rm $ID
+fi
+
+if [[ $MANUFACTURE == SKY* ]]
+then
+	echo "url.access-deny = ( \"~\", \".inc\", \".html\" )" >> $LIGHTTPD_CONF_TXT
+else
+	echo "url.access-deny = ( \"~\", \".inc\", \".html\", \".json\" )" >> $LIGHTTPD_CONF_TXT
 fi
