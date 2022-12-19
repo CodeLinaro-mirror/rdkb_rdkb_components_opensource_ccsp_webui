@@ -273,23 +273,6 @@ then
 	fi
 fi		
 
-if [ "$VIDEO_ANALYTICS" = "enabled" ]
-then
-    CONFIGPARAMGEN=/usr/bin/configparamgen
-    if [ -d /etc/webui/certs ]; then
-       mkdir -p /tmp/.webui/
-       cp /etc/webui/certs/comcast-rdk-ca-chain.cert.pem /tmp/.webui/
-       if [ -f $CONFIGPARAMGEN ]; then
-          $CONFIGPARAMGEN jx /etc/webui/certs/ptohjvfeh.sdn /tmp/.webui/rdkb-video.pem
-          if [ -f /tmp/.webui/rdkb-video.pem ]; then
-             chmod 600 /tmp/.webui/rdkb-video.pem
-          fi
-       else
-          echo "$CONFIGPARAMGEN not found !!!"
-       fi
-    fi
-fi
-
 if [ "$MODEL_NUM" = "TG3482G" ] ; then
 	# RDKB-15633 from Arris XB6
 	RFC_CONTAINER_SUPPORT=`syscfg get containersupport`
@@ -299,17 +282,11 @@ if [ "$MODEL_NUM" = "TG3482G" ] ; then
 	else
 	  LD_LIBRARY_PATH=/fss/gw/usr/ccsp:$LD_LIBRARY_PATH lighttpd -f $LIGHTTPD_CONF
 
-	  if [ -f /tmp/.webui/rdkb-video.pem ]; then
-       rm -rf /tmp/.webui/rdkb-video.pem
-	  fi
 	  echo "WEBGUI: Started without Container."
 	fi
 else
 	  LD_LIBRARY_PATH=/fss/gw/usr/ccsp:$LD_LIBRARY_PATH lighttpd -f $LIGHTTPD_CONF
 
-	  if [ -f /tmp/.webui/rdkb-video.pem ]; then
-       rm -rf /tmp/.webui/rdkb-video.pem
-	  fi	  
 fi
 
 echo "WEBGUI : Set event"
