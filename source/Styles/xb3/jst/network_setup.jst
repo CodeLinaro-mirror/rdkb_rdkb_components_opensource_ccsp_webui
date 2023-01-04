@@ -382,9 +382,9 @@ function sec2dhms($sec)
 	<div class="form-row odd">
 		<span class="readonlyLabel" id="dhcli">DHCP Client (IPv4):</span>
 		<?%
-                        var idEnabled = ("DHCP"==getStr("Device.X_CISCO_COM_DeviceControl.WanAddressMode")) ? "enablespanid" : "disablespanid";
+                        var idEnabled = ("UP"==strtoupper($ipv4_status)) ? "enablespanid" : "disablespanid";
                 ?>
-		<span class="value" id="<?% echo(idEnabled); ?>"><?% echo( ("DHCP"==getStr("Device.X_CISCO_COM_DeviceControl.WanAddressMode")) ? "Enabled" : "Disabled");?></span>
+		<span class="value" id="<?% echo(idEnabled); ?>"><?% echo( ("UP"==strtoupper($ipv4_status)) ? "Enabled" : "Disabled");?></span>
 	</div>
 	<div class="form-row ">
 		<span class="readonlyLabel" id="dhcliv6">DHCP Client (IPv6):</span>
