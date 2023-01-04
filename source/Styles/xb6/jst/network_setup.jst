@@ -766,7 +766,7 @@ for($i=1;$i<$ds_tab.length;$i++){
 	</thead>
 	<tbody>
 		<tr class="">
-			<th class="row-label ">Index</td>
+			<th class="row-label ">Channel ID</td>
 			<?% for ($i=1; $i<count($ds_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
                         <?% for ($j=1; $j<count($ds_ofdm_ids); $j++) echo( '<td><div style="width:100px">'+$ds_ofdm_tab[$j]['ChannelID']+'</div></td>');?>
 		</tr>
@@ -806,6 +806,7 @@ for($i=1;$i<$ds_tab.length;$i++){
 	</tbody>
 	</table>
 </div>
+<div class="form-row "><b><i><span class="readonlyLabel";font-weight:bold;>*Channel ID <?% echo( $ds_tab[1]['ChannelID']);?> is the Primary channel</span></i></b></div>
 <?%
 $us_obj = "Device.X_CISCO_COM_CableModem.UpstreamChannel.";
 $us_val = DmExtGetStrsWithRootObj($us_obj, [$us_obj]/*p2j-array*/);
@@ -833,8 +834,8 @@ for ($i=1, $j=1; $i<count($us_ids); $i++)
 	</thead>
 	<tbody>
 		<tr class="">
-			<th class="row-label ">Index</td>
-			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$i+'</div></td>');?>
+			<th class="row-label ">Channel ID</td>
+			<?% for ($i=1; $i<count($us_ids); $i++) echo( '<td><div style="width: 100px">'+$us_tab[$i]['ChannelID']+'</div></td>');?>
 		</tr>
 		<tr class="odd">
 			<th class="row-label ">Lock Status</td>
@@ -864,6 +865,23 @@ for ($i=1, $j=1; $i<count($us_ids); $i++)
 	</table>
 </div>
 <?%
+$ds_obj = "Device.X_CISCO_COM_CableModem.DownstreamChannel.";
+$ds_val = DmExtGetStrsWithRootObj($ds_obj, [$ds_obj]/*p2j-array*/);
+$ds_ids = DmExtGetInstanceIds($ds_obj);
+$ds_tab = []/*p2j-array*/;
+for ($i=1, $j=1; $i<count($ds_ids); $i++)
+{	
+	$ds_tab[$i]={};
+	$ds_tab[$i]['ChannelID']		= $ds_val[$j++][1];
+	$ds_tab[$i]['Frequency']		= $ds_val[$j++][1];
+	$ds_tab[$i]['PowerLevel']		= $ds_val[$j++][1];
+	$ds_tab[$i]['SNRLevel']			= $ds_val[$j++][1];
+	$ds_tab[$i]['Modulation']		= $ds_val[$j++][1];
+	$ds_tab[$i]['Octets']			= $ds_val[$j++][1];
+	$ds_tab[$i]['Correcteds']		= $ds_val[$j++][1];
+	$ds_tab[$i]['Uncorrectables']	= $ds_val[$j++][1];
+	$ds_tab[$i]['LockStatus']		= $ds_val[$j++][1];
+}
 $ec_obj = "Device.X_CISCO_COM_CableModem.CMErrorCodewords.";
 $ec_val = DmExtGetStrsWithRootObj($ec_obj, [$ec_obj]/*p2j-array*/);
 $ec_ids = DmExtGetInstanceIds($ec_obj);
@@ -885,8 +903,8 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	</thead>
 	<tbody>
 		<tr class="">
-	    <th class="row-label ">Index</td>
-	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$i+'</div></td>');?>
+	    <th class="row-label ">Channel ID</td>
+	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div style="width: 100px">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
 	</tr>
 	<tr class="odd">
 			<th class="row-label ">Unerrored Codewords</td>
