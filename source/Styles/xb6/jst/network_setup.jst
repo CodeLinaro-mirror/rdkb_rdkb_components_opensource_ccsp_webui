@@ -739,6 +739,7 @@ for($i=1;$i<$ds_tab.length;$i++){
     if($ds_tab[$i]['Modulation']=='OFDM'){
                 $ds_tab.splice($i,1);
         	$ds_ids.splice($i,1);
+   		$i--;
             	
     }else{
     
@@ -746,7 +747,8 @@ for($i=1;$i<$ds_tab.length;$i++){
                 if($channel_id[$j]==$ds_tab[$i]['ChannelID']){
 	        $ds_tab.splice($i,1);
         	$ds_ids.splice($i,1);
-            	break;
+		$i--;            	
+		break;
         	}
     	    }
     }
