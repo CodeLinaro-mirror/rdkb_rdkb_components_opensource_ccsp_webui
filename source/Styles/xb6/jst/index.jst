@@ -52,19 +52,12 @@ $url = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : "" ;
 $wan_enabled=getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
 $webuiEnabled = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WebUI.Enable");
 $webuiIsEnabled = "true";
-$productLink = "";
-$productLinkText = "";
 $ModelName = getStr("Device.DeviceInfo.ModelName");
-$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 $idadv ="";
 $idadv2 = "";
-if($ModelName == "SR203"){
-        $productLinkText = "App Sky Wifi: impostazioni avanzate";
+if($locale=="it"){
         $idadv = "advmess1";
         $idadv2 = "advmess2";
-}else {
-        $productLinkText = $productLink;
-        $productLink = 'http://'+$productLink;
 }
 
 if($wan_enabled=="true"){
@@ -287,7 +280,7 @@ if($webuiIsEnabled == "false"){
                 <div class="module data" style="width: 717px; margin: 89px">
                         <div id="content" style="text-align: center;">
                                 <br>
-				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever. </span><span id="visithead">Visit </span><?% echo('<a href="'+$productLink+'">'+$productLinkText +'</a>');?> <span>to manage your gateway settings, and other features.</span><br></h3>
+				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever. </span><span id="visithead">Visit </span><?% echo(getProductLink()); ?> <span>to manage your gateway settings, and other features.</span><br></h3>
                                  <br>
                         </div>
                 </div> <!-- end .module -->

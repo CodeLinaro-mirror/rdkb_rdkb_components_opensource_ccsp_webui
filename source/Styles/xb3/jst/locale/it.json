@@ -1279,7 +1279,7 @@
 "Failure! As Port Triggering/Port Forwarding rule exists for the same port.Service name has been used!\n ":"Si è verificato un errore. É presente una regola di Port Triggering/Port Forwarding per la stessa porta.Il nome del servizio è già stato utilizzato",
 "Failure! As Port Triggering/Port Forwarding rule exists for the same port.Conflict with other service. Please check Trigger and Target Ports!":"Si è verificato un errore. É presente una regola di Port Triggering/Port Forwarding per la stessa porta.Conflitto con altro servizio. Controlla porte trigger e target",
 "Delegated prefix (IPv6):":"Prefisso delegato (IPv6):",
-"You can manage the advanced settings of your network directly from the Sky Wifi App.":"Puoi gestire le impostazioni avanzate della tua rete direttamente dall’App Sky Wifi.",
+"You can manage the advanced settings of your network directly from the My Sky App.":"Puoi gestire le impostazioni avanzate della tua rete direttamente dall’App Sky Wifi.",
 " for more information.":" per maggiori informazioni."
 }
 

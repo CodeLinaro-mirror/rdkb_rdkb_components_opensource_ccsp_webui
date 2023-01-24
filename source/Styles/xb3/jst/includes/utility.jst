@@ -882,5 +882,34 @@ function updateURL(url){
 	}
 	return url;
 }
+/**
+* Discription:
+* get and return brandName & productName
+*
+* return: returns $brandName+' '+$productName
+*/
+function getBrandProductName(){
+	$brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
+	$productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
+	return $brandName+' '+$productName;
+}
+
+/**
+* Discription:
+* '<a href="'+updateURL($productLink)+'">'+$productLinkText+'</a>'
+*
+* return: returns <a> as string having $productLink & $productLinkText
+*/
+function getProductLink(){
+	$partnersId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+	$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
+	$productLinkText = $productLink;
+	$productLink = updateURL($productLink);
+	if(strpos($partnersId, "sky-") !== false){
+		if($locale=="it")
+			$productLinkText = "App Sky Wifi: impostazioni avanzate";
+	}
+	return '<a href="'+updateURL($productLink)+'">'+$productLinkText+'</a>';
+}
 ?>
 

@@ -1107,7 +1107,7 @@ $("#wanipv6add").text($.i18n("WAN IPv6 Address:"));
 $("[id^='shrdMpT']").text($.i18n('(Shared using MAP-T)'));
 $("#pridnsv6").text($.i18n('Primary DNS Server (IPv6):'));
 $("[id^='deprev6']").text($.i18n('Delegated prefix (IPv6):'));
-$("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the Sky Wifi App."));
+$("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the My Sky App."));
 $("#advmess2").text($.i18n(" for more information."));
 callback();
 }

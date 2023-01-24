@@ -28,7 +28,6 @@ $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); 
-$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 $enableMD = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
 if($enableMD == "false"){
                 echo( '<script type="text/javascript"> alert("Access Denied!"); window.history.back(); </script>');
@@ -311,7 +310,7 @@ $(document).ready(function() {
 	<div class="module forms enable">
 		<div id="content" style="text-align: center;">
 			<br>
-			<h3><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo('<a href="'+updateURL($productLink)+'">'+$productLink +'</a>');?><span id="mandevmess"> to enable parental controls for devices connected</span><br><span id="mandevmessnew">to your home network, among many other features and settings.</span></h3>
+			<h3><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo(getProductLink()); ?><span id="mandevmess"> to enable parental controls for devices connected</span><br><span id="mandevmessnew">to your home network, among many other features and settings.</span></h3>
 			<br>
 		</div>
 	</div>

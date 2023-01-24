@@ -1747,3 +1747,6 @@ margin:0 0 0 -35px;
 .block_self_ada .img_ada > img {
 	max-width: 100%;
 }
+#content h3 {
+	inline-size: 90%;
+}

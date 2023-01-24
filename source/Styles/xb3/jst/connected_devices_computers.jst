@@ -34,7 +34,6 @@
 	$PreferPrivate = getStr("Device.WiFi.X_RDKCENTRAL-COM_PreferPrivate");
 	$encrypt_mode = getStr("Device.WiFi.AccessPoint.1.Security.ModeEnabled");
 	$encrypt_mode1 = getStr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
-	$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
         $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
         $OperatingChannelBandwidth="";
         if($RadioNumberOfEntries)
@@ -61,7 +60,7 @@ table a:link, table a:visited {
 	<h1 id="connhead">Connected Devices > Devices</h1>
 <?% if($CloudUIEnable == "true"){ ?>
 	<div id="educational-tip">
-		<h3 style="text-align: justify;"><span id="connhom1">Managing your home network settings is now easier than ever.</span><span id="visithead">Visit </span><?% echo('<a href="'+updateURL($productLink)+'">'+$productLink +'</a>');?><span id="connhom2"> to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.</span></h3>
+		<h3 style="text-align: justify;"><span id="connhom1">Managing your home network settings is now easier than ever.</span><span id="visithead">Visit </span><?% echo(getProductLink()); ?><span id="connhom2"> to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.</span></h3>
 	</div>		
 <?% } else { ?>
 	<div id="educational-tip">
