@@ -1286,6 +1286,8 @@
 "You can manage the advanced settings of your network directly from the My Sky App.":"Puoi gestire le impostazioni avanzate della tua rete direttamente dall’App Sky Wifi.",
 " for more information.":" per maggiori informazioni.",
 " app":" ",
-" app.":"."
+" app.":".",
+"MAP_T:":"MAP-T:",
+"MAP_T Sharing Ratio:":"Rapporto condivisione IP MAP-T:"
 }
 

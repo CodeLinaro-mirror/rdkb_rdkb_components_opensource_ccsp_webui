@@ -1115,6 +1115,8 @@ $("#advmess2").text($.i18n(" for more information."));
 $("#downmess").text($.i18n("Please download the "));
 $("#downmess1").text($.i18n("Visit the "));
 $("#sooninfoapp").text($.i18n(" app"));
+$("#mapt").text($.i18n("MAP_T:"));
+$("#maptsharingratio").text($.i18n("MAP_T Sharing Ratio:"));
 callback();
 }
 $.i18n().load({
@@ -1139,7 +1141,9 @@ $.i18n().load( {
 		"Troubleshooting > Wi-Fi Spectrum Analyzer":"Troubleshooting > Wi-Fi Spectrum Analyser",
 		"Wi-Fi Spectrum Analyzer Data":"Wi-Fi Spectrum Analyser Data",
 		"<strong>Gateway address:</strong> Enter the IP address of the Gateway.":"The Default Gateway is the IP address of your router on your network.",
-                " to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":" to view and manage your list of connected/offline devices, among many other features and settings.",
-                "to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":"to enable parental controls for devices connected to your home network, among many other features and settings."
+		" to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":" to view and manage your list of connected/offline devices, among many other features and settings.",
+		"to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":"to enable parental controls for devices connected to your home network, among many other features and settings.",
+		"MAP_T:":"MAP-T:",
+		"MAP_T Sharing Ratio:":"MAP-T Sharing Ratio:"
 	}
 });

@@ -33,16 +33,13 @@
 	$NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
 	$mapT ="";
 	$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
-	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-	//$mapT = "MAPT";
 	$jsMapEnable="false";
 	$maptEnabled = "Disabled";
-	if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
+	if($mapT=="MAPT"){
         	$jsMapEnable = "true";
 		$maptEnabled = "Enabled";
 	}
 	$maptRatio = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapRatio");
-
 ?>
 <script type="text/javascript">
 $(document).ready(function() {

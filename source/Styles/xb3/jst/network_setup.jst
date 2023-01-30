@@ -33,6 +33,20 @@
 	$NetworkName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.HelpTip.NetworkName");
 	$wanType = get_wan_type();
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+	$mapT ="";
+	$mapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
+	$jsMapEnable="false";
+	$maptEnabled = "Disabled";
+	$maptSpanId = "disablespanid_mapt";
+	if($mapT=="MAPT"){
+		$jsMapEnable = "true";
+		$maptEnabled = "Enabled";
+		$maptSpanId  = "enablespanid_mapt";
+	}
+	$maptRatio = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapRatio");
+	if (strpos($partnerId, "sky-") !== false) {
+		$maptRatio += ":1";
+	}
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -457,6 +471,20 @@ function sec2dhms($sec)
 		<span class="readonlyLabel">CM MAC:</span>
 		<span class="value"><?% echo( strtoupper($CM_value["MACAddress"]));?></span>
 	</div>
+	<?%
+	if($jsMapEnable == "true"){
+	?>
+		<div class="form-row">
+		<span class="readonlyLabel" id="mapt">MAP_T:</span>
+		<span class="value" id="<?% echo($maptSpanId); ?>"><?% echo($maptEnabled);?></span>
+		</div>
+		<div class="form-row odd">
+		<span class="readonlyLabel" id="maptsharingratio">MAP_T Sharing Ratio:</span>
+		<span class="value"><?% echo($maptRatio); ?></span>
+		</div>
+	<?%
+	}
+	?>
 </div>
 <?%
 $cmStatus = $CM_value["CMStatus"];
