@@ -95,6 +95,9 @@ $wifi_param = {
 	"DFS_Support1"		: "Device.WiFi.Radio."+$rf+".X_COMCAST_COM_DFSSupport", //1-supported 0-not supported
 	"DFS_Enable1"		: "Device.WiFi.Radio."+$rf+".X_COMCAST_COM_DFSEnable"
 	}/*p2j-array*/;
+
+$wifi_param = cleanJsonDms("Device.WiFi.AccessPoint.", $wifi_param);
+
 $wifi_param[Radio_Enable] = 'Device.WiFi.Radio.'+$rf+'.Enable';
 $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
 $radio_enable		= $wifi_value['radio_enable'];

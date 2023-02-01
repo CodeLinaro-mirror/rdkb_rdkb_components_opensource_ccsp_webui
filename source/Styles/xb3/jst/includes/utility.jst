@@ -911,5 +911,28 @@ function getProductLink(){
 	}
 	return '<a href="'+updateURL($productLink)+'">'+$productLinkText+'</a>';
 }
+
+/**
+* Discription:
+* removes dms from $param_json if $dm_key are not supported
+*
+* return: $param_json
+*/
+
+function cleanJsonDms($dm_key, $param_json) {
+	$ids = explode(",",getInstanceIds($dm_key));
+	for ($key in $param_json) {
+		$value = $param_json[$key];
+		if ($value.includes($dm_key)) {
+			$found = false;
+			for ($k in $ids) {
+				$v = $ids[$k];
+				if ($value.includes($dm_key + $v)) $found = true;
+			}
+			if (!$found) delete $param_json[$key];
+		}
+	}
+	return $param_json;
+}
 ?>
 

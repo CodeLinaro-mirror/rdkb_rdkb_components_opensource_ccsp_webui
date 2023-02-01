@@ -157,6 +157,10 @@ $wifi_param = {
 	"RSSIThreshold2"	: "Device.WiFi.X_RDKCENTRAL-COM_BandSteering.BandSetting.2.RSSIThreshold",
 	"PhyRateThreshold2"	: "Device.WiFi.X_RDKCENTRAL-COM_BandSteering.BandSetting.2.PhyRateThreshold"
 	}/*p2j-array*/;
+
+$wifi_param = cleanJsonDms("Device.WiFi.SSID.", $wifi_param);
+$wifi_param = cleanJsonDms("Device.WiFi.AccessPoint.", $wifi_param);
+
 $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
 $radio_enable		= $wifi_value['Radio_Enable1'];
 $network_name		= htmlspecialchars($wifi_value['network_name1'], ENT_NOQUOTES, 'UTF-8');

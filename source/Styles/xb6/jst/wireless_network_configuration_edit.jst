@@ -103,7 +103,7 @@ $wifi_param = {
 	"channel_number"	: "Device.WiFi.Radio."+$rf+".Channel",
 	"network_password"	: "Device.WiFi.AccessPoint."+$id+".Security.X_COMCAST-COM_KeyPassphrase",
 	"broadcastSSID"		: "Device.WiFi.AccessPoint."+$id+".SSIDAdvertisementEnabled",
-	"enableWMM"			: "Device.WiFi.AccessPoint."+$id+".WMMEnable",
+	"enableWMM"		: "Device.WiFi.AccessPoint."+$id+".WMMEnable",
 	"channel_bandwidth"	: "Device.WiFi.Radio."+$rf+".OperatingChannelBandwidth",
 	"ext_channel"		: "Device.WiFi.Radio."+$rf+".ExtensionChannel",
 	"network_pass_64"	: "Device.WiFi.AccessPoint."+$id+".Security.X_CISCO_COM_WEPKey64Bit.1.WEPKey",
@@ -116,6 +116,14 @@ $wifi_param = {
 	"DFS_Support1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSSupport", //1-supported 0-not supported
 	"DFS_Enable1"		: "Device.WiFi.Radio.2.X_COMCAST_COM_DFSEnable" 
 	}/*p2j-array*/;
+
+if(getStr("Device.WiFi.AccessPoint."+$id+".Security.X_CISCO_COM_WEPKey64BitNumberOfEntries")=="0")
+	delete $wifi_param["network_pass_64"];
+if(getStr("Device.WiFi.AccessPoint."+$id+".Security.X_CISCO_COM_WEPKey128BitNumberOfEntries")=="0")
+	delete $wifi_param["network_pass_128"];
+
+$wifi_param = cleanJsonDms("Device.WiFi.AccessPoint.", $wifi_param);
+
 $wifi_param[Radio_Enable] = 'Device.WiFi.Radio.'+$rf+'.Enable';
 $wifi_value = KeyExtGet("Device.WiFi.", $wifi_param);
 $radio_enable		= getStr("Device.WiFi.SSID."+$id+".Enable");

@@ -121,6 +121,10 @@
       "OperatingFrequencyBand1" : "Device.WiFi.Radio.1.OperatingFrequencyBand",
       "OperatingFrequencyBand2" : "Device.WiFi.Radio.2.OperatingFrequencyBand"
     }/*p2j-array*/;
+
+$wifi_param = cleanJsonDms("Device.WiFi.SSID.", $wifi_param);
+$wifi_param = cleanJsonDms("Device.WiFi.AccessPoint.", $wifi_param);
+
 if($OperatingChannelBandwidth == "6GHz")
 {	
 	$wifi6_param = {
