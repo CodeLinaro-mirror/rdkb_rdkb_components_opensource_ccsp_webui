@@ -43,6 +43,11 @@ $allowAll = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.AllowAll
 //add by shunjie
 ("" == $enableMD) && ($enableMD = "false");
 ("" == $allowAll) && ($allowAll = "false");
+
+$downmess1 = "";
+if($locale=="it" || $locale=="en_GB"){
+	$downmess1 = "downmess1";
+}
 ?>
 
 <style>
@@ -219,7 +224,7 @@ $(document).ready(function() {
 	<div class="module forms enable">
 		<div id="content" class="homenetwork" style="text-align: center;">
 			<br>
-			<h3><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo(getProductLink()); ?><span id="mandevmess"> to enable parental controls for devices connected</span><br><span id="mandevmessnew">to your home network, among many other features and settings.</span></h3>
+			<h3><span id="connhom1">Managing your home network settings is now easier than ever.</span><br><span id="<?% echo($downmess1); ?>">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="mandevmess"> to enable parental controls for devices connected</span><span id="mandevmessnew"> to your home network, among many other features and settings.</span></h3>
 			<br>
 		</div>
 	</div> <!-- end .module -->

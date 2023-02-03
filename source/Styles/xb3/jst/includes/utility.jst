@@ -886,53 +886,14 @@ function updateURL(url){
 * Discription:
 * get and return brandName & productName
 *
-* return: returns $brandName+' '+$productName
+* return: returns $brandName+' '+$productName OR <a href="https://www.sky.com/">https://www.sky.com/</a>
 */
-function getBrandProductName(){
+function getBrandProductName($page){
+        $modelName = getStr("Device.DeviceInfo.ModelName");
 	$brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
 	$productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
-	return $brandName+' '+$productName;
-}
-
-/**
-* Discription:
-* '<a href="'+updateURL($productLink)+'">'+$productLinkText+'</a>'
-*
-* return: returns <a> as string having $productLink & $productLinkText
-*/
-function getProductLink(){
-	$partnersId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-	$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
-	$productLinkText = $productLink;
-	$productLink = updateURL($productLink);
-	if(strpos($partnersId, "sky-") !== false){
-		if($locale=="it")
-			$productLinkText = "App Sky Wifi: impostazioni avanzate";
-	}
-	return '<a href="'+updateURL($productLink)+'">'+$productLinkText+'</a>';
-}
-
-/**
-* Discription:
-* removes dms from $param_json if $dm_key are not supported
-*
-* return: $param_json
-*/
-
-function cleanJsonDms($dm_key, $param_json) {
-	$ids = explode(",",getInstanceIds($dm_key));
-	for ($key in $param_json) {
-		$value = $param_json[$key];
-		if ($value.includes($dm_key)) {
-			$found = false;
-			for ($k in $ids) {
-				$v = $ids[$k];
-				if ($value.includes($dm_key + $v)) $found = true;
-			}
-			if (!$found) delete $param_json[$key];
-		}
-	}
-	return $param_json;
+	$ret = $brandName+' '+$productName;
+	return $ret;
 }
 
 /**

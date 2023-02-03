@@ -217,8 +217,6 @@ else{
 
 //for SSID 1 and 2 don't show password for mso user
 $password_mso_user = !(($id == 1 || $id == 2 || $id == 17) && ($_SESSION["loginuser"] == "mso"));
-$brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
-$productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
 $productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 $WPA3_enable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.WPA3_Personal_Transition.Enable");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
@@ -1021,7 +1019,7 @@ function setResetInfo(info) {
 			<div class="form-row odd">
 				<div id="content" style="text-align: center;">
 					<br>
-					<h3 style="width:92%"><span id="wifimessmode">Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the</span> <?% echo($brandName+' '+$productName);?><span id="wifimessmode1"> app or visit </span><?% echo('<a href="'+updateURL($productLink)+'">'+$productLink +'</a>');?>
+					<h3 style="width:92%"><span id="wifimessmode">Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the</span> <?% echo(getBrandProductName());?><span id="wifimessmode1"> app.
 					</h3>
 					<br>
 				</div>

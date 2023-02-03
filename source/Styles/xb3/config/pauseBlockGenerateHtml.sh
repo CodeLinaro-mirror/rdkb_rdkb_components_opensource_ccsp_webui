@@ -52,7 +52,7 @@ STRING1='Cet appareil est en pause.'
 STRING2="Pour réactiver l'accès à Internet sur votre réseau domestique, lancez l'application Helix Fi ou rendez-vous sur helixfi.videotron.com à l'aide d'une autre connexion ou d'un autre appareil."
 else
 STRING1='This device is paused.'
-STRING2="To resume access to the Internet on your home network, open the '"$PARTNER_BRANDNAME" "$PARTNER_PRODUCTNAME"' app or visit '"$PARTNER_URL"' using a different connection or device."
+STRING2="To resume access to the Internet on your home network, open the '"$PARTNER_BRANDNAME" "$PARTNER_PRODUCTNAME"' app"
 fi
 
 if [ "$PARTNER_ID" == "sky-italia" ];then

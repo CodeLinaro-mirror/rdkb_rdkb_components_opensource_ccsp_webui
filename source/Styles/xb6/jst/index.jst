@@ -59,7 +59,9 @@ if($locale=="it"){
         $idadv = "advmess1";
         $idadv2 = "advmess2";
 }
-
+else{
+    $idadv="connhom1";
+}
 if($wan_enabled=="true"){
 	$Wan_IPv4 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IP");
 	$Wan_IPv6 = getStr("Device.DeviceInfo.X_COMCAST-COM_WAN_IPv6");
@@ -280,7 +282,7 @@ if($webuiIsEnabled == "false"){
                 <div class="module data" style="width: 717px; margin: 89px">
                         <div id="content" style="text-align: center;">
                                 <br>
-				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever. </span><span id="visithead">Visit </span><?% echo(getProductLink()); ?> <span>to manage your gateway settings, and other features.</span><br></h3>
+				 <h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><span id="index_mess">To manage your gateway settings and other features, please download the</span> <?%echo(getBrandProductName());?> <span id="wifimessmode1"> app.</span><br></h3>
                                  <br>
                         </div>
                 </div> <!-- end .module -->

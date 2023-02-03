@@ -58,6 +58,7 @@ $("[id^='typsec']").text($.i18n("Typical Security (Default)"));
 $('#network_header').text($.i18n('Gateway > Connection >'));
 $('#index_helptext').text($.i18n('Please login to view and manage your Gateway settings.'));
 $('#index_header').text($.i18n('Gateway > Login'));
+$('#index_mess').text($.i18n('  To manage your gateway settings and other features, please download the '));
 $('#edu_tip').text($.i18n('View technical information related to your '));
 $('#edu_tip1').text($.i18n('connection.'));
 $('#info_dpoe').text($.i18n('You may need this information if you contact Comcast for troubleshooting assistance.'));
@@ -322,6 +323,7 @@ $("#advdmz,#advdmzhead1").text($.i18n("Advanced > DMZ"));
 $("#advdmztip").text($.i18n("Configure DMZ to allow a single computer on your LAN to open all of its ports."));
 $("#dmzloc").text($.i18n("DMZ:"));
 $("#dmzv4").text($.i18n("DMZ v4 Host:"));
+$("#dmzmess").text($.i18n(" to set up DMZ, among many other features and settings."));
 $("#dyndns").text($.i18n('Advanced > Dynamic DNS'));
 $("#dyndnstip").text($.i18n("Configure the Gateway's router functionality as a Dynamic DNS client."));
 $("#dyndnstip2").html($.i18n("<strong>Service Provider:</strong> Dynamic DNS Service Provider Domain name"));
@@ -407,6 +409,7 @@ $("#hardmess7").text($.i18n("DRAM Available Memory:"));
 $("#hardmess8").text($.i18n("Flash Total Memory:"));
 $("#hardmess9").text($.i18n("Flash Used Memory:"));
 $("#hardmess10").text($.i18n("Flash Available Memory:"));
+$("#portmess").text($.i18n(" to set up port forwards, among many other features and settings."));
 $("#hsporthead").text($.i18n("Advanced > HS Port Forwarding"));
 $("#hsporttip1").text($.i18n("Add port forwarding related to Home Security Device."));
 $("#hsporttip2").text($.i18n("Users can configure the RG to provide the port forwarding services which allow the Internet users to access local services such as the Web server or FTP server at your local site. This is done by redirecting the combination of the WAN IP address and the service port to the local private IP and its service port."));
@@ -497,7 +500,7 @@ $("#localipmess9").text($.i18n("DHCPv6 Beginning Address:"));
 $("#localipmess10").text($.i18n("DHCPv6 Ending Address:"));
 $("#mandevhead").text($.i18n("Parental Control > Managed Devices"));
 $("#mandevmess").text($.i18n(" to enable parental controls for devices connected"));
-$("#mandevmessnew").text($.i18n("to your home network, among many other features and settings."));
+$("#mandevmessnew").text($.i18n(" to your home network, among many other features and settings."));
 $("#mandevmess1").text($.i18n("Manage access by specific devices on your network."));
 $("#mandevmess2").html($.i18n("Select <strong>Enable</strong> to manage network devices, or <strong>Disable</strong> to turn off."));
 $("#mandevmess3").html($.i18n("<strong>Access Type:</strong> If you don't want your devices to be restricted, select <strong>Allow All</strong>. Then select <strong>+ADD BLOCKED DEVICE</strong> to add only the device you want to restrict."));
@@ -1046,7 +1049,7 @@ $("#secwep64").attr('title',$.i18n("WEP  64 requires a  5 ASCII character or  10
 $("#secwep128").text($.i18n("WEP 128 (risky)"));
 $("#secwep128").attr('title',$.i18n("WEP 128 requires a 13 ASCII character or  26 hex character password. Hex means only the following characters can be used: ABCDEF0123456789."));
 $("#wifimessmode").text($.i18n("Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the"));
-$("#wifimessmode1").text($.i18n(" app or visit "));
+$("#wifimessmode1").text($.i18n(" app."));
 $("#wiremannet").text($.i18n("Manage your "));
 $("#wiremannet1").text($.i18n(" GHz network settings."));
 $("input[id^='online-X-']").attr('title',$.i18n("add this device to Blocked Devices List"));
@@ -1109,6 +1112,9 @@ $("#pridnsv6").text($.i18n('Primary DNS Server (IPv6):'));
 $("[id^='deprev6']").text($.i18n('Delegated prefix (IPv6):'));
 $("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the My Sky App."));
 $("#advmess2").text($.i18n(" for more information."));
+$("#downmess").text($.i18n("Please download the "));
+$("#downmess1").text($.i18n("Visit the "));
+$("#sooninfoapp").text($.i18n(" app"));
 callback();
 }
 $.i18n().load({
@@ -1132,5 +1138,8 @@ $.i18n().load( {
 		"Wi-Fi Spectrum Analyzer":"Wi-Fi Spectrum Analyser",
 		"Troubleshooting > Wi-Fi Spectrum Analyzer":"Troubleshooting > Wi-Fi Spectrum Analyser",
 		"Wi-Fi Spectrum Analyzer Data":"Wi-Fi Spectrum Analyser Data",
+		"<strong>Gateway address:</strong> Enter the IP address of the Gateway.":"The Default Gateway is the IP address of your router on your network.",
+                " to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":" to view and manage your list of connected/offline devices, among many other features and settings.",
+                "to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":"to enable parental controls for devices connected to your home network, among many other features and settings."
 	}
 });

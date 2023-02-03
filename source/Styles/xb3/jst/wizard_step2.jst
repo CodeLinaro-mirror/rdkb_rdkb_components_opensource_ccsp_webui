@@ -73,8 +73,6 @@
 	$Mesh_Enable 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.Enable");
 	$Mesh_State 	= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_xOpsDeviceMgmt.Mesh.State");
 	$Mesh_Mode = ($Mesh_Enable == 'true' && $Mesh_State == 'Full')?true:false;
-	$brandName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.brandname");
-	$productName = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.productname");
 	$productLink = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.CloudUI.link");
 ?>
 <script type="text/javascript">
@@ -510,7 +508,7 @@ if ("WEP-64" == $encrypt_mode1){
 				<div id="content" style="text-align: center;" >
 					<br>
 					<h3 style="width:92%">
-					<?% echo( _("Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the ")+$brandName+" "+$productName+_(" app or visit <a href=")+updateURL($productLink)+"\">"+$productLink);?> </a>
+					<span id="wifimessmode">Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the</span> <?%echo(getBrandProductName());?> app.
 					</h3>
 					<br>
 				</div>

@@ -40,6 +40,16 @@ $LanGwIP 	= $devices_value["LanGwIP"];
 $LanSubnetMask 	= $devices_value["LanSubnetMask"];
 $beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
 $endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$idadv ="";
+$idadv2 = "";
+if($locale=="it"){
+	$idadv = "advmess1";
+	$idadv2 = "advmess2";
+}
+else{
+	$idadv = "connhom1";
+        $idadv2 = "portmess";
+}
 $DeviceMode = $devices_value["DeviceMode"];
 //$DeviceMode = "IPv6";
 //2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64
@@ -450,7 +460,7 @@ $('#device').click(function(){
 	<div class="module forms">
 		<div id="content" style="text-align: center;">
 			<br>
-			<h3><span id="advmess1">Managing your home network settings is now easier than ever.</span><br><span id="visithead">Visit </span><?% echo(getProductLink()); ?><span id="advmess2"> to set up port forwards, among many other features and settings.</span></h3>
+			<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="downmess">Please download the </span><?% echo(getBrandProductName("PortForwarding"));?><span id="sooninfoapp"> app</span><span id="<?% echo($idadv2); ?>"> to set up port forwards, among many other features and settings.</span></h3>
 			<br>
 		</div>
 	</div> <!-- end .module -->
