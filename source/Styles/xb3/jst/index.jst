@@ -120,7 +120,7 @@ $psmMode = $DeviceControl_value['psmMode'];
 				$tmp = explode('%', $tmp[1]);
 				$tmp = explode('/', $tmp[0]);
 				$lan_ip.push(trim($tmp[0]));
-				if($modelName == 'SR203' && strstr($v, 'Global')){
+				if(strstr($v, 'Global')){
 					break;
 				}
 			}
