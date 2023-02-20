@@ -40,6 +40,7 @@ $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 $OperatingChannelBandwidth="";
 $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+$modelName= getStr("Device.DeviceInfo.ModelName");
 if($RadioNumberOfEntries)
 {
 	for($r=1; $r <= $RadioNumberOfEntries ; $r++)
@@ -73,7 +74,8 @@ $wifi_param = {
 	"STBC_enabled" 			: "Device.WiFi.Radio.1.X_CISCO_COM_STBCEnable",
 	"possible_channels"		: "Device.WiFi.Radio.1.PossibleChannels",
 	"RDG_Supported"			: "Device.WiFi.Radio.1.X_RDKCENTRAL-COM_ReverseDirectionGrantSupported",
-	"IEEE80211hSupported"	: "Device.WiFi.Radio.1.IEEE80211hSupported",
+	"IEEE80211hSupported"		: "Device.WiFi.Radio.1.IEEE80211hSupported",
+	//Radio.2.
 	"feq_band1" 			: "Device.WiFi.Radio.2.OperatingFrequencyBand",
 	"wireless_mode1"		: "Device.WiFi.Radio.2.OperatingStandards",
 	"transmit_power1"		: "Device.WiFi.Radio.2.TransmitPower",
@@ -98,7 +100,7 @@ $wifi_param = {
 	"STBC_enabled1" 		: "Device.WiFi.Radio.2.X_CISCO_COM_STBCEnable",
 	"possible_channels1"		: "Device.WiFi.Radio.2.PossibleChannels",
 	"RDG_Supported1"		: "Device.WiFi.Radio.2.X_RDKCENTRAL-COM_ReverseDirectionGrantSupported",
-	"IEEE80211hSupported1"	: "Device.WiFi.Radio.2.IEEE80211hSupported",
+	"IEEE80211hSupported1"		: "Device.WiFi.Radio.2.IEEE80211hSupported",
 	//WiFi radio status
 	"Radio_Enable1"			: "Device.WiFi.Radio.1.Enable",
 	"Radio_Enable2"			: "Device.WiFi.Radio.2.Enable",
@@ -182,18 +184,18 @@ $MSDU_enabled		= $wifi_value['MSDU_enabled'];
 $blockACK_enabled	= $wifi_value['blockACK_enabled'];
 $blockBA_enabled	= $wifi_value['blockBA_enabled'];
 $DCS_Supported		= $wifi_value['DCS_Supported'];
-$DCS_Enable			= $wifi_value['DCS_Enable'];
+$DCS_Enable		= $wifi_value['DCS_Enable'];
 //$HT_TxStream		= $wifi_value['HT_TxStream'];
 //$HT_RxStream		= $wifi_value['HT_RxStream'];
 $STBC_enabled		= $wifi_value['STBC_enabled'];
 $WMM_power_save		= $wifi_value['WMM_power_save'];
-$enableWMM			= $wifi_value['enableWMM'];
+$enableWMM		= $wifi_value['enableWMM'];
 $possible_channels	= $wifi_value['possible_channels'];
 $RDG_Supported		= $wifi_value['RDG_Supported'];
 $IEEE80211hSupport	= $wifi_value['IEEE80211hSupported'];
 $radio_enable1		= $wifi_value['Radio_Enable2'];
 $network_name1		= htmlspecialchars($wifi_value['network_name2'], ENT_NOQUOTES, 'UTF-8');
-$feq_band1			= $wifi_value['feq_band1'];
+$feq_band1		= $wifi_value['feq_band1'];
 $mac_address1		= $wifi_value['mac_address2'];
 $encrypt_mode1		= $wifi_value['ModeEnabled2'];
 $encrypt_method1	= $wifi_value['EncrypMethod2'];
@@ -219,7 +221,7 @@ $DCS_Enable1		= $wifi_value['DCS_Enable1'];
 //$HT_RxStream1		= $wifi_value['HT_RxStream1'];
 $STBC_enabled1		= $wifi_value['STBC_enabled1'];
 $WMM_power_save1	= $wifi_value['WMM_power_save1'];
-$enableWMM1			= $wifi_value['enableWMM1'];
+$enableWMM1		= $wifi_value['enableWMM1'];
 $possible_channels1	= $wifi_value['possible_channels1'];
 $RDG_Supported1		= $wifi_value['RDG_Supported1'];
 $IEEE80211hSupport1	= $wifi_value['IEEE80211hSupported1'];
@@ -240,6 +242,11 @@ $radioband2                     = (typeof($feq_band1)=="undefined") ? "5" : (str
 $feq_band                       = (typeof($feq_band)=="undefined") ? "2.4 GHz" : (strstr($feq_band,"2.4G")) ? "2.4 GHz" : "5 GHz";
 $feq_band1                      = (typeof($feq_band1)=="undefined") ? "5 GHz" : (strstr($feq_band1,"5G")) ? "5 GHz" : "2.4 GHz";
 
+//Eco Mode
+if($modelName == 'SR213'){
+	if(getStr("Device.WiFi.Radio.1.X_RDK_EcoPowerDown") == "true") $radio_enable = "false";
+	if(getStr("Device.WiFi.Radio.2.X_RDK_EcoPowerDown") == "true") $radio_enable1 = "false";
+}
 
 if($OperatingChannelBandwidth == "6GHz")
 {
@@ -268,7 +275,7 @@ $wifi6_param = {
 	"Radio_Enable3"			: "Device.WiFi.Radio.3.Enable",
 	"WPS_Enable17"			: "Device.WiFi.AccessPoint.17.WPS.Enable",
 	"WPS_Pin17"			: "Device.WiFi.AccessPoint.17.WPS.X_CISCO_COM_Pin",
-	"support_mode3"                  : "Device.WiFi.Radio.3.SupportedStandards",
+	"support_mode3"			: "Device.WiFi.Radio.3.SupportedStandards",
 	"WPS_Config17"			: "Device.WiFi.AccessPoint.17.WPS.ConfigMethodsEnabled",
 	"ModeEnabled17"			: "Device.WiFi.AccessPoint.17.Security.ModeEnabled",
 	"EncrypMethod17"		: "Device.WiFi.AccessPoint.17.Security.X_CISCO_COM_EncryptionMethod",
@@ -318,8 +325,14 @@ $SSID_Enable17		=$wifi6_value['SSID_Enable17'];
 $network_name17		=$wifi6_value['network_name17'];
 $mac_address17		=$wifi6_value['mac_address17'];     
 
-$radioband3            	= (typeof($feq_band3)=="undefined") ? "6" :  (strstr($feq_band3,"6G")) ? "6" : "5"; 
-$feq_band3              = (typeof($feq_band3)=="undefined") ? "6 GHz" : (strstr($feq_band3,"6G")) ? "6 GHz" : "5 GHz";         
+$radioband3            	= (typeof($feq_band3)=="undefined") ? "6" :  (strstr($feq_band3,"6G")) ? "6" : "5";
+$feq_band3              = (typeof($feq_band3)=="undefined") ? "6 GHz" : (strstr($feq_band3,"6G")) ? "6 GHz" : "5 GHz";
+
+//Eco Mode
+if($modelName == 'SR213'){
+	if(getStr("Device.WiFi.Radio.3.X_RDK_EcoPowerDown") == "true") $radio_enable3 = "false";
+}
+
 }
 if(($OperatingChannelBandwidth == "6GHz") && (strpos($partnerId, "sky-") === false))
 $possible_channels3 = "5,37,69,101,133,165,197";
@@ -456,7 +469,6 @@ else {
 	}
 $dfsEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFS.Enable");
 $dfsAtBootup= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.DFSatBootUp.Enable");
-$modelName= getStr("Device.DeviceInfo.ModelName");
 $platformSupported = "false";
 if( ($modelName=="CGM4331COM") || ($modelName=="CGM4140COM") || ($modelName=="TG3482G") || ($modelName=="CGM4981COM")){
 	$platformSupported = "true";
@@ -971,8 +983,9 @@ $(document).ready(function() {
 	}
 	// remove sections as per loginuser, content must be hidden before doc ready
 	if ("mso" != "<?% echo( $_SESSION["loginuser"]); ?>"){
-		if(partner_id.indexOf('sky-')===-1){
-			$(".div_enable_radio").remove();}
+		if((partner_id.indexOf('sky-')===-1) || (modelName == 'SR213')){
+			$(".div_enable_radio").remove();
+		}
 		$(".div_public_wifi").remove();
 		$(".div_other_wifi").remove();
 		$(".div_radio_setting").remove();
