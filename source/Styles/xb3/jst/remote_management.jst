@@ -724,9 +724,9 @@ function remote_access_block(){
 	$("[id^='ipv6_']").prop("disabled", true);
 	$("[id^='rangeipv6_']").prop("disabled", true);
 	$("[id^='endipv6_']").prop("disabled", true);
-	$("#message_note").show();
+	$("[id^='message_note']").show();
 }
-	$("#message_note").hide();
+	$("[id^='message_note']").hide();
 	if(!HTTP && !HTTPS && (jsMaptEnable == "true")){$("#btn-save").prop("disabled",true);}
 	if(!HTTP && !HTTPS){remote_access_block();}
 	function remote_access_allowe(){
@@ -734,7 +734,7 @@ function remote_access_block(){
 		var https_enabled = $("#https_switch").radioswitch("getState").on;
 		var allowtype	  =$('input[name="single"]:radio:checked').val();
 		if(http_enabled || https_enabled){
-			$("#message_note").hide();
+			$("[id^='message_note']").hide();
 			$("#"+allowtype).trigger("click");
 			$("#single, #range, #any").attr('disabled', false);
 		} else {
@@ -744,12 +744,17 @@ function remote_access_block(){
 });
 </script>
 <div id="content">
-         <h1 id="remhead">Advanced > Remote Management</h1>   
+	<h1 id="remhead">Advanced > Remote Management</h1>
 	<div id="educational-tip">
-        <p class="tip" id="remtip1">Remote Management allows the gateway to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.</p>
-	    <p class="hidden" id="remtip2">Remote Management can be used via HTTP and HTTPS.</p>
+		<p class="tip" id="remtip1">Remote Management allows the gateway to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.</p>
+	<?% if (!$removeHttpRM) { ?>
+		<p class="hidden" id="remtip2">Remote Management can be used via HTTP and HTTPS.</p>
 		<p class="hidden" id="remtip3">Enable the HTTP option and enter the value for HTTP Port, then you can access your device from HTTP. For example, if the WAN IP address is 11.22.11.22 and the HTTP port number is 8080, then you would use http://11.22.11.22:8080</p>
-		<p class="hidden" id="remtip4">It's the same way to configure HTTPS.</p> 
+		<p class="hidden" id="remtip4">It's the same way to configure HTTPS.</p>
+	<?% } else { ?>
+		<p class="hidden" id="remtip6">Remote Management can be used via HTTPS.</p>
+		<p class="hidden" id="remtip7">Enable the HTTPS option and enter the value for HTTPS Port, then you can access your device from HTTPS. For example, if the WAN IP address is 11.22.11.22 and the HTTPS port number is 8181, then you would use https://11.22.11.22:8181</p>
+	<?% } ?>
 		<p class="hidden" id="remtip5">Select whether you would like to have Remote Management open to all Internet IP Addresses, an Internet IP Address range, or a single Internet IP Address.</p>
 	</div>
 	<form method="" id="pageForm" action="">
@@ -798,7 +803,7 @@ function remote_access_block(){
 				//}
 			?>
 			<br/>
-			<span id="remmess2">Remote Management Address (IPv6):</span> 		
+			<span id="remmess2">Remote Management Address (IPv6):</span>
 			<?%
 				/* Fiber devices use brlan0 ipv6 address */
 				if ((get_wan_type() == "DSL" && strpos($partnerId, "sky-") !== false)) {
@@ -812,10 +817,14 @@ function remote_access_block(){
 						break;
 					}
 				}
-			?>		
+			?>
 			</strong></p>
 		</div>
+	<?% if (!$removeHttpRM) { ?>
 		<p  id="message_note" style="position:relative; left:40px" class="error">Please enable HTTP or HTTPS to configure Remote Access Allowed From.</p>
+	<?% } else { ?>
+		<p  id="message_note2" style="position:relative; left:40px" class="error">Please enable HTTPS to configure Remote Access Allowed From.</p>
+	<?% } ?>
 	</div> <!-- end .module -->
 	<div class="module forms">
 	    <h2 id="remmess3">Remote Access Allowed From</h2><br/>
