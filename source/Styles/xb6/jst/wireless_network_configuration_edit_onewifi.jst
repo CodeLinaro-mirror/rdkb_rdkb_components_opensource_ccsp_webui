@@ -59,7 +59,7 @@ if($modelName == 'SR213'){
 // SSID 1,2 for Private, 3,4 for Home Security, 5,6 for Hot Spot
 // put edit SSID which have similar layout into one page, but edit HotSpot SSID
 $OperatingChannelBandwidth ="";
-
+$axEnable = getStr("Device.WiFi.2G80211axEnable");
 $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
 if($RadioNumberOfEntries)
 {
@@ -1065,7 +1065,7 @@ function setResetInfo(info) {
 					}
 				}
 				else {
-					if (strstr($supported_mode, "ax")){
+					if ((strstr($supported_mode, "ax")) && ($axEnable == "true")){
 						echo( '<option value="g,n" ');   echo( (  "g,n"==$wireless_mode)? 'selected':'');  echo('>802.11 g/n</option>');
 						echo( '<option value="g,n,ax" '); echo( ("g,n,ax"==$wireless_mode)? 'selected':''); echo('>802.11 g/n/ax</option>');
 					}
