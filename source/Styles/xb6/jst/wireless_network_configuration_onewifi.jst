@@ -40,6 +40,7 @@ $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable");
 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
 $OperatingChannelBandwidth="";
 $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+$axEnable = getStr("Device.WiFi.2G80211axEnable");
 $modelName= getStr("Device.DeviceInfo.ModelName");
 $axEnable = getStr("Device.WiFi.2G80211axEnable");
 if($RadioNumberOfEntries)
@@ -1760,6 +1761,8 @@ if($OperatingChannelBandwidth == "6GHz")
 		 <?% if ((strstr($support_mode, "ax")) && ($axEnable == "true")){ ?>
                         <option value="g,n"     <?% if ("g,n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n</option>
                         <option value="g,n,ax"  <?% if ("g,n,ax" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n/ax</option>
+		 <?% } else if ((strstr($support_mode, "ax")) && ($axEnable == "false")){?>
+                        <option value="g,n"     <?% if ("g,n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n</option>
                 <?% } else { ?>
                         <option value="n"       <?% if ("n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 n</option>
                         <option value="g,n"     <?% if ("g,n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n</option>
