@@ -596,7 +596,7 @@ $(document).ready(function() {
                         //}
 
 		}
-	});
+	}).trigger("change");
         $("[name='channel_bandwidth3']").change(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
