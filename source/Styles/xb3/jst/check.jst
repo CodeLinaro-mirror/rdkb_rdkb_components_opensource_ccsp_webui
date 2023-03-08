@@ -205,6 +205,7 @@ else
                      }
                 }
                 if($flag_mso==0){
+		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                     LogStr( " : potd FAILED" );
                     session_destroy();
                     sendError('<script type="text/javascript"> alert($.i18n("Access denied!")); history.back(); </script>');
@@ -219,6 +220,7 @@ else
                 }
                 else{
                     $failedAttempt_mso=0;
+		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_success",true);
                     LogStr( " : potd SUCCESS" );
                     setStr("Device.Users.User.1.NumOfFailedAttempts",$failedAttempt_mso.toString(),true);
                     exec("/usr/bin/logger -t GUI -p local5.notice 'User:mso login'");
@@ -228,6 +230,7 @@ else
             }
             else if ("" == $curPwd1)
             {
+		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                 LogStr( " : potd FAILED (cannot get passwrd from backend)" ); 
                 session_destroy();
                 sendError('<script type="text/javascript"> alert($.i18n("Can not get password for mso from backend!")); history.back(); </script>');
@@ -255,6 +258,7 @@ else
                         }
 
                         if($failedAttempt_mso==$passLockoutAttempt){
+			    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                             LogStr( " : potd FAILED" );
                             $flag_mso=1;
 			    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');	
@@ -263,6 +267,7 @@ else
                     }
 
                     if($flag_mso==0){
+			setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                         LogStr( " : potd FAILED" );
                         session_destroy();
                         sendError('<script type="text/javascript"> alert($.i18n("Incorrect password for mso!")); history.back(); </script>');
@@ -302,6 +307,7 @@ else
                     }
                 }
                 if($flag==0){
+		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                     session_destroy();
                     sendError( '<script type="text/javascript"> alert($.i18n("Access denied!")); history.back(); </script>');
                 }
@@ -328,6 +334,7 @@ else
             else
             {
                 if(($passLockEnable == "true") && ($failedAttempt==$passLockoutAttempt)){
+		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                     LogStr( " : Password FAIL" );
                     $flag=1;
                     sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');    
