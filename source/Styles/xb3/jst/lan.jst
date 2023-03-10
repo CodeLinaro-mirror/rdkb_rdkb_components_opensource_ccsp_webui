@@ -41,35 +41,6 @@ function getPort4XHSEnabled() {
 	return false;
 }
 $isPort4XHSEnabled = getPort4XHSEnabled();
-
-if(strpos($PartnerId, "sky-") !== false){
-	$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
-	if($fileget){
-		$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
-		for($a= 1;$a <= count($instval);$a++) {
-			if("eth3" ==getStr('Device.X_RDK_WanManager.CPEInterface.'+$a+'.Name')||"eth0" ==getStr('Device.X_RDK_WanManager.CPEInterface.'+$a+'.Name')){
-				if('true'==getStr('Device.X_RDK_WanManager.CPEInterface.'+$a+'.Wan.Enable')){
-					$reclaim = true;
-				}
-				else{
-					$reclaim = false;
-				}
-			}
-		}
-	}else{
-		$port_entries = getStr('Device.X_RDK-Central_COM_WanAgent.InterfaceNumberOfEntries');
-		for ($i=1;$i<=$port_entries; $i++){
-			if("eth3" ==getStr('Device.X_RDK-Central_COM_WanAgent.Interface.'+$i+'.Name')){
-				if('true'==getStr('Device.X_RDK-Central_COM_WanAgent.Interface.'+$i+'.Wan.Enable')){
-					$reclaim = true;
-				}
-				else{
-					$reclaim = false;
-				}
-			}
-		}
-	}
-}
 ?>
 <script type="text/javascript">
 var o_isPort4XHSEnabled = <?% echo( $isPort4XHSEnabled ? 'true' : 'false'); ?>;
@@ -175,8 +146,7 @@ $(document).ready(function() {
 		if ("true" == $ethernetUpstream){
 			continue;
 		}
-		//WAN port details are not showing in lan page
-		if(strpos($PartnerId, "sky-") === false || (strpos($PartnerId, "sky-") !== false && $reclaim && $j!='4')||(strpos($PartnerId, "sky-") !== false && $reclaim==false) || $ModelName == "SR203"){
+
 		echo( '<div class="module forms block">');
 		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$j+'</h2>');
 		$dm = [
@@ -268,7 +238,6 @@ $(document).ready(function() {
 			//}
 		}
 		echo( '</div>');
-             }
 	}
 	?>
 </div><!-- end #content -->
