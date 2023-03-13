@@ -93,9 +93,11 @@ function sendError($code)
 				"You have ":"Sono stati effettuati ",\
 				" failed login attempts and your account will be locked for ":" tentativi di accesso non riusciti: il tuo account sarà bloccato per ",\
 				" minutes":" minuti",\
-				"Can not get password for mso from backend!":"Non è possibile ottenere la password per MSO da backend",\
-				"Incorrect password for mso!":"Password errata per MSO",\
-				"Incorrect password for admin!":"Password errata per l\'amministratore",\
+				"Can not get password from backend!":"Non è possibile ottenere la password da backend",\
+				"Incorrect password !":"Password errata",\
+				"Username or password is incorrect!": "Nome utente o password non sono corretti!",\
+				"Access Denied, level is none!": "Accesso negato, il livello è nessuno!",\
+				"Access Denied, unknown error": "Accesso negato, errore sconosciuto",\
 				"You are using default password. Please change the password.":"Si sta utilizzando la password predefinita. Modificare la password.",\
 				"Incorrect user name!":"Nome utente errato",\
 				"Access level is none!":"Il livello di accesso è nessuno"\
@@ -233,7 +235,7 @@ else
 		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                 LogStr( " : potd FAILED (cannot get passwrd from backend)" ); 
                 session_destroy();
-                sendError('<script type="text/javascript"> alert($.i18n("Can not get password for mso from backend!")); history.back(); </script>');
+                sendError('<script type="text/javascript"> alert($.i18n("Can not get password from backend!")); history.back(); </script>');
             }
             else
             {
@@ -270,7 +272,7 @@ else
 			setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                         LogStr( " : potd FAILED" );
                         session_destroy();
-                        sendError('<script type="text/javascript"> alert($.i18n("Incorrect password for mso!")); history.back(); </script>');
+                        sendError('<script type="text/javascript"> alert($.i18n("Username or password is incorrect!")); history.back(); </script>');
                     }
                 }
             }
@@ -329,7 +331,7 @@ else
                 }
                 if($flag==0){
 //                    session_destroy();
-                    sendError( '<script type="text/javascript"> alert($.i18n("Incorrect password for admin!"));history.back(); </script>');
+                    sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
                 }
             }
             else
@@ -376,7 +378,7 @@ else
             {
                 session_destroy();
             }
-            sendError( '<script type="text/javascript"> alert($.i18n("Incorrect user name!")); history.back(); </script>');
+            sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!")); history.back(); </script>');
         }
     }
     else
