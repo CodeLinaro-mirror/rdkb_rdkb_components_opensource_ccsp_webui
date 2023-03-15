@@ -854,6 +854,16 @@ $(document).ready(function() {
                        //$("#channel_number1").find("[value='116'],[value='140']").prop("disabled", true).prop("selected", false);
                 }
 	}).trigger("change");
+        $("[name='channel_bandwidth']").change(function() {
+               if ($("#channel_bandwidth").prop("checked")) {
+                                if ("BelowControlChannel"=="<?% echo( $ext_channel); ?>"){        //alert("hahaha");
+                                        $("#channel_number [value='1'],[value='2'],[value='3'],[value='4']").prop("disabled", true);
+                                }
+                                else{   //AboveControlChannel or Auto
+                                        $("#channel_number [value='8'],[value='9'],[value='10'],[value='11']").prop("disabled", true);
+                                }
+                }
+	}).trigger("change");
         <?%if($OperatingChannelBandwidth == "6GHz")
         {?>
         $("[name='channel_bandwidth3']").change(function() {
