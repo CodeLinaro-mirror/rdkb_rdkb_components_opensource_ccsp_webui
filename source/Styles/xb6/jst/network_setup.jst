@@ -803,7 +803,7 @@ for($i=1;$i<$ds_tab.length;$i++){
 	</tbody>
 	</table>
 </div>
-<div class="form-row "><b><i><span class="readonlyLabel";font-weight:bold;>*Channel ID <?% echo( $ds_tab[1]['ChannelID']);?> is the Primary channel</span></i></b></div>
+<?% if (getStr("Device.X_CISCO_COM_CableModem.DownstreamChannel.1.ChannelID")) echo('<div class="form-row "><b><i><span class="readonlyLabel";font-weight:bold;>'+'*Channel ID '+$ds_tab[1]['ChannelID']+' is the Primary channel'+'</span></i></b></div>');?> 
 <?%
 $us_obj = "Device.X_CISCO_COM_CableModem.UpstreamChannel.";
 $us_val = DmExtGetStrsWithRootObj($us_obj, [$us_obj]/*p2j-array*/);
