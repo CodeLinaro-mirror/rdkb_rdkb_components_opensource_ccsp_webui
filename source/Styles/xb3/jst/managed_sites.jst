@@ -96,7 +96,7 @@ $(document).ready(function() {
 				url: "actionHandler/ajaxSet_trust_computer.jst",
 				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}',csrfp_token: token},
 				success: function(){            
-					jHide();
+					//jHide();
 					window.location.href = "managed_sites.jst";
 				},
 				error: function(){
@@ -167,7 +167,7 @@ $(document).ready(function() {
 					url: "actionHandler/ajaxSet_remove_blockedSite.jst",
 					data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}',csrfp_token: token },
 					success: function(){ 
-						jHide();           
+						//jHide();
 						window.location.href = "managed_sites.jst";
 					},
 					error: function(){
@@ -212,7 +212,7 @@ $("#managed_sites_switch").change(function() {
 							url: "actionHandler/ajaxSet_remove_blockedSite.jst",
 							data: { removeBlockInfo: '{"InstanceID": "'+InstanceID+'"}',csrfp_token: token },
 							success: function(){  
-								jHide();          
+								//jHide();
 								window.location.href = "managed_sites.jst";
 							},
 							error: function(){
@@ -232,7 +232,7 @@ $("#managed_sites_switch").change(function() {
 		url: "actionHandler/ajaxSet_enable_manageSite.jst",
 		data: { Enable: '{"Enable": "'+enable+'"}',csrfp_token: token },
 		success: function(){   
-			jHide();          
+			//jHide();
 			window.location.href = "managed_sites.jst";
 		},
 		error: function(){

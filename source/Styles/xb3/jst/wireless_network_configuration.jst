@@ -878,7 +878,7 @@ function set_config(jsConfig)
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
 		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
-			jHide();
+			//jHide();
 			window.location.href = "wireless_network_configuration.jst";
 		},
 		error: function(){            

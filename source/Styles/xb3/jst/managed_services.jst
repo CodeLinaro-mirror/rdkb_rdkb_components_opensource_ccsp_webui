@@ -83,7 +83,7 @@ $(document).ready(function() {
 				url: "actionHandler/ajaxSet_trust_computer_service.jst",
 				data: { TrustFlag: '{"trustFlag": "'+trustFlag+'", "HostName": "'+hostNameArr[idx-1]+'", "IPAddress": "'+ipAddrArr[idx-1]+'"}',csrfp_token: token },
 				success: function(){            
-					jHide();
+					//jHide();
 					window.location.href = "managed_services.jst";
 				},
 				error: function(){
@@ -149,7 +149,7 @@ $(document).ready(function() {
 			data:{set:"true",UMSStatus:UMSStatus,csrfp_token: token},
 			success:function(result){
 				//jAlert(result);
-				jHide();
+				//jHide();
 				var isUMSDisabled = $("#managed_services_switch").radioswitch("getState").on === false;
 				if(isUMSDisabled){
 					// $("#managed-services-items").prop("disabled",true).addClass("disabled");

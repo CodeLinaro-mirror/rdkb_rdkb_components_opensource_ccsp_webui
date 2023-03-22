@@ -81,7 +81,7 @@ $(document).ready(function() {
 							url:"actionHandler/ajax_port_forwarding.jst",
 							data:{del:delVal,csrfp_token: token},
 							success:function(){
-								jHide();
+								//jHide();
 								window.location.reload();
 							},
 							error:function(){
@@ -132,7 +132,7 @@ $(document).ready(function() {
 			url:"actionHandler/ajax_port_forwarding.jst",
 			data:{set:"true",UFWDStatus:UFWDStatus,csrfp_token: token},
 			success:function(){
-				jHide();
+				//jHide();
 				/*results=eval("("+result+")");
 				if (UFWDStatus!=results){ 
 					jAlert("Backend Error!");
@@ -173,7 +173,7 @@ $(document).ready(function() {
 			url:"actionHandler/ajax_port_forwarding.jst",
 			data:{active:"true",isChecked:isChecked,id:id,csrfp_token: token},
 			success:function(){
-				jHide();
+				//jHide();
 				window.location.reload();
 			},
 			error:function(){
