@@ -128,27 +128,39 @@ $(document).ready(function() {
 				return ($str == "Up" ? "Up" : "Down");
 		}
 	}
-	
+
 	/*if ($_DEBUG) {
 		$ids = array("1", "2", "3", "4");
 	}*/
+
 	$ModelName = getStr("Device.DeviceInfo.ModelName");
+	if($ModelName == "SR213") $idx = {1:"2", 2:"3", 3:"4", 4:"1", 5:"5"};
+	else $idx = {1:"1", 2:"2", 3:"3", 4:"4", 5:"5"};
+
+	$ids = {1:"4", 2:"1", 3:"2", 4:"3", 5:"5"};
+
 	if($ModelName == "SR203") $InterfaceNumber = getStr("Device.Ethernet.X_RDK_InterfaceNumberOfEntries");
 	else $InterfaceNumber = getStr("Device.Ethernet.InterfaceNumberOfEntries");
 	for ( $j=1; $j<= ($InterfaceNumber); $j++) {
-		$ethernetStatus = getStr("Device.Ethernet.Interface."+$j+".Status");
-		$ethernetMACAddress = getStr("Device.Ethernet.Interface."+$j+".MACAddress");
-		$ethernetBitRate = getStr("Device.Ethernet.Interface."+$j+".CurrentBitRate");
 
-		if($ModelName == "SR203") $ethernetUpstream = getStr("Device.Ethernet.X_RDK_Interface."+$j+".Upstream");
-		else $ethernetUpstream = getStr("Device.Ethernet.Interface."+$j+".Upstream");
+		$p = $idx[$j];
+
+		if($ModelName == "SR203") $ethernetUpstream = getStr("Device.Ethernet.X_RDK_Interface."+$p+".Upstream");
+		else $ethernetUpstream = getStr("Device.Ethernet.Interface."+$p+".Upstream");
 
 		if ("true" == $ethernetUpstream){
 			continue;
 		}
 
+		if($ModelName == "SR213") $k = $ids[$p];
+		else $k = $p;
+
+		$ethernetStatus = getStr("Device.Ethernet.Interface."+$k+".Status");
+		$ethernetMACAddress = getStr("Device.Ethernet.Interface."+$k+".MACAddress");
+		$ethernetBitRate = getStr("Device.Ethernet.Interface."+$k+".CurrentBitRate");
+
 		echo( '<div class="module forms block">');
-		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$j+'</h2>');
+		echo( '<h2><span id="lanethport">LAN Ethernet Port </span>'+$k+'</h2>');
 		$dm = [
 			["LAN Ethernet link status:", null, $ethernetStatus]
 		]/*p2j-array*/;
@@ -175,16 +187,16 @@ $(document).ready(function() {
 		{
 			 var id="";
                        if($dm[$i][0]=="MAC Address:"){
-                         id='macaddr'+$j;
+                         id='macaddr'+$k;
                         }
 			if($dm[$i][0]=="LAN Ethernet link status:"){
-                         id='lanethlinkstat'+$j;
+                         id='lanethlinkstat'+$k;
 			}
 			 if($dm[$i][0]=="Connection Speed:"){
-                         id='connspeed'+$j;
+                         id='connspeed'+$k;
                         }
 
-			var idValue= ($dm[$i][1] === null ? NameMap($dm[$i][2],$j) : $dm[$i][1]);
+			var idValue= ($dm[$i][1] === null ? NameMap($dm[$i][2],$k) : $dm[$i][1]);
                         if(idValue == "Inactive")
                                 idValue="inact";
 			else if(idValue == "Active")
@@ -203,15 +215,15 @@ $(document).ready(function() {
                                 idValue="notappl";
 			else if(idValue== "Disconnected")
                                 idValue="disconloc";
-                        else 
+                        else
 			        idValue="";
 
 			echo( '<div class="form-row '+(($m++ % 2)?'odd':'')+'" >');
 			echo( '<span class="readonlyLabel" id='+id+'>'+$dm[$i][0]+'</span>');
-			echo( '<span class="value" id='+idValue+'>'+($dm[$i][1] === null ? NameMap($dm[$i][2],$j) : $dm[$i][1])+'</span>');
+			echo( '<span class="value" id='+idValue+'>'+($dm[$i][1] === null ? NameMap($dm[$i][2],$k) : $dm[$i][1])+'</span>');
 			echo( '</div>');
 		}
-		if ($j === 4) {
+		if ($k === 4) {
 			/* port 4 as home security port */
 			//if($HomeNetworkControl == 'true'){
 				if($PartnerId == 'comcast'){
