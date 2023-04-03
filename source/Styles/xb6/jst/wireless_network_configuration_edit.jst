@@ -311,6 +311,19 @@ $(document).ready(function() {
 	var partner_ID = '<?% echo ($partnerId);?>';
 	var modelName = '<?% echo($modelName); ?>';
 	var platformSupported  = "<?% echo($platformSupported); ?>";
+
+	/**
+	* Discription:
+	* disable, unselect entries of $disableChannelList and set $channel
+	*/
+
+	function checkAndSetChannelNumber($disableChannelList, $channel){
+		$.each($disableChannelList, function( index, value ) {
+			$("#channel_number").find("[value='"+value+"']").prop("disabled", true).prop("selected", false);
+			if($("#channel_number").val() == value) $("#channel_number").val($channel);
+		});
+	}
+
 	$("#wireless_network_switch").radioswitch({
 		id: "wireless-network-switch",
 		radio_name: "wireless_network",
@@ -337,7 +350,7 @@ $(document).ready(function() {
 	}).trigger("change");
 	$("#broadcastSSID").change(function() {
 		var ssid_number			= "<?% echo( $id); ?>";
-		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number ))
+		if (!$("#broadcastSSID").prop("checked") && ("1"==ssid_number || "2"==ssid_number))
 		{
 			jConfirm(
 				$.i18n("WARNING:<br/> Disabling Broadcast Network Name (SSID) will disable Wi-Fi Protected Setup (WPS) functionality. Are you sure you want to change?")
@@ -352,7 +365,6 @@ $(document).ready(function() {
 	$security_val = '<?% echo( $security); ?>';
 	var password_mso_user = '<?% echo( $password_mso_user); ?>';
 	$("#security").change(function() {
-	
 		if ("more" == $("#security").val()) {
 			// only private(1,2) SSID have show-more option
 			showDialog();
@@ -495,7 +507,7 @@ $(document).ready(function() {
 			$("#netPassword-footnote").text($("option:selected", $(this)).attr("title"));
 		}
 		var pwd_mso=JSON.parse(password_mso_user);
-                if(!pwd_mso){
+		if(!pwd_mso){
 			$('#password_check').click(function() {
 				$("#network_password").prop("disabled", !(this.checked));
 			});
@@ -507,9 +519,9 @@ $(document).ready(function() {
 		$("#security").find("[value^='WEP'],[value='None']").prop('disabled',true);
 		fromOther = false;
     	});
-        if("None" == $("#security").val()) {
-          $("#network_password").val("");
-        }
+	if("None" == $("#security").val()) {
+		$("#network_password").val("");
+	}
 	var pwd_mso=JSON.parse(password_mso_user);
 	if(!pwd_mso && "None" == $("#security").val()){
 		$("#div_change_password").hide();
@@ -546,7 +558,7 @@ $(document).ready(function() {
 			$("#security option").prop("disabled", false);
 		}
 		$("#security").change();
-    });
+	});
 	$("[name='channel_bandwidth1']").change(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
@@ -561,55 +573,46 @@ $(document).ready(function() {
 			//40MHz
 			if ($("#channel_bandwidth1").is(":checked")) {
 				if ("BelowControlChannel" == "<?% echo( $ext_channel); ?>"){
-					$("#channel_number").val('40');
-					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+					$disableChannelList = [<?% if(!$isPartnerSky) echo(' 116,'); ?> 140, 144, 165 ];
+					checkAndSetChannelNumber($disableChannelList,'40');
 				}
-				else{	//AboveControlChannel or Auto  //zqiu: exclude 116,140
-					$("#channel_number").val('36');
-					$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
-					//$("#channel_number").find("[value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='116'],[value='136'],[value='140'],[value='144'],[value='153'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);
+				else{	//AboveControlChannel or Auto
+					$disableChannelList = [<?% if(!$isPartnerSky) echo(' 116,'); ?> 140, 144, 165 ];
+					checkAndSetChannelNumber($disableChannelList,'36');
 				}
 			}
 			//80MHz
 			else if ($("#channel_bandwidth2").is(":checked")) {
-				$("#channel_number").val('36');
-				$("#channel_number").find("[value='116'],[value='120'],[value='124'],[value='128'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+				$disableChannelList = [ 116, 120, 124, 128, 140, 144, 165 ];
+				checkAndSetChannelNumber($disableChannelList,'36');
 			}
 			//160MHz
 			else if ($("#channel_bandwidth3").is(":checked")) {
-				$("#channel_number").val('36');
-				$("#channel_number").find("[value='132'],[value='136'],[value='140'],[value='144'],[value='149'],[value='153'],[value='157'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);			
+				$disableChannelList = [ 132, 136, 140, 144, 149, 153, 157, 161, 165 ];
+				checkAndSetChannelNumber($disableChannelList,'36');
 			}
 		}
 		else {
 			//if Channel Bandwidth is 20MHz DFS Channels (Channels 50 - 144) should be greyed out
-			$("#channel_number").val('36');
-                        //if ("true"!="<?% echo( $DFS_Support1); ?>" || "true"!="<?% echo( $DFS_Enable1); ?>") {
-			     //$("#channel_number [value='52'],[value='56'],[value='60'],[value='64'],[value='100'],[value='104'],[value='108'],[value='112'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144']").prop("disabled", true);
-                        //}
-                        //else {
-                             //20MHz, disable channels 116, 140 Legacy Interop Disabled Channels
-                             //$("#channel_number").find("[value='116'],[value='140']").prop("disabled", true).prop("selected", false);
-                        //}
-
+			//$("#channel_number").val('36');
 		}
 	}).trigger("change");
-        $("[name='channel_bandwidth3']").change(function() {
+		$("[name='channel_bandwidth3']").change(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
 		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
-        if(partner_ID.indexOf('sky-')===0)
-        {
+	if(partner_ID.indexOf('sky-')===0)
+	{
 		if (!$("#channel_bandwidth203").prop("checked")) {
 			//40MHz
 			if ($("#channel_bandwidth4").is(":checked")) {
 				if ("BelowControlChannel" == "<?% echo( $ext_channel); ?>"){
 					$("#channel_number").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
-				}	
-				else{	//AboveControlChannel or Auto  
+				}
+				else{	//AboveControlChannel or Auto
 				$("#channel_number").find("[value='5'],[value='13'],[value='21'],[value='29'],[value='37'],[value='45'],[value='53'],[value='61'],[value='69'],[value='77'],[value='85'],[value='93'],[value='101'],[value='109'],[value='117'],[value='125'],[value='133'],[value='141'],[value='149'],[value='157'],[value='165'],[value='173'],[value='181'],[value='189'],[value='197'],[value='205'],[value='213'],[value='221'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
 				}
-			} 
+			}
 			//80MHz
 			else if ($("#channel_bandwidth5").is(":checked")) {
 				$("#channel_number").find("[value='5'],[value='9'],[value='13'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
@@ -619,7 +622,7 @@ $(document).ready(function() {
 				$("#channel_number").find("[value='5'],[value='9'],[value='13'],[value='17'],[value='21'],[value='25'],[value='29'],[value='37'],[value='41'],[value='45'],[value='49'],[value='53'],[value='57'],[value='61'],[value='69'],[value='73'],[value='77'],[value='81'],[value='85'],[value='89'],[value='93'],[value='101'],[value='105'],[value='109'],[value='113'],[value='117'],[value='121'],[value='125'],[value='133'],[value='137'],[value='141'],[value='145'],[value='149'],[value='153'],[value='157'],[value='165'],[value='169'],[value='173'],[value='177'],[value='181'],[value='185'],[value='189'],[value='197'],[value='201'],[value='205'],[value='209'],[value='213'],[value='217'],[value='221'],[value='225'],[value='229'],[value='233']").prop("disabled", true).prop("selected", false);
 			}
 		}
-	}                
+	}
 	}).trigger("change");
 	$("#channel_number").change(function() {
 		if ("165" == $(this).val()){
@@ -678,10 +681,8 @@ $(document).ready(function() {
 		if(ret) {
 			setResetInfo(info);
 		}
-		});	
-	});	
-
-//zqiu <<	
+		});
+	});
 /*
  *  Manage password field: open wep networks don't use passwords
  */
@@ -1012,7 +1013,7 @@ function setResetInfo(info) {
 			<div class="form-row odd">
 				<div id="content" style="text-align: center;">
 					<br>
-					<h3 style="width:92%"><span id="wifimessmode">Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the</span> <?%echo(getBrandProductName());?><span id="wifimessmode1"> app.
+					<h3 style="width:92%"><span id="wifimessmode">Wi-Fi Mode, Security Mode, Channel Selection, Channel Mode, and Channel Bandwidth are being managed automatically to help optimize your home Wi-Fi network and improve Wi-Fi coverage. To edit your Wi-Fi Network Name & Network password, please download the</span> <?% echo(getBrandProductName());?><span id="wifimessmode1"> app.
 					</h3>
 					<br>
 				</div>
@@ -1132,7 +1133,7 @@ function setResetInfo(info) {
 			<input type="radio"  name="channel_bandwidth" value="40MHz" id="channel_bandwidth" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
 		<?% } else if($radio_band == "6" )
 		{ ?>
-			<?%if (strpos($partnerId, "sky-") !== false){?>                        
+			<?%if (strpos($partnerId, "sky-") !== false){?>
 				<label for="channel_bandwidth203" id="wiremess18">Channel Bandwidth:</label>
 				<input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth203" checked="checked" /><b>20</b>
 				<label for="channel_bandwidth4" class="acs-hide"></label>

@@ -277,6 +277,19 @@ $(document).ready(function() {
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
 	var partner_id = '<?% echo( $partnerId); ?>';
+
+	/**
+	* Discription:
+	* disable, unselect entries of $disableChannelList and set $channel
+	*/
+
+	function checkAndSetChannelNumber($disableChannelList, $channel){
+		$.each($disableChannelList, function( index, value ) {
+			$("#channel_number").find("[value='"+value+"']").prop("disabled", true).prop("selected", false);
+			if($("#channel_number").val() == value) $("#channel_number").val($channel);
+		});
+	}
+
 	$("#wireless_network_switch").radioswitch({
 		id: "wireless-network-switch",
 		radio_name: "wireless_network",
@@ -286,7 +299,6 @@ $(document).ready(function() {
 		title_off: $.i18n("Disable radio"),
 		state: <?% echo( ($radio_enable === "true" ? "true" : "false"));?> ? "on" : "off"
 	});
-	//$("#wireless_network_switch").radioswitch("doEnable", $Mesh_Mode == 'true' ? false : true);
 	init_form();
 	fromOther = false;
 	$(":radio[name='channel']").change(function() {		//alert("hahaha");
@@ -365,8 +377,8 @@ $(document).ready(function() {
 			}
 			if ("None" == $("#security").val()) {
 				$("#network_password").prop("disabled", true);
-                                 $("#div_password_show").hide();
-				 $("#div_change_password").hide();
+                                $("#div_password_show").hide();
+				$("#div_change_password").hide();
 				 restyle_div();
 			}
 			else {
@@ -376,7 +388,7 @@ $(document).ready(function() {
 					$("#network_password").prop("disabled", true);
 					$("#div_change_password").show();
 					$("#div_password_show").hide();
-					 restyle_div();
+					restyle_div();
 				}
 				else {
 					$("#network_password").prop("disabled", false);
@@ -400,9 +412,9 @@ $(document).ready(function() {
 		$("#security").find("[value^='WEP'],[value='None']").prop('disabled',true);
 		fromOther = false;
     	});
-           if("None" == $("#security").val()) {
-                 $("#network_password").val("");
-           }
+	if("None" == $("#security").val()) {
+		$("#network_password").val("");
+	}
 	var pwd_mso=JSON.parse(password_mso_user);
 	if(!pwd_mso && "None" == $("#security").val()){
 		$("#div_change_password").hide();
@@ -439,7 +451,7 @@ $(document).ready(function() {
 			$("#security option").prop("disabled", false);
 		}
 		$("#security").change();
-    });
+	});
 	$("[name='channel_bandwidth1']").change(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
@@ -454,27 +466,23 @@ $(document).ready(function() {
 			//40MHz
 			if ($("#channel_bandwidth1").is(":checked")) {
 				if ("BelowControlChannel" == "<?% echo( $ext_channel); ?>"){
-					$("#channel_number").val('40');
-					$("#channel_number").find("[value='116'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
-					//$("#channel_number").find("[value='52'],[value='60'],[value='100'],[value='108'],[value='116'],[value='132'],[value='140'],[value='144'],[value='149'],[value='157'],[value='165']").prop("disabled", true).prop("selected", false);
+					$disableChannelList = [ 116, 140, 144, 165 ];
+					checkAndSetChannelNumber($disableChannelList,'40');
 				}
-				else{	//AboveControlChannel or Auto  //zqiu: exclude 116,140
-					$("#channel_number").val('36');
-					$("#channel_number").find("[value='116'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
-					//$("#channel_number").find("[value='40'],[value='48'],[value='56'],[value='64'],[value='104'],[value='112'],[value='116'],[value='136'],[value='140'],[value='144'],[value='153'],[value='161'],[value='165']").prop("disabled", true).prop("selected", false);
+				else{	//AboveControlChannel or Auto
+					$disableChannelList = [ 116, 140, 144, 165 ];
+					checkAndSetChannelNumber($disableChannelList,'36');
 				}
 			}
 			//80MHz
 			else if ($("#channel_bandwidth2").is(":checked")) {
-				$("#channel_number").val('36');
-				$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='120'],[value='124'],[value='128'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
-				//$("#channel_number").find("[value='44'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+				$disableChannelList = [ 116, 120, 124, 128, 140, 144, 165 ];
+				checkAndSetChannelNumber($disableChannelList,'36');
 			}
 		}
 		else {
 			//if Channel Bandwidth is 20MHz DFS Channels (Channels 50 - 144) should be greyed out
-			$("#channel_number").val('36');
-			//$("#channel_number [value='52'],[value='56'],[value='60'],[value='64'],[value='100'],[value='104'],[value='108'],[value='112'],[value='116'],[value='120'],[value='124'],[value='128'],[value='132'],[value='136'],[value='140'],[value='144']").prop("disabled", true);
+			//$("#channel_number").val('36');
 		}
 	});
 	$("#channel_number").change(function() {
@@ -662,7 +670,6 @@ function init_form()
 	else{
 		$("#div_enableWMM").hide();
 	}
-
 	restyle_div();
 
 	if ("true"!="<?% echo( $DFS_Support1); ?>" || "true"!="<?% echo( $DFS_Enable1); ?>") {
@@ -964,12 +971,10 @@ function setResetInfo(info) {
 			<span id="password_field"><input type="password" size="23" id="network_password" name="network_password" class="text" value="<?% if($password_mso_user) echo( htmlspecialchars($network_password)); ?>" </span>
 			<p id="netPassword-footnote" class="footnote">8 to 63 ASCII characters or a 64 hex character password. Case sensitive.</p>
 		</div>
-
 		<div class="form-row" id="div_change_password">
 			<label for="change_password" id="wireedtmess4">Change Password:</label>
 			<span class="checkbox"><input type="checkbox" id="password_check" name="password_check" /></span>
 		</div>
-
 		<div class="form-row odd" id="div_password_show">
 			<label for="password_show" id="mocamess10">Show Network Password:</label>
 			<span class="checkbox"><input type="checkbox" id="password_show" name="password_show" /></span>
