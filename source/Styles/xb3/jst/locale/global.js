@@ -1144,6 +1144,7 @@ $.i18n().load( {
 		" to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":" to view and manage your list of connected/offline devices, among many other features and settings.",
 		"to view and manage your list of connected/offline devices. You can block access to your home network for any device, among many other features and settings.":"to enable parental controls for devices connected to your home network, among many other features and settings.",
 		"MAP_T:":"MAP-T:",
-		"MAP_T Sharing Ratio:":"MAP-T Sharing Ratio:"
+		"MAP_T Sharing Ratio:":"MAP-T Sharing Ratio:",
+		" app":" App"
 	}
 });
