@@ -61,20 +61,7 @@ $Radio_3_Support_Modes = getStr("Device.WiFi.Radio.3.SupportedStandards");
 
 if($i != 1 && $i != 2 && $i != 17) $Mesh_Mode = false;
 // this method for only restart a certain SSID
-function MiniApplySSID($ssid) {
-	if($ssid == 17)
-	{
-		$apply_id = 17;
-		$apply_rf = 3;
-	}
-	else
-	{
-		$apply_id = (1 << intval($ssid)-1);
-		$apply_rf = (2  - intval($ssid)%2);
-	}
-	setStr("Device.WiFi.Radio."+$apply_rf+".X_CISCO_COM_ApplySettingSSID", $apply_id, false);
-	setStr("Device.WiFi.Radio."+$apply_rf+".X_CISCO_COM_ApplySetting", "true", true);
-}
+
 $response_message = '';
 //ssid 1,2 for all
 //ssid 3,4 for mso only
@@ -238,7 +225,8 @@ if ($i == 1 || $i == 2 || $i == 17) {
 			}
 		}
 		// setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
-		MiniApplySSID($i);
+		setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+                setStr("Device.WiFi.ApplyRadioSettings","true",true);
 	}
 }
 if($response_message=='') {
