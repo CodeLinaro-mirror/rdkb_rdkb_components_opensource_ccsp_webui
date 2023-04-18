@@ -165,7 +165,7 @@ if(!$isMSO) {
 		if (!strcmp($SecWebUI, "true")) {
 			if (!strcmp($url, $LocFqdn))
 				$url = $ip_addr;
-			else
+			else if((!strcmp($url,$ip_addr))||(!strcmp($url,$LanGwIPv6)))
 				header('Location:https://'+$LocFqdn);
 		}
 	}
