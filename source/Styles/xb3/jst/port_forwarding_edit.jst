@@ -18,9 +18,6 @@
  limitations under the License.
 */
 ?>
-<?%
-$CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
-?>
 <?% include('includes/header.jst'); ?>
 <?% include('includes/utility.jst'); ?>
 <!-- $Id: port_forwarding_add.jst 3158 2010-01-08 23:32:05Z slemoine $ -->
@@ -28,18 +25,19 @@ $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 	<?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
 <?% include('includes/nav.jst'); ?>
-<?% 
+<?%
 $devices_param = {
 	"LanGwIP"   	: "Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress",
 	"LanSubnetMask"	: "Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask",
-	"DeviceMode"	: "Device.X_CISCO_COM_DeviceControl.DeviceMode" 
-	}/*p2j-array*/;
-    $devices_value = KeyExtGet("Device.X_CISCO_COM_DeviceControl.", $devices_param);
+	"DeviceMode"	: "Device.X_CISCO_COM_DeviceControl.DeviceMode"
+}/*p2j-array*/;
+$devices_value = KeyExtGet("Device.X_CISCO_COM_DeviceControl.", $devices_param);
 //add by yaosheng
 $LanGwIP 	= $devices_value["LanGwIP"]; //getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanIPAddress");
 $LanSubnetMask 	= $devices_value["LanSubnetMask"]; //getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanSubnetMask");
 $beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
 $endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
+$CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
 $idadv ="";
 $idadv2 = "";
 if($locale=="it"){
@@ -461,13 +459,14 @@ update_service_field();
 	}
 });
 </script>
+<?% $serviceArr = ['FTP', 'AIM', 'HTTP', 'PPTP', 'HTTPs', 'Telnet', 'SSH']/*p2j-array*/; ?>
 <?% if($CloudUIEnable == "true"){ ?>
 <div  id="content">
 	<h1 id="portfwdedthead">Advanced > Port Forwarding > Edit Service</h1>
 	<div  class="module forms">
 		<div id="content" style="text-align: center;">
 			<br>
-			<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="downmess">Please download the </span><?% echo(getBrandProductName("PortForwarding"));?><span id="sooninfoapp"> app</span><span id="<?% echo($idadv2); ?>"> to set up port forwards, among many other features and settings.</span></h3>
+			<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><br><span id="downmess">Please download the </span><?% echo(getBrandProductName());?><span id="sooninfoapp"> app</span><span id="<?% echo($idadv2); ?>"> to set up port forwards, among many other features and settings.</span></h3>
 			<br>
 		</div>
 	</div> <!-- end .module -->
@@ -483,7 +482,6 @@ update_service_field();
 	<form method="post" id="pageForm" action="">
 	<div  class="module forms">
 		<h2 id="portfwdedtmess1">Edit Port Forward</h2>
-		<?% $serviceArr = ['FTP', 'AIM', 'HTTP', 'PPTP', 'HTTPs', 'Telnet', 'SSH']/*p2j-array*/; ?>
 		<div  class="form-row odd">
 					<label for="common_services" id="portfwdaddmess2">Common Service:</label>
 					<select  id="common_services" name="common_services">
