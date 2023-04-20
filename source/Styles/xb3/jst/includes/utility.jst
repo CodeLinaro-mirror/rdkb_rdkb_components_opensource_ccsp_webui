@@ -918,5 +918,17 @@ function cleanJsonDms($dm_key, $param_json) {
 	}
 	return $param_json;
 }
+
+/**
+* Discription: time rounded to 5 min
+*
+* return: $datetime
+*/
+function getRoundedTime(){
+	$currdate = Date.now();
+	$datetime = Math.round($currdate/300000);
+	return $datetime;
+}
+
 ?>
 

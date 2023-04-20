@@ -306,7 +306,7 @@ csrfProtector.init();
         } else {
             echo( './cmn/js/gateway.js');
         }?>"></script>
- <script src="./locale/CLDRPluralRuleParser.js"></script>
+  <script src="./locale/CLDRPluralRuleParser.js"></script>
   <script src="./locale/jquery.i18n.js"></script>
   <script src="./locale/jquery.i18n.messagestore.js"></script>
   <script src="./locale/jquery.i18n.fallbacks.js"></script>
@@ -314,7 +314,7 @@ csrfProtector.init();
   <script src="./locale/jquery.i18n.parser.js"></script>
   <script src="./locale/jquery.i18n.emitter.js"></script>
   <script src="./locale/jquery.i18n.emitter.bidi.js"></script>
-   <script src="./locale/global.js"></script> <!-- add this -->
+  <script src="./locale/global.js?t=<?% echo(getRoundedTime()); ?>"></script> <!-- add this -->
 	<style>
 	#div-skip-to {
 		position:relative;

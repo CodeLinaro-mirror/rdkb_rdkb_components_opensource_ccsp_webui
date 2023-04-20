@@ -1,6 +1,12 @@
+function getRoundedTime(){
+	//time rounded to 5 min
+        var currdate = Date.now();
+        var datetime = Math.round(currdate/300000);
+        return datetime;
+}
 function jAlertLoggout(results){
 	$.i18n().load({
-		'it': '/locale/it.json'
+		'it': '/locale/it.json?t='+getRoundedTime()+''
 	}).done(function() {
 		var locale=$('#locale').val();
 		$.i18n().locale = locale;
@@ -11,7 +17,7 @@ function jAlertLoggout(results){
 }
 function alertLocale(results){
 	$.i18n().load({
-			'it': '/locale/it.json'
+			'it': '/locale/it.json?t='+getRoundedTime()+''
 	}).done(function() {
 		var locale=$('#locale').val();
 		$.i18n().locale = locale;
@@ -1123,7 +1129,7 @@ $("#maptsharingratio").text($.i18n("MAP_T Sharing Ratio:"));
 callback();
 }
 $.i18n().load({
-	'it': '/locale/it.json'
+	'it': '/locale/it.json?t='+getRoundedTime()+''
 }).done(function() {
 	var locale=$('#locale').val();
 	$.i18n().locale = locale;
