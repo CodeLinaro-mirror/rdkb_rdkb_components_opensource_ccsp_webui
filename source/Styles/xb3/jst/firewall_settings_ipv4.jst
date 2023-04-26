@@ -226,8 +226,12 @@ $(document).ready(function() {
             $block_ident = $firewall_value["block_ident"];
             $videoServiceEnable = getStr("Device.X_RDKCENTRAL-COM_VideoService.Enabled");
             $videoDisable = ($videoServiceEnable=="true") ? "disabled" : "";
-		?>
-		<ul class="combo-group" id="security-level">
+			if(!strcasecmp("false", $block_http) && !strcasecmp("false", $block_icmp) && !strcasecmp("false", $block_multicast) && !strcasecmp("false", $block_peer) && !strcasecmp("false", $block_ident)){                                
+				$disable_firewall="true";}
+                        else{          
+                                $disable_firewall="false";              
+                        }?>
+			<ul class="combo-group" id="security-level">
 			<li id="max">
 				<input type="radio" name="firewall_level" value="high" id="firewall_level_maximum" <?% if ( !strcasecmp("High", $SecurityLevel)) echo( "checked"); echo( $videoDisable); ?>/>
 				<label for="firewall_level_maximum" class="label" id="maxsechigh">Maximum Security (High)
@@ -305,7 +309,7 @@ $(document).ready(function() {
 				<?% if ( !strcasecmp("true", $block_ident)) echo( "checked"); ?>  /> 
 				<label for="block_ident"  id="firmess16">Block IDENT (port 113)</label><br />
 				<input class="target disabled" type="checkbox" id="disable_firewall" name="disable_firewall" 
-				<?% if ( !strcasecmp("None", $SecurityLevel)) echo( "checked"); ?>   />
+				<?% if ( !strcasecmp("true", $disable_firewall) && !strcasecmp("Custom", $SecurityLevel)) echo( "checked"); ?>  />				      
 				<label for="disable_firewall" id="firmess17">Disable entire firewall</label>
 				</p>
 				</div>
