@@ -117,15 +117,12 @@ $psmMode = $DeviceControl_value['psmMode'];
 		$out = exec($xbin+" brlan0");
 		for($k in $out){
 			$v = $out[$k];
-			if (strpos($v, 'inet6 addr')){
+			if (strpos($v, 'inet6 addr: 2')){
 				$tmp = explode('Scope', $v);
 				$tmp = explode('addr:', $tmp[0]);
 				$tmp = explode('%', $tmp[1]);
 				$tmp = explode('/', $tmp[0]);
 				$lan_ip.push(trim($tmp[0]));
-				if(strstr($v, 'Global')){
-					break;
-				}
 			}
 		}
 		$LanGwIPv6 = $lan_ip.pop();
@@ -164,9 +161,8 @@ if(!$isMSO) {
 	if(strpos($partnerId, "sky-") !== false) {
 		if (!strcmp($SecWebUI, "true")) {
 			if (!strcmp($url, $LocFqdn))
-				$url = $ip_addr;
-			else if((!strcmp($url,$ip_addr))||(!strcmp($url,$LanGwIPv6)))
-				header('Location:https://'+$LocFqdn);
+				if((!strcmp($url,$ip_addr))||(!strcmp($url,$LanGwIPv6)))
+					header('Location:https://'+$LocFqdn);
 		}
 	}
 	if(!strcmp($CaptivePortalEnable, "true")) {
