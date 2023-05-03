@@ -192,10 +192,6 @@ else{
 }
 //for SSID 1 and 2 don't show password for mso user
 $password_mso_user = !(($id == 1 || $id == 2) && ($_SESSION["loginuser"] == "mso"));
-$isPartnerSky = false;
-if(strpos($partnerId, "sky-") !== false) {
-	$isPartnerSky = true;
-}
 ?>
 <script type="text/javascript">
 function showDialog() {
@@ -697,7 +693,7 @@ function init_form()
 			}
 		}
 		// NOT 20MHz, disable channel 165
-		$("#channel_number").find("<?% if(!$isPartnerSky) echo("[value='116'],"); ?>[value='120'],[value='124'],[value='128'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
+		$("#channel_number").find("[value='116'],[value='120'],[value='124'],[value='128'],[value='140'],[value='144'],[value='165']").prop("disabled", true).prop("selected", false);
 		//$("#channel_number").find("[value='165']").prop("disabled", true).prop("selected", false);
 	}
 	else {
