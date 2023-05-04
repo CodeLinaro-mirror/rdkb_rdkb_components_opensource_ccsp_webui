@@ -165,29 +165,61 @@ restartEventsForRfCp()
     dibbler-server start
 }
 
+# Function to check if wan_fail_over is enabled or not
+# return 1 if wan_fail_over is enabled
+# return 0 if wan_fail_over is disabled
+checkForWanFailOver()
+{
+    echo_t "Network Response: checkForWanFailOver"
+    currentWanIf=`sysevent get current_wan_ifname`
+    defaultWanIf=`sysevent get wan_ifname`
+    echo_t "currentWanIf: $currentWanIf  defaultWanIf: $defaultWanIf"
+    if [ "$currentWanIf" == "$defaultWanIf" ];then
+        AllowRemoteInterfaces=`dmcli eRT getv Device.X_RDK_WanManager.AllowRemoteInterfaces | grep value | cut -f3 -d : | cut -f2 -d" "`
+        Interface_Available_Status=`dmcli eRT getv Device.X_RDK_WanManager.InterfaceAvailableStatus | grep -i "REMOTE_LTE,1"`
+        echo_t "AllowRemoteInterfaces: $AllowRemoteInterfaces  Interface_Available_Status: $Interface_Available_Status"
+        if [[ "x$Interface_Available_Status" != "x" ]] && [ "$AllowRemoteInterfaces" = "true" ]
+        then
+            #LTE wan interface is available
+            echo_t "Network Response: checkForWanFailOver : enabled"
+            return 1
+        else
+            echo_t "Network Response: checkForWanFailOver : disabled"
+            return 0
+        fi
+    fi
+}
+
 # Check if unit has proper RF signal
 checkRfStatus()
 {
-   noRfCp=0
-   RF_SIGNAL_STATUS=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_CableRfSignalStatus | grep value | cut -f3 -d : | cut -f2 -d" "`
-   isInRfCp=`syscfg get rf_captive_portal`
-   echo_t "WEBGUI: values RF_SIGNAL_STATUS : $RF_SIGNAL_STATUS , isInRfCp: $isInRfCp"
-   if [ "$RF_SIGNAL_STATUS" = "false" ] || [ "$isInRfCp" = "true" ]
-   then
-      noRfCp=1
-   else
-      noRfCp=0
-   fi
+    noRfCp=0
+    checkForWanFailOver
+    wfoStatus=?
+    if [ "$wfoStatus" = "0" ]
+    then
+        RF_SIGNAL_STATUS=`dmcli eRT getv Device.DeviceInfo.X_RDKCENTRAL-COM_CableRfSignalStatus | grep value | cut -f3 -d : | cut -f2 -d" "`
+        isInRfCp=`syscfg get rf_captive_portal`
+        echo_t "WEBGUI: values RF_SIGNAL_STATUS : $RF_SIGNAL_STATUS , isInRfCp: $isInRfCp"
+        if [ "$RF_SIGNAL_STATUS" = "false" ] || [ "$isInRfCp" = "true" ]
+        then
+            noRfCp=1
+        else
+            noRfCp=0
+        fi
 
-   if [ $noRfCp -eq 1 ]
-   then
-      echo_t "WEBGUI: Set rf_captive_portal true"
-      syscfg set rf_captive_portal true
-      syscfg commit
-      return 1
-   else
-      return 0
-   fi
+        if [ $noRfCp -eq 1 ]
+        then
+            echo_t "WEBGUI: Set rf_captive_portal true"
+            syscfg set rf_captive_portal true
+            syscfg commit
+            return 1
+        else
+            return 0
+        fi
+    else
+        return 0
+    fi
 } 
 
 
