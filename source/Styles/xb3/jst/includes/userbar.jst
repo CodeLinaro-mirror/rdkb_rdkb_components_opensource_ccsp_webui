@@ -109,19 +109,39 @@ setTimeout(function(){
 					$ipv6_status = '';
 					$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 					if($fileget){
-						$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
+						$interfaceDMs = {};
+						$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+						if($wanManagerVersion < 1.5){
+							$interfaceDMs = {
+								interface       : "Device.X_RDK_WanManager.CPEInterface.",
+								wanStatus       : ".Wan.ActiveLink",
+								ipv4Status      : ".IP.IPv4Status",
+								ipv6Status      : ".IP.IPv6Status"
+							};
+						} else {
+							$interfaceDMs = {
+								interface       : "Device.X_RDK_WanManager.Interface.",
+								wanStatus       : ".Status",
+								ipv4Status      : ".VirtualInterface.1.IP.IPv4Status",
+								ipv6Status      : ".VirtualInterface.1.IP.IPv6Status"
+							};
+						}
+						$interface = $interfaceDMs["interface"];
+						$instval= explode(",",getInstanceIds($interface));
 						for($a= 1; $a <= count($instval);$a++) {
-							$activelink = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".Wan.ActiveLink");
-							if($activelink == 'true'|| $activelink==true){
-								$ipv4_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv4Status");
-								$ipv6_status =  getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv6Status");
+							$activelink = getStr($interface+$a+$interfaceDMs["wanStatus"]);
+							if($activelink == "true" || $activelink == "Up"){
+								$ipv4_status_dm = $interface+$a+$interfaceDMs["ipv4Status"];
+								$ipv6_status_dm = $interface+$a+$interfaceDMs["ipv6Status"];
 							}
 						}
 					}
 					else{
-						$ipv4_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState");
-						$ipv6_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState");
+						$ipv4_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState";
+						$ipv6_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState";
 					}
+					$ipv4_status =  getStr($ipv4_status_dm);
+					$ipv6_status =  getStr($ipv6_status_dm);
 				?>
 				var ipv4_status = '<?% echo ($ipv4_status); ?>';
 				var ipv6_status = '<?% echo ($ipv6_status); ?>';

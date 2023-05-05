@@ -930,5 +930,42 @@ function getRoundedTime(){
 	return $datetime;
 }
 
+/**
+* Discription:
+* check and return DMs for WAN IPv4 & IPv6 status
+*
+* return: { ipv4status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv4Status" , ipv6status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv6Status" }
+*/
+function getWanDMs(){
+	$ipv4_status_dm = '';
+	$ipv6_status_dm = '';
+	$interfaceDMs = {};
+	$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+	if($wanManagerVersion < 1.5) {
+		$interfaceDMs = {
+			interface	: "Device.X_RDK_WanManager.CPEInterface.",
+			wanStatus	: ".Wan.ActiveLink",
+			ipv4Status	: ".IP.IPv4Status",
+			ipv6Status	: ".IP.IPv6Status"
+		};
+	} else {
+		$interfaceDMs = {
+			interface	: "Device.X_RDK_WanManager.Interface.",
+			wanStatus	: ".Status",
+			ipv4Status      : ".VirtualInterface.1.IP.IPv4Status",
+			ipv6Status      : ".VirtualInterface.1.IP.IPv6Status"
+		};
+	}
+	$interface = $interfaceDMs["interface"];
+	$instval= explode(",",getInstanceIds($interface));
+	for($a= 1; $a <= count($instval);$a++) {
+		$activelink = getStr($interface+$a+$interfaceDMs["wanStatus"]);
+		if($activelink == "true" || $activelink == "Up"){
+			$ipv4_status_dm = $interface+$a+$interfaceDMs["ipv4Status"];
+			$ipv6_status_dm = $interface+$a+$interfaceDMs["ipv6Status"];
+		}
+	}
+	return {ipv4status:$ipv4_status_dm , ipv6status:$ipv6_status_dm };
+}
 ?>
 

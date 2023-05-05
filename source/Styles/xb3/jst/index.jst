@@ -133,16 +133,17 @@ function wan_status(){
 	$ipv6_status='';
 	$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 	if($fileget){
-		$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
-		for($a= 1; $a <= count($instval);$a++) {
-			$activelink = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".Wan.ActiveLink");
-			if($activelink == 'true'|| $activelink==true){
-				$ipv4_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv4Status");
-				$ipv6_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv6Status");
-			}
-		}
-		if(strtoupper($ipv6_status) == 'UP' || strtoupper($ipv4_status) == 'UP'){$wan_connection=true;}else{$wan_connection=false;}
+		$wan_status = getWanDMs();
+		$ipv4_status_dm = $wan_status["ipv4status"];
+		$ipv6_status_dm = $wan_status["ipv6status"];
 	}
+	else {
+		$ipv4_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState";
+		$ipv6_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState";
+	}
+	$ipv4_status =  getStr($ipv4_status_dm);
+	$ipv6_status =  getStr($ipv6_status_dm);
+	if(strtoupper($ipv6_status) == 'UP' || strtoupper($ipv4_status) == 'UP'){$wan_connection=true;}else{$wan_connection=false;}
 	return $wan_connection;
 }
 if(!$isMSO) {

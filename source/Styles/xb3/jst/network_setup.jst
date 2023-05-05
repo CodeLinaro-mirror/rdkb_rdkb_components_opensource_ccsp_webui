@@ -208,21 +208,16 @@ function sec2dhms($sec)
 		$ipv6_status = '';
 		$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 		if($fileget){
-			$instval= explode(",",getInstanceIds("Device.X_RDK_WanManager.CPEInterface."));
-			for($a= 1; $a <= count($instval);$a++) {
-				$activelink = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".Wan.ActiveLink");
-				if($activelink == 'true'|| $activelink==true){
-					$ipv4_status = getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv4Status");
-					$ipv6_status =  getStr("Device.X_RDK_WanManager.CPEInterface."+$a+".IP.IPv6Status");
-				}
-			}
+			$wan_status = getWanDMs();
+			$ipv4_status_dm = $wan_status["ipv4status"];
+			$ipv6_status_dm = $wan_status["ipv6status"];
 		}
 		else{
-			$ipv4_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState");
-			$ipv6_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState");
+			$ipv4_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState";
+			$ipv6_status_dm =  "Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState";
 		}
-		//$ipv4_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV4WanConnectionState");
-		//$ipv6_status =  getStr("Device.X_RDK-Central_COM_WanAgent.IPV6WanConnectionState");
+		$ipv4_status =  getStr($ipv4_status_dm);
+		$ipv6_status =  getStr($ipv6_status_dm);
 		if(strtoupper($ipv6_status) == 'UP' || strtoupper($ipv4_status) == 'UP'){
 			$idconn ="connected";
 			$Wan_Port_Status ="Connected";
@@ -1049,11 +1044,23 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 </div>
 <?%
         if (strpos($partnerId, "sky-") !== false) {
-		if($fileget){ $ids_get = "Device.X_RDK_WanManager.CPEInterface.";}
+		if($fileget){
+			$ids_get = "Device.X_RDK_WanManager.CPEInterface.";
+			$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+			if($wanManagerVersion < 1.5){
+				$ids_get = "Device.X_RDK_WanManager.CPEInterface.";
+				$wanStatus_dm = ".Wan.ActiveLink";
+
+			}
+			else {
+				$ids_get = "Device.X_RDK_WanManager.Interface.";
+				$wanStatus_dm = ".Status";
+			}
+		}
 		else{$ids_get = "Device.X_RDK-Central_COM_WanAgent.Interface.";}
 		$ids = explode(",",getInstanceIds($ids_get));
 		for($j=1;$j<=count($ids); $j++){
-			$val_activeLink = getStr($ids_get+$j+'.Wan.ActiveLink');
+			$val_activeLink = getStr($ids_get+$j+$wanStatus_dm);
 			if(true == $val_activeLink || 'true'==$val_activeLink){
 				$wan_port_value=getStr($ids_get+$j+'.DisplayName');
 				break;
