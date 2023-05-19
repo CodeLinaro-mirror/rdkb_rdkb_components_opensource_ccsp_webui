@@ -1061,7 +1061,7 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 		$ids = explode(",",getInstanceIds($ids_get));
 		for($j=1;$j<=count($ids); $j++){
 			$val_activeLink = getStr($ids_get+$j+$wanStatus_dm);
-			if(true == $val_activeLink || 'true'==$val_activeLink){
+			if("Up" == $val_activeLink || "true" == $val_activeLink){
 				$wan_port_value=getStr($ids_get+$j+'.DisplayName');
 				break;
 			}
