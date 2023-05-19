@@ -1128,7 +1128,7 @@ function set_config(jsConfig)
 		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(msg) {
 			jHide();
-			window.location.href = "wireless_network_configuration.jst";
+			window.location.reload();
 		},
 		error: function(){            
 			jHide();
@@ -1536,7 +1536,7 @@ function saveBandSteeringSettings()
 		data: { configInfo: jsConfig,csrfp_token: token },
 		success: function(result) {
 			jHide();
-			window.location.href = "wireless_network_configuration.jst";
+			window.location.reload();
 		},
 		failure: function(result)
 		{
