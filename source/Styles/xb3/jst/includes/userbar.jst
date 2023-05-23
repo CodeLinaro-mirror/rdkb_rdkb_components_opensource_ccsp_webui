@@ -107,6 +107,9 @@ setTimeout(function(){
 				<?%
 					$ipv4_status = '';
 					$ipv6_status = '';
+					$ipv4_status_dm = '';
+					$ipv6_status_dm = '';
+					$wanManagerVersion = '';
 					$fileget = file_exists("/tmp/OS_WANMANAGER_ENABLED");
 					if($fileget){
 						$interfaceDMs = {};
