@@ -457,7 +457,7 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                 if (strpos($partnerId, "sky-") !== false) {
                    $fistUSif = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
                    $WANIPv4 = php_getstr($fistUSif+"IPv4Address.1.IPAddress");
-                   if ( strcasecmp($WANIPv4, "0.0.0.0") || (strlen($ipv6_global_addr) > 0) ){
+                   if ( (strcasecmp($WANIPv4, "0.0.0.0") > 0) || (strlen($ipv6_global_addr) > 0) ){
                       echo("<span class='value' id='act'>Active</span>");
                    }
                    else{
