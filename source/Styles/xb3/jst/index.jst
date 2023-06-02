@@ -166,9 +166,9 @@ if(!$isMSO) {
 	$SecWebUI = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.Enable");
 	$LocFqdn = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.LocalFqdn");
 	if(strpos($partnerId, "sky-") !== false) {
-		if (!strcmp($SecWebUI, "true")) {
-			if (!strcmp($url, $LocFqdn))
-				if((!strcmp($url,$ip_addr))||(!strcmp($url,$LanGwIPv6)))
+		if (strcmp($SecWebUI, "true")==0) {
+			if (strcmp($url, $LocFqdn)!=0)
+				if( (strcmp($url,$ip_addr)==0) || (strcmp($url,$LanGwIPv6)==0) || (strcmp($url,$LanGwIP['localAddr'])==0) || (strcmp($url,$LanGwIP['globalAddr'])==0) )
 					header('Location:https://'+$LocFqdn);
 		}
 	}
@@ -183,9 +183,9 @@ if(!$isMSO) {
 				}
 				exit;
 			}
-			if((strpos($partnerId, "sky-") !== false)&&(!wan_status())){
+			if((strpos($partnerId, "sky-") !== false)&&(!wan_status())&&(strcmp($url, $LocFqdn)!=0)){
 				$LanGwIPv6 = '['+$LanGwIPv6+']';
-				if(!strcmp($SecWebUI, "true"))
+				if(strcmp($SecWebUI, "true")==0)
 					header('Location:https://'+$LocFqdn+'/sky_self_heal_index.jst');
 				else if(strpos($SERVER_ADDR, ":") == false)
 					header('Location:http://'+$ip_addr+'/sky_self_heal_index.jst');
