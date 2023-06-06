@@ -78,33 +78,79 @@ function VerifySignature($header, $payload, $sig)
         // it might work if it is. This could get you logged in if no server response.
         if( file_exists( $JWTkeyfile ) )
         {
-            $headerdecoded = base64decode_url( $header );
-            $headerarr = json_decode( $headerdecoded, true );
+            $modtimevalid = CheckModTimeValid( $JWTkeyfile );
+            if( $modtimevalid == true )
+            {
+                $headerdecoded = base64decode_url( $header );
+                $headerarr = json_decode( $headerdecoded, true );
     
-            $keyfile = file_get_contents( $JWTkeyfile );
-	    $keyarr = json_decode( $keyfile, true );
-            foreach ( $keyarr[ 'keys'] as $key ) {
-                if( $key['kid'] == $headerarr['kid'] ) {
-                    WritePubKey( $key['x5c'][0] );
-                    break;
+                $keyfile = file_get_contents( $JWTkeyfile );
+                if( $keyfile != false )    // doubtful this would be possible but just in case
+                {
+                    $keyarr = json_decode( $keyfile, true );
+                    if( keyarr != null )
+                    {
+                        foreach ( $keyarr[ 'keys'] as $key ) {
+                            if( $key['kid'] == $headerarr['kid'] ) {
+                                WritePubKey( $key['x5c'][0] );
+                                break;
+                            }
+                        }
+                        $pubkey = "file://" . $PUBKEYFILE;
+                        $pubkeyid = openssl_pkey_get_public( $pubkey );
+                        $token = $header . '.' . $payload;
+                        $sig2verify = base64decode_url( $sig );
+                        $sigvalid = openssl_verify( $token, $sig2verify, $pubkeyid, 'SHA256' );
+        
+                        if( $sigvalid == 1 )
+                        {
+                            $sigverified = true;
+                        }
+                    }
+                    else
+                    {
+                        unlink($JWTkeyfile);    // file is no good for some reason so remove it, it's useless
+                        LogTokenData( " : Key file invalid json", false );
+                    }
+                }
+                else
+                {
+                    unlink($JWTkeyfile);    // file is no good for some reason so remove it, it's useless
+                    LogTokenData( " : Key file empty", false );
                 }
             }
-	    $pubkey = "file://" . $PUBKEYFILE;
-            $pubkeyid = openssl_pkey_get_public( $pubkey );
-            $token = $header . '.' . $payload;
-            $sig2verify = base64decode_url( $sig );
-            $sigvalid = openssl_verify( $token, $sig2verify, $pubkeyid, 'SHA256' );
-    
-            if( $sigvalid == 1 )
+            else        // file modification time out of bounds
             {
-                $sigverified = true;
+                unlink($JWTkeyfile);    // file is no good for some reason so remove it, it's useless
+                LogTokenData( " : Key file mod time invalid", false );
             }
+
+            unlink($PUBKEYFILE);    // always delete if it exists. It's re-created every time key file is OK
+        }
+        else        // file is non-existent
+        {
+            LogTokenData( " : No key file found", false );
         }
     }
 
     return $sigverified;
 }
 
+function CheckModTimeValid($filename)
+{
+    var date = new Date();
+    $fourhours = 4 * 3600;
+    $modtimevalid = false;
+
+    $curtime = parseInt( date.getTime()/1000 );
+    $modtime = filemtime($filename);
+    $fileage = $curtime - $modtime;
+    if( $fileage >= 0 && $fileage <= $fourhours )
+    {
+        $modtimevalid = true;
+    }
+    return $modtimevalid;
+}
 
 function VerifyTokenData($tkdata)
 {
@@ -157,6 +203,10 @@ function WritePubKey($pubkey)
         $str = "-----END CERTIFICATE-----" . "\n";
         fwrite( $file, $str );
         fclose( $file );
+    }
+    else
+    {
+        LogTokenData( " : Unable to write public key file", false );
     }
 }
 
