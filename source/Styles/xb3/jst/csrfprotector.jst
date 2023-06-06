@@ -425,10 +425,14 @@ var csrfProtector = {
             csrfProtector.$cookieConfig = new cookieConfig(csrfProtector.$config['cookieConfig']);
         }
 	$_SESSION['Csrf_token'] =$token;
-        //var now = new Date(); 
-        //now.setTime(now.getTime()+(csrfProtector.$cookieExpiryTime * 1000));
-        //header("Set-Cookie: " +csrfProtector.$config['CSRFP_TOKEN']+ "=" + $token + "; Expires="+now.toUTCString()+"; Path="+csrfProtector.$cookieConfig.path+"; Domain="+csrfProtector.$cookieConfig.domain+";");
-	    header("Set-Cookie: csrfp_token=" + $token + "; Path=/");
+	var host = getenv('HTTPS');
+	if (host == false){
+		header("Set-Cookie: csrfp_token=" + $token + "; Path=/" + "; httponly");
+	}
+	else
+	{
+		header("Set-Cookie: csrfp_token=" + $token + "; Path=/" + "; httponly" + "; secure");
+	}
     },
 
     /*
