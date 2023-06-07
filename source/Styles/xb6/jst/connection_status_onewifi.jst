@@ -495,7 +495,7 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                     $WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address")+' (Condiviso utilizzando MAP-T)';
                     //$WANIPv4Gateway = '-NA-';
                     $WAN_IP_Address = $WANIPv4;
-                    $address_style = 'class="connection_address"';
+                    $address_style = 'connection_address';
                 }else{
                     $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
                     $WAN_IP_Address =  php_getstr( $interface + "IPv4Address.1.IPAddress" );
@@ -506,7 +506,7 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                     $WAN_IP_Address = php_getstr( $interface + "IPv4Address.1.IPAddress" );
             }
         ?>
-        <div class="form-row odd" <?% echo($address_style); ?> >
+        <div class="form-row odd <?% echo($address_style); ?>" >
             <span class="readonlyLabel" id="waniploc">WAN IP Address:</span> <span class="value">
                 <?% echo($WAN_IP_Address); ?>
             </span>
