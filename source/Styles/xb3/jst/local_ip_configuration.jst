@@ -47,7 +47,7 @@ $dhcpv6_param = {
 $LanGwIP    = $device_ctrl_value["LanGwIP"];
 $DHCPTime   = getStr("Device.DHCPv4.Server.Pool.1.LeaseTime");
 $ipv6_prefix = getStr("Device.IP.Interface.1.IPv6Prefix.1.Prefix");
-$interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+$fistDSif = getFirstDownstreamIpInterface();
 $DeviceMode = $device_ctrl_value["DeviceMode"];
 //CM GW IP Address
 $CM_GW_IP_Address = getStr("Device.X_CISCO_COM_CableModem.Gateway");
@@ -65,13 +65,13 @@ for(var $keytmp in $out) { $v=$out[$keytmp];/*p2j-foreach*/
 		$LAN_GW_IPv4_Address = trim($tmp[1]);
 	}
 }
-// $interface = "Device.IP.Interface.2.";
+// $fistDSif = "Device.IP.Interface.2.";
 // initial some variable to suppress some error
 $ipv6_local_addr = "";
 $ipv6_global_addr = "";
-$idArr = explode(",", getInstanceIds($interface+"IPv6Address."));
+$idArr = explode(",", getInstanceIds($fistDSif+"IPv6Address."));
 for($key in $idArr) { $value=$idArr[$key];/*p2j-foreach*/
-  $ipv6addr = getStr($interface+"IPv6Address."+$value+".IPAddress");
+  $ipv6addr = getStr($fistDSif+"IPv6Address."+$value+".IPAddress");
   if (stripos($ipv6addr, "fe80::") !== false) {
   	$ipv6_local_addr = $ipv6addr;
   }

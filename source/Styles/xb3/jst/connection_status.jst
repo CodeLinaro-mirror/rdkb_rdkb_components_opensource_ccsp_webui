@@ -27,7 +27,7 @@
 <?% include('includes/nav.jst'); ?>
 <?% $ForceDisable = getStr("Device.WiFi.X_RDK-CENTRAL_COM_ForceDisable"); ?>
 <?%
-    $interface = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+    $fistDSif = getFirstDownstreamIpInterface();
     $autoWanEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_AutowanFeatureSupport");
     $OperatingChannelBandwidth = "";
     $RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
@@ -40,7 +40,7 @@
 			break;
 	}
     }
-    // $interface = "Device.IP.Interface.2.";
+    // $fistDSif = "Device.IP.Interface.2.";
 	// initial some variable to suppress some error
     $ipv6_local_addr = "";
     $ipv6_global_addr = "";
@@ -48,9 +48,9 @@
     $wan_ipv6_addr = "";
 	$DNSv6Index = "";
     /*local ipv6 address */
-    $idArr = explode(",", getInstanceIds($interface+"IPv6Address."));
+    $idArr = explode(",", getInstanceIds($fistDSif+"IPv6Address."));
     for($key in $idArr) { $value=$idArr[$key];/*p2j-foreach*/
-        $ipv6addr = getStr($interface+"IPv6Address."+$value+".IPAddress");
+        $ipv6addr = getStr($fistDSif+"IPv6Address."+$value+".IPAddress");
         if (stripos($ipv6addr, "fe80::") !== false) {
           $ipv6_local_addr = $ipv6addr;
         }
@@ -164,12 +164,12 @@ if($OperatingChannelBandwidth == "6GHz")
     }
 //-----------------------WAN IPv6 Address - Start
     $WANIPv6 = "";
+    $fistUSif = getFirstUpstreamIpInterface();
     $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
     if (strpos($partnerId, "sky-") !== false) {
-        $IPv6Adr = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
-        $ids = explode(",", getInstanceIds($IPv6Adr+"IPv6Address."));
+        $ids = explode(",", getInstanceIds($fistDSif+"IPv6Address."));
         for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
-            $val = getStr($IPv6Adr+"IPv6Address."+$i+".IPAddress");
+            $val = getStr($fistDSif+"IPv6Address."+$i+".IPAddress");
             if (!strstr($val, "fe80::")){
                 $WANIPv6=$val;
                 break;
@@ -177,7 +177,6 @@ if($OperatingChannelBandwidth == "6GHz")
         }
     }
     else {
-        $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
         $ids = explode(",", getInstanceIds($fistUSif+"IPv6Address."));
         for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
             $val = getStr($fistUSif+"IPv6Address."+$i+".IPAddress");
@@ -421,7 +420,6 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
 			if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 			        $jsMapEnable = "true";
 			}
-                          $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
 			if($jsMapEnable == "true")
 				$WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address");
 			else
@@ -455,7 +453,6 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
               }else{
                 $partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
                 if (strpos($partnerId, "sky-") !== false) {
-                   $fistUSif = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
                    $WANIPv4 = php_getstr($fistUSif+"IPv4Address.1.IPAddress");
                    if ( (strcasecmp($WANIPv4, "0.0.0.0") > 0) || (strlen($ipv6_global_addr) > 0) ){
                       echo("<span class='value' id='act'>Active</span>");
@@ -487,13 +484,11 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                     $WAN_IP_Address = $WANIPv4;
                     $address_style = 'connection_address';
                 }else{
-                    $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-                    $WAN_IP_Address =  php_getstr( $interface + "IPv4Address.1.IPAddress" );
+                    $WAN_IP_Address = php_getstr( $fistUSif + "IPv4Address.1.IPAddress" );
                 }
             }
             else{
-                    $interface = php_getstr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
-                    $WAN_IP_Address = php_getstr( $interface + "IPv4Address.1.IPAddress" );
+                    $WAN_IP_Address = php_getstr( $fistUSif + "IPv4Address.1.IPAddress" );
             }
         ?>
         <div class="form-row odd <?% echo($address_style); ?>" >

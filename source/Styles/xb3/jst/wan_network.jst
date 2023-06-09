@@ -42,7 +42,7 @@
 	if(($mapT=="MAPT") && (strpos($partnerId, "sky-") === false)){
 		$jsMapEnable = "true";
 	}
-	$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+	$fistUSif = getFirstUpstreamIpInterface();
 	if($jsMapEnable == "true")
 		$WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address");
 	else

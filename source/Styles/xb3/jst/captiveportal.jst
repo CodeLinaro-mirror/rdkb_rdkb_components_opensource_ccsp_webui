@@ -110,7 +110,7 @@ csrfProtector.init();
 
             if(typeof($url) == 'string')
             {
-                $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+                $fistUSif = getFirstUpstreamIpInterface();
                 $Wan_IPv4 = getStr($fistUSif+".IPv4Address.1.IPAddress");
                 $ids = explode(",", getInstanceIds($fistUSif+"IPv6Address."));
                                for ($idskey in $ids){

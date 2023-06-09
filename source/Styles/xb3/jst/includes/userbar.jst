@@ -130,7 +130,7 @@ setTimeout(function(){
 						$instval= explode(",",getInstanceIds($interface));
 						for($a= 1; $a <= count($instval);$a++) {
 							$activelink = getStr($interface+$a+$interfaceDMs["wanStatus"]);
-							if($activelink == "true" || $activelink == "Up"){
+							if($activelink == "true" || $activelink == "Up" || $activelink == "Active"){
 								$ipv4_status_dm = $interface+$a+$interfaceDMs["ipv4Status"];
 								$ipv6_status_dm = $interface+$a+$interfaceDMs["ipv6Status"];
 							}

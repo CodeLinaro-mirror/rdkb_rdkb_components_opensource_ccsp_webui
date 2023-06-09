@@ -931,10 +931,15 @@ function getRoundedTime(){
 }
 
 /**
-* Discription:
+* Description:
 * check and return DMs for WAN IPv4 & IPv6 status
+* IF DM - "Device.X_RDK_WanManager.Version" is not available
+** THEN older DMLs are used which are in IF block
 *
-* return: { ipv4status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv4Status" , ipv6status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv6Status" }
+* return: {
+**	ipv4status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv4Status" ,
+**	ipv6status:"Device.X_RDK_WanManager.CPEInterface.1.IP.IPv6Status"
+*	}
 */
 function getWanDMs(){
 	$ipv4_status_dm = '';
@@ -960,12 +965,85 @@ function getWanDMs(){
 	$instval= explode(",",getInstanceIds($interface));
 	for($a= 1; $a <= count($instval);$a++) {
 		$activelink = getStr($interface+$a+$interfaceDMs["wanStatus"]);
-		if($activelink == "true" || $activelink == "Up"){
+		if($activelink == "true" || $activelink == "Up" || $activelink == "Active"){
 			$ipv4_status_dm = $interface+$a+$interfaceDMs["ipv4Status"];
 			$ipv6_status_dm = $interface+$a+$interfaceDMs["ipv6Status"];
 		}
 	}
 	return {ipv4status:$ipv4_status_dm , ipv6status:$ipv6_status_dm };
+}
+
+/**
+* Description:
+* return the DML of FirstUpstreamIpInterface
+*
+* IF Device.X_RDK_WanManager.Version is < 1.5
+** return value of com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface
+* ELSE
+** find Device.X_RDK_WanManager.Interface.{i}.Status having "Up"
+** then for same index get and return value of
+** Device.X_RDK_WanManager.Interface.1.VirtualInterface.1.IP.Interface
+*
+* IF DM - "Device.X_RDK_WanManager.Version" is not available
+** THEN older DMLs are used which are in IF block
+*
+* return: Device.IP.Interface.1
+*/
+function getFirstUpstreamIpInterface(){
+	$fistUSif = "";
+	$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+	if($wanManagerVersion < 1.5) {
+		$fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+	}
+	else{
+		$ids = explode(",", getInstanceIds("Device.X_RDK_WanManager.Interface."));
+		wanInterfaceLoop: for($key in $ids) { $j = $ids[$key];
+			$status = getStr("Device.X_RDK_WanManager.Interface."+$j+".Status");
+			if($status == "true" || $status == "Up" || $status == "Active"){
+				$fistUSif = getStr("Device.X_RDK_WanManager.Interface."+$j+".VirtualInterface.1.IP.Interface");
+				$fistUSif = $fistUSif+".";
+				break wanInterfaceLoop;
+			}
+		}
+	}
+	return $fistUSif;
+}
+
+/**
+* Description:
+* return the DML of FirstDownstreamIpInterface
+*
+* IF Device.X_RDK_WanManager.Version is < 1.5
+** return value of com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface
+* ELSE
+** find Device.IP.Interface.{i}.Alias having "Primary LAN"
+** then use same index as FirstDownstreamIpInterface
+*
+* IF DM - "Device.X_RDK_WanManager.Version" is not available
+** THEN older DMLs are used which are in IF block
+*
+* return: Device.IP.Interface.4
+*/
+function getFirstDownstreamIpInterface(){
+	$fistDSif = "";
+	$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+	if($wanManagerVersion < 1.5) {
+		$fistDSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstDownstreamIpInterface");
+	}
+	else {
+		$rootObjName    = "Device.IP.Interface.";
+		$paramNameArray = ["Device.IP.Interface."]/*p2j-array*/;
+		$mapping_array  = ["Alias"]/*p2j-array*/;
+		$ipInstanceArr = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
+		ipInstanceLoop: for($key in $ipInstanceArr) {
+			$value = $ipInstanceArr[$key];/*p2j-foreach*/
+			if($value["Alias"] == "Primary LAN"){
+				$fistDSif = $rootObjName+$value["__id"]+".";
+				break ipInstanceLoop;
+			}
+		}
+	}
+	return $fistDSif;
 }
 ?>
 
