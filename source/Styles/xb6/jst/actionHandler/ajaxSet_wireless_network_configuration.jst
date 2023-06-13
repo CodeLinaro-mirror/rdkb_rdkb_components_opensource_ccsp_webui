@@ -258,12 +258,13 @@ else
 				}
 				*/
 				setStr("Device.WiFi.Radio."+$r+".Enable", $arConfig['radio_enable'], false);
-				setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);		
+				setStr("Device.WiFi.ApplyRadioSettings", "true", true);
+                                setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
 				// MiniApplySSID($i);	// if enable or disable this radio, no need to assign an SSID
 			}
 			else if($_SESSION["loginuser"] == "admin" && strpos($partnerId, "sky-") !== false){
 				setStr("Device.WiFi.Radio."+$r+".Enable", $arConfig['radio_enable'], false);
-				setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
+				setStr("Device.WiFi.ApplyRadioSettings", "true", true);
 			}
 		}
 		else if ("wps_enabled" == $arConfig['sub_target'] && $Radio_Enable) {
