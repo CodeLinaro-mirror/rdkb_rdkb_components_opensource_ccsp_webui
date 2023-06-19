@@ -62,20 +62,41 @@ if [ -z $1 ] && [ ! -f /tmp/webuifwbundle ]; then
 fi
 
 #upstreamed webgui_script_https_support.patch to Secure webui redirection as part of RDKB-42686.
-if [ -d /nvram/certs ]; then
+mkdir -p /tmp/.webui/
+ID="/tmp/trpfizyanrln"
+itr=0
+
+while [ $itr -le 10 ]
+do
+echo "In GetConfig loop"
+if [ -f /nvram/certs/myrouter.io.cert.pem ]; then
     if [ ! -f /usr/bin/GetConfigFile ];then
         echo "Error: GetConfigFile Not Found"
         exit 127
     fi
-    mkdir -p /tmp/.webui/
-    ID="/tmp/trpfizyanrln"
-    GetConfigFile $ID
-    cp /nvram/certs/myrouter.io.cert.pem /tmp/.webui/
-    if [ "$MANUFACTURE" = "Technicolor" ]; then
-    	echo " " >> $ID
-    fi
-    cat /tmp/.webui/myrouter.io.cert.pem >> $ID
+	    GetConfigFile $ID
+	    if [ ! -f $ID ]; then
+		    echo "sleeping for 30 seconds"
+		    sleep 30
+		    itr=`expr $itr + 1`
+		    continue
+	    fi
+	    cp /nvram/certs/myrouter.io.cert.pem /tmp/.webui/
+	    #lighttpd expects file with key and pem
+	    cat /tmp/.webui/myrouter.io.cert.pem >> $ID
+	    break
+else
+	itr=`expr $itr + 1`
+	echo "sleeping for 30 seconds"
+	sleep 30
 fi
+
+done
+if [ ! -f /tmp/trpfizyanrln ];then
+	echo "Error: Lighttpd key is not generated"
+	exit 1
+fi
+
 
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
