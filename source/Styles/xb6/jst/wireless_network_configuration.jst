@@ -1487,6 +1487,7 @@ function steering_history() {
 				bandHistory = result.split("\n");
 				console.log(bandHistory);
 				$('#table_band_steering').find('tr:gt(0)').remove();
+				$('#band_steering_history_content').removeClass("hidden");
 				var table = $("#table_band_steering");
 				for(var i = 0; i< bandHistory.length; i++)
 				{

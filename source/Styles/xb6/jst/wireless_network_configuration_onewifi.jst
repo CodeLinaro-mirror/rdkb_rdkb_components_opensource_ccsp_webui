@@ -1478,6 +1478,7 @@ function showSteeringHistoryDialog() {
 	}
 function steering_history() {
 	jProgress($.i18n("This may take several seconds..."), 60);
+	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$.ajax({
 			type: "POST",
 			url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
@@ -1487,6 +1488,7 @@ function steering_history() {
 				bandHistory = result.split("\n");
 				console.log(bandHistory);
 				$('#table_band_steering').find('tr:gt(0)').remove();
+				$('#band_steering_history_content').removeClass("hidden");
 				var table = $("#table_band_steering");
 				for(var i = 0; i< bandHistory.length; i++)
 				{

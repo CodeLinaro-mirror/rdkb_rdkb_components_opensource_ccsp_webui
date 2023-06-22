@@ -2302,3 +2302,10 @@ label[for="network_name"], label[for="security"], label[for="network_password"] 
 	position:relative;
 	left:40px;
 }
+.modal-drop{
+	padding-top:15%;
+	overflow-y:visible;
+}
+.progress_width{
+	width: 100%
+}
