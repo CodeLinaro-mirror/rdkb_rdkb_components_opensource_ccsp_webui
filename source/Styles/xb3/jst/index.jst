@@ -93,7 +93,7 @@ else
 }
 $lanMode = $DeviceControl_value['lanMode'];
 $psmMode = $DeviceControl_value['psmMode'];
-/*-------- redirection logic - uncomment the code below while checking in --------*/
+/*-------- redirection logic --------*/
 	//$LanGwIPv4
 	$LanGwIPv4 = $DeviceControl_value['LanGwIPv4'];
 	//$LanGwIPv6
@@ -109,7 +109,11 @@ $psmMode = $DeviceControl_value['psmMode'];
 			$LanGwIPv6 = $ipv6addr;
 		}
 	}
-	//$LanGwIPv6 Scope:Global
+	//$LanGwIPv6
+	$LanGwIP = [];
+	$LanGwIP['localAddr'] = '';
+	$LanGwIP['globalAddr'] = '';
+	$LanGwIP['ulaAddr'] = '';
 	if(strpos($partnerId, "sky-") !== false) {
 		$lan_ip = [];
 		$bin = exec("which ifconfig");
@@ -117,15 +121,17 @@ $psmMode = $DeviceControl_value['psmMode'];
 		$out = exec($xbin+" brlan0");
 		for($k in $out){
 			$v = $out[$k];
-			if (strpos($v, 'inet6 addr: 2')){
+			if (strpos($v, 'inet6 addr')){
 				$tmp = explode('Scope', $v);
 				$tmp = explode('addr:', $tmp[0]);
 				$tmp = explode('%', $tmp[1]);
 				$tmp = explode('/', $tmp[0]);
-				$lan_ip.push(trim($tmp[0]));
+				if(strpos($v, 'inet6 addr: fe80')) $LanGwIP['localAddr'] = trim($tmp[0]);
+				else if(strpos($v, 'inet6 addr: 2')) $LanGwIP['globalAddr'] = trim($tmp[0]);
+				else $LanGwIP['ulaAddr'] = trim($tmp[0]);
 			}
 		}
-		$LanGwIPv6 = $lan_ip.pop();
+		$LanGwIPv6 = $LanGwIP['ulaAddr'];
 	}
 function wan_status(){
 	$wan_connection=false;
