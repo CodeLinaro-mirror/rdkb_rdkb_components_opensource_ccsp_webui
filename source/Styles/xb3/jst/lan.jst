@@ -133,6 +133,8 @@ $(document).ready(function() {
 		$ids = array("1", "2", "3", "4");
 	}*/
 
+	$wanManagerVersion = getStr("Device.X_RDK_WanManager.Version");
+
 	$ModelName = getStr("Device.DeviceInfo.ModelName");
 	if($ModelName == "SR213") $idx = {1:"2", 2:"3", 3:"4", 4:"1", 5:"5"};
 	else $idx = {1:"1", 2:"2", 3:"3", 4:"4", 5:"5"};
@@ -147,6 +149,11 @@ $(document).ready(function() {
 
 		if($ModelName == "SR203") $ethernetUpstream = getStr("Device.Ethernet.X_RDK_Interface."+$p+".Upstream");
 		else $ethernetUpstream = getStr("Device.Ethernet.Interface."+$p+".Upstream");
+
+		if($wanManagerVersion >= 1.5) {
+			$isOfLanBridge = getStr("Device.Ethernet.X_RDK_Interface."+$p+".AddToLanBridge");
+			$ethernetUpstream = ($isOfLanBridge == "true") ? "false" : "true"  ;
+		}
 
 		if ("true" == $ethernetUpstream){
 			continue;
