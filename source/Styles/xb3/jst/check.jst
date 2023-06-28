@@ -531,7 +531,7 @@ else
 		// print_r($cm_ip);
 	}
 	function create_session(){
-		session_start();
+		session_create();
                 $modelName= getStr("Device.DeviceInfo.ModelName");
                 if (($modelName != "CGM4140COM") && ($modelName != "CGM4331COM") && ($modelName != "TG1682G") && ($modelName != "CGA4131COM") && ($modelName != "CGA4332COM") && ($modelName != "CGM4981COM")) { 
                     // session IP binding
