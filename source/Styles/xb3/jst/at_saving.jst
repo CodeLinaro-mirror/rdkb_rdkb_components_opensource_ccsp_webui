@@ -16,7 +16,8 @@
 ?>
 <?%
 include("includes/php.jst");
-include("includes/header.jst");
+include('includes/utility.jst'); 
+include('includes/header.jst');
 include('csrfprotector.jst');
 session_start();
 csrfProtector.init();
