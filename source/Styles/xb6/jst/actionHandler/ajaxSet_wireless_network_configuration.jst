@@ -126,8 +126,7 @@ else
 			$apply_id = (1 << intval($ssid)-1);
 			$apply_rf = (2  - intval($ssid)%2);
 		}
-		setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
-                setStr("Device.WiFi.ApplyRadioSettings","true",true);
+		setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
 	}
         $channel = getStr("Device.WiFi.Radio."+$r+".AutoChannelEnable");
 	if ("save_config" == $arConfig['target'])
@@ -258,13 +257,12 @@ else
 				}
 				*/
 				setStr("Device.WiFi.Radio."+$r+".Enable", $arConfig['radio_enable'], false);
-				setStr("Device.WiFi.ApplyRadioSettings", "true", true);
-                                setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+				setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
 				// MiniApplySSID($i);	// if enable or disable this radio, no need to assign an SSID
 			}
 			else if($_SESSION["loginuser"] == "admin" && strpos($partnerId, "sky-") !== false){
 				setStr("Device.WiFi.Radio."+$r+".Enable", $arConfig['radio_enable'], false);
-				setStr("Device.WiFi.ApplyRadioSettings", "true", true);
+				setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
 			}
 		}
 		else if ("wps_enabled" == $arConfig['sub_target'] && $Radio_Enable) {
