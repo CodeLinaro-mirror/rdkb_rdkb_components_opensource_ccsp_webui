@@ -338,11 +338,10 @@ function alertLoc(msg){
 </head>
 <script type="text/javascript">
 function isIE() {
-  ua = navigator.userAgent;
-  /* MSIE used to detect old browsers and Trident used to newer ones*/
-  var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
-  
-  return is_ie; 
+	ua = navigator.userAgent;
+	/* MSIE used to detect old browsers and Trident used to newer ones*/
+	var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+	return is_ie;
 }
 	$(document).ready(function() {
 	var locale=$('#locale').val();
@@ -641,6 +640,10 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
 				}
 			}
 		}
+	}
+	$voice_dev = getStr('Device.DeviceInfo.SoftwareVersion');
+	if((strpos($voice_dev, "_DEV_") === false) && (strstr($_SERVER['SCRIPT_FILENAME'], "Voip_"))){
+		echo( '<script type="text/javascript">alertLoc("Access Denied!"); history.back(); </script>');
 	}
 ?>
 
