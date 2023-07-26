@@ -799,13 +799,12 @@ function remote_access_block(){
 			<span id="remmess2">Remote Management Address (IPv6):</span>
 			<?%
 				/* Fiber devices use brlan0 ipv6 address */
-				$fistDSif = "";
 				if ((get_wan_type() == "DSL" && strpos($partnerId, "sky-") !== false)) {
-					$fistDSif = getFirstDownstreamIpInterface();
+					$fistUSif = getFirstDownstreamIpInterface();
 				}
-				$ids = explode(",", getInstanceIds($fistDSif+"IPv6Address."));
+				$ids = explode(",", getInstanceIds($fistUSif+"IPv6Address."));
 				for(var $keytmp in $ids) { $i=$ids[$keytmp];/*p2j-foreach*/
-					$val = getStr($fistDSif+"IPv6Address."+$i+".IPAddress");
+					$val = getStr($fistUSif+"IPv6Address."+$i+".IPAddress");
 					if (!strstr($val, "fe80::")){
 						echo( $val);
 						break;
