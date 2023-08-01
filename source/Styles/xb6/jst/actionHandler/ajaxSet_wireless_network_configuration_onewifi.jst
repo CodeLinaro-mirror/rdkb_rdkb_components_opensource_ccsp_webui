@@ -477,11 +477,11 @@ else
 					}
 					setStr("Device.WiFi.AccessPoint."+$i+".X_CISCO_COM_MACFilter.Enable", $filter_enable, false);
 					setStr("Device.WiFi.AccessPoint."+$i+".X_CISCO_COM_MACFilter.FilterAsBlackList", $filter_block, true);	
-					//Saving ACL should not set ApplySetting
-					 setStr("Device.WiFi.ApplyRadioSettings", "true", true);
-                                         setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
 					// echo $i;
 				}
+				//Saving ACL should not set ApplySetting
+				setStr("Device.WiFi.ApplyRadioSettings", "true", true);
+                                setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
 				//For WECB
 				setStr("Device.MoCA.X_CISCO_COM_WiFi_Extender.X_CISCO_COM_SSID_Updated", "true", true);
 			}
