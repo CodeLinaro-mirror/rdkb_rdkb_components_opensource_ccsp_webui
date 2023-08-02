@@ -35,6 +35,7 @@
 #######################################################################
 
 source /lib/rdk/t2Shared_api.sh
+source /etc/device.properties
 
 #WEBGUI_SRC=/fss/gw/usr/www/html.tar.bz2
 #WEBGUI_DEST=/var/www
@@ -61,6 +62,7 @@ if [ -z $1 ] && [ ! -f /tmp/webuifwbundle ]; then
     fi
 fi
 
+if [ "x$BOX_TYPE" != "xrpi" ]; then
 #upstreamed webgui_script_https_support.patch to Secure webui redirection as part of RDKB-42686.
 mkdir -p /tmp/.webui/
 ID="/tmp/trpfizyanrln"
@@ -96,11 +98,10 @@ if [ ! -f /tmp/trpfizyanrln ];then
 	echo "Error: Lighttpd key is not generated"
 	exit 1
 fi
-
+fi
 
 # start lighttpd
 source /etc/utopia/service.d/log_capture_path.sh
-source /etc/device.properties
 # setup non-root related file-permission for lighttpd
 touch /rdklogs/logs/lighttpderror.log
 chown non-root:non-root /rdklogs/logs/lighttpderror.log
