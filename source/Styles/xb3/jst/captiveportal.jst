@@ -1130,12 +1130,11 @@ $("#f_i_option1").click(function(){
 				</tr>
 			</table>
 			<hr>
-			<?% $SMSsupport = ($personalization_value["SMSsupport"] == 'true') ? 'block' : 'none' ; ?>
-			<div style="display: <?% echo( $SMSsupport); ?>">
+			<div <?% if($personalization_value["SMSsupport"] == 'true') {echo( 'class=" portal block_display"'); } else {echo( 'class=" portal hidden"');}?> >
 				<p class="captive_self_text">
 				<?% echo( $lang["send_ur_self_text"]); ?>
 				</p>
-				<div id="text_sms" style="display: <?% echo( $SMSsupport); ?>">
+				<div id="text_sms" <?% if($personalization_value["SMSsupport"] == 'true') {echo('class=" portal block_display"');} else {echo('class=" portal hidden"');}?>>
 					<p class="captive_mobilenum"><?% echo( $lang["your_mobile_number"]); ?></p>
 					<input id="phoneNumber" type="text" placeholder="1(  )  -  " class="">
 					<div id="phoneNumberContainer" class="container captive_margin hidden">
