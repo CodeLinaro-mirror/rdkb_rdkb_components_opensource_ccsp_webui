@@ -253,12 +253,10 @@ function showDialog() {
 		$("#security").change();
 	});
 }
-
 function restyle_div(){
         $('#pageForm > div').removeClass("odd");
         $('#pageForm > div:visible:even').addClass("odd");
 }
-
 	var fromOther;
 $(document).ready(function() {
     gateway.page.init("Gateway > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
@@ -290,7 +288,13 @@ $(document).ready(function() {
 	});
 	init_form();
 	fromOther = false;
-	$(":radio[name='channel']").change(function() {		//alert("hahaha");
+	$(":radio[name='channel']").change(function() {
+		if((partner_id.indexOf('sky-')===0) && (MeshEnable=="false")){
+			if($("#channel_automatic").is(":checked"))
+				$('input[name=channel_bandwidth]').prop("disabled", true);
+			else
+				$('input[name=channel_bandwidth]').prop("disabled", false);
+		}
 		if ($("#channel_automatic").is(":checked") || (MeshEnable=="true")) {
 			$("#channel_number").prop("disabled", true);
 			$("#channel_number").hide();
@@ -622,6 +626,13 @@ wpa2psk ==> 8 to 63 Ascii characters
     });
     if(MeshEnable == 'true'){
     	$('#channel_number,input[name=channel_bandwidth]').prop("disabled", true);
+    }
+    else{
+        if(partner_id.indexOf('sky-')===0){
+            if('<?% echo($channel_automatic); ?>' == 'true'){
+                $('input[name=channel_bandwidth]').prop("disabled", true);
+            }
+        }
     }
 	//for Mesh WiFi integration
 	if($Mesh_Mode == 'true'){

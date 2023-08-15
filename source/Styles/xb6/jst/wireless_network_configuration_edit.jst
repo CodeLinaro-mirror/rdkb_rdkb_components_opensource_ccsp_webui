@@ -301,7 +301,7 @@ $(document).ready(function() {
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
 	var radio_check = '<?% echo( $radio_band); ?>';
-	var partner_ID = '<?% echo ($partnerId);?>';
+	var partner_id = '<?% echo ($partnerId);?>';
 	var modelName = '<?% echo($modelName); ?>';
 	var platformSupported  = "<?% echo($platformSupported); ?>";
 
@@ -328,7 +328,13 @@ $(document).ready(function() {
 	});
 	init_form();
 	fromOther = false;
-	$(":radio[name='channel']").change(function() {		//alert("hahaha");
+	$(":radio[name='channel']").change(function() {
+		if((partner_id.indexOf('sky-')===0) && (MeshEnable=="false")){
+			if($("#channel_automatic").is(":checked"))
+				$('input[name=channel_bandwidth]').prop("disabled", true);
+			else
+				$('input[name=channel_bandwidth]').prop("disabled", false);
+		}
 		if ($("#channel_automatic").is(":checked") || (MeshEnable=="true")) {
 			$("#channel_number").prop("disabled", true);
 			$("#channel_number").hide();
@@ -594,7 +600,7 @@ $(document).ready(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
 		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
-	if(partner_ID.indexOf('sky-')===0)
+	if(partner_id.indexOf('sky-')===0)
 	{
 		if (!$("#channel_bandwidth203").prop("checked")) {
 			//40MHz
@@ -771,7 +777,14 @@ wpa2psk ==> 8 to 63 Ascii characters
     	$("#channel_bandwidth3").prop("disabled", true);
     }
     if(MeshEnable == 'true'){
-	$('#channel_number,input[name=channel_bandwidth]').prop("disabled", true);
+    	$('#channel_number,input[name=channel_bandwidth]').prop("disabled", true);
+    }
+    else{
+        if(partner_id.indexOf('sky-')===0){
+            if('<?% echo($channel_automatic); ?>' == 'true'){
+                $('input[name=channel_bandwidth]').prop("disabled", true);
+            }
+        }
     }
 	//for Mesh WiFi integration
 	if($Mesh_Mode == 'true'){
@@ -1205,7 +1218,7 @@ function setResetInfo(info) {
 		<input name="path" id="path7" type="radio" value="WPA3-Personal Transition"><b>WPA3-Personal Transition (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. </span><br> 
 		<input name="path" id="path8" type="radio" value="WPA3-Personal Only"><b >WPA3-Personal Only</b><br>
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" ><b>WPA2-PSK (AES) </b><br>
-		 <?%
+		<?%
                 }else{
 		?>
 		<input name="path" id="path2" type="radio" value="WPA2_PSK_AES" checked="checked"><b>WPA2-PSK (AES) (Recommended)</b><br><span>This is the recommended and default option as this mode gives best WiFi performance and optimum security. Older Wi-Fi devices which doesn't support WPA2 and AES encryption will be unable to connect to your Wi-Fi network in this mode.</span><br>

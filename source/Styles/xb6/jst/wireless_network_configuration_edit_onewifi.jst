@@ -113,7 +113,7 @@ $wifi_param = {
 	"channel_number"	: "Device.WiFi.Radio."+$rf+".Channel",
 	"network_password"	: "Device.WiFi.AccessPoint."+$id+".Security.X_COMCAST-COM_KeyPassphrase",
 	"broadcastSSID"		: "Device.WiFi.AccessPoint."+$id+".SSIDAdvertisementEnabled",
-	"enableWMM"			: "Device.WiFi.AccessPoint."+$id+".WMMEnable",
+	"enableWMM"		: "Device.WiFi.AccessPoint."+$id+".WMMEnable",
 	"channel_bandwidth"	: "Device.WiFi.Radio."+$rf+".OperatingChannelBandwidth",
 	"ext_channel"		: "Device.WiFi.Radio."+$rf+".ExtensionChannel",
 	"network_pass_64"	: "Device.WiFi.AccessPoint."+$id+".Security.X_CISCO_COM_WEPKey64Bit.1.WEPKey",
@@ -246,7 +246,7 @@ function showDialog() {
 	$.virtualDialog({
 		title: $.i18n("Wi-Fi Security Modes"),
 		content: $("#pop_dialog"),
-		footer: '<input id="pop_cancel" type="button" value='+$.i18n("Cancel")+' class="pop_btn"/><input id="pop_ok" type="button" value='+$.i18n("Apply")+' class="pop_btn" />',
+		footer: '<input id="pop_cancel" type="button" value='+$.i18n("Cancel")+' class="pop_btn"/><input id="pop_ok" type="button" value='+$.i18n("Apply")+' class="pop_btn"/>',
 		width: "600px"
 	});
 	//disable wep if 11n
@@ -311,7 +311,7 @@ $(document).ready(function() {
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
 	var radio_check = '<?% echo( $radio_band); ?>';
-	var partner_ID = '<?% echo ($partnerId);?>';
+	var partner_id = '<?% echo ($partnerId);?>';
 	var modelName = '<?% echo($modelName); ?>';
 	var platformSupported  = "<?% echo($platformSupported); ?>";
 
@@ -338,7 +338,13 @@ $(document).ready(function() {
 	});
 	init_form();
 	fromOther = false;
-	$(":radio[name='channel']").change(function() {		//alert("hahaha");
+	$(":radio[name='channel']").change(function() {
+		if((partner_id.indexOf('sky-')===0) && (MeshEnable=="false")){
+			if($("#channel_automatic").is(":checked"))
+				$('input[name=channel_bandwidth]').prop("disabled", true);
+			else
+				$('input[name=channel_bandwidth]').prop("disabled", false);
+		}
 		if ($("#channel_automatic").is(":checked") || (MeshEnable=="true")) {
 			$("#channel_number").prop("disabled", true);
 			$("#channel_number").hide();
@@ -368,7 +374,6 @@ $(document).ready(function() {
 	$security_val = '<?% echo( $security); ?>';
 	var password_mso_user = '<?% echo( $password_mso_user); ?>';
 	$("#security").change(function() {
-	
 		if ("more" == $("#security").val()) {
 			// only private(1,2) SSID have show-more option
 			showDialog();
@@ -511,7 +516,7 @@ $(document).ready(function() {
 			$("#netPassword-footnote").text($("option:selected", $(this)).attr("title"));
 		}
 		var pwd_mso=JSON.parse(password_mso_user);
-                if(!pwd_mso){
+		if(!pwd_mso){
 			$('#password_check').click(function() {
 				$("#network_password").prop("disabled", !(this.checked));
 			});
@@ -523,9 +528,9 @@ $(document).ready(function() {
 		$("#security").find("[value^='WEP'],[value='None']").prop('disabled',true);
 		fromOther = false;
     	});
-        if("None" == $("#security").val()) {
-          $("#network_password").val("");
-        }
+	if("None" == $("#security").val()) {
+		$("#network_password").val("");
+	}
 	var pwd_mso=JSON.parse(password_mso_user);
 	if(!pwd_mso && "None" == $("#security").val()){
 		$("#div_change_password").hide();
@@ -605,7 +610,7 @@ $(document).ready(function() {
 		//enable all channel first
 		$("#channel_number option").prop("disabled", false);
 		//disable some channel as per extension channel when NOT 20MHz in 5G (2.4G able to set channel and extension channel together)
-	if(partner_ID.indexOf('sky-')===0)
+	if(partner_id.indexOf('sky-')===0)
 	{
 		if (!$("#channel_bandwidth203").prop("checked")) {
 			//40MHz
@@ -685,10 +690,8 @@ $(document).ready(function() {
 		if(ret) {
 			setResetInfo(info);
 		}
-		});	
-	});	
-
-//zqiu <<	
+		});
+	});
 /*
  *  Manage password field: open wep networks don't use passwords
  */
@@ -784,7 +787,14 @@ wpa2psk ==> 8 to 63 Ascii characters
     	$("#channel_bandwidth3").prop("disabled", true);
     }
     if(MeshEnable == 'true'){
-	$('#channel_number,input[name=channel_bandwidth]').prop("disabled", true);
+    	$('#channel_number,input[name=channel_bandwidth]').prop("disabled", true);
+    }
+    else{
+        if(partner_id.indexOf('sky-')===0){
+            if('<?% echo($channel_automatic); ?>' == 'true'){
+                $('input[name=channel_bandwidth]').prop("disabled", true);
+            }
+        }
     }
 	//for Mesh WiFi integration
 	if($Mesh_Mode == 'true'){
@@ -1144,7 +1154,7 @@ function setResetInfo(info) {
 				<label for="channel_bandwidth5" class="acs-hide"></label>
 				<input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
 				<label for="channel_bandwidth6" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b> 
+				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
 			<?%}else{?>
 				<label for="channel_bandwidth6">Channel Bandwidth:</label>
 				<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160MHz</b>
