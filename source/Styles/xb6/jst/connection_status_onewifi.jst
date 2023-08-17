@@ -489,7 +489,8 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
             if(strpos($partnerId, "sky-") !== false){
                 $isMapT = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapTransportMode");
                 if($isMapT == 'MAPT'){
-                    $WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address")+' (Condiviso utilizzando MAP-T)';
+		    $WANIPv4 = getStr("Device.DHCPv6.Client.1.X_RDKCENTRAL-COM_RcvOption.MapIpv4Address");
+		    $WANIPv4 += '<span id="shrdMpT_cs"> (Shared using MAP-T)</span>';
                     //$WANIPv4Gateway = '-NA-';
                     $WAN_IP_Address = $WANIPv4;
                     $address_style = 'connection_address';

@@ -1116,7 +1116,7 @@ $("[id^='ethcon']").text($.i18n("Ethernet"));
 $("[id^='ipv6-addr-val']").text($.i18n("EMPTY"));
 $("#wifinet5ghz").text($.i18n("Wireless Network (Wi-Fi 5 GHz):"));
 $("#wanipv6add").text($.i18n("WAN IPv6 Address:"));
-$("[id^='shrdMpT']").text($.i18n('(Shared using MAP-T)'));
+$("[id^='shrdMpT']").text($.i18n(' (Shared using MAP-T)'));
 $("#pridnsv6").text($.i18n('Primary DNS Server (IPv6):'));
 $("[id^='deprev6']").text($.i18n('Delegated prefix (IPv6):'));
 $("#advmess1").text($.i18n("You can manage the advanced settings of your network directly from the My Sky App."));
