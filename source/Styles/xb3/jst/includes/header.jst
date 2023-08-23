@@ -629,7 +629,8 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
 	}
               
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-	if(!(strpos($partnerId, "sky-") !== false)) {
+	$voice_dev = getStr('Device.DeviceInfo.SoftwareVersion');
+	if((!(strpos($partnerId, "sky-") !== false)) || ((strpos($partnerId, "sky-") !== false) && (strpos($voice_dev, "_DEV_") === false))) {
 		$not_admin_and_mso_pages = ['Voip_Debug_GlobalParameter', 'Voip_Debug_ServiceProvider', 'Voip_SipAdvanced_ServiceProvider', 'Voip_SipBasic_GlobalParamaters', 'Voip_SipBasic_ServiceProvider', 'voip_hidden'];
 		if ($_SESSION['loginuser'] == 'admin' || $_SESSION['loginuser'] == 'mso') {
 			for ($p in $not_admin_and_mso_pages) {
@@ -640,10 +641,6 @@ $not_admin_pages = ['email_notification.jst', 'hs_port_forwarding', 'routing.jst
 				}
 			}
 		}
-	}
-	$voice_dev = getStr('Device.DeviceInfo.SoftwareVersion');
-	if((strpos($voice_dev, "_DEV_") === false) && (strstr($_SERVER['SCRIPT_FILENAME'], "Voip_"))){
-		echo( '<script type="text/javascript">alertLoc("Access Denied!"); history.back(); </script>');
 	}
 ?>
 
