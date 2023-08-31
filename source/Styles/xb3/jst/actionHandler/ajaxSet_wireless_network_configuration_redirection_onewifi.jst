@@ -94,6 +94,7 @@ if($isCaptiveMode)
 				"2" : $arConfig['network_password'],//."-5"
 			}/*p2j-array*/;
 		}
+		$flag_radio=0;
         	for($i = "1"; $i <= $RadioNumberOfEntries; $i++){
 			if(($i==3) && ($OperatingChannelBandwidth == "6GHz"))
 			{
@@ -104,10 +105,12 @@ if($isCaptiveMode)
 			$r = (2 - intval($i)%2);	//1,3,5,7 == 1(2.4G); 2,4,6,8 == 2(5G)	
 			// check if the SSID status is enabled
 			if ("false" == getStr("Device.WiFi.SSID."+$i+".Enable")){
+				$flag_radio=1;
 				setStr("Device.WiFi.Radio."+$r+".Enable", "true", true);
 			}
 			// check if the LowerLayers radio is enabled
 			if ("false" == getStr("Device.WiFi.Radio."+$r+".Enable")){
+				$flag_radio=1;
 				setStr("Device.WiFi.Radio."+$r+".Enable", "true", true);
 			}
 			setStr("Device.WiFi.SSID."+$i+".SSID", $network_name_arr[$i], true);
@@ -115,7 +118,10 @@ if($isCaptiveMode)
 			// setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_ApplySetting", "true", true);
 		}
 		setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
-		setStr("Device.WiFi.ApplyRadioSettings","true",true);
+		if($flag_radio==1){
+			sleep(2);
+			setStr("Device.WiFi.ApplyRadioSettings","true",true);
+		}
 		sleep(10);
 		$response = []/*p2j-array*/;
 		array_push($response, $arConfig['phoneNumber']);
