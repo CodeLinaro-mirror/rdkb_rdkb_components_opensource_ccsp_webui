@@ -193,7 +193,7 @@ gateway.page = function() {
             
             jConfirm(
                 message
-                ,"Are You Sure?"
+                ,"Are you sure?"
                 ,function(ret) {
                     if(ret) {
                         window.location = href;

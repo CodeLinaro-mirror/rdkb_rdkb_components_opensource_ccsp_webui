@@ -313,7 +313,7 @@ $(document).ready(function() {
 		{
 			jConfirm(
 				$.i18n("WARNING:<br/> Disabling Broadcast Network Name (SSID) will disable Wi-Fi Protected Setup (WPS) functionality. Are you sure you want to change?")
-				, $.i18n("Are You Sure?")
+				, $.i18n("Are you sure?")
 				,function(ret) {
 				if(!ret) {
 					$("#broadcastSSID").prop("checked", true)
@@ -334,7 +334,7 @@ $(document).ready(function() {
 				var security_val = $("#security").val();
 				jConfirm(
 					$.i18n("WARNING:<br/>Changing the Security Mode to Open will disable Wi-Fi Protected Setup(WPS) functionality. Are you sure you want to change?")
-					, $.i18n("Are You Sure?")
+					, $.i18n("Are you sure?")
 					,function(ret) {
 					if(!ret) {
 						$("#security").find("[value='"+ security_val +"']").remove();
@@ -504,7 +504,7 @@ $(document).ready(function() {
 		if(channel >= 52 && channel <= 140 ) {
 			jConfirm(
 				$.i18n("WARNING:<br/> You are selecting a Dynamic Frequency Selection (DFS) Channel (52-140). Some Wi-Fi devices do not support DFS channels in the 5 GHz band. For those devices that do not support DFS channels, the 5 GHz Wi-Fi Network Name (SSID) will not be displayed on the list of available networks. Do you wish to continue?")
-				, $.i18n("Are You Sure?")
+				, $.i18n("Are you sure?")
 				,function(ret) {
 					if(!ret) {
 						$("#channel_number").val('<?% echo( $channel_number); ?>').attr("selected","selected");
@@ -526,7 +526,7 @@ $(document).ready(function() {
 		var info = new Array("FactoryResetRadioAndAp", radioIndex+";"+apIndex, thisUser);
 		jConfirm(
 		message+"<br/><br/>"+$.i18n("<strong>WARNING:</strong> Wi-Fi will be unavailable for at least 30 seconds!")
-		, $.i18n("Are You Sure?")
+		, $.i18n("Are you sure?")
 		,function(ret) {
 		if(ret) {
 			setResetInfo(info);

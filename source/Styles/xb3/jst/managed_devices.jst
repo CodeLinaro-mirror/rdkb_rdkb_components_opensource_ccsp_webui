@@ -88,7 +88,7 @@ $(document).ready(function() {
 			if (btnHander.attr("id").indexOf("delete")!=-1)	{
 				jConfirm(
 					$.i18n("Are you sure you want to delete this device?")
-					,$.i18n("Are You Sure?")
+					,$.i18n("Are you sure?")
 					,function(ret) {
 						if(ret) {
 							delVal = btnHander.attr('href').substring(btnHander.attr('href').indexOf("=")+1);

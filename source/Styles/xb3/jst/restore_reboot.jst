@@ -44,7 +44,7 @@ $('#btn1').click(function(e) {
 	var info = new Array("btn1", "Device");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!')
-	, $.i18n("Are You Sure?")
+	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
@@ -58,7 +58,7 @@ $('#btn1').click(function(e) {
 				if ("Off-Hook" == msg.linexhook){
 					jConfirm(
 					$.i18n("Phone is Off-Hook, do you want to proceed anyway?")
-					, $.i18n("Are You Sure?")
+					, $.i18n("Are you sure?")
 					, function(ret){
 						if(ret){
 							setResetInfo(info);		//async
@@ -84,7 +84,7 @@ $('#btn2').click(function(e) {
 	var info = new Array("btn2", "Wifi");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Wi-Fi will be unavailable for at least 90 seconds!')
-	, $.i18n('Are You Sure?')
+	, $.i18n('Are you sure?')
 	,function(ret) {
 	if(ret) {
 		setResetInfo(info);
@@ -98,7 +98,7 @@ $('#btn3').click(function(e) {
 	var info = new Array("btn3", "Wifi,Router");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Wi-Fi will be unavailable for at least 90 seconds!')
-	, $.i18n("Are You Sure?")
+	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
 		setResetInfo(info);
@@ -112,7 +112,7 @@ $('#btn4').click(function(e) {
 	var info = new Array("btn4", "Wifi");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Wi-Fi will be unavailable for at least 90 seconds!')
-	, $.i18n("Are You Sure?")
+	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
 		setResetInfo(info);
@@ -126,7 +126,7 @@ $('#btn5').click(function(e) {
 	var info = new Array("btn5", "Router,Wifi,VoIP,Dect,MoCA");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!')
-	, $.i18n("Are You Sure?")
+	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
 		jProgress($.i18n("Check telephony line status, please wait..."), 60);
@@ -140,7 +140,7 @@ $('#btn5').click(function(e) {
 				if ("Off-Hook" == msg.linexhook){
 					jConfirm(
 					$.i18n("Phone is Off-Hook, do you want to proceed anyway?")
-					, $.i18n("Are You Sure?")
+					, $.i18n("Are you sure?")
 					, function(ret){
 						if(ret){
 							setResetInfo(info);		//async
@@ -166,7 +166,7 @@ $('#btn6').click(function(e) {
 	var info = new Array("btn6", "password");
 	jConfirm(
 	message
-	, $.i18n("Are You Sure?")
+	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
 		setResetInfo(info);

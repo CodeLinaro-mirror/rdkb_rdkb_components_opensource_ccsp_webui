@@ -47,7 +47,7 @@ function decodeHTMLEntities (text) {
   })
 }
 	$("#showlogs").click(function() {
-		jConfirm($.i18n("This action may take more than one minute. Do you want to continue?"), $.i18n("Are You Sure?"), function(ret){
+		jConfirm($.i18n("This action may take more than one minute. Do you want to continue?"), $.i18n("Are you sure?"), function(ret){
 			if(ret){
 				jProgress($.i18n("This may take several seconds."), 180);
 				$.ajax({

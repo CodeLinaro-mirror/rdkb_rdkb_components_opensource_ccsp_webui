@@ -776,7 +776,7 @@ $(document).ready(function() {
 		if($(this).val() == "b,g,n") {
 			jConfirm(
 				$.i18n("WARNING:<br/> Changing the Wi-Fi mode to '802.11 b/g/n' will significantly reduce the performance of your Wi-Fi network. This setting is required only if you have older 'b only' Wi-Fi devices in your network. All newer Wi-Fi devices support '802.11 g/n' mode. Are you sure you want to continue with the change?")
-				, $.i18n('Are You Sure?')
+				, $.i18n('Are you sure?')
 				,function(ret) {
 					if(!ret) {
 						$("#wireless_mode").val('<?% /*echo( $wireless_mode);*/ ?>').attr("selected","selected");
@@ -949,7 +949,7 @@ $(document).ready(function() {
 			{
 				jConfirm(
 					"WARNING:<br/> Changing MAC Filtering Mode to Allow or Deny will disable Wi-Fi Protected Setup (WPS) functionality. Are you sure you want to change?"
-					, "Are You Sure?"
+					, "Are you sure?"
 					,function(ret) {
 					if(!ret) {
 						$("#filtering_mode").val("allow_all")
@@ -1024,7 +1024,7 @@ $(document).ready(function() {
 		if(channel >= 52 && channel <= 140 ) {
 			jConfirm(
 				$.i18n("WARNING:<br/> You are selecting a Dynamic Frequency Selection (DFS) Channel (52-140). Some Wi-Fi devices do not support DFS channels in the 5 GHz band. For those devices that do not support DFS channels, the 5 GHz Wi-Fi Network Name (SSID) will not be displayed on the list of available networks. Do you wish to continue?")
-				, $.i18n('Are You Sure?')
+				, $.i18n('Are you sure?')
 				,function(ret) {
 					if(!ret) {
 						$("#channel_number1").val('<?% echo( $channel_number1); ?>').attr("selected","selected");
@@ -1238,7 +1238,7 @@ function del_row(row)
 {
 	jConfirm(
 		$.i18n('Are you sure you want to delete this entry from Wi-Fi Control List?')
-		, $.i18n('Are You Sure?')
+		, $.i18n('Are you sure?')
 		,function(ret) {
 			if(ret) {
 				var idex = row.parentNode.parentNode.rowIndex;
@@ -1358,7 +1358,7 @@ function save_enable(sub_target)
 	if(partner_id.indexOf('sky-')===0){
 		if(!radio_enable){
 			var warningMsg=$.i18n("Warning: Please note that disabling the radio(s) might interrupt with your data and video services. It is recommended to keep the Wi-Fi radios ON for uninterrupted access to your subscribed services. To cancel these changes, choose cancel below.");
-			jConfirm(warningMsg,$.i18n('Are You Sure?'),function(ret){
+			jConfirm(warningMsg,$.i18n('Are you sure?'),function(ret){
 			if(ret){
 				var jsConfig = '{"radio_enable":"'+radio_enable+'", "wps_method":"'+wps_method
 						+'", "target":"'+"save_enable"+'", "sub_target":"'+sub_target+'", "ssid_number":"'+ssid_number+'"}';
