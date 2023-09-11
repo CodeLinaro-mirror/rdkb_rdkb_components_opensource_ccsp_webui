@@ -33,7 +33,17 @@ $arConfig = json_decode($jsConfig, true);
 $thisUser = $_SESSION["loginuser"];
 if($thisUser=="admin"){
 	if($autoWanEnable=="true"){
-		setStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode", $arConfig['wan_network'], true);
+		if(getStr("Device.X_RDK_WanManager.Version") < 1.5){
+			setStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode", $arConfig['wan_network'], true);
+		}
+		else {
+			var set_interface = ["true", "true", "true"];
+			if($arConfig["wan_network"] == "DOCSIS") set_interface[1] = "false";
+			else if($arConfig['wan_network'] == "Ethernet") set_interface[0] = "false";
+			setStr("Device.X_RDK_WanManager.Interface.1.Selection.Enable", set_interface[0], true);
+			setStr("Device.X_RDK_WanManager.Interface.2.Selection.Enable", set_interface[1], true);
+			setStr("Device.X_RDK_WanManager.Group.1.ResetSelectedInterface", set_interface[2], true);
+		}
 	}else{
 		setStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled", $arConfig['wan_network'], true);
 	}
