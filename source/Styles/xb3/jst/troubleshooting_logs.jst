@@ -40,7 +40,19 @@ $(document).ready(function() {
 	$('.print').prop("disabled",true).addClass("disabled");
 	$('.downloadbtn').prop("disabled",true).addClass("disabled");
 	$('.print').click(function() {
-    		window.print();
+    		var mode=$("select#log_type").val();
+                var timef=$("select#time_frame").val();
+                var $table = $('#'+mode+'_logs_'+timef2);
+                var numOfRows = $table.find('tbody tr').length;
+                $table.comcastPaginator({ entriesInPage: numOfRows+1});
+                if(numOfRows<=20){
+			$('#comcastPaginator').remove();
+		}
+                window.print();
+                $table.comcastPaginator();
+                if(numOfRows<=20){
+			$('#comcastPaginator').remove();
+		}
 	});
 	$("#showlogs").click(function() {
 		var mode=$("select#log_type").val();
