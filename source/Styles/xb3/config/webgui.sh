@@ -62,7 +62,7 @@ if [ -z $1 ] && [ ! -f /tmp/webuifwbundle ]; then
     fi
 fi
 
-if [ "x$BOX_TYPE" != "xrpi" ]; then
+if [ "x$BOX_TYPE" != "xrpi" ] && [ "x$BOX_TYPE" != "xturris" ]; then
 #upstreamed webgui_script_https_support.patch to Secure webui redirection as part of RDKB-42686.
 mkdir -p /tmp/.webui/
 ID="/tmp/trpfizyanrln"
