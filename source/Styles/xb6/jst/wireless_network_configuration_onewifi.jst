@@ -329,12 +329,6 @@ $mac_address17		=$wifi6_value['mac_address17'];
 
 $radioband3            	= (typeof($feq_band3)=="undefined") ? "6" :  (strstr($feq_band3,"6G")) ? "6" : "5";
 $feq_band3              = (typeof($feq_band3)=="undefined") ? "6 GHz" : (strstr($feq_band3,"6G")) ? "6 GHz" : "5 GHz";
-
-//Eco Mode
-if($modelName == 'SR213'){
-	if(getStr("Device.WiFi.Radio.3.X_RDK_EcoPowerDown") == "true") $radio_enable3 = "false";
-}
-
 }
 if(($OperatingChannelBandwidth == "6GHz") && (strpos($partnerId, "sky-") === false))
 $possible_channels3 = "5,37,69,101,133,165,197";

@@ -47,8 +47,7 @@ if(!($_GET['id'] == 1 || $_GET['id'] == 2 || $_GET['id'] == 17)){
 $modelName= getStr("Device.DeviceInfo.ModelName");
 if($modelName == 'SR213'){
 	if(((getStr("Device.WiFi.Radio.1.X_RDK_EcoPowerDown") == "true") && ($_GET['id'] == 1)) ||
-	   ((getStr("Device.WiFi.Radio.2.X_RDK_EcoPowerDown") == "true") && ($_GET['id'] == 2)) ||
-	   ((getStr("Device.WiFi.Radio.3.X_RDK_EcoPowerDown") == "true") && ($_GET['id'] == 17))){
+	   ((getStr("Device.WiFi.Radio.2.X_RDK_EcoPowerDown") == "true") && ($_GET['id'] == 2))){
 		echo( '<script type="text/javascript">location.href="wireless_network_configuration.jst";</script>');
 		exit(0);
 	}
