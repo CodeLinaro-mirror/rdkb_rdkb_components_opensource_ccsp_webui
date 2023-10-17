@@ -73,7 +73,8 @@ if (isset($_POST['add'])){
 		if (getStr("Device.NAT.X_CISCO_COM_PortTriggers.TriggerNumberOfEntries")==0 && $result=="") {
 			addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
 			$IDs=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
-			$i=$IDs[count($IDs)-1];
+			for($key in $IDs) { $i=$IDs[$key];/*p2j-foreach*/
+                          if($i!=""){
 			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerPortStart",$fsp,false);//from start port
 			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerPortEnd",$fep,false);
 			// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerProtocol",$type,false);
@@ -96,6 +97,7 @@ if (isset($_POST['add'])){
 				];
 			$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);
 			if (!$retStatus){$result="Success!";}
+                        }}
 			// echo json_encode("Success!");
 		} else {
 			//$result="";
@@ -126,7 +128,8 @@ if (isset($_POST['add'])){
 			if ($result=="") {
 				addTblObj("Device.NAT.X_CISCO_COM_PortTriggers.Trigger.");
 				$IDs=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
-				$i=$IDs[count($IDs)-1];
+				for($key in $IDs) { $i=$IDs[$key];/*p2j-foreach*/
+                                  if($i!=""){
 				// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerPortStart",$fsp,false);//from start port
 				// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerPortEnd",$fep,false);
 				// setStr("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."+$i+".TriggerProtocol",$type,false);
@@ -151,6 +154,7 @@ if (isset($_POST['add'])){
 				$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);	
 				if (!$retStatus){$result="Success!";}
 			}
+                        }}
 			// echo json_encode($result);
 		}
 	}
