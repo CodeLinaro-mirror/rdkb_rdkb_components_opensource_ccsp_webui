@@ -29,7 +29,7 @@
 <?%
 	if("admin" == $_SESSION["loginuser"] && !$_POST["userPassword"]){
 		echo( '<script type="text/javascript"> alert("Please finish Wizard - Step 1 first."); window.location = "wizard_step1.jst";</script>');
-		exit;
+		exit(0);
 	}
 ?>
 <?%
@@ -64,7 +64,7 @@
         $radioband1             = (strstr($freq_band,"5G")) ? "5" : "2.4";
         $radioband2             = (strstr($freq_band1,"5G")) ? "5" : "2.4";    
 	$ret = init_psmMode("Gateway > Home Network Wizard - Step 2", "nav-wizard");
-	if ("" != $ret){echo( $ret);	exit;}
+	if ("" != $ret){echo( $ret);	exit(0);}
 	//get DefaultSSID & DefaultKeyPassphrase
 	$defaultSSID1		= $wifi_value['defaultSSID1'];
 	$defaultKeyPassphrase1	= $wifi_value['defaultKeyPassphrase1'];

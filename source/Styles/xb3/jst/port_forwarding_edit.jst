@@ -69,7 +69,7 @@ $DeviceMode = $devices_value["DeviceMode"]; //getStr("Device.X_CISCO_COM_DeviceC
 $internalPort	= $portmapping_value["internalPort"];
 if($internalPort != '0') {
 	echo( '<script type="text/javascript">location.href="port_forwarding.jst";</script>');
-	exit;
+	exit(0);
 }
 //$DeviceMode = "IPv6";
 //2040::/64, 2040:1::/64, 2040:1:2::/64 and 2040:1:2:3::/64

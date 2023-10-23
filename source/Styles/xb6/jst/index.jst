@@ -120,7 +120,7 @@ if(!$isMSO) {
                                	else {
                                        	header('Location:http://'+$ip_addr+'/no_rf_signal.jst');
                                	}
-                         exit;
+				exit(0);
                        	}
                 }
                 if(!strcmp($CONFIGUREWIFI, "true")) {
@@ -130,7 +130,7 @@ if(!$isMSO) {
                        	else {
                           	header('Location:http://'+$ip_addr+'/captiveportal.jst');
                        	}
-                       	exit;
+			exit(0);
                 }else{
                         if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
                                 $webuiIsEnabled="false";

@@ -140,7 +140,7 @@
 
 	if(!(($personalization_value["Support"] == "true") && ($CaptivePortalEnable == "true") && ($CONFIGUREWIFI == "true") && !$isMSO )) {
 		header('Location:index.jst');
-		exit;
+		exit(0);
 	}
 	//WiFi Defaults are same for 2.4Ghz and 5Ghz
 	$wifi_param = {

@@ -46,7 +46,7 @@ $Private_Ports		= $portMapping_value["Private_Ports"];
 $Enable_Port_Range	= $portMapping_value["Enable_Port_Range"];
 if($Private_Ports == '0') {
 	echo( '<script type="text/javascript">location.href="hs_port_forwarding.jst";</script>');
-	exit;
+	exit(0);
 }
 
 ?>

@@ -192,7 +192,7 @@ function isLocalIPv6($url){
 				else {
 					header('Location:http://'+$ip_addr+'/no_rf_signal.jst');
 				}
-				exit;
+				exit(0);
 			}
 			if((strpos($partnerId, "sky-") !== false)&&(!wan_status())&&(strcmp($url, $LocFqdn)!=0)){
 				$LanGwIPv6 = '['+$LanGwIPv6+']';
@@ -202,7 +202,7 @@ function isLocalIPv6($url){
 					header('Location:http://'+$ip_addr+'/sky_self_heal_index.jst');
 				else
 					header('Location:http://'+$LanGwIPv6+'/sky_self_heal_index.jst');
-				exit;
+				exit(0);
 			}
 		}
 		if(!strcmp($CONFIGUREWIFI, "true")) {
@@ -212,7 +212,7 @@ function isLocalIPv6($url){
 			else {
 				header('Location:http://'+$ip_addr+'/captiveportal.jst');
 			}
-			exit;
+			exit(0);
 		}else{
                         if(($webuiEnabled == "Disable") || ($webuiEnabled == "MSOonly")){
                                 $webuiIsEnabled="false";
