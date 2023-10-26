@@ -608,7 +608,7 @@ $("#f_i_option1").click(function(){
 			$(wiFiNameField).addClass("error").removeClass("success");
 			messageHandler("name", "<?% echo( $lang["lets_try_again"]); ?>", "<?% echo( $lang["name_cannot_space"]); ?>");
 		}
-		else if("<?% echo( $network_name);?>".toLowerCase() == val.toLowerCase()){
+		else if("<?% echo( $network_name1);?>".toLowerCase() == val.toLowerCase()){
 			goNextName = false;
 			$(wiFiNameField).addClass("error").removeClass("success");
 			messageHandler("name", "<?% echo( $lang["lets_try_again"]); ?>",  "<?% echo( $lang["choose_diff"]); ?>");
