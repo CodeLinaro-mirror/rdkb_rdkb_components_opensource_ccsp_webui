@@ -798,7 +798,7 @@ for($i=1;$i<$ds_tab.length;$i++){
 	</tbody>
 	</table>
 </div>
-<?% if (getStr("Device.X_CISCO_COM_CableModem.DownstreamChannel.1.ChannelID")) echo('<div class="form-row "><b><i><span class="readonlyLabel";font-weight:bold;>'+'*Channel ID '+$ds_tab[1]['ChannelID']+' is the Primary channel'+'</span></i></b></div>');?> 
+<?% if (count($ds_tab) > 0) echo('<div class="form-row "><b><i><span class="readonlyLabel";font-weight:bold;>'+'*Channel ID '+$ds_tab[1]['ChannelID']+' is the Primary channel'+'</span></i></b></div>');?>
 <?%
 $us_obj = "Device.X_CISCO_COM_CableModem.UpstreamChannel.";
 $us_val = DmExtGetStrsWithRootObj($us_obj, [$us_obj]/*p2j-array*/);
@@ -896,7 +896,7 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	<tbody>
 		<tr class="">
 	    <th class="row-label ">Channel ID</td>
-	    <?% for ($i=1; $i<count($ec_ids); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
+	    <?% for ($i=1; ($i<count($ec_ids)) && (count($ds_tab) > 0); $i++) echo( '<td><div class="netWidth">'+$ds_tab[$i]['ChannelID']+'</div></td>');?>
 	</tr>
 	<tr class="odd">
 			<th class="row-label ">Unerrored Codewords</td>
