@@ -306,7 +306,16 @@ function sec2dhms($sec)
 	<div class="form-row">
 		<span class="readonlyLabel" id="wanmac">WAN MAC:</span>
 		<span class="value">
-			<?% echo( strtoupper(getStr(getStr(getStr($fistUSif+"LowerLayers")+".LowerLayers")+".MACAddress"))); ?>
+			<?%
+				$l2_iface = getStr($fistUSif+"LowerLayers");
+				$l1_iface = getStr($l2_iface+".LowerLayers");
+				if ($l1_iface) {
+					echo(strtoupper(getStr($l1_iface+".MACAddress")));
+				}
+				else {
+					echo(strtoupper(getStr($l2_iface+".MACAddress")));
+				}
+			?>
 		</span>
 	</div>
 </div>
