@@ -166,6 +166,11 @@ else
         
         if ($_POST["username"] == "mso")
         {
+            if(typeof $_POST["password"] == "undefined")
+            {
+                sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
+                exit(0);
+            }
             $authmode=getStr( "Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.OAUTH.AuthMode" );
             if( $authmode != "sso" )
             {
@@ -210,7 +215,7 @@ else
 		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                     LogStr( " : potd FAILED" );
                     session_destroy();
-                    sendError('<script type="text/javascript"> alert($.i18n("Access denied!")); history.back(); </script>');
+                    sendError('<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
                 }
             }
             else if ($curPwd1 == "Good_PWD" && $return_status)
@@ -272,7 +277,7 @@ else
 			setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                         LogStr( " : potd FAILED" );
                         session_destroy();
-                        sendError('<script type="text/javascript"> alert($.i18n("Username or password is incorrect!")); history.back(); </script>');
+                        sendError('<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
                     }
                 }
             }
@@ -281,7 +286,12 @@ else
             LogStr($outStr);
         }
         else if ($_POST["username"] == "admin")
-        {       
+        {
+            if(typeof $_POST["password"] == "undefined")
+            {
+                sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
+                exit(0);
+            }
             LogStr( " : Authentication = password" );
             $pass_sha = SHA256($_POST["password"]);
             $pass_hex = asc2hex($pass_sha);
@@ -378,7 +388,7 @@ else
             {
                 session_destroy();
             }
-            sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!")); history.back(); </script>');
+            sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
         }
     }
     else
