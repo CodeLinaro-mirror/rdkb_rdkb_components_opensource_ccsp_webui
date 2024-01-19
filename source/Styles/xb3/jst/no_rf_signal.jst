@@ -124,7 +124,7 @@ $(document).ready(function(){
 <?%
         
 $defaultLanguage= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.DefaultLanguage");
-  $partnerId= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
+  $PartnerId= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
   if($defaultLanguage=="fre" || $_GET['lang']=="fre"){
       $header="Aucun signal de câble détecté.";
       $content="Vérifiez que vos câbles coaxiaux sont bien connectés. S’ils sont connectés et que vous tentez d’activer votre borne, essayez d’utiliser une autre prise. Si le problème persiste, veuillez nous appeler.";
@@ -132,7 +132,7 @@ $defaultLanguage= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UI
   }else{
       $header="We can't detect a cable signal.";
       $content ="Please check that your coax cables are tightly secured. If the cables are secured, and you're trying to activate your Gateway, try another cable outlet in your house. If the problem persists, give us a call";
-       if($partnerId=="comcast")
+       if($PartnerId=="comcast")
           $content = $content+" at <font color='#3BB9FF'> 1-800-xfinity </font></p>";
         else
           $content = $content+".";
