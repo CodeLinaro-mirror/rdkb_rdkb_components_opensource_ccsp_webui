@@ -178,9 +178,12 @@ function isLocalIPv6($url){
 	$LocFqdn = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_RFC.Feature.SecureWebUI.LocalFqdn");
 	if(strpos($partnerId, "sky-") !== false) {
 		if (strcmp($SecWebUI, "true")==0) {
-			if (strcmp($url, $LocFqdn)!=0)
+			if (strcmp($url, $LocFqdn)!=0) {
 				if( (strcmp($url,$ip_addr)==0) || isLocalIPv6($url) )
 					header('Location:https://'+$LocFqdn);
+			}
+			else if ((strcmp($url, $LocFqdn)==0) && ($_SERVER["SERVER_PORT"]=="80"))
+                                header('Location:https://'+$LocFqdn);
 		}
 	}
 	if(!strcmp($CaptivePortalEnable, "true")) {
