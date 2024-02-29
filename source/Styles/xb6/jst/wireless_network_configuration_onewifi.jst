@@ -1747,6 +1747,9 @@ if($OperatingChannelBandwidth == "6GHz")
 		<label for="wireless_mode" id="wiremess8">Mode:</label>
 		<select name="wireless_mode" id="wireless_mode">
 		 <?% if ((strstr($support_mode, "ax")) && ($axEnable == "true")){ ?>
+                 	<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+                        	<option value="g,n,ax,be" <?% if ("g,n,ax,be" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n/ax/be</option>
+                        <?% } ?>  
                         <option value="g,n"     <?% if ("g,n" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n</option>
                         <option value="g,n,ax"  <?% if ("g,n,ax" == $wireless_mode) echo( 'selected="selected"');?> >802.11 g/n/ax</option>
 		 <?% } else if ((strstr($support_mode, "ax")) && ($axEnable == "false")){?>
@@ -1828,7 +1831,13 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="guard_interval" value="400nsec"  id="guard_interval800ns" checked="checked" /><b>400ns</b>
 		<label for="guard_interval400ns" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval" value="800nsec"  id="guard_interval400ns" <?% if ("800nsec"==$guard_interval) echo( 'checked="checked"');?> /><b>800ns</b>
-		<label for="guard_intervalauto" class="acs-hide"></label>
+		<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+                <label for="guard_interval1600ns" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval" value="1600nsec"  id="guard_interval1600ns" <?% if ("1600nsec"==$guard_interval) echo( 'checked="checked"');?> /><b>1600ns</b>
+                <label for="guard_interval3200ns" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval" value="3200nsec"  id="guard_interval3200ns" <?% if ("3200nsec"==$guard_interval) echo( 'checked="checked"');?> /><b>3200ns</b> 
+			<?% } ?>    
+                <label for="guard_intervalauto" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval" value="Auto"     id="guard_intervalauto"  <?% if ("Auto"==$guard_interval) echo( 'checked="checked"');?> /><bid="wiremess14">Auto</b>
 	</div>
 	<div class="form-row odd">
@@ -1976,6 +1985,9 @@ if($OperatingChannelBandwidth == "6GHz")
 		<label for="wireless_mode1" id="wiremess8">Mode:</label>
 		<select name="wireless_mode1" id="wireless_mode1">
 		<?% if (strstr($support_mode_5g, "ax")){ ?>
+                	<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+                        	<option value="a,n,ac,ax,be"  <?% if ("a,n,ac,ax,be" == $wireless_mode1) echo( 'selected="selected"');?> >802.11 a/n/ac/ax/be</option>
+                	<?% } ?>
 			<option value="a,n,ac"	<?% if ("a,n,ac" == $wireless_mode1) echo( 'selected="selected"');?> >802.11 a/n/ac</option>
 			<option value="a,n,ac,ax"	<?% if ("a,n,ac,ax" == $wireless_mode1) echo( 'selected="selected"');?> >802.11 a/n/ac/ax</option>
 		<?% } 
@@ -2070,6 +2082,12 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="guard_interval1" value="400nsec"  id="guard_interval800ns1" checked="checked" /><b>400ns</b>
 		<label for="guard_interval400ns1" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval1" value="800nsec"  id="guard_interval400ns1" <?% if ("800nsec"==$guard_interval1) echo('checked="checked"');?> /><b>800ns</b>
+		<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+		<label for="guard_interval1600ns1" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval1" value="1600nsec"  id="guard_interval1600ns1" <?% if ("1600nsec"==$guard_interval1) echo('checked="checked"');?> /><b>1600ns</b>
+                <label for="guard_interval3200ns1" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval1" value="3200nsec"  id="guard_interval3200ns1" <?% if ("3200nsec"==$guard_interval1) echo('checked="checked"');?> /><b>3200ns</b>
+		<?% } ?>	
 		<label for="guard_intervalauto1" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval1" value="Auto"     id="guard_intervalauto1"  <?% if ("Auto"==$guard_interval1) echo('checked="checked"');?> /><b id="wiremess141">Auto</b>
 	</div>
@@ -2171,6 +2189,9 @@ if($OperatingChannelBandwidth == "6GHz")
 		<label for="wireless_mode3" id="wiremess8">Mode:</label>
 		<select name="wireless_mode3" id="wireless_mode3">
 		<?% if (strstr($support_mode_6g, "ax")){ ?>
+                	<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+                        <option value="ax,be"      <?% if ("ax,be" == $wireless_mode3) echo( 'selected="selected"');?> >802.11 ax/be</option>
+                        <?% }  ?>
                 	<option value="ax"	<?% if ("ax" == $wireless_mode3) echo( 'selected="selected"');?> >802.11 ax</option>
 		<?% }  ?>
 		</select>
@@ -2246,7 +2267,11 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>20/40/80/160</b>
         <?%}else{?>
 		<label for="channel_bandwidth6">Channel Bandwidth:</label>
-		<input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth3) echo('checked="checked"');?> /><b>160MHz</b>
+                <input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160</b>
+                <?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+			<label for="channel_bandwidth7" class="acs-hide"></label>
+			<input type="radio"  name="channel_bandwidth3" value="320MHz" id="channel_bandwidth7" <?% if ("320MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160/320</b>
+                <?% } ?>
 	<?%}?>                
 	</div>
 	<div class="form-row odd">
@@ -2254,6 +2279,12 @@ if($OperatingChannelBandwidth == "6GHz")
 		<input type="radio"  name="guard_interval3" value="400nsec"  id="guard_interval800ns1" checked="checked" /><b>400ns</b>
 		<label for="guard_interval400ns1" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval3" value="800nsec"  id="guard_interval400ns1" <?% if ("800nsec"==$guard_interval3) echo('checked="checked"');?> /><b>800ns</b>
+		<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>    
+                <label for="guard_interval1600ns1" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval3" value="1600nsec"  id="guard_interval1600ns1" <?% if ("1600nsec"==$guard_interval3) echo('checked="checked"');?> /><b>1600ns</b>
+                <label for="guard_interval3200ns1" class="acs-hide"></label>
+                <input type="radio"  name="guard_interval3" value="3200nsec"  id="guard_interval3200ns1" <?% if ("3200nsec"==$guard_interval3) echo('checked="checked"');?> /><b>3200ns</b>
+		<?% } ?>	
 		<label for="guard_intervalauto1" class="acs-hide"></label>
 		<input type="radio"  name="guard_interval3" value="Auto"     id="guard_intervalauto1"  <?% if ("Auto"==$guard_interval3) echo('checked="checked"');?> /><b>Auto</b>
 	</div>
