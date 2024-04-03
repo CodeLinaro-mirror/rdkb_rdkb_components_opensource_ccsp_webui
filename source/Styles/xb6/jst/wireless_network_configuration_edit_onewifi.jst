@@ -1119,7 +1119,7 @@ function setResetInfo(info) {
 			<label for="channel_automatic"  id="mocamess4">Channel Selection:</label>
 		<?%
 		$ModelName = getStr("Device.DeviceInfo.ModelName");
-		if('5'!=$radio_band || $ModelName == "SR213") {
+		if(!('2.4'==$radio_band && $ModelName == "SR203")) {
 			echo(' <input type="radio"  name="channel" value="auto" id="channel_automatic" checked="checked"'+' /><b id="wiremess11">Automatic</b>');
 		}
 		?>
