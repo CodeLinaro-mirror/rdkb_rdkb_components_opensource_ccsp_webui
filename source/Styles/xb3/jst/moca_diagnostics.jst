@@ -196,7 +196,8 @@ function ajax_moca_diagnostics() {
 		$.ajax({
 			type: "GET",
 			url: "actionHandler/ajax_moca_diagnostics.jst",
-			data: { moca_diagnostics: 'diagnostics',csrfp_token: token },
+			data: { moca_diagnostics: 'diagnostics' },
+			headers: { csrfp_token: token },
 			success: function(result) {
 				jHide();
 				var response=JSON.parse(result);

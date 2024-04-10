@@ -66,7 +66,8 @@ function spanTable($rows, startIdx, endIdx){
 		$.ajax({
 			type: "GET",
 			url: "actionHandler/ajax_wifi_spectrum_analyser.jst",
-			data: { wifi_spectrum_analyser: status,csrfp_token: token },
+			data: { wifi_spectrum_analyser: status },
+			headers: { csrfp_token: token },
 			success: function(result) {
 				result = JSON.parse(result);
 				if(result.status == "success")

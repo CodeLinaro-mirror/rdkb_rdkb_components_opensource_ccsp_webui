@@ -365,7 +365,8 @@ function update_Wi_Fi_control_list(){
 	$.ajax({
 		type: "GET",
 		url: "actionHandler/ajaxSet_wireless_network_configuration.jst",
-		data: { configInfo: jsConfig,csrfp_token: token },
+		data: { configInfo: jsConfig },
+		headers: { csrfp_token: token },
 		success: function(msg) {
 		if(isIE()){
 			var newmsg = JSON.stringify(msg);

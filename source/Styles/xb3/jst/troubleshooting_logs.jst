@@ -238,8 +238,9 @@ function ajaxDo(mode,timef){
 	$.ajax({
 		type:"GET",
 		url:"actionHandler/ajax_troubleshooting_logs.jst",
-		data:{mode:mode,timef:timef,csrfp_token: token},
+		data:{mode:mode,timef:timef},
 		dataType:"json",
+		headers: { csrfp_token: token },
 		success:function(results){
 			jHide();
 			var length=0;
