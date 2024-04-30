@@ -38,6 +38,14 @@ $LanSubnetMask 	= $devices_value["LanSubnetMask"];
 $beginAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MinAddress");
 $endAddr 	= getStr("Device.DHCPv4.Server.Pool.1.MaxAddress");
 $CloudUIEnable = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_CloudUIEnable");
+
+$portPVDEnable = getStr("Device.RouterAdvertisement.X_RDK_PvD.Enable"); 
+$speedBoostPortRanges = getStr("Device.X_RDK_Speedboost.PortRanges"); 
+
+if (empty($portPVDEnable)) {         
+	$portPVDEnable = "false";                      
+} 
+
 $idadv ="";
 $idadv2 = "";
 if($locale=="it"){
@@ -70,6 +78,21 @@ $(document).ready(function() {
     var jsGwIP = "<?% echo( $LanGwIP); ?>".split(".");
     var jsGatewayIP = "<?% echo( $LanGwIP); ?>";
     var DeviceMode = "<?% echo( $DeviceMode); ?>";
+	var portPVDEnableStr = "<?% echo($portPVDEnable); ?>";
+	var portPVDEnable = (portPVDEnableStr.toLowerCase() === "true");
+    if(portPVDEnable){
+      var speedBoostPortRanges = "<?% echo( $speedBoostPortRanges); ?>";
+      var regexIpv4 = /IPv4 (\w+) (\d+) (\d+)/;
+      var matchIpv4 = speedBoostPortRanges.match(regexIpv4);
+      if (matchIpv4) {
+        var portRangeStart = parseInt(matchIpv4[2]);
+        var portRangeEnd = parseInt(matchIpv4[3]);
+        if(portRangeStart === 0 && portRangeEnd === 0) {
+		portPVDEnable = false;
+	}
+      }
+    }
+    
 function populateIPv6Addr(v6addr){
     var v6_arr = new Array();
 	var arr = v6addr.split("::");
@@ -174,6 +197,21 @@ function isIp4AddrRequired()
 	jQuery.validator.addMethod("port",function(value,element){
 		return this.optional(element) || (value.match(/^\d+$/g) && value >= 0 && value <= 65535);
 	}, $.i18n('Please enter a port number less than 65536.'));
+	jQuery.validator.addMethod("customPortRange",function(value,element){
+		if (!portPVDEnable) {
+			return true;
+		} 
+
+		startPort = $('#start_port').val();                                          
+		endPort = $('#end_port').val();                                               
+		if(startPort > portRangeEnd){                                
+			return true;
+		}                                                               
+		if (endPort >= portRangeStart || (startPort >= portRangeStart && endPort <= portRangeEnd)) {
+			return false;                                                                                       
+		}                                                                                                                  
+		return this.optional(element) || (value.match(/^\d+$/g) && (value <= portRangeStart || value >= portRangeEnd));
+    	}, $.i18n('Selected port(s) are reserved, please use ports other than ' + portRangeStart + ' to '+ portRangeEnd + ' for the configuration rule.'));
 	jQuery.validator.addMethod("ltstart",function(value,element){
 		return this.optional(element) || value>=parseInt($("#start_port").val());
 	}, $.i18n('Please enter a value more than or equal to Start Port.'));
@@ -200,14 +238,16 @@ function isIp4AddrRequired()
                 required: true,
 				port: true,
 				digits: true,
-				min: 1
+				min: 1,
+				customPortRange: true
             }
             ,end_port: {
                 required: true,
 				port: true,
 				digits: true,
 				min: 1,
-				ltstart: true
+				ltstart: true,
+				customPortRange: true
             }
             ,server_ip_address_1: {
                 required: isIp4AddrRequired,
