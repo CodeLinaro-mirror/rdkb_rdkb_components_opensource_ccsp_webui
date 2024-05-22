@@ -57,7 +57,7 @@ $frequency_band = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
 $radio_band	= (strstr($frequency_band,"5G")) ? "5" : (strstr($frequency_band,"6G")) ? "6" : "2.4";
 $Radio_1_Support_Modes = getStr("Device.WiFi.Radio.1.SupportedStandards");
 $Radio_2_Support_Modes = getStr("Device.WiFi.Radio.2.SupportedStandards");
-$Radio_3_Support_Modes = getStr("Device.WiFi.Radio.3.SupportedStandards");
+if($radio_band == "6") $Radio_3_Support_Modes = getStr("Device.WiFi.Radio.3.SupportedStandards");
 
 if($i != 1 && $i != 2 && $i != 17) $Mesh_Mode = false;
 $response_message = '';
