@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if (!(isset($_SESSION["loginuser"]) || isset($_SESSION["password_change"])) || $_SESSION['loginuser'] != 'admin') {
@@ -39,6 +40,7 @@ else if ((preg_match("/^[a-z0-9]{8,20}$/i",$arConfig['oldPassword'])) && (preg_m
 	if ($passVal=="Good_PWD" || $passVal=="Default_PWD")
 	{
 		if($arConfig['ChangePassword']){
+                        LogStr(" : webui_event:lanwebuipassword_changed");
 			setStr("Device.Users.User.3.X_CISCO_COM_Password", $arConfig['newPassword'], true);
 		}
 		$p_status = "Good_PWD";

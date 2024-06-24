@@ -16,6 +16,7 @@
 ?>
 <?% include('includes/utility.jst'); ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -114,6 +115,16 @@ else
 					setStr("Device.WiFi.Radio."+$i+".TransmitPower", $arConfig['transmit_power'], false);
 					if(!$Mesh_Mode) setStr("Device.WiFi.Radio."+$i+".AutoChannelEnable", $arConfig['channel_automatic'], false);
 				}
+				if ($arConfig['channel_automatic']== "true")
+				{
+                                        $logstr = " : webui_event:wifichannel_auto" + " for radio " + $i;
+                                        LogStr($logstr);
+				} else {
+                                        $logstr = " : webui_event:wifichannel_manual" + " for radio " + $i;
+                                        LogStr($logstr);
+				}
+                                $logstr = ": webui_event:wireless_mode:" + $arConfig['wireless_mode'] + " for radio " + $i;
+                                LogStr($logstr)
 			}
 			else if ("save_advance" == $arConfig['sub_target'])
 			{
@@ -142,7 +153,9 @@ else
 					setStr("Device.WiFi.Radio."+$i+".X_CISCO_COM_STBCEnable", $arConfig['STBC_enabled'], false);
 					setStr("Device.WiFi.AccessPoint."+$i+".UAPSDEnable", $arConfig['WMM_power_save'], true);
 				}
-			}
+                        $logstr = ": webui_event:wifichannelbandwidth:" + $arConfig['channel_bandwidth'] + " for radio " + $i;
+			LogStr($logstr);
+                        }
 			$validation = true;
 			$PossibleChannels = getStr("Device.WiFi.Radio."+$i+".PossibleChannels");
 			if(strpos($PossibleChannels, '-') !== false){//1-11

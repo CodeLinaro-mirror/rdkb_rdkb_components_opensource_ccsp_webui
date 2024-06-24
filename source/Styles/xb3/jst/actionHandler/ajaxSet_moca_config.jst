@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined) {
@@ -29,6 +30,11 @@ $thisUser = $_SESSION["loginuser"];
 $validation = true;
 if ($_SESSION["lanMode"] != "router") $validation = false;
 if($validation) $validation = isValInArray($arConfig['moca_enable'], ['true', 'false']/*p2j-array*/);
+if($arConfig['moca_enable'] == "true"){
+    LogStr(" : webui_event:moca_enable");
+} else {
+    LogStr(" : webui_event:moca_disable");
+}
 if ($validation && "true" == $arConfig['moca_enable'] && "admin" != $thisUser){
 	if($validation) $validation = isValInArray($arConfig['scan_method'], ['true', 'false']/*p2j-array*/);
 	if($validation) $validation = isValInArray($arConfig['channel'], ["0000000000004000", "0000000000008000", "0000000000010000", "0000000000020000", "0000000000040000", "0000000000080000", "0000000000100000", "0000000000200000", "0000000000400000", "0000000000800000", "0000000001000000", "0000000002000000", "0000000004000000", "0000000008000000", "0000000010000000", "0000000020000000", "0000000040000000", "0000000080000000", "0000000100000000", "0000000200000000", ]/*p2j-array*/);

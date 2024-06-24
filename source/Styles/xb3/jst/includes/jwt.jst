@@ -239,7 +239,7 @@ function LogBeginLoginAttempt()
         fwrite( $file, $str );
         $host = $_SERVER['HTTP_HOST'];   
         $url = $_SERVER['REQUEST_URI'];
-        $str = " : URL = "+$host+$url;
+        $str = " : URL = "+$host+$url + "\n";
         fwrite( $file, $str );
         fclose( $file );
     }
@@ -262,6 +262,15 @@ function LogStr($str)
     $file = fopen( "/rdklogs/logs/webui.log", "a" );
     if( $file != false )
     {
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var day = date.getDate();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var seconds = date.getSeconds();
+        $datestr = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+        $str = $datestr + $str + "\n" ;
         fwrite( $file, $str );
         fclose( $file );
     }

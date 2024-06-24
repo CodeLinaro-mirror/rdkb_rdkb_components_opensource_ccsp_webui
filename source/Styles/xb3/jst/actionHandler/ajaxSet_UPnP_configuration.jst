@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -27,11 +28,18 @@ $upnpInfo = json_decode($_POST['upnpInfo'], true);
 //echo "<br />";
 $isEnabledUPnP = $upnpInfo['IsEnabledUPnP'];
 if(!strcmp($isEnabledUPnP, "true")) {
+        LogStr(" : webui_event:upnp_enable");
 	setStr("Device.UPnP.Device.UPnPIGD", $upnpInfo['IsEnabledUPnP'],true);
 	setStr("Device.UPnP.Device.X_CISCO_COM_IGD_AdvertisementPeriod", $upnpInfo['Period'],true);
 	setStr("Device.UPnP.Device.X_CISCO_COM_IGD_TTL", $upnpInfo['Live'],true);
 } else if(!strcmp($isEnabledUPnP, "false")) {
+        LogStr(" : webui_event:upnp_disable");
 	setStr("Device.UPnP.Device.UPnPIGD", $upnpInfo['IsEnabledUPnP'],true);
+}
+if($upnpInfo['IsEnabledZero'] == "true"){
+    LogStr(" : webui_event:zeroconfig_enable");
+} else {
+    LogStr(" : webui_event:zeroconfig_disable");
 }
 setStr("Device.X_CISCO_COM_DeviceControl.EnableZeroConfig", $upnpInfo['IsEnabledZero'],true);
 //setStr("", $upnpInfo['IsEnabledQosUPnP']); //? R3

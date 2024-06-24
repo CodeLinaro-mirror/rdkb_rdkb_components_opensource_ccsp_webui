@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -47,6 +48,8 @@ if($thisUser=="admin"){
 	}else{
 		setStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled", $arConfig['wan_network'], true);
 	}
+$logstr = " : webui_event:wanmode:" + $arConfig['wan_network'];
+LogStr($logstr);
 }
 
 echo( htmlspecialchars($jsConfig, ENT_NOQUOTES, 'UTF-8'));

@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?% 
 session_start();
 if (!isset($_SESSION["loginuser"])) {
@@ -67,6 +68,13 @@ if ($i == 1 || $i == 2 || $i == 17) {
 	// check if the LowerLayers radio is enabled. if disable, no need to configure following
 	if ("true" == getStr("Device.WiFi.Radio."+$r+".Enable")) {
 		//change SSID status first, if disable, no need to configure following
+                if($arConfig['radio_enable'] == "true"){
+                     $logstr = " : webui_event:wifissid_enable" + " for radio " + $r;
+                     LogStr($logstr);
+                } else {
+                     $logstr = " : webui_event:wifissid_disable" + " for radio " + $r;
+                     LogStr($logstr);
+                }
 		setStr("Device.WiFi.SSID."+$i+".Enable", $arConfig['radio_enable'], true);
 		if ("true" == $arConfig['radio_enable'] && (!$Mesh_Mode) )
 		{
@@ -74,6 +82,10 @@ if ($i == 1 || $i == 2 || $i == 17) {
 			if(($arConfig['password_update']=="false") && ("mso" == $thisUser)){
 				$arConfig['network_password']=$network_pass;
 			}
+                        if($arConfig['password_update']=="true"){
+                             $logstr = " : webui_event:wifinetworkpassword_changed" + " for radio " + $r;
+                             LogStr($logstr);
+                        }
 			if ("mso" != $thisUser){
 				if($validation) $validation = isValInArray($arConfig['channel_bandwidth'], ['20MHz', '40MHz', '80MHz', '160MHz', '320MHz']/*p2j-array*/);
                                 if($OperatingChannelBandwidth == "6GHz" && $i==17){
@@ -208,6 +220,8 @@ if ($i == 1 || $i == 2 || $i == 17) {
 				}
 				setStr("Device.WiFi.SSID."+$i+".SSID", $arConfig['network_name'], true);
 				setStr("Device.WiFi.AccessPoint."+$i+".SSIDAdvertisementEnabled", $arConfig['broadcastSSID'], true);
+                                $logstr = " : webui_event:wifisecuritymode:" + $arConfig['security'] + " for radio " + $r;
+                                LogStr($logstr);
 				if ("mso" == $thisUser){
 					// if ("false" == $arConfig['enableWMM']){
 						// setStr("Device.WiFi.AccessPoint."+$i+".UAPSDEnable", "false", true);

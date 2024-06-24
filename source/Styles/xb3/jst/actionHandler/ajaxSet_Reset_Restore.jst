@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -65,12 +66,14 @@ if (!in_array($infoArray[1], $validInputs)) {
 switch ($infoArray[0]) {
 	case "btn1" :
 		$ret["reboot"] = true;
+                LogStr(" : webui_event:reboot");
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
 		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","reboot_device",true);
 		setStr("Device.X_CISCO_COM_DeviceControl.RebootDevice", $infoArray[1],true);
 		exit(0);
 	case "btn2" :
 		$ret["wifi"] = true;
+                LogStr(" : webui_event:wifimodule_reset");
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
 		setStr("Device.X_CISCO_COM_DeviceControl.RebootDevice", $infoArray[1],true);
 		//force to restart radio even no change
@@ -78,6 +81,7 @@ switch ($infoArray[0]) {
 		exit(0);
 	case "btn3" :
 		$ret["wifi"] = true;
+                LogStr(" : webui_event:wifirouter_reset");
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
 		setStr("Device.X_CISCO_COM_DeviceControl.RebootDevice", $infoArray[1],true);
 		//force to restart radio even no change
@@ -85,6 +89,7 @@ switch ($infoArray[0]) {
 		exit(0);
 	case "btn4" :
 		$ret["wifi"] = true;
+                LogStr(" : webui_event:wifisettings_restore");
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
 		if($OperatingChannelBandwidth == "6GHz")
 		{
@@ -113,6 +118,7 @@ switch ($infoArray[0]) {
 		exit(0);
 	case "btn5" :
 		$ret["reboot"] = true;
+                LogStr(" : webui_event:factoryreset");
 		echo( htmlspecialchars(json_encode($ret), ENT_NOQUOTES, 'UTF-8'));
 		//Upstreamed ajaxSet_Reset_Restore_jst.patch(TCXB6-1578) as part of RDKB-41235
 		if($modelName == "CGM4140COM"){

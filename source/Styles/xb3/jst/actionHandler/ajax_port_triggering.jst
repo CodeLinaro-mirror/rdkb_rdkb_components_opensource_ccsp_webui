@@ -16,6 +16,7 @@
 ?>
 <?% include('includes/utility.jst') ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -32,6 +33,11 @@ function PORTTEST($sp,$ep,$arraySp,$arrayEp){
 if (isset($_POST['set'])){
 	if (isValInArray($_POST['UPTRStatus'], ["Enabled", "Disabled"]/*p2j-array*/)){
 		$UPTRStatus=(($_POST['UPTRStatus']=="Enabled")?"true":"false");
+                if($UPTRStatus == "true"){
+                  LogStr(" : webui_event:porttrigger_enable");
+                } else {
+                  LogStr(" : webui_event:porttrigger_disable");
+                }
 		setStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable",$UPTRStatus,true);
 		while(getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")!=$UPTRStatus) sleep(2);
 		//$UPTRStatus=((getStr("Device.NAT.X_CISCO_COM_PortTriggers.Enable")=="true")?"Enabled":"Disabled");

@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -26,6 +27,8 @@ if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION
 $firewall_config = json_decode($_POST['configInfo'], true);
 $validation = true;
 if($validation) $validation = isValInArray($firewall_config['firewallLevel'], ['High', 'Medium', 'Low', 'Custom', 'None']/*p2j-array*/);
+$logstr = " : webui_event:firewalllevel_ipv4:" + $firewall_config['firewallLevel'];
+LogStr($logstr);
 if ( $validation && $firewall_config['firewallLevel'] == "Custom" ){
     if($validation) $validation = isValInArray($firewall_config['block_http'], ["Enabled", "Disabled"]/*p2j-array*/);
     if($validation) $validation = isValInArray($firewall_config['block_icmp'], ["Enabled", "Disabled"]/*p2j-array*/);

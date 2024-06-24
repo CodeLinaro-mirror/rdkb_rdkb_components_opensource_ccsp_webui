@@ -166,6 +166,7 @@ else
         
         if ($_POST["username"] == "mso")
         {
+            LogStr(" : webui_event:mso_login");
             if(typeof $_POST["password"] == "undefined")
             {
                 sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
@@ -287,6 +288,7 @@ else
         }
         else if ($_POST["username"] == "admin")
         {
+            LogStr(" : webui_event:lanwebui_login"); 
             if(typeof $_POST["password"] == "undefined")
             {
                 sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
