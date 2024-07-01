@@ -1073,7 +1073,7 @@ function setResetInfo(info) {
 			<?%
 				if ("5"==$radio_band){
 					if (strstr($supported_mode, "ax")){
-                                        	if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){
+                                        	if (strstr($supported_mode, "be")){
                                         		echo( '<option value="a,n,ac,ax,be" '); echo( ("a,n,ac,ax,be"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac/ax/be</option>');
                                                 }
                                         	echo( '<option value="a,n,ac" '); echo( ("a,n,ac"==$wireless_mode)? 'selected':''); echo('>802.11 a/n/ac</option>');
@@ -1092,7 +1092,7 @@ function setResetInfo(info) {
 				}else if("6"==$radio_band)
 				{
 					if (strstr($supported_mode, "ax")){
-                                        	 if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){
+                                        	 if (strstr($supported_mode, "be")){
                                                  	echo( '<option value="ax,be" '); echo( ("ax,be"==$wireless_mode)? 'selected':''); echo('>802.11 ax/be</option>');
                                                  }
                                                   echo( '<option value="ax" '); echo( ("ax"==$wireless_mode)? 'selected':''); echo('>802.11 ax</option>');
@@ -1100,7 +1100,7 @@ function setResetInfo(info) {
 				}
 				else {
 					if ((strstr($supported_mode, "ax")) && ($axEnable == "true")){
-                                        	if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){
+                                        	if (strstr($supported_mode, "be")){
                                         		echo( '<option value="g,n,ax,be" ');   echo( (  "g,n,ax,be"==$wireless_mode)? 'selected':'');  echo('>802.11 g/n/ax/be</option>'); 
                                                 }
 						echo( '<option value="g,n" ');   echo( (  "g,n"==$wireless_mode)? 'selected':'');  echo('>802.11 g/n</option>');
@@ -1189,11 +1189,18 @@ function setResetInfo(info) {
 				<label for="channel_bandwidth6" class="acs-hide"></label>
 				<input type="radio"  name="channel_bandwidth3" value="160MHz"  id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
 			<?%}else{?>
-				<label for="channel_bandwidth6">Channel Bandwidth:</label>
-                                <input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160</b>
-					<?% if(($modelName=="SG417DB") || ($modelName=="CGM601TCOM")){ ?>
+<label for="channel_bandwidth203" id="wiremess18">Channel Bandwidth:</label>
+                                <input type="radio"  name="channel_bandwidth3" value="20MHz" id="channel_bandwidth203" checked="checked" /><b>20</b>
+                                <label for="channel_bandwidth4" class="acs-hide"></label>
+                                <input type="radio"  name="channel_bandwidth3" value="40MHz"  id="channel_bandwidth4" <?% if ("40MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40</b>
+                                <label for="channel_bandwidth5" class="acs-hide"></label>
+                                <input type="radio"  name="channel_bandwidth3" value="80MHz"  id="channel_bandwidth5" <?% if ("80MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80</b>
+				<label for="channel_bandwidth6" class="acs-hide"></label>
+			
+                                <input type="radio"  name="channel_bandwidth3" value="160MHz" id="channel_bandwidth6" <?% if ("160MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160</b>
+					<?% if (strstr($supported_mode, "be")){ ?>
 				<label for="channel_bandwidth7" class="acs-hide"></label>
-				<input type="radio"  name="channel_bandwidth3" value="320MHz" id="channel_bandwidth7" <?% if ("320MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>160/320</b>
+				<input type="radio"  name="channel_bandwidth3" value="320MHz" id="channel_bandwidth7" <?% if ("320MHz"==$channel_bandwidth) echo( 'checked="checked"');?> /><b>20/40/80/160/320</b>
 					<?% }  ?> 
 			<?%}?>
 		<?% } else { ?>
