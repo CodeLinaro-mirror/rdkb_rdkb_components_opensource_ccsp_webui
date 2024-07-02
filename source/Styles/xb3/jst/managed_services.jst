@@ -202,7 +202,11 @@ function getTitle(val){
         <p class="tip" id="manservtip1">Manage access to specific services and applications by network devices.</p>
 		<p class="hidden" id="manservtip2">Select <strong>Enable</strong> to manage services and applications, or <strong> Disable</strong>  to turn off.</p>
 		<p class="hidden" id="manservtip3"><strong>+ADD:</strong> Add to block a new service or application.</p>
-		<p class="hidden" id="manservtip4">The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden" id="manservtip4_router">The Router will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+		<?% } else { ?>
+			<p class="hidden" id="manservtip4">The Gateway will block services and applications on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+		<?% } ?>
     </div>
 	<div class="module">
 		<div class="select-row">

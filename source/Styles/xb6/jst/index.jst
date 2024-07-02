@@ -274,11 +274,19 @@ if($webuiIsEnabled == "false"){
 </div><!-- end #content -->
 <?% } else { ?>
 <!--div id="nav"-->
-<h1 id="index_header">Gateway > Login</h1>
+<?% if(is_device_router()) { ?>
+	<h1 id="index_header_router">Router > Login</h1>
+<?% } else { ?>
+	<h1 id="index_header">Gateway > Login</h1>
+<?% } ?>
 <div class="index_div">
 	<form action="check.jst" method="post" id="pageForm"  onsubmit="return f();">
 	<div class="form-row">
-		<p id="index_helptext">Please login to view and manage your Gateway settings.</p>
+		<?% if(is_device_router()) { ?>
+			<p id="index_helptext_router">Please login to view and manage your Router settings.</p>
+		<?% } else { ?>
+			<p id="index_helptext">Please login to view and manage your Gateway settings.</p>
+		<?% } ?>
 	</div>
 	<div>
 		<table class="index_table">

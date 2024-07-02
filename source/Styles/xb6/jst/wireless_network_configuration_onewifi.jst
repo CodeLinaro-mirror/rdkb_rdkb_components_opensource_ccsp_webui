@@ -477,15 +477,12 @@ var G_radio_enable1	= <?% echo( ($radio_enable1 === "true" ? "true" : "false"));
 var G_wps_enabled	= <?% echo( ($wps_enabled === "true" ? "true" : "false")); ?>;
 var G_wps_method	= "<?% echo( $wps_method); ?>";
 var isBridge		= "<?% echo( $_SESSION["lanMode"]); ?>";
-var modeEnabled		= "<?% echo( $encrypt_mode); ?>";
-var modeEnabled1	= "<?% echo( $encrypt_mode1); ?>";
 var partner_id = "<?% echo( $partnerId); ?>";
 var modelName = "<?% echo($modelName); ?>";
 var platformSupported  = "<?% echo($platformSupported); ?>";
 <?%if($OperatingChannelBandwidth == "6GHz")
 {?>
 var G_radio_enable3	= <?% echo( ($radio_enable3 === "true" ? "true" : "false")); ?>;
-var modeEnabled17	= "<?% echo( $encrypt_mode17); ?>";
 <?%
 }?>
 
@@ -535,7 +532,11 @@ function update_Wi_Fi_control_list(){
 	});
 }
 $(document).ready(function() {
-    gateway.page.init("Gateway > Connection > WiFi", "nav-wifi-config");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Connection > WiFi", "nav-wifi-config");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Connection > WiFi", "nav-wifi-config");
+    <?% } ?>
     $ForceDisable = '<?% echo( $ForceDisable); ?>';
     $Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
     var MeshEnable='<?% echo( $Mesh_Enable); ?>';
@@ -980,6 +981,8 @@ $(document).ready(function() {
 		$("#no_other_wifi").show();
 	}
 	// remove sections as per loginuser, content must be hidden before doc ready
+	$isWpsSupported = <?% echo(is_wps_supported()); ?>;
+	$isWpsAllowed = <?% echo(isAddWpsAllowed()); ?>;
 	if ("mso" != "<?% echo( $_SESSION["loginuser"]); ?>"){
 		if((partner_id.indexOf('sky-')===-1) || (modelName == 'SR213')){
 			$(".div_enable_radio").remove();
@@ -989,12 +992,12 @@ $(document).ready(function() {
 		$(".div_radio_setting").remove();
 		$(".div_wps_setting").remove();
 		$(".band_steering").remove();
-		if(modeEnabled=="None" || modeEnabled1=="None" || modeEnabled=="WPA3-Personal" || modeEnabled1=="WPA3-Personal")
+		if(!$isWpsSupported || !$isWpsAllowed)
 			$(".btn-group").hide();
 		else
 			$(".btn-group").show();
 	}else{
-		if(modeEnabled=="None" || modeEnabled1=="None" || modeEnabled=="WPA3-Personal" || modeEnabled1=="WPA3-Personal"){
+		if(!$isWpsSupported || !$isWpsAllowed) {
 			$(".div_wps_setting input, .div_wps_setting select").addClass('disabled').attr('disabled',true);
 			$("#wps_switch, #pin_switch").radioswitch("doEnable", false);
                     	$("#mac_admin option[value = '1'], #mac_admin option[value = '2']").addClass('disabled').attr('disabled',true);
@@ -1549,16 +1552,28 @@ function saveBandSteeringSettings()
 }
 </script>
 <div id="content">
-<h1 id="wirehead">Gateway > Connection > Wi-Fi</h1>
+<?% if(is_device_router()) { ?>
+	<h1 id="wirehead_router">Router > Connection > Wi-Fi</h1>
+<?% } else { ?>
+	<h1 id="wirehead">Gateway > Connection > Wi-Fi</h1>
+<?% } ?>
 <div id="educational-tip">
 	<p class="tip" id="wifitip1">Manage your Wi-Fi connection settings.</p>
 	<p class="hidden" id="wifitip2">Click <strong>EDIT</strong> next to the Network Name you\'d like to modify its Wi-Fi network settings: Network Name (SSID), Mode, Security Mode, Channel, Network Password (Key), and Broadcasting feature.</p>
 	<p class="hidden" id="wifitip3"><strong>MAC Filter Setting</strong> is specific to each Network Name (SSID). Select a MAC Filtering Mode.</p>
-	<span class="hidden wifi_manage"><ul class="wifi_ul"><li type="disc" id="wifitip4" >Allow- All (Default): All wireless client stations can connect to the Gateway; no MAC filtering rules.</li>
-	<li type="disc" id="wifitip5">Allow: Only the devices in the \"Wireless Control List\" are allowed to connect to the Gateway.</li>
-	<li type="disc" id="wifitip6">Deny: Wireless devices in the \"Wireless Control List\" are not allowed to connect to the Gateway.</li></ul></span>
-	<p class="hidden wifi_tip" id="wifitip7"><strong>Wireless Control List:</strong> Displays the wireless devices (by Network Name and MAC Address) that were manually added or auto-learned.</p>
-	<p class="hidden wifi_tip" id="wifitip8"><strong>Auto-Learned Wireless Devices</strong> are currently connected to the Gateway. </p>
+	<?% if(is_device_router()) { ?>
+		<span class="hidden wifi_manage"><ul class="wifi_ul"><li type="disc" id="wifitip4_router" >Allow- All (Default): All wireless client stations can connect to the Router; no MAC filtering rules.</li>
+		<li type="disc" id="wifitip5_router">Allow: Only the devices in the "Wireless Control List" are allowed to connect to the Router.</li>
+		<li type="disc" id="wifitip6_router">Deny: Wireless devices in the "Wireless Control List" are not allowed to connect to the Router.</li></ul></span>
+		<p class="hidden wifi_tip" id="wifitip7"><strong>Wireless Control List:</strong> Displays the wireless devices (by Network Name and MAC Address) that were manually added or auto-learned.</p>
+		<p class="hidden wifi_tip" id="wifitip8_router"><strong>Auto-Learned Wireless Devices</strong> are currently connected to the Router. </p>
+	<?% } else { ?>
+		<span class="hidden wifi_manage"><ul class="wifi_ul"><li type="disc" id="wifitip4" >Allow- All (Default): All wireless client stations can connect to the Gateway; no MAC filtering rules.</li>
+                <li type="disc" id="wifitip5">Allow: Only the devices in the \"Wireless Control List\" are allowed to connect to the Gateway.</li>
+                <li type="disc" id="wifitip6">Deny: Wireless devices in the \"Wireless Control List\" are not allowed to connect to the Gateway.</li></ul></span>
+                <p class="hidden wifi_tip" id="wifitip7"><strong>Wireless Control List:</strong> Displays the wireless devices (by Network Name and MAC Address) that were manually added or auto-learned.</p>
+                <p class="hidden wifi_tip" id="wifitip8"><strong>Auto-Learned Wireless Devices</strong> are currently connected to the Gateway. </p>
+	<?% } ?>
 	<p class="hidden wifi_tip" id="wifitip9"><strong>Manually-Added Wireless Devices:</strong> Enter a unique name and MAC address for the wireless device you want to manually add, then click <strong>ADD.</strong> </p>
 </div>
 <?%

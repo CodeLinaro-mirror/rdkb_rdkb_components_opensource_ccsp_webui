@@ -189,7 +189,11 @@ if($OperatingChannelBandwidth == "6GHz")
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Connection > Status", "nav-connection-status");
+    <?% if(is_device_router()) { ?>
+    	gateway.page.init("Router > Connection > Status", "nav-connection-status");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Connection > Status", "nav-connection-status");
+    <?% } ?>
     $ForceDisable = '<?% echo ($ForceDisable); ?>';
     var isBridge = "<?% echo( $_SESSION["lanMode"]); ?>";
     if(isBridge == 'bridge-static'){
@@ -257,10 +261,18 @@ $(document).ready(function() {
     $wan_enable= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
 ?>
 <div id="content" class="connection_content">
-	<h1 id="connstathead">Gateway > Connection > Status</h1>
+	<?% if(is_device_router()) { ?>
+		<h1 id="connstatheadRouter">Router > Connection > Status</h1>
+	<?% } else { ?>
+		<h1 id="connstathead">Gateway > Connection > Status</h1>
+	<?% } ?>
 	<div id="educational-tip">
 			<p class="tip" id="connstat1">View information about your network connections.</p>
-			<p class="hidden"><label id="connstat2">View and manage the settings for your local IP, Wi-Fi, MoCA and </label><?% echo($NetworkName); ?>s.</p>
+                        <?% if(is_moca_supported()) { ?>
+				<p class="hidden"><label id="connstat2">View and manage the settings for your local IP, Wi-Fi, MoCA and </label><?% echo($NetworkName); ?>s.</p>
+                        <?% } else { ?>
+                        	<p class="hidden"><label id="moca1">View and manage the settings for your local IP, Wi-Fi and </label><?% echo($NetworkName); ?>s.</p>
+                        <?% } ?>
 	</div>
 <?%
 	if($ForceDisable == "true") {
@@ -377,6 +389,7 @@ $(document).ready(function() {
     </div><!-- end .module local ip network-->
 <?%
 $selectedOperationalMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode");
+$currentOperationalMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.CurrentOperationalMode");
 if ("admin" != $_SESSION["loginuser"]) {
         $view="View";
 }else{
@@ -386,12 +399,16 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
 ?>
     <div class="module forms block noMarginBtm"><!--- WAN Network -->
       <h2 id="wannet">WAN Network</h2>
-        <p class="button"><a tabindex='0' href="wan_network.jst" class="btn wanBtn"><?% echo($view);?></a></p>
+	<?% if(is_docsis_supported() && ($allowEthWan=="true")) { ?>
+        	<p class="button"><a tabindex='0' href="wan_network.jst" class="btn wanBtn"><?% echo($view);?></a></p>
+	<?% } ?>
                 <div class="form-row odd">
                     <span class="readonlyLabel" id="wannetstat">WAN Network Status:</span>
                          <?%
 			if($autoWanEnable=="true"){
-                            if(strtolower($selectedOperationalMode)=="ethernet"){
+			    if(strtolower($currentOperationalMode)=="ethernet" && !is_docsis_supported()){
+                                 echo('<span class="value" id="alwaysethwan">Always Ethernet WAN');
+                            }else if(strtolower($selectedOperationalMode)=="ethernet"){
                             	 echo('<span class="value" id="actethwan">Active Ethernet WAN');
                             }else if(strtolower($selectedOperationalMode)=="docsis"){
 				echo('<span class="value" id="actdocwan">Active Docsis WAN');
@@ -525,6 +542,7 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                 </span>
         </div>
     </div><!-- end .module gateway network-->
+    <?% if (is_moca_supported()) { ?>
     <div class="module forms block moca_section connection_moca">
             <h2>MoCA</h2>
             <p class="button"><a tabindex='0' href="moca.jst" class="btn" id="editloc">Edit</a></p>
@@ -636,6 +654,7 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
               </span>
             </div>
     </div><!-- end .module MoCA -->
+    <?% } ?>
   </div>
   <div class="wifi_section connection_wifi"><!-- contain private and public Wi-Fi -->
     <div class="module forms block private-wifi">

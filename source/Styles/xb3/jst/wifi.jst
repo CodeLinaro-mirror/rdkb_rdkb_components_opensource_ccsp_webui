@@ -27,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Hardware > WiFi", "nav-wifi");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Hardware > WiFi", "nav-wifi");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Hardware > WiFi", "nav-wifi");
+    <?% } ?>
 });
 </script>
 <?%
@@ -110,11 +114,23 @@ function div_mod($n, $m)
 }
 ?>
 <div id="content">
-	<h1 id="wifihead">Gateway > Hardware > Wireless</h1>
+	<?% if(is_device_router()) { ?>
+		<h1 id="wifihead_router">Router > Hardware > Wireless</h1>
+	<?% } else { ?>
+		<h1 id="wifihead">Gateway > Hardware > Wireless</h1>
+	<?% } ?>
 	<div id="educational-tip">
-		<p class="tip" id="wirelesstip1">View information about the Gateway's wireless components.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="tip" id="wirelesstip1_router">View information about the Router's wireless components.</p>
+		<?% } else { ?>
+			<p class="tip" id="wirelesstip1">View information about the Gateway's wireless components.</p>
+		<?% } ?>
 		<?% if($OperatingChannelBandwidth == "6GHz") {
-			echo('<p class="hidden" id="wirelesstip3"><strong>Wi-Fi:</strong> The Gateway provides concurrent 2.4 GHz and 5 GHz and 6 GHz for Wi-Fi connections.</p>');
+			if(is_device_router()) {
+				echo('<p class="hidden" id="wirelesstip3_router"><strong>Wi-Fi:</strong> The Router provides concurrent 2.4 GHz and 5 GHz and 6 GHz for Wi-Fi connections.</p>');
+			} else {
+				echo('<p class="hidden" id="wirelesstip3"><strong>Wi-Fi:</strong> The Gateway provides concurrent 2.4 GHz and 5 GHz and 6 GHz for Wi-Fi connections.</p>');
+			}
 		} else {
 			echo('<p class="hidden" id="wirelesstip2"><strong>Wi-Fi:</strong> The Gateway provides concurrent 2.4 GHz and 5 GHz for Wi-Fi connections.</p>');
 		} ?>

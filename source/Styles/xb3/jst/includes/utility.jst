@@ -1046,5 +1046,139 @@ function getFirstDownstreamIpInterface(){
 	}
 	return $fistDSif;
 }
+
+/**
+* Description:
+* return the device type as router or gateway
+*/
+function is_device_router()
+{	
+	$device_router = getenv("DEVICE_ROUTER");
+	if($device_router === "true") {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+* Description:
+* return the device supports Moca or not
+*/
+function is_moca_supported()
+{	
+	$moca_status = getenv("MOCA_SUPPORTED");
+	if($moca_status === "false") {
+		return false;
+        } else {
+                return true;
+        }
+}
+
+/**
+* Description:
+* return the device supports association of Ethernet Port2 to Xfinity Home
+*/
+function xfinity_home()
+{
+	$connection = getenv("ETH_PORT2_XFINITY_HOME");
+	if($connection === "false") {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/**
+* Description:
+* return the device supports Docsis or not
+*/
+function is_docsis_supported()
+{	
+	$docsis_status = getenv("DOCSIS_SUPPORTED");
+	if($docsis_status === "false") {
+		return false;
+        } else {
+                return true;
+        }
+}
+
+/**
+* Description:
+* return the device supports Bridge Mode or not
+*/
+function is_bridge_mode_supported()
+{	
+	$bridge_status = getenv("BRIDGE_MODE_SUPPORTED");
+	if($bridge_status === "false") {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+/**
+* Description:
+* return true if "Add Wi-Fi WPS Client" allowed
+* else return false
+*
+* return: true / false
+*/
+function isAddWpsAllowed(){
+	var $encrypt_mode = [];
+	$encrypt_mode[0] = getStr("Device.WiFi.AccessPoint.1.Security.ModeEnabled");
+	$encrypt_mode[1] = getStr("Device.WiFi.AccessPoint.2.Security.ModeEnabled");
+
+	$RadioNumberOfEntries = getStr("Device.WiFi.RadioNumberOfEntries");
+	var $OperatingChannelBandwidth="";
+	if($RadioNumberOfEntries)
+	{
+		for($r=1; $r <= $RadioNumberOfEntries ; $r++)
+		{
+			$OperatingChannelBandwidth = getStr("Device.WiFi.Radio."+$r+".OperatingFrequencyBand");
+			if($OperatingChannelBandwidth == "6GHz")
+			{
+				$encrypt_mode[2] = getStr("Device.WiFi.AccessPoint.17.Security.ModeEnabled");
+				break;
+			}
+		}
+	}
+
+	for(var $keytmp in $encrypt_mode) { /*p2j-foreach*/
+		var $val = $encrypt_mode[$keytmp];
+		if($val == "None" || $val == "WPA3-Personal"){
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+* Description:
+* return the device has battery support or not
+*/
+function is_battery_supported()
+{
+        $battery_status = getenv("BATTERY_SUPPORTED");
+        if($battery_status === "false") {
+                return false;
+        } else {
+                return true;
+        }
+}
+
+/**
+* Description:
+* return the device supports WPS or not
+*/
+function is_wps_supported()
+{
+        $wps_status = getenv("WPS_SUPPORTED");
+        if($wps_status === "false") {
+                return false;
+        } else {
+                return true;
+        }
+}
 ?>
 

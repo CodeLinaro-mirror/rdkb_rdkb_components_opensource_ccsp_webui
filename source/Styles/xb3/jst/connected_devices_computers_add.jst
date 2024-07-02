@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: connected_devices_computers_edit.jst 3158 2010-01-08 23:32:05Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -154,7 +155,11 @@ $(document).ready(function() {
 		<p class="tip" id="connaddtip1">Connect a Device using a Reserved IP address.</p>
 		<p class="hidden" id="connaddtip2"><strong>Host Name:</strong> Name of the Device being added.</p>
 				<p class="hidden" id="connaddtip3"><strong>MAC Address:</strong>  MAC address of the Device being added.</p>
-				<p class="hidden" id="connaddtip4"><strong>Reserved IP address:</strong>  The IP address of the device being added must be within the Gateway's range of the DHCP IP address pool.To find your IP address range, go to <strong>Gateway > Connection > Local IP Network.</strong></p>
+				<?% if(is_device_router()) { ?>
+					<p class="hidden" id="connaddtip4_router"><strong>Reserved IP address:</strong>  The IP address of the device being added must be within the Router's range of the DHCP IP address pool.To find your IP address range, go to <strong>Router > Connection > Local IP Network.</strong></p>
+				<?% } else { ?>
+					<p class="hidden" id="connaddtip4"><strong>Reserved IP address:</strong>  The IP address of the device being added must be within the Gateway's range of the DHCP IP address pool.To find your IP address range, go to <strong>Gateway > Connection > Local IP Network.</strong></p>
+				<?% } ?>
 	</div>
 	<div class="module forms" id="computers-edit">
 		<h2 id="connaddtip5">Add Device with Reserved IP Address</h2>

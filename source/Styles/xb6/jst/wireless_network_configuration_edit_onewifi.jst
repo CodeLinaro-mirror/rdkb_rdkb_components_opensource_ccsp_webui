@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: wireless_network_configuration_edit.jst 3160 2010-01-11 23:10:33Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -305,7 +306,11 @@ function restyle_div(){
 }
 	var fromOther;
 $(document).ready(function() {
-    gateway.page.init("Gateway > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
+	<?% if(is_device_router()) { ?>
+	    gateway.page.init("Router > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
+	<?% } else { ?>
+	    gateway.page.init("Gateway > Connection > Wireless > Edit <?% echo( $radio_band); ?> GHz", "nav-wifi-config");
+	<?% } ?>
 	$('#pop_dialog').hide();
 	$Mesh_Mode = '<?% echo( $Mesh_Mode); ?>';
 	var MeshEnable= '<?% echo( $Mesh_Enable); ?>';
@@ -989,27 +994,52 @@ function setResetInfo(info) {
 }
 </script>
 <div id="content">
-	<h1><span id="wireedthead">Gateway > Connection >  Wi-Fi > Edit </span> <span <?% if ($id==1) echo("id='radioband24'");?>><?% echo($radio_band); ?></span> GHz</h1>
+	<?% if(is_device_router()) { ?>
+		<h1><span id="wireedthead_router">Router > Connection >  Wi-Fi > Edit </span> <span <?% if ($id==1) echo("id='radioband24'");?>><?% echo($radio_band); ?></span> GHz</h1>
+	<?% } else { ?>
+		<h1><span id="wireedthead">Gateway > Connection >  Wi-Fi > Edit </span> <span <?% if ($id==1) echo("id='radioband24'");?>><?% echo($radio_band); ?></span> GHz</h1>
+	<?% } ?>
 	<div id="educational-tip">
 		<p class="tip"><span id="wiremannet">Manage your </span><span <?% if ($id==1) echo("id='radioband24'");?>><?% echo($radio_band); ?></span><span id="wiremannet1"> GHz network settings.</span></p>
-		<p class="hidden" id="wireedttip1"><strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Gateway, but can be changed for easier identification.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden" id="wireedttip1_router"><strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Router, but can be changed for easier identification.</p>
+		<?% } else { ?>
+			<p class="hidden" id="wireedttip1"><strong>Network Name (SSID):</strong> Identifies your home network from other nearby networks. Your default name can be found on the bottom label of the Gateway, but can be changed for easier identification.</p>
+		<?% } ?>
 		<?%
 		if($id == 17)
 		{
 		?>
 		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in ax modes.</p>
-		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default  WPA3-Personal Only setting is compatible with most devices and provides the best security and performance.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Router. The default  WPA3-Personal Only setting is compatible with most devices and provides the best security and performance.</p>
+		<?% } else { ?>
+			<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default  WPA3-Personal Only setting is compatible with most devices and provides the best security and performance.</p>
+		<?% } ?>
 		<?%
 		 }else
                 {?>
 		<p class="hidden"><strong>Mode:</strong>  <?% echo( $radio_band); ?> GHz operates in <?% echo($supported_mode); ?> modes.</p>
-                <?% if($WPA3_enable == "true"){ ?>
-                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-Personal Transition setting is compatible with most devices and provides the best security and performance.</p>
-                <?% }else{ ?>
-                <p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+		<?% if($WPA3_enable == "true"){ ?>
+        		<?% if(is_device_router()) { ?> 
+		        	<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Router. The default WPA3-Personal Transition setting is compatible with most devices and provides the best security and performance.</p>
+                	<?% } else { ?>
+				<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA3-Personal Transition setting is compatible with most devices and provides the best security and performance.</p>
+			<?% } ?>	
+		<?% }else{ ?>
+			<?% if(is_device_router()) { ?>
+                		<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Router. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+			<?% } else { ?>
+				<p class="hidden"><strong>Security Mode:</strong> Secures data between your Wi-Fi devices and the Gateway. The default WPA2-PSK (AES) setting is compatible with most devices and provides the best security and performance.</p>
+			<?% } ?>
                 <?%} }?>
-		<p class="hidden" id="wireedttip4"><strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Gateway will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used.</p>
-		<p class="hidden" id="wireedttip5"><strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Gateway. </p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden" id="wireedttip4_router"><strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Router will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used.</p>
+			<p class="hidden" id="wireedttip5_router"><strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Router. </p>
+		<?% } else { ?>
+                        <p class="hidden" id="wireedttip4"><strong>Channel Selection:</strong>  Channel to be used for your home Wi-Fi network. In Automatic mode (default), the Gateway will select the channel with the least amount of Wi-Fi interference. In Manual mode, you can choose the channel to be used.</p>
+                        <p class="hidden" id="wireedttip5"><strong>Network Password(Key):</strong> Required by Wi-Fi products to connect to your secure network. The default setting can be found on the bottom label of the Gateway. </p>
+		<?% } ?>
 		<p class="hidden" id="wireedttip6"><strong>Broadcast Network Name (SSID):</strong>  If enabled, the Network Name (SSID) will be shown in the list of available networks. (If unchecked, you'll need to enter the exact Network Name (SSID) to connect.)</p>
 	</div>
 	<div class="module forms">

@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: device_discovery.jst 3158 2010-01-08 23:32:05Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -171,8 +172,13 @@ function saveQoS(information) {
    	<h1 id="devdis">Advanced > Device Discovery</h1>
     <div id="educational-tip">
 		        <p class="tip" id="devdistip">Manage UPnP network.</p>
-		        <p class="hidden" id="devdistip2">The UPnP enabled Gateway discovers all UPnP enabled client devices, such as network printers and laptops. Using UPnP, the ports are opened automatically for the appropriate services and applications. The UPnP devices will be auto configured in the network.</p>
-				<p class="hidden" id="devdistip3"><strong>Advertisement Period:</strong> The Advertisement Period is how often the gateway will advertise (broadcast) its UPnP information. </p>
+			<?% if(is_device_router()) { ?>
+		        	<p class="hidden" id="devdistip2_router">The UPnP enabled Router discovers all UPnP enabled client devices, such as network printers and laptops. Using UPnP, the ports are opened automatically for the appropriate services and applications. The UPnP devices will be auto configured in the network.</p>
+				<p class="hidden" id="devdistip3_router"><strong>Advertisement Period:</strong> The Advertisement Period is how often the router will advertise (broadcast) its UPnP information. </p>
+			<?% } else { ?>
+				 <p class="hidden" id="devdistip2">The UPnP enabled Gateway discovers all UPnP enabled client devices, such as network printers and laptops. Using UPnP, the ports are opened automatically for the appropriate services and applications. The UPnP devices will be auto configured in the network.</p>
+                                <p class="hidden" id="devdistip3"><strong>Advertisement Period:</strong> The Advertisement Period is how often the gateway will advertise (broadcast) its UPnP information. </p>
+			<?% } ?>
 				<p class="hidden" id="devdistip4"><strong>Time to Live:</strong> Measured in hops for each UPnP packet sent. A hop is the number of steps an UPnP advertisement is allowed to propagate before disappearing.</p>
 				<p class="hidden" id="devdistip5"><strong>Zero Config:</strong> Discovery protocol which allows devices, such as printers and computers, to connect to a network automatically.'));?> </p>
     </div>

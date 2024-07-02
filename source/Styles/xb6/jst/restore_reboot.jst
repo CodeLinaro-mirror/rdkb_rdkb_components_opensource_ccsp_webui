@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: restore_reboot.jst 3159 2010-01-11 20:10:58Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -26,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Troubleshooting > Reset / Restore Gateway", "nav-restore-reboot");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Troubleshooting > Reset / Restore Router", "nav-restore-reboot");
+    <?% } else { ?>
+	gateway.page.init("Troubleshooting > Reset / Restore Gateway", "nav-restore-reboot");
+    <?% } ?>
 	//Having only Reset and Restore Factory Defaults under troubleshooting page in bridge mode is good enough.
 	//hide 2 3 4 6
 	if ("router" != "<?% echo( $_SESSION["lanMode"]); ?>") {
@@ -44,10 +49,16 @@ $(document).ready(function() {
 $('#btn1').click(function(e) {
 	e.preventDefault();
 	var href = $(this).attr("href");
-	var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + $(this).attr("title") + "?" : $.i18n('Are you sure?');
+	<?% if(is_device_router()) { ?>
+		var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + "Reset the Router" + "?" : $.i18n('Are you sure?');
+		var message2 = $.i18n('<strong>WARNING:</strong> Router will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!');
+	<?% } else { ?>
+		var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + $(this).attr("title") + "?" : $.i18n('Are you sure?');
+		var message2 = $.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!');
+	<?% } ?>
 	var info = new Array("btn1", "Device");
 	jConfirm(
-	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!')
+	message+"<br/><br/>"+message2
 	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
@@ -98,7 +109,11 @@ $('#btn2').click(function(e) {
 $('#btn3').click(function(e) {
 	e.preventDefault();
 	var href = $(this).attr("href");
-	var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + $(this).attr("title") + "?" : $.i18n('Are you sure?');
+	<?% if(is_device_router()) { ?>
+		var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + "Reset the Wi-Fi Router" + "?" : $.i18n('Are you sure?');
+	<?% } else { ?>
+		var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + $(this).attr("title") + "?" : $.i18n('Are you sure?');
+	<?% } ?>
 	var info = new Array("btn3", "Wifi,Router");
 	jConfirm(
 	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Wi-Fi will be unavailable for at least 90 seconds!')
@@ -127,9 +142,14 @@ $('#btn5').click(function(e) {
 	e.preventDefault();
 	var href = $(this).attr("href");
 	var message = ($(this).attr("title").length > 0) ? $.i18n('Are you sure you want to ') + $(this).attr("title") + "?" : $.i18n('Are you sure?');
+	<?% if(is_device_router()) { ?>
+		var message2 = $.i18n('<strong>WARNING:</strong> Router will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!');
+	<?% } else { ?>
+		var message2 = $.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!');
+	<?% } ?>
 	var info = new Array("btn5", "Router,Wifi,VoIP,Dect,MoCA");
 	jConfirm(
-	message+"<br/><br/>"+$.i18n('<strong>WARNING:</strong> Gateway will be rebooted!<br/>Incoming/outgoing call and internet connection will be interrupted!')
+	message+"<br/><br/>"+message2
 	, $.i18n("Are you sure?")
 	,function(ret) {
 	if(ret) {
@@ -267,18 +287,35 @@ function setBatteryInfo(info) {
 
 </script>
 <div id="content">
-	<h1 id="restorehead">Troubleshooting > Reset / Restore Gateway</h1>
+	<?% if(is_device_router()) { ?>
+		<h1 id="restorehead_router">Troubleshooting > Reset / Restore Router</h1>
+	<?% } else { ?>
+		<h1 id="restorehead">Troubleshooting > Reset / Restore Gateway</h1>
+	<?% } ?>
 	<div id="educational-tip">
+	<?% if(is_device_router()) { ?>
+		<p class="tip" id="restoretip1_router">Reset or restore the Router.</p>
+		<p class="hidden" id="restoretip2_router">If you're having problems with the Router, click <strong>RESET</strong> to restart or <strong>RESTORE</strong> to the default factory settings.</p>
+	<?% } else { ?>
 		<p class="tip" id="restoretip1">Reset or restore the Gateway.</p>
-		<p class="hidden" id="restoretip2">If you're having problems with the Gateway, click <strong>RESET</strong> to restart or <strong>RESTORE</strong> to the default factory settings.</p>
+                <p class="hidden" id="restoretip2">If you're having problems with the Gateway, click <strong>RESET</strong> to restart or <strong>RESTORE</strong> to the default factory settings.</p>
+	<?% } ?>
 		<p class="hidden" id="restoretip3">CAUTION:<strong> RESTORE </strong>will erase all your settings (passwords, parental controls, firewall).</p>
 	</div>
 	<form>
 	<div class="module forms" id="restore">
-		<h2 id="restoremsg1">Reset / Restore Gateway</h2>
+		<?% if(is_device_router()) { ?>
+			<h2 id="restoremsg1_router">Reset / Restore Router</h2>
+		<?% } else { ?>
+			<h2 id="restoremsg1">Reset / Restore Gateway</h2>
+		<?% } ?>
 		<div id="div1" class="form-row odd">
 			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn1" title="Reset the Gateway">RESET</a></span> 
-			<span class="value" id="restoremsg3">Press \"Reset\" button to restart the gateway.</span>
+			<?% if(is_device_router()) { ?>
+				<span class="value" id="restoremsg3_router">Press "Reset" button to restart the router.</span>
+			<?% } else { ?>
+				<span class="value" id="restoremsg3">Press \"Reset\" button to restart the gateway.</span>
+			<?% } ?>
 		</div>
 		<div id="div2" class="form-row">
 			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn2" title="Reset Wi-Fi Module">RESET Wi-Fi MODULE</a></span> 
@@ -290,7 +327,11 @@ function setBatteryInfo(info) {
 		</div>
 		<div id="div4" class="form-row">
 			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn4" title="Restore manufacturer defaults for Wi-Fi Only">RESTORE Wi-Fi SETTINGS</a></span> 
-			<span class="value" id="restoremsg7">Press "Restore Wi-Fi Settings" to activate your Gateway Default Settings for Wi-Fi only. Only your Wi-Fi settings will be lost.</span>
+			<?% if(is_device_router()) { ?>
+				<span class="value" id="restoremsg7_router">Press "Restore Wi-Fi Settings" to activate your Router Default Settings for Wi-Fi only. Only your Wi-Fi settings will be lost.</span>
+			<?% } else { ?>
+				<span class="value" id="restoremsg7">Press "Restore Wi-Fi Settings" to activate your Gateway Default Settings for Wi-Fi only. Only your Wi-Fi settings will be lost.</span>
+			<?% } ?>
 		</div>
 		<div id="div6" class="form-row odd">
 			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn6" title="Reset Password">RESET PASSWORD</a></span> 
@@ -298,12 +339,18 @@ function setBatteryInfo(info) {
 		</div>
 		<div id="div5" class="form-row">
 			<span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn5" title="Restore Factory settings">RESTORE FACTORY SETTINGS</a></span> 
-			<span class="value" id="restoremsg9">Press "Restore Factory Settings" to activate your Gateway Default Settings. All your previous settings will be lost.</span>
+			<?% if(is_device_router()) { ?>
+				<span class="value" id="restoremsg9_router">Press "Restore Factory Settings" to activate your Router Default Settings. All your previous settings will be lost.</span>
+			<?% } else { ?>
+				<span class="value" id="restoremsg9">Press "Restore Factory Settings" to activate your Gateway Default Settings. All your previous settings will be lost.</span>
+			<?% } ?>
 		</div>
+		<?% if(is_battery_supported()) { ?>
                 <div id="div7" class="form-row odd">
                         <span class="readonlyLabel"><a href="#" class="restore_style btn" id="btn7" title="Reset Battery Connection">RESET BATTERY CONNECTION</a></span>
                         <span class="value">Press "Reset Battery Connection" to restore wireless connectivity with your backup battery</span>
                 </div>
+		<?% } ?>
 	</div> <!-- end .module -->
 	</form>
 </div><!-- end #content -->

@@ -187,10 +187,18 @@ function getTitle(val){
 	<h1 id="portrighead">Advanced > Port Triggering</h1>
 	<div id="educational-tip">
 		<p class="tip" id="portfwdtip1">Manage external access to specific ports on your network.</p>
-		<p class="hidden" id="portrigtip2">Port triggering monitors outbound traffic on your network. When traffic is detected on a particular outbound port, the Gateway remembers that computer's IP address, triggers the inbound port to accept the incoming traffic, and directs the communications to the same computer.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden" id="portrigtip2_router">Port triggering monitors outbound traffic on your network. When traffic is detected on a particular outbound port, the Router remembers that computer's IP address, triggers the inbound port to accept the incoming traffic, and directs the communications to the same computer.</p>
+		<?% } else { ?>
+			<p class="hidden" id="portrigtip2">Port triggering monitors outbound traffic on your network. When traffic is detected on a particular outbound port, the Gateway remembers that computer's IP address, triggers the inbound port to accept the incoming traffic, and directs the communications to the same computer.</p>
+		<?% } ?>
 		<p class="hidden" id="portfwdtip3">Select <strong>Enable</strong> to manage external access to specific ports on your network.</p>
 		<p class="hidden" id="portrigtip3">Click <strong>+ADD PORT TRIGGER</strong> to add new port triggering rules.</p>
-		<p class="hidden" id="portrigtip4">Port triggering settings can affect the Gateway's performance.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="hidden" id="portrigtip4_router">Port triggering settings can affect the Router's performance.</p>
+		<?% } else { ?>
+			<p class="hidden" id="portrigtip4">Port triggering settings can affect the Gateway's performance.</p>
+		<?% } ?>
 	</div>
 	<form action="port_triggering.jst" method="post">
 	<div class="module">

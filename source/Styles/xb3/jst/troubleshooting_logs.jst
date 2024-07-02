@@ -281,7 +281,11 @@ function ajaxDo(mode,timef){
 <div id="content">
 	<h1 id="trblhead">Troubleshooting > Logs</h1>
 	<div id="educational-tip" class="noprint">
-		<p class="tip" id="trbltip1">View information about the Gateway's performance and system operation.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="tip" id="trbltip1_router">View information about the Router's performance and system operation.</p>
+		<?% } else { ?>
+			<p class="tip" id="trbltip1">View information about the Gateway's performance and system operation.</p>
+		<?% } ?>
 		<p class="hidden" id="trbltip2">Use the logs to troubleshoot issues and to identify potential security risks.</p>
 	</div>
 	<div class="module noprint">

@@ -38,7 +38,11 @@
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Connection > <?% echo( $NetworkName); ?>", "nav-gateway-network");
+   <?% if(is_device_router()) { ?> 
+	gateway.page.init("Router > Connection > <?% echo( $NetworkName); ?>", "nav-gateway-network");
+   <?% } else { ?>
+	gateway.page.init("Gateway > Connection > <?% echo( $NetworkName); ?>", "nav-gateway-network");
+   <?% } ?>
 	if ("admin" == "<?% echo( $_SESSION["loginuser"]); ?>"){
 		$(".div_cm").remove();
 		$(".div_mta").remove();
@@ -105,10 +109,18 @@ function sec2dhms($sec)
 	$sta_inet = ($_SESSION["lanMode"] == "bridge-static") ? "true" : $sta_inet ;
 ?>
 <div id="content">
-<h1>Gateway > Connection > <?% echo( $Connection_values[0]['StatusTitle']); ?></h1>
+<?% if(is_device_router()) { ?>
+	<h1>Router > Connection > <?% echo( $Connection_values[0]['StatusTitle']); ?></h1>
+<?% } else { ?>
+	<h1>Gateway > Connection > <?% echo( $Connection_values[0]['StatusTitle']); ?></h1>
+<?% } ?>
 <div id="educational-tip">
 	<p class="tip"><?% echo( $Connection_values[0]['MSOinfo']); ?></p>
-	<p class="hidden"><?% echo( $Connection_values[0]['StatusInfo']); ?></p>
+	<?% if(is_moca_supported()) { ?>
+                <p class="hidden"><?% echo( $Connection_values[0]['StatusInfo']); ?></p>
+        <?% } else { ?>
+                <p class="hidden"><label id="moca2">View and manage the settings for your local IP, Wi-Fi and </label><?% echo($NetworkName); ?>s.</p>
+        <?% } ?>
 </div>
 <div class="module forms">
 	<h2><?% echo( $Connection_values[0]['StatusTitle']); ?></h2>
@@ -287,23 +299,45 @@ function sec2dhms($sec)
 		<span class="readonlyLabel">Default Password:</span>
 		<span class="value"><?% echo( $wifi_value['DefaultKeyPassphrase'] );?></span>
 	</div>
+	<?% if(is_wps_supported()) { ?>
 	<div class="form-row ">
 		<span class="readonlyLabel">WPS PIN:</span>
 		<span class="value"><?% echo( $wifi_value['WPS_Pin'] );?></span>
 	</div>
-	<div class="form-row odd ">
+	<?% } ?>
+	<?% if(is_wps_supported()) { ?>
+                <div class="form-row odd ">
+        <?% } else { ?>
+                <div class="form-row ">
+        <?% } ?>
 		<span class="readonlyLabel" id="sernum">Serial Number:</span>
 		<span class="value"><?% echo(getStr("Device.DeviceInfo.SerialNumber"));?></span>
 	</div>
-	<div class="form-row div_cm_mac">
-		<span class="readonlyLabel">CM MAC:</span>
+	<?% if(is_wps_supported()) { ?>
+                <div class="form-row div_cm_mac">
+        <?% } else { ?>
+                <div class="form-row div_cm_mac odd ">
+        <?% } ?>
+		<?% if(is_docsis_supported()) { ?>
+			<span class="readonlyLabel">CM MAC:</span>
+		<?% } else { ?>
+			<span class="readonlyLabel">ETHWAN MAC:</span>
+		<?% } ?>
 		<span class="value"><?% echo( strtoupper($CM_value["MACAddress"]));?></span>
 	</div>
-	<div class="form-row odd">
+	<?% if(is_wps_supported()) { ?>
+                <div class="form-row odd">
+        <?% } else { ?>
+                <div class="form-row ">
+        <?% } ?>
 		<span class="readonlyLabel">eMTA MAC:</span>
 		<span class="value"><?% echo( strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress")));?></span>
 	</div>
-	<div class="form-row">
+	<?% if(is_wps_supported()) { ?>
+        	<div class="form-row">
+        <?% } else { ?>
+                <div class="form-row odd">
+        <?% } ?>
 		<span class="readonlyLabel" id="wanmac">WAN MAC:</span>
 		<span class="value">
 			<?%
@@ -368,6 +402,7 @@ else {
 	$initStatus = ["NotStarted", "NotStarted", "NotStarted", "NotStarted", "NotStarted", "NotStarted", "NotStarted"]/*p2j-array*/;
 }
 ?>
+<?% if(is_docsis_supported()) { ?>
 <div class="module forms">
 	<h2>Initialization Procedure</h2>
 	<div class="form-row ">
@@ -922,5 +957,6 @@ for ($i=1, $j=1; $i<count($ec_ids); $i++)
 	</tbody>
 	</table>
 </div>
+<?% } ?>
 </div> <!-- end #container -->
 <?% include('includes/footer.jst'); ?>

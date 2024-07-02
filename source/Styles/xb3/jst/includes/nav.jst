@@ -34,7 +34,12 @@ $parental_control 	= true;
 $dmz              	= true;
 $port_forwarding  	= true;
 $port_triggering  	= true;
-$MoCA             	= true;
+
+if (is_moca_supported()) {
+        $MoCA = true;
+} else {
+        $MoCA = false;
+}
 $battery            	= true;
 $radius_servers   	= false;
 $local_users      	= false;
@@ -49,7 +54,12 @@ $password_change	= false;	//for admin only
 $wifi_spec_analyzer	= true;
 $advanced_tab		= true;
 $wan_network        = true;
-$moca_diagnostics   = true;
+
+if (is_moca_supported()) {
+        $moca_diagnostics = true;
+} else {
+        $moca_diagnostics = false;
+}
 $voice_Dig = false;
 $device_discovery = true;
 $hwselftest_enabled = false;
@@ -141,7 +151,11 @@ if($http_mode == "true" || $https_mode == "true") {
 echo( '<div id="nav">');
 echo( '<ul>');
 echo( '<li class="nav-gateway">');
-	echo( '<a role="menuitem"  title="click to toggle sub menu" class="top-level" href="at_a_glance.jst" id="gatewayloc">Gateway</a>');
+	if(is_device_router()) {
+		echo( '<a role="menuitem"  title="click to toggle sub menu" class="top-level" href="at_a_glance.jst" id="routerloc">Router</a>');
+	} else {
+		echo( '<a role="menuitem"  title="click to toggle sub menu" class="top-level" href="at_a_glance.jst" id="gatewayloc">Gateway</a>');
+	}
 	echo( '<ul>');
 	echo( '<li class="nav-at-a-glance"><a role="menuitem"  href="at_a_glance.jst" id="ataglanceloc">At a Glance</a></li>');
 	echo( '<li class="nav-connection"><a role="menuitem"  title="click to toggle sub menu"  href="javascript:;" id="connloc">Connection</a>');
@@ -166,7 +180,7 @@ echo( '<li class="nav-gateway">');
 		if ($MoCA) {
 		  echo( '<li class="nav-moca"><a role="menuitem"  href="moca.jst">MoCA</a></li>');
 		}
-		if((($autoWanEnable=="true") || ($allowEthWan=="true")) && (($modelName=="CGM4140COM") || ($modelName=="CGM4331COM") || ($modelName=="CGM4981COM") || ($modelName=="SG417DBCT") || ($modelName=="CGM601TCOM") || ($modelName=="TG4482A"))){
+		if((($autoWanEnable=="true") || ($allowEthWan=="true")) && (($modelName=="CGM4140COM") || ($modelName=="CGM4331COM") || ($modelName=="CGM4981COM") || ($modelName=="TG4482A"))){
 			if($wan_network) echo( '<li class="nav-wan-network"><a role="menuitem"  href="wan_network.jst" id="wannet">WAN Network</a></li>');
 		}
 		echo( '</ul>');
@@ -254,7 +268,11 @@ echo( '<li class="nav-troubleshooting">');
 		echo( '<li class="nav-diagnostic-tools"><a role="menuitem"  href="network_diagnostic_tools.jst" id="diagloc">Diagnostic Tools</a></li>');
 		if($wifi_spec_analyzer) echo( '<li class="nav-wifi-spectrum-analyzer"><a role="menuitem"  href="wifi_spectrum_analyzer.jst" id="wifispecloc">Wi-Fi Spectrum Analyzer</a></li>');
 		if($moca_diagnostics) echo( '<li class="nav-moca-diagnostics"><a role="menuitem"  href="moca_diagnostics.jst" id="mocdiagloc">MoCA Diagnostics</a></li>');
-		echo( '<li class="nav-restore-reboot"><a role="menuitem"  href="restore_reboot.jst" id="resetloc">Reset/Restore Gateway</a></li>');
+		if(is_device_router()) {
+			echo( '<li class="nav-restore-reboot"><a role="menuitem"  href="restore_reboot.jst" id="routerResetloc">Reset/Restore Router</a></li>');
+		} else {
+			echo( '<li class="nav-restore-reboot"><a role="menuitem"  href="restore_reboot.jst" id="resetloc">Reset/Restore Gateway</a></li>');
+		}
 		if($password_change) echo( '<li class="nav-password"><a role="menuitem"  href="password_change.jst" id="chPass">Change Password</a></li>');
 		if($hwselftest_enabled) echo( '<li class="nav-hwselftest"><a role="menuitem"  href="hwselftest.jst">Hardware Health Test</a></li>')
 	echo( '</ul>');

@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/php.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!--dynamic generate user bar icon and tips-->
 <?%
 	session_start();
@@ -29,7 +30,7 @@
 	$sta_moca = $_SESSION['sta_moca'];
 	$sta_fire = $_SESSION['sta_fire'];
 	$partnerId = getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.PartnerId");
-
+	
 	if (strpos($partnerId, "sky-") === false) {
 		/* Grab XBB or other MTA Legacy Battery Install Status */
 		$batteryInstalled = getStr("Device.X_CISCO_COM_MTA.Battery.Installed");
@@ -250,6 +251,7 @@ setTimeout(function(){
 	} else {
 		echo( '<li id="sta_wifi" class="wifi off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="WiFi Offline" /></span><a href="javascript: void(0);" tabindex="0">Wi-Fi<div class="tooltip" id="bat_remain">Loading...</div></a></li>');
 	}
+	if (is_moca_supported()){
 	if ($MoCA) {
 	if ("true"==$sta_moca) {
     		echo( '<li id="sta_moca" class="MoCA"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="MoCA Online" /></span><a href="javascript: void(0);" tabindex="0">MoCA<div class="tooltip" id="bat_remain">Loading...</div></a></li>');
@@ -257,6 +259,7 @@ setTimeout(function(){
     		echo( '<li id="sta_moca" class="MoCA off"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="MoCA Offline" /></span><a href="javascript: void(0);" tabindex="0">MoCA<div class="tooltip" id="bat_remain">Loading...</div></a></li>');
 	}
 	}
+        }
 	/*if ("true"==$sta_dect) {
 		echo( '<li id="sta_dect" class="DECT"><span class="value on-off sprite_cont"><img src="./cmn/img/icn_on_off.png" alt="DECT Online" /></span><a href="javascript: void(0);" tabindex="0">DECT<div class="tooltip">Loading...</div></a></li>');
 	} else {

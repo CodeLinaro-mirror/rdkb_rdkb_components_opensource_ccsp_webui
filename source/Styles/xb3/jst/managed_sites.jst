@@ -425,7 +425,11 @@ $.validator.addMethod("no_space", function(value, element, param) {
     <p class="hidden" id="manstmess3"><strong>+ADD:</strong> Add a new website or keyword.</p>
     <p class="hidden" id="manstmess4"><strong>Blocked Sites:</strong> Deny access to specific websites (URLs).</p>
     <p class="hidden" id="manstmess5"><strong>Blocked Keywords:</strong> Deny access to websites containing specific words.</p>
-    <p class="hidden" id="manstmess6">The Gateway will block connections to websites on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+    <?% if(is_device_router()) { ?>
+	<p class="hidden" id="manstmess6_router">The Router will block connections to websites on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+    <?% } else { ?>
+	<p class="hidden" id="manstmess6">The Gateway will block connections to websites on all untrusted computers, based on the specified rules. If you don't want restrictions for a particular computer, select <strong>Yes</strong> under <strong>Trusted Computers</strong>.</p>
+    <?% } ?>
 	</div>
 	<form action="managed_sites.jst" method="post"  name="managed_sites">
 	<div class="module">

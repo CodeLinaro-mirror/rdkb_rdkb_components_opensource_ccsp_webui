@@ -95,7 +95,11 @@ $(document).ready(function() {
 		} else {
 			// document.getElementById('http').disabled = false;
 			jConfirm(
-				$.i18n("WARNING: Enabling Remote Management will expose your Gateway GUI to Internet. Your Gateway will only be protected by your logon password. Are you sure you want to continue?")
+				<?% if(is_device_router()) { ?>
+					$.i18n("WARNING: Enabling Remote Management will expose your Router GUI to Internet. Your Router will only be protected by your logon password. Are you sure you want to continue?")
+				<?% } else { ?>
+					$.i18n("WARNING: Enabling Remote Management will expose your Gateway GUI to Internet. Your Gateway will only be protected by your logon password. Are you sure you want to continue?")
+				<?% } ?>
 				,$.i18n("Confirm:")
 				,function(ret) {
 					if(ret) {
@@ -128,7 +132,11 @@ $(document).ready(function() {
 		} else {
 			// document.getElementById('https').disabled = false;
 			jConfirm(
-				$.i18n("WARNING: Enabling Remote Management will expose your Gateway GUI to Internet. Your Gateway will only be protected by your logon password. Are you sure you want to continue?")
+				<?% if(is_device_router()) { ?>
+					$.i18n("WARNING: Enabling Remote Management will expose your Router GUI to Internet. Your Router will only be protected by your logon password. Are you sure you want to continue?")
+				<?% } else { ?>
+					$.i18n("WARNING: Enabling Remote Management will expose your Gateway GUI to Internet. Your Gateway will only be protected by your logon password. Are you sure you want to continue?")
+				<?% } ?>
 				,$.i18n("Confirm:")
 				,function(ret) {
 					if(ret) {
@@ -739,7 +747,11 @@ function remote_access_block(){
 <div id="content">
 	<h1 id="remhead">Advanced > Remote Management</h1>
 	<div id="educational-tip">
-		<p class="tip" id="remtip1">Remote Management allows the gateway to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="tip" id="remtip1_router">Remote Management allows the router to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.</p>
+		<?% } else { ?>
+			 <p class="tip" id="remtip1">Remote Management allows the gateway to be accessed remotely by a customer account representative to perform troubleshooting or maintenance.</p>
+		<?% } ?>
 	<?% if (!$removeHttpRM) { ?>
 		<p class="hidden" id="remtip2">Remote Management can be used via HTTP and HTTPS.</p>
 		<p class="hidden" id="remtip3">Enable the HTTP option and enter the value for HTTP Port, then you can access your device from HTTP. For example, if the WAN IP address is 11.22.11.22 and the HTTP port number is 8080, then you would use http://11.22.11.22:8080</p>

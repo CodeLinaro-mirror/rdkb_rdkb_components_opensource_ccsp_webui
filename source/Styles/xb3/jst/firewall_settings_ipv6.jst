@@ -29,7 +29,11 @@ $modelName= getStr("Device.DeviceInfo.ModelName");
 ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Firewall > IPv6", "nav-firewall-ipv6");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Firewall > IPv6", "nav-firewall-ipv6");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Firewall > IPv6", "nav-firewall-ipv6");
+    <?% } ?>
     /*
      * Toggles Custom Security Checkboxes based on if the Custom Security is selected or not
      */
@@ -159,7 +163,11 @@ $(document).ready(function() {
 });
 </script>
 <div id="content">
-    <h1 id="firewallv6">Gateway > Firewall > IPv6</h1>
+    <?% if(is_device_router()) { ?>
+	<h1 id="firewallv6_Router">Router > Firewall > IPv6</h1>
+    <?% } else { ?>
+	<h1 id="firewallv6">Gateway > Firewall > IPv6</h1>
+    <?% } ?>
 	<div id="educational-tip">
 		<p class="tip" id="firwlipv4">Manage your firewall settings.</p>
 		<p class="hidden" id="firwlipv4tip1">Select a security level for details. If you're unfamiliar with firewall settings, keep the default security level, Minimum Security (Low).</p>

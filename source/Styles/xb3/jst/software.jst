@@ -27,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Software", "nav-software");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Software", "nav-software");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Software", "nav-software");
+    <?% } ?>
 });
 </script>
 <?%	
@@ -41,14 +45,24 @@ $(document).ready(function() {
 	   $BackendSoftwareVersion = "EPON";
 	} else if ($wanType == "DSL") {
 	   $BackendSoftwareVersion = "DSL";
+        } else if (!is_docsis_supported()) {
+           $BackendSoftwareVersion = "SDK";
 	} else {
 	   $BackendSoftwareVersion = "eMTA & DOCSIS";
 	}
 ?>
 <div id="content">
-	<h1 id="softhead">Gateway > Software</h1>
+	<?% if(is_device_router()) { ?>
+		<h1 id="softhead_router">Router > Software</h1>
+	<?% } else { ?>
+		<h1 id="softhead">Gateway > Software</h1>
+	<?% } ?>
 	<div id="educational-tip">
-		<p class="tip" id="softtip1">View details about the Gateway's software.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="tip" id="softtip1_router">View details about the Router's software.</p>
+		<?% } else { ?>
+			<p class="tip" id="softtip1">View details about the Gateway's software.</p>
+		<?% } ?>
 		<p class="hidden" id="softtip12">You may need this information for troubleshooting assistance.</p>
 	</div>
 	<div class="module forms">

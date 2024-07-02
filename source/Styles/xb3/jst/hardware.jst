@@ -27,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Hardware > System Hardware", "nav-system-hardware");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Hardware > System Hardware", "nav-system-hardware");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Hardware > System Hardware", "nav-system-hardware");
+    <?% } ?>
 });
 </script>
 <?%
@@ -44,9 +48,17 @@ $(document).ready(function() {
 	$hardware_mem_total     = Number($hardware_mem_used) + Number($hardware_mem_free);
 ?>
 <div id="content">
-	<h1 id="hardhead">Gateway > Hardware > System Hardware</h1>
+	<?% if(is_device_router()) { ?>
+		<h1 id="hardhead_router">Router > Hardware > System Hardware</h1>
+	<?% } else { ?>
+		<h1 id="hardhead">Gateway > Hardware > System Hardware</h1>
+	<?% } ?>
 	<div id="educational-tip">
-		<p class="tip" id="hardtip1">View information about the Gateway\'s hardware.</p>
+		<?% if(is_device_router()) { ?>
+			<p class="tip" id="hardtip1_router">View information about the Router's hardware.</p>
+		<?% } else { ?>
+			<p class="tip" id="hardtip1">View information about the Gateway\'s hardware.</p>
+		<?% } ?>
 		<p class="hidden" id="hardtip2">You may need this information for troubleshooting assistance.</p>
 	</div>
 	<div class="module forms">
