@@ -692,6 +692,14 @@ div.sprite_cont, span.sprite_cont {
 	margin: 4px 0 0 0px;
 }
 
+#image .value{
+        width: 443px;
+        margin: 4px 0 0 -30px;
+        float: right;
+        font-weight: bold;
+        position: relative;
+        bottom: 4px;
+}
 
 #restore .value {
 	width: 435px;
