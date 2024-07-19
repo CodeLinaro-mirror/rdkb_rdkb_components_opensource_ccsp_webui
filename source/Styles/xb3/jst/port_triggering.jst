@@ -227,12 +227,9 @@ function getTitle(val){
 			$PTIDs=explode(",",getInstanceIDs("Device.NAT.X_CISCO_COM_PortTriggers.Trigger."));
 			$iclass="";
 			for($key in $PTIDs) { $i=$PTIDs[$key];/*p2j-foreach*/
-                             if($i!=""){
 				$portTriggerValues[$i.toString()] = $portTriggerValuesArr[$key.toString()];
-                             }
 			}
 			for($key in $PTIDs) { $i=$PTIDs[$key];/*p2j-foreach*/
-                              if($i!=""){
 				$portTriggerValues[$i]['Description'] = htmlspecialchars($portTriggerValues[$i]['Description'], ENT_NOQUOTES, 'UTF-8');
 				if ($iclass=="") {$iclass="odd";} else {$iclass="";}
 				$Protocol =  $portTriggerValues[$i.toString()]["TriggerProtocol"];
@@ -253,7 +250,7 @@ function getTitle(val){
 	            <td headers='edit-button' class=\"edit\"><a tabindex='0' href=\"port_triggering_edit.jst?id="+$i+"\" class=\"btn\" id=\"edit_"+$i+"\">Edit</a></td>\
 		        <td headers='delete-button' class=\"delete\"><a tabindex='0' href=\"actionHandler/ajax_port_triggering.jst?del="+$i+"\" class=\"btn confirm\" onmouseover=getTitle("+$i+") id=\"deleteporttrig_"+$i+"\">x</a></td>\
 		    </tr>");
-			}} }?>
+			} }?>
 			<tfoot>
 				<tr class="acs-hide">
 					<td headers="service-name">null</td>
