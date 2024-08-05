@@ -97,6 +97,9 @@ if (array_key_exists('band_steering', $arConfig))
 else
 {
 	$i = $arConfig['ssid_number'];
+	$get_channel_automatic 	= getStr("Device.WiFi.Radio."+$i+".AutoChannelEnable");
+	$get_wireless_mode 	= getStr("Device.WiFi.Radio."+$i+".OperatingStandards");
+	$get_channel_bandwidth 	= getStr("Device.WiFi.Radio."+$i+".OperatingChannelBandwidth");
 	// this method for only restart a certain SSID
 	function MiniApplySSID($ssid) {
 		$apply_id = (1 << intval($ssid)-1);
@@ -115,16 +118,20 @@ else
 					setStr("Device.WiFi.Radio."+$i+".TransmitPower", $arConfig['transmit_power'], false);
 					if(!$Mesh_Mode) setStr("Device.WiFi.Radio."+$i+".AutoChannelEnable", $arConfig['channel_automatic'], false);
 				}
-				if ($arConfig['channel_automatic']== "true")
-				{
-                                        $logstr = " : webui_event:wifichannel_auto" + " for radio " + $i;
-                                        LogStr($logstr);
-				} else {
-                                        $logstr = " : webui_event:wifichannel_manual" + " for radio " + $i;
-                                        LogStr($logstr);
+				if($get_channel_automatic != $arConfig['channel_automatic']) {
+					if ($arConfig['channel_automatic']== "true")
+					{
+						$logstr = " : webui_event:wifichannel_auto" + " for radio " + $i;
+						LogStr($logstr);
+					} else {
+						$logstr = " : webui_event:wifichannel_manual" + " for radio " + $i;
+						LogStr($logstr);
+					}
 				}
-                                $logstr = ": webui_event:wireless_mode:" + $arConfig['wireless_mode'] + " for radio " + $i;
-                                LogStr($logstr)
+				if($get_wireless_mode != $arConfig['wireless_mode']) {
+					$logstr = " : webui_event:wireless_mode:" + $arConfig['wireless_mode'] + " for radio " + $i;
+					LogStr($logstr);
+				}
 			}
 			else if ("save_advance" == $arConfig['sub_target'])
 			{
@@ -153,9 +160,11 @@ else
 					setStr("Device.WiFi.Radio."+$i+".X_CISCO_COM_STBCEnable", $arConfig['STBC_enabled'], false);
 					setStr("Device.WiFi.AccessPoint."+$i+".UAPSDEnable", $arConfig['WMM_power_save'], true);
 				}
-                        $logstr = ": webui_event:wifichannelbandwidth:" + $arConfig['channel_bandwidth'] + " for radio " + $i;
-			LogStr($logstr);
-                        }
+				if($get_channel_bandwidth != $arConfig['channel_bandwidth']) {
+					$logstr = " : webui_event:wifichannelbandwidth:" + $arConfig['channel_bandwidth'] + " for radio " + $i;
+					LogStr($logstr);
+				}
+			}
 			$validation = true;
 			$PossibleChannels = getStr("Device.WiFi.Radio."+$i+".PossibleChannels");
 			if(strpos($PossibleChannels, '-') !== false){//1-11
@@ -228,11 +237,17 @@ else
 					}
 				}
 				*/
+				$radio_status = ($arConfig['radio_enable'] == "true") ? "enable"  : "disable"  ;
+				$logstr = " : webui_event:wifiradio_" + $radio_status + " for radio " + $i;
+				LogStr($logstr);
 				setStr("Device.WiFi.Radio."+$i+".Enable", $arConfig['radio_enable'], false);
-				setStr("Device.WiFi.Radio."+$i+".X_CISCO_COM_ApplySetting", "true", true);		
+				setStr("Device.WiFi.Radio."+$i+".X_CISCO_COM_ApplySetting", "true", true);
 				// MiniApplySSID($i);	// if enable or disable this radio, no need to assign an SSID
 			}
 			else if($_SESSION["loginuser"] == "admin" && strpos($partnerId, "sky-") !== false){
+				$radio_status = ($arConfig['radio_enable'] == "true") ? "enable"  : "disable"  ;
+                                $logstr = " : webui_event:wifiradio_" + $radio_status + " for radio " + $i;
+                                LogStr($logstr);
 				setStr("Device.WiFi.Radio."+$i+".Enable", $arConfig['radio_enable'], false);
 				setStr("Device.WiFi.Radio."+$i+".X_CISCO_COM_ApplySetting", "true", true);
 			}

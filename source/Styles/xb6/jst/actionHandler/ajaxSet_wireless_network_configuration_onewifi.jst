@@ -135,7 +135,7 @@ else
                                      $logstr = " : webui_event:wifichannel_manual" + " for radio " + $r;
                                      LogStr($logstr);
                                 }
-                                $logstr = ": webui_event:wireless_mode:" + $arConfig['wireless_mode'] + " for radio " + $r;
+                                $logstr = " : webui_event:wireless_mode:" + $arConfig['wireless_mode'] + " for radio " + $r;
                                 LogStr($logstr);
 			}
 			else if ("save_advance" == $arConfig['sub_target'])
@@ -165,7 +165,7 @@ else
 					setStr("Device.WiFi.Radio."+$r+".X_CISCO_COM_STBCEnable", $arConfig['STBC_enabled'], false);
 					setStr("Device.WiFi.AccessPoint."+$i+".UAPSDEnable", $arConfig['WMM_power_save'], true);
 				}
-                               	$logstr = ": webui_event:wifichannelbandwidth:" + $arConfig['channel_bandwidth'] + " for radio " + $r;
+				$logstr = " : webui_event:wifichannelbandwidth:" + $arConfig['channel_bandwidth'] + " for radio " + $r;
 				LogStr($logstr);
 			}
 			$validation = true;

@@ -162,8 +162,8 @@ else
 			}
 		}*/
 		/*===============================================*/
- 
-        
+
+	LogStr(" : webui_event:login_user = " + $_POST["username"]);
         if ($_POST["username"] == "mso")
         {
             LogStr(" : webui_event:mso_login");
@@ -208,7 +208,7 @@ else
 
                      if($failedAttempt_mso==$passLockoutAttempt){
                          $flag_mso=1;
-			 sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');	
+			 sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
 
                      }
                 }
@@ -223,7 +223,7 @@ else
             {
                 if(($passLockEnable == "true") && ($failedAttempt_mso==$passLockoutAttempt)){
                     $flag_mso=1;
-		    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');	
+		    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
 
                 }
                 else{
@@ -269,7 +269,7 @@ else
 			    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
                             LogStr( " : potd FAILED" );
                             $flag_mso=1;
-			    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');	
+			    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
 
                         }
                     }
@@ -288,11 +288,12 @@ else
         }
         else if ($_POST["username"] == "admin")
         {
-            LogStr(" : webui_event:lanwebui_login"); 
+            LogStr(" : webui_event:lanwebui_login");
             if(typeof $_POST["password"] == "undefined")
             {
-                sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
-                exit(0);
+		LogStr(" : webui_event:lanwebui_login_failed");
+		sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
+		exit(0);
             }
             LogStr( " : Authentication = password" );
             $pass_sha = SHA256($_POST["password"]);
@@ -305,8 +306,9 @@ else
 
             if(!$return_status)
             {
-                LogStr( " : Password FAILED" );
-                $passVal = "Invalid_PWD";
+		LogStr(" : webui_event:lanwebui_login_failed");
+		LogStr( " : Password FAILED" );
+		$passVal = "Invalid_PWD";
             }
            if ( !innerIP($client_ip) && (($iface != "rg_ip" || $iface != "eth_ip" )) && ($iface != "rm_ip") && ($iface != "docsis_ip") )
             {
@@ -318,7 +320,7 @@ else
                         }
                     if($failedAttempt==$passLockoutAttempt){
                         $flag=1;
-                        sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');    
+                        sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
                     }
                 }
                 if($flag==0){
@@ -328,17 +330,18 @@ else
                 }
             }
             else if($passVal=="Invalid_PWD"){
-                setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
-                LogStr( " : Password FAIL" );
-                session_destroy();
-                if($passLockEnable == "true"){
+		setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
+		LogStr(" : webui_event:lanwebui_login_failed");
+		LogStr( " : Password FAIL" );
+		session_destroy();
+		if($passLockEnable == "true"){
                     if($failedAttempt<$passLockoutAttempt){
                         $failedAttempt=$failedAttempt+1;
                         setStr("Device.Users.User.3.NumOfFailedAttempts",$failedAttempt.toString(),true);
                     }
                     if($failedAttempt==$passLockoutAttempt){
                         $flag=1;
-                        sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');    
+                        sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
                     }
                 }
                 if($flag==0){
@@ -349,10 +352,11 @@ else
             else
             {
                 if(($passLockEnable == "true") && ($failedAttempt==$passLockoutAttempt)){
-		    setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
-                    LogStr( " : Password FAIL" );
-                    $flag=1;
-                    sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');    
+			setStr("Device.DeviceInfo.X_RDKCENTRAL-COM_UI_ACCESS","ui_failed",true);
+			LogStr(" : webui_event:lanwebui_login_failed");
+			LogStr( " : Password FAIL" );
+			$flag=1;
+			sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
                 }else{
                    $failedAttempt=0;
                    setStr("Device.Users.User.3.NumOfFailedAttempts",$failedAttempt.toString(),true);
