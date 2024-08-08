@@ -495,7 +495,7 @@ else
 		if (0==$status) {
 			$cm_ip  = get_ips("eth0");
 		} else {
-			if ($Manufacturer == "Technicolor"){
+			if (($Manufacturer == "Technicolor") || ($Manufacturer == "Sercomm")) {
 				$cm_ip  = get_ips("privbr");
 			} else {
 				$cm_ip  = get_ips("wan0");
