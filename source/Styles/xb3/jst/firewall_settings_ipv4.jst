@@ -30,19 +30,19 @@ var o_disableFwForTSI = <?% echo( (getStr('Device.X_CISCO_COM_Security.Firewall.
 $(document).ready(function() {
     gateway.page.init("Gateway > Firewall > IPv4", "nav-firewall-ipv4");
     function keyboard_toggle(){
-    	//var $link = $("#security-level label");
-    	var $link = $("input[name='firewall_level']");
+	//var $link = $("#security-level label");
+	var $link = $("input[name='firewall_level']");
 		var $div = $("#security-level .hide");
-		// toggle slide		
+		// toggle slide
 		$($link).keypress(function(ev) {
-	    	var keycode = (ev.keyCode ? ev.keyCode : ev.which);
-	        if (keycode == '13') {
-	        	//e.preventDefault();
-				$(this).siblings('.hide').slideToggle();
+		var keycode = (ev.keyCode ? ev.keyCode : ev.which);
+		if (keycode == '13') {
+			//e.preventDefault();
+			$(this).siblings('.hide').slideToggle();
 	        }
     	});
     }
-    keyboard_toggle();	
+    keyboard_toggle();
     /*
      * Toggles Custom Security Checkboxes based on if the Custom Security is selected or not
      */
@@ -60,18 +60,18 @@ $(document).ready(function() {
                 message
                 ,$.i18n('Are you sure?')
                 ,function(ret) {
-                    if(ret) {
-						$("#block_http").prop("disabled",true).attr('checked', false);
-						$("#block_icmp").prop("disabled",true).attr('checked', false);
-						$("#block_multicast").prop("disabled",true).attr('checked', false);
-						$("#block_peer").prop("disabled",true).attr('checked', false);
-						$("#block_ident").prop("disabled",true).attr('checked', false);
-                    }  
-                    else
-                    {
-                    	$("#disable_firewall").prop('checked', false);
-                    }  
-                });
+			if(ret) {
+				$("#block_http").prop("disabled",true).attr('checked', false);
+				$("#block_icmp").prop("disabled",true).attr('checked', false);
+				$("#block_multicast").prop("disabled",true).attr('checked', false);
+				$("#block_peer").prop("disabled",true).attr('checked', false);
+				$("#block_ident").prop("disabled",true).attr('checked', false);
+			}
+			else
+			{
+				$("#disable_firewall").prop('checked', false);
+			}
+		});
 		}
 		else {
 			$("#block_http").prop("disabled",false);
@@ -122,52 +122,52 @@ $(document).ready(function() {
             });
     });
     $('#submit_firewall').click(function(){
-        var firewallLevel = "None";        
+        var firewallLevel = "None";
         var level1 = document.getElementById('firewall_level_maximum');
-        if (level1.checked) { 
+        if (level1.checked) {
             firewallLevel = "High";
         }
         var level2 = document.getElementById('firewall_level_typical');
-        if (level2.checked) { 
+        if (level2.checked) {
             firewallLevel = "Medium";
         }
         var level3 = document.getElementById('firewall_level_minimum');
-        if (level3.checked) { 
+        if (level3.checked) {
             firewallLevel = "Low";
         }
         var level4 = document.getElementById('firewall_level_custom');
-        if (level4.checked) { 
+        if (level4.checked) {
             firewallLevel = "Custom";
         }
-        var blockHttp = "Disabled"; 
-        var blockIcmp = "Disabled"; 
-        var blockMulticast = "Disabled"; 
-        var blockPeer  = "Disabled"; 
-        var blockIdent = "Disabled"; 
+        var blockHttp = "Disabled";
+        var blockIcmp = "Disabled";
+        var blockMulticast = "Disabled";
+        var blockPeer  = "Disabled";
+        var blockIdent = "Disabled";
         var obj1 = document.getElementById('block_http');
-        if (obj1.checked) { 
+        if (obj1.checked) {
             blockHttp = "Enabled";
         }
         var obj2 = document.getElementById('block_icmp');
-        if (obj2.checked) { 
+        if (obj2.checked) {
             blockIcmp = "Enabled";
         }
         var obj3 = document.getElementById('block_multicast');
-        if (obj3.checked) { 
+        if (obj3.checked) {
             blockMulticast = "Enabled";
         }
         var obj4 = document.getElementById('block_peer');
-        if (obj4.checked) { 
+        if (obj4.checked) {
             blockPeer = "Enabled";
         }
         var obj5 = document.getElementById('block_ident');
-        if (obj5.checked) { 
+        if (obj5.checked) {
             blockIdent = "Enabled";
         }
         var obj6 = document.getElementById('disable_firewall');
-        if (obj6.checked) { 
+        if (obj6.checked) {
             if (firewallLevel == "Custom") {
-                firewallLevel = "None";
+                firewallLevel = "Custom";
             }
         }
         var firewallCfg = '{"firewallLevel": "' + firewallLevel + '", "block_http": "' + blockHttp + '", "block_icmp": "' + blockIcmp +
@@ -182,11 +182,11 @@ $(document).ready(function() {
 			type: "POST",
 			url: "actionHandler/ajaxSet_firewall_config.jst",
 			data: { configInfo: configuration,csrfp_token: token },
-			success: function(){            
-				jHide();	
+			success: function(){
+				jHide();
 				location.reload();
 			},
-			error: function(){            
+			error: function(){
 				jHide();
 				alertLocale('Failure, please try again.');
 			}
@@ -208,17 +208,17 @@ $(document).ready(function() {
 		<form id="pageForm">
 		<input type="hidden" name="restore_factory_settings" id="restore_factory_settings" value="false" />
 		<h2 id="firseclev">Firewall Security Level</h2>
-		<?% 
+		<?%
             $firewall_param = {
                 "SecurityLevel"     : "Device.X_CISCO_COM_Security.Firewall.FirewallLevel",
                 "block_http"        : "Device.X_CISCO_COM_Security.Firewall.FilterHTTP",
                 "block_icmp"        : "Device.X_CISCO_COM_Security.Firewall.FilterAnonymousInternetRequests",
                 "block_multicast"   : "Device.X_CISCO_COM_Security.Firewall.FilterMulticast",
                 "block_peer"        : "Device.X_CISCO_COM_Security.Firewall.FilterP2P",
-                "block_ident"       : "Device.X_CISCO_COM_Security.Firewall.FilterIdent" 
+                "block_ident"       : "Device.X_CISCO_COM_Security.Firewall.FilterIdent"
             }/*p2j-array*/;
             $firewall_value = KeyExtGet("Device.X_CISCO_COM_Security.Firewall.", $firewall_param);
-			$SecurityLevel = $firewall_value["SecurityLevel"]; //getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");	
+			$SecurityLevel = $firewall_value["SecurityLevel"]; //getStr("Device.X_CISCO_COM_Security.Firewall.FirewallLevel");
             $block_http = $firewall_value["block_http"];
             $block_icmp = $firewall_value["block_icmp"];
             $block_multicast = $firewall_value["block_multicast"];
@@ -226,10 +226,10 @@ $(document).ready(function() {
             $block_ident = $firewall_value["block_ident"];
             $videoServiceEnable = getStr("Device.X_RDKCENTRAL-COM_VideoService.Enabled");
             $videoDisable = ($videoServiceEnable=="true") ? "disabled" : "";
-			if(!strcasecmp("false", $block_http) && !strcasecmp("false", $block_icmp) && !strcasecmp("false", $block_multicast) && !strcasecmp("false", $block_peer) && !strcasecmp("false", $block_ident)){                                
+			if(!strcasecmp("false", $block_http) && !strcasecmp("false", $block_icmp) && !strcasecmp("false", $block_multicast) && !strcasecmp("false", $block_peer) && !strcasecmp("false", $block_ident)){
 				$disable_firewall="true";}
-                        else{          
-                                $disable_firewall="false";              
+                        else{
+                                $disable_firewall="false";
                         }?>
 			<ul class="combo-group" id="security-level">
 			<li id="max">
@@ -286,36 +286,36 @@ $(document).ready(function() {
 				</div>
 			</li>
 			<li id="custom">
-				<input class="trigger" type="radio" name="firewall_level" value="custom" id="firewall_level_custom" 
+				<input class="trigger" type="radio" name="firewall_level" value="custom" id="firewall_level_custom"
 				<?% if (( !strcasecmp("Custom", $SecurityLevel)) || ( !strcasecmp("None", $SecurityLevel))) echo( "checked"); ?> />
 				<label for="firewall_level_custom" class="label" id="cussec">Custom Security</label>
 				<div class="hide">
 				<p id="firmess2"><strong>LAN-to-WAN :</strong> Allow all.</p>
 				<p id="firmess11"><strong>WAN-to-LAN :</strong> IDS Enabled and block as per selections below.</p>
 				<p class="target disabled">
-				<input class="target disabled"  type="checkbox" id="block_http" name="block_http" 
-				<?% if ( !strcasecmp("true",  $block_http)) echo( "checked"); ?> /> 
+				<input class="target disabled"  type="checkbox" id="block_http" name="block_http"
+				<?% if ( !strcasecmp("true",  $block_http)) echo( "checked"); ?> />
 				<label for="block_http" id="firmess12">Block http (TCP port 80, 443)</label><br />
 				<input class="target disabled"  type="checkbox" id="block_icmp" name="block_icmp"
 				<?% if ( !strcasecmp("true", $block_icmp )) echo( "checked"); ?> />
 				<label for="block_icmp" id="firmess13">Block ICMP</label><br />
 				<input class="target disabled"  type="checkbox" id="block_multicast" name="block_multicast"
-				<?% if ( !strcasecmp("true", $block_multicast)) echo( "checked"); ?> /> 
+				<?% if ( !strcasecmp("true", $block_multicast)) echo( "checked"); ?> />
 				<label for="block_multicast" id="firmess14">Block Multicast</label><br />
-				<input class="target disabled"  type="checkbox" id="block_peer" name="block_peer" 
-				<?% if ( !strcasecmp("true", $block_peer)) echo( "checked"); ?>  /> 
+				<input class="target disabled"  type="checkbox" id="block_peer" name="block_peer"
+				<?% if ( !strcasecmp("true", $block_peer)) echo( "checked"); ?>  />
 				<label for="block_peer"  id="firmess15">Block Peer-to-peer applications</label><br />
-				<input class="target disabled" type="checkbox" id="block_ident" name="block_ident" 
-				<?% if ( !strcasecmp("true", $block_ident)) echo( "checked"); ?>  /> 
+				<input class="target disabled" type="checkbox" id="block_ident" name="block_ident"
+				<?% if ( !strcasecmp("true", $block_ident)) echo( "checked"); ?>  />
 				<label for="block_ident"  id="firmess16">Block IDENT (port 113)</label><br />
-				<input class="target disabled" type="checkbox" id="disable_firewall" name="disable_firewall" 
-				<?% if ( !strcasecmp("true", $disable_firewall) && !strcasecmp("Custom", $SecurityLevel)) echo( "checked"); ?>  />				      
+				<input class="target disabled" type="checkbox" id="disable_firewall" name="disable_firewall"
+				<?% if ( !strcasecmp("true", $disable_firewall) && !strcasecmp("Custom", $SecurityLevel)) echo( "checked"); ?>  />
 				<label for="disable_firewall" id="firmess17">Disable entire firewall</label>
 				</p>
 				</div>
 			</li>
 		</ul>
-		<div class="form-btn"> 
+		<div class="form-btn">
 			<input id="submit_firewall"  type="button" value="Save Settings" class="btn" />
 			<input id="restore-default-settings" type="button" value="Restore Default Settings" class="btn alt" />
 		</div>
