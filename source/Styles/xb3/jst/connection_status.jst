@@ -417,10 +417,17 @@ if(($allowEthWan=="true") || ($autoWanEnable=="true")) {
                             }
                           }else{
                             $wan_enable= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
-                            if($wan_enable=="true"){
-				echo('<span class="value" id="actdocwan">Active Docsis WAN');
+                            $modelName = getStr("Device.DeviceInfo.ModelName");
+                            if($modelName=="RPI"){
+                                if($wan_enable=="true"){
+                                    echo('<span class="value" id="actethwan">Active Ethernet WAN');
+                                }
                             }else{
-                            	echo('<span class="value" id="actautwan">Active Auto WAN');
+                                if($wan_enable=="true"){
+				    echo('<span class="value" id="actdocwan">Active Docsis WAN');
+                                }else{
+                                    echo('<span class="value" id="actautwan">Active Auto WAN');
+                                }
                             }
                           }          
                          ?>
