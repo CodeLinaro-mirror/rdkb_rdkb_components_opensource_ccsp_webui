@@ -1006,6 +1006,9 @@ function getFirstUpstreamIpInterface(){
 				break wanInterfaceLoop;
 			}
 		}
+        if($fistUSif == ""){
+            $fistUSif = getStr("com.cisco.spvtg.ccsp.pam.Helper.FirstUpstreamIpInterface");
+        }
 	}
 	return $fistUSif;
 }
