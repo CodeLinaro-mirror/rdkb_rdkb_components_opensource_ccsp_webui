@@ -73,7 +73,7 @@ if (isset($_POST['add'])){
 		if (getStr("Device.NAT.PortMappingNumberOfEntries")==0) {
 			addTblObj("Device.NAT.PortMapping.");
 			$IDs=explode(",",getInstanceIds("Device.NAT.PortMapping."));
-			$i=$IDs[count($IDs)-1];
+			$i=array_pop($IDs);
 			$rootObjName ="Device.NAT.PortMapping.";
 			$paramArray = 
 				[
@@ -132,7 +132,7 @@ if (isset($_POST['add'])){
 			if ($result=="") {
 				addTblObj("Device.NAT.PortMapping.");
 				$IDs=explode(",",getInstanceIds("Device.NAT.PortMapping."));
-				$i=$IDs[count($IDs)-1];
+				$i=array_pop($IDs);
 				$rootObjName ="Device.NAT.PortMapping.";
 				$paramArray = 
 					[
