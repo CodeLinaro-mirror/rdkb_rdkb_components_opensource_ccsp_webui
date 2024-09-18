@@ -658,6 +658,7 @@ if($_SESSION["loginuser"] == "mso"){
 		<span class="value"><?% echo( $mta_value['DHCPOption8']);?></span>
 	</div>
 </div>
+<?% } ?>
 <?%
 $device_value={};
 // $device_param = array(
@@ -681,7 +682,7 @@ $device_value["Hardware"] 					= getStr("Device.DeviceInfo.Hardware");
 $device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.AdditionalSoftwareVersion");
 ?>
 <div class="module forms">
-	<h2>Cable Modem</h2>
+	<h2>Device Information</h2>
 	<div class="form-row ">
 		<span class="readonlyLabel networkColor">HW Version:</span>
 		<span class="value"><?% echo( $device_value['HardwareVersion']);?></span>
@@ -715,6 +716,7 @@ $device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.Addition
 		<span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
 	</div>
 </div>
+<?% if(is_docsis_supported()) { ?>
 <?%
 $ds_obj = "Device.X_CISCO_COM_CableModem.DownstreamChannel.";
 $ds_val = DmExtGetStrsWithRootObj($ds_obj, [$ds_obj]/*p2j-array*/);
