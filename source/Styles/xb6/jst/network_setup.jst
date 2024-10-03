@@ -696,25 +696,27 @@ $device_value["AdditionalSoftwareVersion"] 	= getStr("Device.DeviceInfo.Addition
 		<span class="value"><?% echo( $device_value['BootloaderVersion']);?></span>
 	</div>
 	<div class="form-row odd">
-		<span class="readonlyLabel networkColor">Core Version:</span>
-		<span class="value"><?% echo( $CM_value["CoreVersion"]);?></span>
-	</div>
-	<div class="form-row ">
 		<span class="readonlyLabel networkColor">Model:</span>
 		<span class="value"><?% echo( $device_value['ModelName']);?></span>
 	</div>
-	<div class="form-row odd">
+	<div class="form-row ">
 		<span class="readonlyLabel networkColor">Product Type:</span>
 		<span class="value"><?% echo( $device_value['ProductClass']);?></span>
 	</div>
-	<div class="form-row ">
+	<div class="form-row odd">
 		<span class="readonlyLabel networkColor">Flash Part:</span>
 		<span class="value"><?% echo( $device_value['Hardware']);?> MB</span>
 	</div>
-	<div class="form-row odd">
+	<div class="form-row ">
 		<span class="readonlyLabel networkColor">Download Version:</span>
 		<span class="value"><?% echo( $device_value['AdditionalSoftwareVersion']);?></span>
 	</div>
+        <?% if(is_docsis_supported()) { ?>
+		<div class="form-row odd">
+			<span class="readonlyLabel networkColor">Core Version:</span>
+			<span class="value"><?% echo( $CM_value["CoreVersion"]);?></span>
+		</div>
+	<?% } ?>
 </div>
 <?% if(is_docsis_supported()) { ?>
 <?%
