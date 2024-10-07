@@ -171,7 +171,8 @@ else
                 sendError('<script type="text/javascript"> alert($.i18n("Incorrect username to access this page!")); history.back(); </script>');
                 exit(0);
             }
-            LogStr(" : webui_event:mso_login");
+            $logstr = " : webui_event:mso_login: cm_ip =" + $Device_IP;
+            LogStr($logstr);
             if(typeof $_POST["password"] == "undefined")
             {
                 sendError( '<script type="text/javascript"> alert($.i18n("Username or password is incorrect!"));history.back(); </script>');
@@ -298,7 +299,8 @@ else
                 sendError('<script type="text/javascript"> alert($.i18n("Incorrect username to access this page!")); history.back(); </script>');
                 exit(0);
             }
-            LogStr(" : webui_event:lanwebui_login");
+            $logstr = " : webui_event:lanwebui_login: lan_ip = " + $Device_IP;
+            LogStr($logstr);
             if(typeof $_POST["password"] == "undefined")
             {
 		LogStr(" : webui_event:lanwebui_login_failed");
@@ -331,6 +333,7 @@ else
                     if($failedAttempt==$passLockoutAttempt){
                         $flag=1;
                         sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
+                        LogStr(" : webui_event:admin_account_locked");
                     }
                 }
                 if($flag==0){
@@ -352,6 +355,7 @@ else
                     if($failedAttempt==$passLockoutAttempt){
                         $flag=1;
                         sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
+                        LogStr(" : webui_event:admin_account_locked");
                     }
                 }
                 if($flag==0){
@@ -367,6 +371,7 @@ else
 			LogStr( " : Password FAIL" );
 			$flag=1;
 			sendError('<script type="text/javascript"> alert($.i18n("You have ")+"'+$passLockoutAttempt+'"+$.i18n(" failed login attempts and your account will be locked for ")+"'+$passLockoutTimeMins+'"+$.i18n(" minutes"));history.back();</script>');
+                        LogStr(" : webui_event:admin_account_locked");
                 }else{
                    $failedAttempt=0;
                    setStr("Device.Users.User.3.NumOfFailedAttempts",$failedAttempt.toString(),true);

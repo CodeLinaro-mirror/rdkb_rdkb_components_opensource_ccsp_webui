@@ -16,6 +16,7 @@
 ?>
 <?% include('includes/utility.jst') ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION['loginuser'] != 'mso') {
@@ -40,6 +41,11 @@ function PORTTEST($sport,$eport,$arraySPort,$arrayEPort) {
 if (isset($_POST['set'])){
 	if (isValInArray($_POST['UHSPStatus'], ["Enabled", "Disabled"]/*p2j-array*/)){
 		$UHSPStatus=(($_POST['UHSPStatus']=="Enabled")?"true":"false");
+                if($UHSPStatus == "true"){
+                    LogStr(" : webui_event:PortForwarding_enabled");
+                } else {
+                    LogStr(" : webui_event:PortForwarding_disabled");
+                }
 		setStr("Device.NAT.X_Comcast_com_EnableHSPortMapping",$UHSPStatus,true);
 		while(getStr("Device.NAT.X_Comcast_com_EnableHSPortMapping")!=$UHSPStatus) sleep(2);
 		// $UHSPStatus=(getStr("Device.NAT.X_Comcast_com_EnableHSPortMapping")=="true"?"Enabled":"Disabled");
@@ -82,7 +88,10 @@ if (isset($_POST['add'])) {
 					["Device.NAT.PortMapping."+$i+".Description", "string", $name],
 				];
 			$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);
-			if (!$retStatus){$result="Success!";}	
+                        if (!$retStatus){
+                            $result="Success!";
+                            LogStr(" : webui_event:PortForwarding_Service:added");
+                        }
 		} 
 		else {
 			//$result="";
@@ -259,6 +268,10 @@ if (isset($_POST['edit'])){
 					["Device.NAT.PortMapping."+$i+".Description", "string", $name],
 				];
 			$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);	
+                        if (!$retStatus){
+                            $result="Success!";
+                            LogStr(" : webui_event:PortForwarding_Service:edited");
+                        }
 			if (!$retStatus){$result="Success!";}
 		}
 
@@ -303,6 +316,7 @@ if (isset($_POST['active'])){
 if (isset($_POST['del'])){
 	$validation = true;
 	if($validation) $validation = validId($_POST['del']);
+        LogStr(" : webui_event:PortForwarding_Service:deleted");
 	if($validation) delTblObj("Device.NAT.PortMapping."+$_POST['del']+".");
 }
 

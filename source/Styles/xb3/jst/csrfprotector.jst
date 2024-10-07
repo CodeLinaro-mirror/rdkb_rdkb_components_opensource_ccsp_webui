@@ -1,3 +1,4 @@
+<?% include('includes/jwt.jst') ?>
 <?%
 
 var CSRFP_TOKEN = "csrfp_token";
@@ -250,6 +251,7 @@ var csrfProtector = {
             if (!($token && isset($_SESSION[csrfProtector.$config['CSRFP_TOKEN']])  && (csrfProtector.isValidToken($token)))) {
 
                 //action in case of failed validation
+                LogStr(" : webui_event:invalid_csrftoken");
                 csrfProtector.failedValidationAction();
             } else {
                 csrfProtector.refreshToken();	//refresh token for successfull validation
@@ -262,6 +264,7 @@ var csrfProtector = {
                 )) {
 
                 //action in case of failed validation
+                LogStr(" : webui_event:invalid_csrftoken");
                 csrfProtector.failedValidationAction();			
             } else {
                 csrfProtector.refreshToken();	//refresh token for successfull validation

@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || (!isset($_GET['restore_reboot']) && $_SESSION['loginuser'] != 'mso') || $_SESSION["loginuser"] == undefined) {
@@ -55,6 +56,7 @@ else if (isset($_GET['get_status2']))
 else if (isset($_GET['start_diagnostics1']))
 {
 	setStr("Device.X_CISCO_COM_MTA.LineTable.1.TriggerDiagnostics", "true", true);
+        LogStr( " : webui_event:MTA_line1_diag" );
 	sleep(15);
 	$line1hp 	= getStr("Device.X_CISCO_COM_MTA.LineTable.1.HazardousPotential");
 	$line1femf 	= getStr("Device.X_CISCO_COM_MTA.LineTable.1.ForeignEMF");
@@ -66,6 +68,7 @@ else if (isset($_GET['start_diagnostics1']))
 else if (isset($_GET['start_diagnostics2']))
 {
 	setStr("Device.X_CISCO_COM_MTA.LineTable.2.TriggerDiagnostics", "true", true);
+        LogStr( " : webui_event:MTA_line2_diag" );
 	sleep(15);
 	$line2hp 	= getStr("Device.X_CISCO_COM_MTA.LineTable.2.HazardousPotential");
 	$line2femf 	= getStr("Device.X_CISCO_COM_MTA.LineTable.2.ForeignEMF");

@@ -16,6 +16,7 @@
 ?>
 <?% include('includes/utility.jst') ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 $enableMD = getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
@@ -33,6 +34,11 @@ if (isset($_POST['set'])){
 	}
 	$result=getStr("Device.X_Comcast_com_ParentalControl.ManagedDevices.Enable");
 	$result=($result=="true")?"Enabled":"Disabled";
+        if($result == "Enabled"){
+            LogStr(" : webui_event:managed_devices_enabled");
+        } else {
+            LogStr(" : webui_event:managed_devices_disabled");
+        }
 	header("Content-Type: application/json");
 	echo( htmlspecialchars(json_encode({"status":$result}), ENT_NOQUOTES, 'UTF-8'));
 //	echo json_encode("Disabled");

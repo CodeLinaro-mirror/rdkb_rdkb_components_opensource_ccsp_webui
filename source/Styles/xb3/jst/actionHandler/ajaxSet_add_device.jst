@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -204,6 +205,7 @@ if( !array_key_exists('delFlag', $deviceInfo) ) {
             setStr("Device.DHCPv4.Server.Pool.1.StaticAddress."+$instanceid+".Chaddr", $deviceInfo['macAddress'], true);
             setStr("Device.DHCPv4.Server.Pool.1.StaticAddress."+$instanceid+".X_CISCO_COM_Comment", $deviceInfo['Comments'], true);
             if(setStr("Device.DHCPv4.Server.Pool.1.StaticAddress."+$instanceid+".Yiaddr", $deviceInfo['reseverd_ipAddr'], true)){
+                LogStr(" : webui_event:Reserved_ip_added");
                 $result = "success";
             }
 

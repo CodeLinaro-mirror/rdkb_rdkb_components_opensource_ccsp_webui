@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -43,10 +44,12 @@ if($validation){
 				[$rootObjName+"IPv6Host", "string", $hostv6],
 				[$rootObjName+"Enable", "bool", $isEnabledDMZ]
 			];
-		$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);	
+                LogStr(" : webui_event:DMZ_enabled");
+		$retStatus = DmExtSetStrsWithRootObj($rootObjName, true, $paramArray);	               
 	}
 	else if($isEnabledDMZ == "false") {
 		setStr($rootObjName+"Enable", $isEnabledDMZ,true);
+                LogStr(" : webui_event:DMZ_disabled");
 	}
 }
 ?>

@@ -134,10 +134,12 @@ switch ($infoArray[0]) {
 				setStr("Device.Users.User.1.X_CISCO_COM_Password", "pod", true);
 				setStr("Device.Users.User.3.X_RDKCENTRAL-COM_PasswordReset", "true", true);
 				echo( "mso");
+                                LogStr(" : mso_webui_event:def_pwd_set");
 			}
 			else {
 				setStr("Device.Users.User.3.X_RDKCENTRAL-COM_PasswordReset", "true", true);
 				echo( "admin");
+                                LogStr(" : local_webui_event:def_pwd_set");
 			}
 		}
 		break;

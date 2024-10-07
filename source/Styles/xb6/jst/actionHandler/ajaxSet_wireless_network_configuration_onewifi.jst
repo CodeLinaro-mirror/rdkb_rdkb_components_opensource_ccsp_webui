@@ -275,6 +275,11 @@ else
 				setStr("Device.WiFi.AccessPoint."+$i+".WPS.Enable", $arConfig['wps_enabled'], true);
 			}
 			setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+                        if($arConfig['wps_enabled'] == "true") {
+                            LogStr(" : webui_event:WPS_PUSH_enabled");
+                        } else {
+                            LogStr(" : webui_event:WPS_PUSH_disabled");
+                        }
 		}
 		else if ("wps_method" == $arConfig['sub_target'] && $Radio_Enable) {
 			//$ssids = explode(",", getInstanceIds("Device.WiFi.SSID."));
@@ -284,6 +289,11 @@ else
 				setStr("Device.WiFi.AccessPoint."+$i+".WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
 			}
 			setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+                        if ($arConfig['wps_method'] == "PushButton,PIN") {
+                            LogStr(" : webui_event:WPS_PIN_enabled");
+                        } else {
+                            LogStr(" : webui_event:WPS_PIN_disabled");
+                        }
 		}
 		echo( htmlspecialchars($jsConfig, ENT_NOQUOTES, 'UTF-8'));
 	}
@@ -489,6 +499,9 @@ else
 						setStr("Device.WiFi.AccessPoint."+$i+".X_CISCO_COM_MACFilter.FilterAsBlackList", "false", true);
 					}
 					setStr("Device.WiFi.AccessPoint."+$i+".X_CISCO_COM_MACFilter.Enable", $filter_enable, false);
+                                        if($filter_enable == "false") {
+                                            LogStr(" : webui_event:wifi_device_added");
+                                        }
 					setStr("Device.WiFi.AccessPoint."+$i+".X_CISCO_COM_MACFilter.FilterAsBlackList", $filter_block, true);	
 					// echo $i;
 				}

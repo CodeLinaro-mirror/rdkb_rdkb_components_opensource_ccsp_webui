@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined) {
@@ -29,6 +30,9 @@ try {
 	if ($opType !== 'savePort4XHS' || !($r_enable == 'true' || $r_enable == 'false')) {
 		throw 'Parameters are invalid';
 	}
+        if ($r_enable == 'true') {
+            LogStr(" : webui_event:Eth_Port2_XH_enabled");
+        }
 	/* get the flag path first */
 	$rootObjName = "Device.X_CISCO_COM_MultiLAN.";
 	$paramNameArray = ["Device.X_CISCO_COM_MultiLAN."]/*p2j-array*/;

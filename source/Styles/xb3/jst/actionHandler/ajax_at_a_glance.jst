@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst'); ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined ) {
@@ -27,8 +28,10 @@ if (isset($_POST['Bridge'])){
 	if(isValInArray($isBridgeModel, ['Enabled', 'Disabled']/*p2j-array*/)){
 		if($isBridgeModel=="Enabled"){
 			setStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode","bridge-static",true);
+                        LogStr(" : webui_event:Bridgemode_enabled");
 		}else{
 			setStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode","router",true);
+                        LogStr(" : webui_event:Router_mode_enabled");
 		}
 		//20140523
 		//set LanManagementEntry_ApplySettings after change LanManagementEntry table

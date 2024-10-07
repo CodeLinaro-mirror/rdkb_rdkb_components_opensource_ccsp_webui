@@ -15,6 +15,7 @@
 */
 ?>
 <?% include('includes/actionHandlerUtility.jst') ?>
+<?% include('includes/jwt.jst') ?>
 <?%
 session_start();
 if ($_SESSION["loginuser"] == "" || $_SESSION["loginuser"] == false || $_SESSION["loginuser"] == undefined) {
@@ -55,6 +56,11 @@ if ("wps_enabled" == $arConfig['target'])
 		setStr("Device.WiFi.AccessPoint."+$i+".WPS.Enable", $arConfig['wps_enabled'], true);
 	}
 	setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+	if($arConfig['wps_enabled'] == "true") {
+		LogStr(" : webui_event:WPS_PUSH_enabled");
+	} else {
+		LogStr(" : webui_event:WPS_PUSH_disabled");
+	}
 }
 else if("wps_method" == $arConfig['target'])
 {
@@ -65,6 +71,11 @@ else if("wps_method" == $arConfig['target'])
 		setStr("Device.WiFi.AccessPoint."+$i+".WPS.ConfigMethodsEnabled", $arConfig['wps_method'], true);
 	}
 	setStr("Device.WiFi.ApplyAccessPointSettings", "true", true);
+	if ($arConfig['wps_method'] == "PushButton,PIN") {
+		LogStr(" : webui_event:WPS_PIN_enabled");
+	} else {
+		LogStr(" : webui_event:WPS_PIN_disabled");
+	}
 }
 else if ("pair_client" == $arConfig['target'])
 {
