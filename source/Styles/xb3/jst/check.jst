@@ -166,6 +166,11 @@ else
 	LogStr(" : webui_event:login_user = " + $_POST["username"]);
         if ($_POST["username"] == "mso")
         {
+            if ($iface == "lan_ip" || $iface == "docsis_ip") {
+                LogStr(" : Unauthorized attempt to access the page as " + $_POST["username"] + " user" );
+                sendError('<script type="text/javascript"> alert($.i18n("Incorrect username to access this page!")); history.back(); </script>');
+                exit(0);
+            }
             LogStr(" : webui_event:mso_login");
             if(typeof $_POST["password"] == "undefined")
             {
@@ -288,6 +293,11 @@ else
         }
         else if ($_POST["username"] == "admin")
         {
+            if ($iface == "cm_ip") {
+                LogStr(" : Unauthorized attempt to access the page as " + $_POST["username"] + " user" );
+                sendError('<script type="text/javascript"> alert($.i18n("Incorrect username to access this page!")); history.back(); </script>');
+                exit(0);
+            }
             LogStr(" : webui_event:lanwebui_login");
             if(typeof $_POST["password"] == "undefined")
             {
