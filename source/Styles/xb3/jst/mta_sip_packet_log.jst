@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: firewall_settings.jst 3158 2010-01-08 23:32:05Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -28,7 +29,11 @@
 <script type="text/javascript" src="./cmn/js/comcastPaginator.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
+  <?% if(is_device_router()) { ?>
+    gateway.page.init("Router > Connection > MTA >SIP Packet Log", "nav-service-sip");
+  <?% } else { ?>
     gateway.page.init("Gateway > Connection > MTA >SIP Packet Log", "nav-service-sip");
+  <?% } ?>
 	var entities = {
 		'amp': '&',
 		'apos': '\'',
@@ -89,7 +94,11 @@ function decodeHTMLEntities (text) {
 });
 </script>
 <div id="content">
-	<h1 id="mtasiploghead">Gateway > Connection > MTA > SIP Packet Log</h1>
+   <?% if(is_device_router()) { ?>
+	<h1 id="mtasiploghead_router">Router > Connection > MTA > SIP Packet Log</h1>
+   <?% } else { ?>
+   	<h1 id="mtasiploghead">Gateway > Connection > MTA > SIP Packet Log</h1>
+   <?% } ?>
 	<div id="educational-tip">
 		<p class="tip" id="mtasiplogtip1">Information related to the SIP Packet Log.</p>
 	</div>

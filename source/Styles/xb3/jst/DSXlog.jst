@@ -30,11 +30,19 @@
 <!--script type="text/javascript" src="../cmn/js/lib/jquery.alerts.progress.js"></script-->
 <script type="text/javascript">
 $(document).ready(function() {
+<?% if(is_device_router()) { ?>
+    gateway.page.init("Router > Connection > QoS", "nav-qos");
+<?% } else { ?>
     gateway.page.init("Gateway > Connection > QoS", "nav-qos");
+<?% } ?>
 });
 </script>
 <div id="content">
-	<h1 id="dsxloghead">Gateway > Connection > QoS > DSX logs</h1>
+    <?% if(is_device_router()) { ?>
+	<h1 id="dsxloghead_router">Router > Connection > QoS > DSX logs</h1>
+    <?% } else { ?>
+    	<h1 id="dsxloghead">Gateway > Connection > QoS > DSX logs</h1>
+    <?% } ?>
 	<div class="module forms data" id="event">
 	<?%
 		function del_blank($v){return (""==$v?false:true);}

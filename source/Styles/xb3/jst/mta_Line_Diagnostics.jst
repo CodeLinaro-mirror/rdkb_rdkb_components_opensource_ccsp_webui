@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: managed_services_add.jst 2943 2009-08-25 20:58:43Z slemoine $ -->
 <div id="sub-header">
 	<?% include('includes/userbar.jst'); ?>
@@ -26,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line-diagnostics");
+    <?% if(is_device_router()) { ?>
+	gateway.page.init("Router > Connection > MTA > Line Diagnostics", "nav-mta-line-diagnostics");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line-diagnostics");
+    <?% } ?>
 	var token = "<?% echo(  $_SESSION['Csrf_token'] );?>";
 	$("#start_diagnostics1").click(function(){
 		var isTest1	= true;
@@ -147,8 +152,15 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 	});
 });
 </script>
+<?%
+        $voice_lines    = getStr("Device.X_CISCO_COM_MTA.LineTableNumberOfEntries");
+?>
 <div id="content">
-<h1 id="mtalinhead">Gateway > Connection > MTA > Line Diagnostics</h1>
+    <?% if(is_device_router()) { ?>
+	<h1 id="mtalinhead_router">Router > Connection > MTA > Line Diagnostics</h1>
+    <?% } else { ?>
+	<h1 id="mtalinhead">Gateway > Connection > MTA > Line Diagnostics</h1>
+    <?% } ?>
 <div id="educational-tip">
 <p class="tip" id="mtalintip1">Information related to the MTA Line Diagnostics.</p>
 </div>
@@ -188,6 +200,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 	</div>
 	<input type="hidden" name="webcheck">
 </div> <!-- end .module -->
+<?% if(Number($voice_lines) > 1) { ?>
 <div class="module forms">
 	<input type="hidden" value="mta_line_diagnostics" name="file"/>
 	<input type="hidden" value="admin/" name="dir"/>
@@ -223,6 +236,7 @@ gateway.page.init("Gateway > Connection > MTA > Line Diagnostics", "nav-mta-line
 	</div>
 	<input type="hidden" name="webcheck">
 </div> <!-- end .module -->
+<?% } ?>
 </div><!-- end #content -->
 <!-- Page Specific Script -->
 <?% include('includes/footer.jst'); ?>

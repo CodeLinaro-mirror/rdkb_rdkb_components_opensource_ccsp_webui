@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <!-- $Id: firewall_settings.jst 3158 2010-01-08 23:32:05Z slemoine $ -->
 <div id="sub-header">
     <?% include('includes/userbar.jst'); ?>
@@ -26,7 +27,11 @@
 <?% include('includes/nav.jst'); ?>
 <script type="text/javascript">
 $(document).ready(function() {
-    gateway.page.init("Gateway > Connection > CallP/QoS ", "nav-qos");
+    <?% if(is_device_router()) { ?>
+ 	gateway.page.init("Router > Connection > CallP/QoS ", "nav-qos");
+    <?% } else { ?>
+	gateway.page.init("Gateway > Connection > CallP/QoS ", "nav-qos");
+    <?% } ?>
 	$('#show_DSXlog').click(function(){
 		jConfirm(
 		$.i18n("This action may take more than one minute. Do you want to continue?"), 
@@ -114,8 +119,15 @@ function set_config(jsConfig)
 	});
 }
 </script>
+<?%
+        $voice_lines    = getStr("Device.X_CISCO_COM_MTA.LineTableNumberOfEntries");
+?>
 <div id="content">
+  <?% if(is_device_router()) { ?>
+    <h1>Router > Connection > CallP/QoS </h1>
+  <?% } else { ?>
     <h1>Gateway > Connection > CallP/QoS </h1>
+  <?% } ?>
     <div id="educational-tip">
 		<p class="tip" id="qostip">This Page shows CallP/QoS statistics of USG.</p>
     </div>
@@ -134,12 +146,14 @@ function set_config(jsConfig)
 				<td><?% echo( getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.CallPState")); ?></td>
 				<td><?% echo( getStr("Device.X_CISCO_COM_MTA.LineTable.1.CALLP.LoopCurrent")); ?></td>
 			</tr>
+			<?% if(Number($voice_lines) > 1) { ?>
 			<tr class="odd">
 				<td>2</td>
 				<td><?% echo( getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LCState")); ?></td>
 				<td><?% echo( getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.CallPState")); ?></td>
 				<td><?% echo( getStr("Device.X_CISCO_COM_MTA.LineTable.2.CALLP.LoopCurrent")); ?></td>
 			</tr>
+			<?% } ?>
 		</table>
     </div> <!-- end .module -->
 	<div class="btn-group">

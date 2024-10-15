@@ -19,6 +19,7 @@
 */
 ?>
 <?% include('includes/header.jst'); ?>
+<?% include('includes/utility.jst'); ?>
 <div id="sub-header">
     <?% include('includes/userbar.jst'); ?>
 </div><!-- end #sub-header -->
@@ -48,7 +49,11 @@ if (isset($_GET['line']))
 </div>
 <script type="text/javascript">
 $(document).ready(function() {
+  <?% if(is_device_router()) { ?>
+    gateway.page.init("Router > Connection > Voice Quality Metrics", "nav-gateway-voice");
+  <?% } else { ?>
     gateway.page.init("Gateway > Connection > Voice Quality Metrics", "nav-gateway-voice");
+  <?% } ?>
 	var line	= "<?% echo( $line);?>";
 	var call	= "<?% echo( $call);?>";
 	var action	= "<?% echo( $action);?>";
@@ -97,8 +102,15 @@ $(document).ready(function() {
 	});
 });
 </script>
+<?%
+        $voice_lines    = getStr("Device.X_CISCO_COM_MTA.LineTableNumberOfEntries");
+?>
 <div id="content">
+    <?% if(is_device_router()) { ?>
+	<h1>Router > Connection > Voice Quality Metrics</h1>
+    <?% } else { ?>
 	<h1>Gateway > Connection > Voice Quality Metrics</h1>
+    <?% } ?>
 	<div id="educational-tip">
 		<p class="tip">This page displays the voice quality metrics of your Telephone lines.</p>
 	</div>
@@ -109,7 +121,9 @@ $(document).ready(function() {
 		<td>
 			<select id="line_number">
 				<option value="1" selected="selected">1</option>
-				<option value="2">2</option>
+				<?% if(Number($voice_lines) > 1) { ?>
+					<option value="2">2</option>
+				<?% } ?>
 			</select>
 		</td>
 		<td>Call Number</td>
