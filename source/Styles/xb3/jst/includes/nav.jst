@@ -44,7 +44,11 @@ $battery            	= true;
 $radius_servers   	= false;
 $local_users      	= false;
 $remote_management  	= true;		//for xb3, all user will have this page, but different content
-$eMTA               	= true;		//for mso
+if (is_voice_supported()) {
+	$eMTA               	= true;		//for mso
+} else {
+	$eMTA                   = false;         //for mso
+}
 $routing          	= true;		//for mso
 $hs_port_forwarding 	= true;		//for mso
 $dynamic_dns        	= true;		//for mso

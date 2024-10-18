@@ -327,17 +327,9 @@ function sec2dhms($sec)
 		<?% } ?>
 	</div>
 	<?% if(is_wps_supported()) { ?>
-                <div class="form-row odd">
+        	<div class="form-row odd">
         <?% } else { ?>
                 <div class="form-row ">
-        <?% } ?>
-		<span class="readonlyLabel">eMTA MAC:</span>
-		<span class="value"><?% echo( strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress")));?></span>
-	</div>
-	<?% if(is_wps_supported()) { ?>
-        	<div class="form-row">
-        <?% } else { ?>
-                <div class="form-row odd">
         <?% } ?>
 		<span class="readonlyLabel" id="wanmac">WAN MAC:</span>
 		<span class="value">
@@ -353,6 +345,16 @@ function sec2dhms($sec)
 			?>
 		</span>
 	</div>
+	<?% if(is_voice_supported()) { ?>
+	<?% if(is_wps_supported()) { ?>
+		<div class="form-row ">
+	<?% } else { ?>
+		<div class="form-row odd">
+	<?% } ?>
+		<span class="readonlyLabel">eMTA MAC:</span>
+		<span class="value"><?% echo( strtoupper(getStr("Device.X_CISCO_COM_MTA.MACAddress")));?></span>
+	</div>
+	<?% } ?>
 </div>
 <?%
 $cmStatus = $CM_value["CMStatus"];

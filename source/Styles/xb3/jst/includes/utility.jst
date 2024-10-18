@@ -1183,5 +1183,19 @@ function is_wps_supported()
                 return true;
         }
 }
+
+/**
+* Description:
+* return the device has voice support or not
+*/
+function is_voice_supported()
+{
+        $voice_status = getenv("VOICE_SUPPORTED");
+        if($voice_status === "false") {
+                return false;
+        } else {
+                return true;
+        }
+}
 ?>
 

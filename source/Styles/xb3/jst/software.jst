@@ -92,11 +92,13 @@ $(document).ready(function() {
 			<?% echo($ModelName); ?></span>
 		</div>
 		<?%
+		if(is_voice_supported()) {
 		if ($wanType !== "DSL") {
 			echo('<div class="form-row odd">\
                   <span class="readonlyLabel" id="softmess5">Packet Cable:</span> <span class="value">\
 				'+getStr("Device.X_CISCO_COM_MTA.PCVersion")+'</span>\
 			</div>');
+		}
 		}
 		?>
 	</div> <!-- end .module -->
