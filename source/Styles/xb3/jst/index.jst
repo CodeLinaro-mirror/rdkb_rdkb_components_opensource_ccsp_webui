@@ -355,12 +355,13 @@ if (strpos($partnersId, "sky-") !== false) {
 if($webuiIsEnabled == "false"){
 ?>
 <!--div id="nav"-->
+<input type="hidden" name="locale" id="locale" value="<?% echo($locale); ?>">
 <div  id="content">
         <div  id=forwarding-items>
                 <div class="module data content-div">
                         <div id="content" class="description">
                                 <br>
-                               	<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><span id="index_mess">To manage your gateway settings and other features, please download the</span> <?%echo(getBrandProductName());?><span id="wifimessmode1"> app.</span><br></h3>
+                               	<h3><span id="<?% echo($idadv); ?>">Managing your home network settings is now easier than ever.</span><span id="index_mess"> To manage your gateway settings and other features, please download the</span> <?%echo(getBrandProductName());?><span id="wifimessmode1"> app.</span><br></h3>
                                  <br>
                         </div>
                 </div> <!-- end .module -->

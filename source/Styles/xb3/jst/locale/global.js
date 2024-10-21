@@ -64,7 +64,7 @@ $("[id^='typsec']").text($.i18n("Typical Security (Default)"));
 $('#network_header').text($.i18n('Gateway > Connection >'));
 $('#index_helptext').text($.i18n('Please login to view and manage your Gateway settings.'));
 $('#index_header').text($.i18n('Gateway > Login'));
-$('#index_mess').text($.i18n('  To manage your gateway settings and other features, please download the '));
+$('#index_mess').text($.i18n(' To manage your gateway settings and other features, please download the'));
 $('#edu_tip').text($.i18n('View technical information related to your '));
 $('#edu_tip1').text($.i18n('connection.'));
 $('#info_dpoe').text($.i18n('You may need this information if you contact Comcast for troubleshooting assistance.'));
