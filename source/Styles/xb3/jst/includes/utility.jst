@@ -1200,6 +1200,26 @@ function is_voice_supported()
 
 /**
 * Description:
+* return true if MAP-T status is Up
+* return false if MAP-T status is Down
+*/
+function get_mapt_status()
+{
+        $rootObjName	= "Device.X_RDK_WanManager.Interface.";
+	$paramNameArray	= ["Device.X_RDK_WanManager.Interface."]/*p2j-array*/;
+	$mapping_array	= ["VirtualInterface.1.MAP.MAPTStatus"]/*p2j-array*/;
+	$maptInterfaceArr = getParaValues($rootObjName, $paramNameArray, $mapping_array, true);
+	for($key in $maptInterfaceArr) {
+		$value = $maptInterfaceArr[$key];/*p2j-foreach*/
+	        if($value["VirtualInterface.1.MAP.MAPTStatus"] === "Up") {
+		        return true;
+	        }
+	}
+	return false;
+}
+
+/**
+* Description:
 * return the current operational mode
 */
 function current_operationalMode()

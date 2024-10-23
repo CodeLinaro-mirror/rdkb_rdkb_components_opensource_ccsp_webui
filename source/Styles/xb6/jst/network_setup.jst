@@ -156,10 +156,12 @@ function sec2dhms($sec)
 		<?%
 			//echo getStr("Device.Routing.Router.1.IPv4Forwarding.1.GatewayIPAddress");
 			/* For BWG, we just use the DHCP GW received from upstream as the wan side GW */
-			echo( getStr("Device.DHCPv4.Client.1.IPRouters"));
+			$wanDefaultGatewayAddressIPv4 = getStr("Device.DHCPv4.Client.1.IPRouters");
+			if(get_mapt_status()) $wanDefaultGatewayAddressIPv4 = "NA";
+			echo( $wanDefaultGatewayAddressIPv4);
 		?>
 		</span>
-	</div>		
+	</div>
 	<div class="form-row odd">
 		<span class="readonlyLabel">WAN IP Address (IPv6):</span> <span class="value">
 		<?%
