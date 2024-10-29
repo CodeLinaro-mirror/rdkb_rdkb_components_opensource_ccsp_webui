@@ -1862,6 +1862,22 @@ table .delete, table .edit{
 .pass_width{
         width: 145px;
 }
+.pass_key{
+        border:none;
+        pointer-events:none;
+        outline:none;
+        font-size:100%;
+        text-align: left;
+        font-weight: bold;
+        color: #5d666a;
+        margin: 4px 0 0 -30px;
+        line-height: 1.6em;
+        position: absolute;
+        bottom: 6px;
+}
+.pass_key_label{
+        pointer-events:none;
+}
 .white_space{
         white-space: pre;
 }
