@@ -385,7 +385,7 @@ $(document).ready(function() {
               </div>
     </div><!-- end .module local ip network-->
 <?%
-$selectedOperationalMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode");
+$selectedOperationalMode = current_operationalMode();
 if ("admin" != $_SESSION["loginuser"]) {
         $view="View";
 }else{

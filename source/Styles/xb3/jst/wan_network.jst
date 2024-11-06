@@ -56,7 +56,7 @@
 		$wnStatus= ($wan_enable=="true" && $wan_status=="Down") ? "true" : "false";
 	}
 	$autowan_status= getStr("Device.Ethernet.Interface."+$portNo+".Status");
-	$selectedOperationalMode =getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode");
+	$selectedOperationalMode =current_operationalMode();
 	$bridge_mode = getStr("Device.X_CISCO_COM_DeviceControl.LanManagementEntry.1.LanMode");
 	$currentOpMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.CurrentOperationalMode");
 	$autownStatus = (strtolower($currentOpMode)=="ethernet" && $autowan_status=="Down") ? "true" : "false";

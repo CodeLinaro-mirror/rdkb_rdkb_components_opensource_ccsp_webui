@@ -1197,5 +1197,28 @@ function is_voice_supported()
                 return true;
         }
 }
+
+/**
+* Description:
+* return the current operational mode
+*/
+function current_operationalMode()
+{
+        if(getStr("Device.X_RDK_WanManager.Version") < 1.5){
+                  $selectedOperationalMode=getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode");
+		  }
+        else{
+                  $docsisEnable =getStr("Device.X_RDK_WanManager.Interface.1.Selection.Enable");
+                  $ethernetEnable =getStr("Device.X_RDK_WanManager.Interface.2.Selection.Enable");
+                  if(($ethernetEnable=="true") && ($docsisEnable=="false")){
+                         $selectedOperationalMode="Ethernet";
+                  }else if(($ethernetEnable=="false") && ($docsisEnable=="true")){
+                         $selectedOperationalMode="DOCSIS";
+                  }else if(($ethernetEnable=="true") && ($docsisEnable=="true")){
+                         $selectedOperationalMode="Auto";
+            }
+        }
+         return $selectedOperationalMode;
+}
 ?>
 

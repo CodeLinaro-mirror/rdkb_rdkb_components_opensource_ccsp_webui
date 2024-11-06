@@ -116,7 +116,7 @@ $(document).ready(function() {
 	{
 		//true for Ethernet, False for Docsis
 		$wan_enable = getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Enabled");
-		$selectedOperationalMode = getStr("Device.X_RDKCENTRAL-COM_EthernetWAN.SelectedOperationalMode");
+		$selectedOperationalMode = current_operationalMode();
         	$autoWanEnable= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_AutowanFeatureSupport");  
         	$allowEthWan= getStr("Device.DeviceInfo.X_RDKCENTRAL-COM_Syndication.RDKB_UIBranding.AllowEthernetWAN");
         	$wanPort= getStr("Device.Ethernet.X_RDKCENTRAL-COM_WAN.Port"); 
