@@ -194,6 +194,17 @@ $(document).ready(function() {
 			changeBridge(isBridgeModelEnable);
 		}
 	});
+        $("input[type='checkbox']").change(function() {
+               var pass_id = $(this).data("password-field");
+               var isChecked = $(this).is(":checked");
+
+               var pass_val = $("#" + pass_id).val();
+               var field_type = isChecked?"text":"password";
+
+               $("#" + pass_id).replaceWith('<input type="' + field_type + '" id="' + pass_id + '" class="pass_key" value="" readonly />');
+               $("#" + pass_id).val(pass_val);
+
+        });
 	$("#IGMP_snooping_switch").change(function(){
 		var IGMPEnable=$("input[name='IGMP_snooping']:radio:checked").val();
 		jProgress($.i18n('This may take several seconds'), 60);
@@ -294,14 +305,20 @@ function popUp(URL) {
 					$width_pass = strlen($wifi_passkey)>50?' class="pass_width"':'';
 					echo( '<div class="form-row even">');
 						echo( '<div class="form-row even">');
-						        echo( '<span class="readonlyLabel white_space" id="wifissid"'); echo( $width_pass); echo( '>Wi-Fi SSID:</span>');	
+							echo( '<span class="readonlyLabel white_space" id="wifissid"'); echo( $width_pass); echo( '>Wi-Fi SSID:</span>');
 							echo( '<span class="value white_space">');echo( $wifi_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_sec_mode ) {
-							echo( '<div class="form-row even">');
-							        echo( '<span class="readonlyLabel white_space" id="wifipass"'); echo( $width_pass); echo( '>Wi-Fi Passkey:</span>');
-							        echo( '<span class="value white_space">');echo( $wifi_passkey);echo( '</span>');
-							echo( '</div>');
+                                        ?>
+                                                    <div class="form-row even" >
+                                                        <label for="wifipass" class="readonlyLabel white_space pass_key_label" id="wifipass" <?% echo($width_pass); ?> >Wi-Fi Passkey:</label>
+                                                        <span id="password_field1"><input type="password" class="pass_key " id="wifi_passkey1" name="wifi_passkey1" readonly value="<?% echo(  htmlspecialchars($wifi_passkey)); ?>" /> </span>
+                                                    </div>
+                                                    <div class="form-row even">
+                                                        <label for="wifi_passkey_show" >Show Wi-Fi Passkey:</label>
+                                                        <span class="checkbox"><input type="checkbox" id="password_show1" data-password-field="wifi_passkey1"/></span>
+                                                    </div>
+                                       <?%
 						}
 					echo( '</div>');
 				} else {
@@ -313,10 +330,16 @@ function popUp(URL) {
 							echo( '<span class="value white_space">');echo( $wifi_24_ssid);echo( '</span>');
 						echo( '</div>');
 						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_24_secmode) {
-							echo( '<div class="form-row even">');
-								echo( '<span class="readonlyLabel white_space" id="wifipasskey24" '); echo( '>Wi-Fi Passkey (2.4 GHz):</span>');
-								echo( '<span class="value white_space">');echo( $wifi_24_passkey);echo( '</span>');
-							echo( '</div>');
+                                       ?>
+                                                    <div class="form-row even" >
+                                                        <label for="wifipasskey24" class="readonlyLabel white_space pass_key_label" id="wifipasskey24" <?% echo($width_pass); ?> >Wi-Fi Passkey (2.4 GHz):</label>
+                                                        <span id="password_field24"><input type="password" class="pass_key " id="wifi_passkey24" name="wifi_passkey24" readonly value="<?% echo( htmlspecialchars($wifi_24_passkey)); ?>" /> </span>
+                                                    </div>
+                                                    <div class="form-row even">
+                                                        <label for="wifi_passkey_show" >Show Wi-Fi Passkey (2.4 GHz):</label>
+                                                        <span class="checkbox"><input type="checkbox" id="password_show24" data-password-field="wifi_passkey24"/></span>
+                                                    </div>
+                                       <?%
 						}
 					echo( '</div>');
                     }
@@ -326,11 +349,17 @@ function popUp(URL) {
 							echo( '<span class="readonlyLabel white_space" id="wifissid5"'); echo( $width_pass); echo( '>Wi-Fi SSID (5 GHz):</span>');
 							echo( '<span class="value white_space">');echo( $wifi_50_ssid);echo( '</span>');
 						echo( '</div>');
-						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_50_secmode) { 
-							echo( '<div class="form-row odd">');
-								echo( '<span class="readonlyLabel white_space" id="wifipasskey5"'); echo( $width_pass); echo( '>Wi-Fi Passkey (5 GHz):</span>');
-								echo( '<span class="value white_space">');echo( $wifi_50_passkey);echo( '</span>');
-							echo( '</div>');
+						if ("admin" == $_SESSION["loginuser"] && "None" != $wifi_50_secmode) {
+                                       ?>
+                                                    <div class="form-row odd" >
+                                                        <label for="wifipasskey5" class="readonlyLabel white_space pass_key_label" id="wifipasskey5" <?% echo($width_pass); ?> >Wi-Fi Passkey (5 GHz):</label>
+                                                        <span id="password_field50"><input type="password" class="pass_key " id="wifi_passkey50" name="wifi_passkey50" readonly value="<?% echo( htmlspecialchars($wifi_50_passkey)); ?>" /> </span>
+                                                    </div>
+                                                    <div class="form-row even">
+                                                        <label for="wifi_passkey_show" >Show Wi-Fi Passkey (5 GHz):</label>
+                                                        <span class="checkbox"><input type="checkbox" id="password_show50" data-password-field="wifi_passkey50"/></span>
+                                                    </div>
+                                      <?% 
 						}
 					echo( '</div>');
                     }
